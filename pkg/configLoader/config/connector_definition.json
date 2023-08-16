@@ -55,7 +55,7 @@
       "ui_hidden": true,
       "ui_disabled": true,
       "ui_component": "text"
-    }, 
+    },
     "documentation_url": {
       "type": "string",
       "format": "uri",
