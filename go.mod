@@ -2,8 +2,6 @@ module github.com/instill-ai/connector
 
 go 1.21
 
-toolchain go1.21.3
-
 require (
 	cloud.google.com/go/bigquery v1.50.0
 	cloud.google.com/go/iam v0.13.0
