@@ -1,26 +1,32 @@
 {
   "TASK_INSERT": {
     "input": {
-      "type": "object",
       "properties": {
         "data": {
-          "type": "object",
+          "additionalProperties": false,
           "patternProperties": {
             "^[a-zA-Z_][a-zA-Z_0-9]*$": {
+              "instillFormat": "*",
+              "instillUpstreamTypes": [
+                "reference",
+                "template"
+              ]
             }
-          }
+          },
+          "type": "object"
         }
-      }
+      },
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "status": {
-          "type": "string",
           "description": "Status of the upload operation",
-          "instillFormat": "text"
+          "instillFormat": "text",
+          "type": "string"
         }
-      }
+      },
+      "type": "object"
     }
   }
 }

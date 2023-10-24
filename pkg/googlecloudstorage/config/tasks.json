@@ -1,68 +1,69 @@
 {
   "TASK_UPLOAD": {
     "input": {
-      "type": "object",
-      "required": [
-        "object_name",
-        "data"
-      ],
       "properties": {
-        "object_name": {
-          "type": "string",
-          "description": "The name of the object to be created",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
         "data": {
-          "type": "string",
           "description": "The data to be saved in the object",
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
             "reference"
-          ]
+          ],
+          "type": "string"
+        },
+        "object_name": {
+          "description": "The name of the object to be created",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "object_name",
+        "data"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "authenticated_url": {
-          "title": "Authenticated URL",
           "description": "Only users granted permission can access the object with this link",
-          "type": "string",
           "format": "uri",
-          "instillFormat": "text"
+          "instillFormat": "text",
+          "title": "Authenticated URL",
+          "type": "string"
         },
         "gsutil_uri": {
-          "title": "gsutil URI",
           "description": "File path to this resource in Cloud Storage",
-          "type": "string",
           "format": "uri",
-          "instillFormat": "text"
-        },
-        "public_url": {
-          "title": "Public URL",
-          "description": "Anyone with this link can access the object on the public Internet",
-          "type": "string",
-          "instillFormat": "text"
+          "instillFormat": "text",
+          "title": "gsutil URI",
+          "type": "string"
         },
         "public_access": {
-          "title": "Public access",
           "description": "Whether the object is publicly accessible",
-          "type": "boolean",
-          "instillFormat": "boolean"
+          "instillFormat": "boolean",
+          "title": "Public access",
+          "type": "boolean"
+        },
+        "public_url": {
+          "description": "Anyone with this link can access the object on the public Internet",
+          "instillFormat": "text",
+          "title": "Public URL",
+          "type": "string"
         },
         "status": {
-          "title": "Upload status",
           "description": "Status of the upload operation",
-          "type": "string",
-          "instillFormat": "text"
+          "instillFormat": "text",
+          "title": "Upload status",
+          "type": "string"
         }
-      }
+      },
+      "type": "object"
     }
   }
 }

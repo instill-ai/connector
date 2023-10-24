@@ -1,45 +1,46 @@
 [
   {
-    "uid": "4b1dcf82-e134-4ba7-992f-f9a02536ec2b",
-    "id": "data-pinecone",
-    "title": "Pinecone",
+    "available_tasks": [
+      "TASK_QUERY",
+      "TASK_UPSERT"
+    ],
+    "custom": false,
     "documentation_url": "https://www.instill.tech/docs/vdp/data-connectors/pinecone",
     "icon": "pinecone.svg",
     "icon_url": "https://www.pinecone.io/favicon.ico",
-
+    "id": "data-pinecone",
+    "public": true,
     "spec": {
       "resource_specification": {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "title": "Pinecone Connector Spec",
-        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "api_key": {
+            "credential_field": true,
+            "description": "Fill your Pinecone AI API key. You can create a api key in [Pinecone Console](https://app.pinecone.io/)",
+            "title": "API Key",
+            "type": "string"
+          },
+          "url": {
+            "credential_field": false,
+            "description": "Fill in your Pinecone base URL. It is in the form [https://index_name-project_id.svc.environment.pinecone.io]",
+            "title": "Pinecone Base URL",
+            "type": "string"
+          }
+        },
         "required": [
           "api_key",
           "url"
         ],
-        "additionalProperties": false,
-        "properties": {
-          "api_key": {
-            "title": "API Key",
-            "description": "Fill your Pinecone AI API key. You can create a api key in [Pinecone Console](https://app.pinecone.io/)",
-            "type": "string",
-            "credential_field": true
-          },
-          "url": {
-            "title": "Pinecone Base URL",
-            "description": "Fill in your Pinecone base URL. It is in the form [https://index_name-project_id.svc.environment.pinecone.io]",
-            "type": "string",
-            "credential_field": false
-          }
-        }
+        "title": "Pinecone Connector Spec",
+        "type": "object"
       }
     },
-    "available_tasks": ["TASK_QUERY", "TASK_UPSERT"],
-    "public": true,
-    "custom": false,
+    "title": "Pinecone",
     "tombstone": false,
     "type": "CONNECTOR_TYPE_DATA",
+    "uid": "4b1dcf82-e134-4ba7-992f-f9a02536ec2b",
     "vendor": "Pinecone",
-    "vendor_attributes": {
-    }
+    "vendor_attributes": {}
   }
 ]

@@ -1,42 +1,44 @@
 [
   {
-    "uid": "205cbeff-6f45-4abe-b0a8-cec1a310137f",
-    "id": "data-gcs",
-    "title": "Google Cloud Storage",
+    "available_tasks": [
+      "TASK_UPLOAD"
+    ],
+    "custom": false,
     "documentation_url": "https://www.instill.tech/docs/vdp/data-connectors/gcs",
     "icon": "gcs.svg",
     "icon_url": "",
+    "id": "data-gcs",
+    "public": true,
     "spec": {
       "resource_specification": {
         "$schema": "http://json-schema.org/draft-07/schema#",
-        "title": "Google Cloud Storage Connector Spec",
-        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bucket_name": {
+            "credential_field": false,
+            "description": "Name of the bucket to be used for object storage.",
+            "title": "Bucket Name",
+            "type": "string"
+          },
+          "json_key": {
+            "credential_field": true,
+            "description": "Contents of the JSON key file with access to the bucket.",
+            "title": "JSON Key File contents",
+            "type": "string"
+          }
+        },
         "required": [
           "json_key",
           "bucket_name"
         ],
-        "additionalProperties": false,
-        "properties": {
-          "json_key": {
-            "title": "JSON Key File contents",
-            "description": "Contents of the JSON key file with access to the bucket.",
-            "type": "string",
-            "credential_field": true
-          },
-          "bucket_name": {
-            "title": "Bucket Name",
-            "description": "Name of the bucket to be used for object storage.",
-            "type": "string",
-            "credential_field": false
-          }
-        }
+        "title": "Google Cloud Storage Connector Spec",
+        "type": "object"
       }
     },
-    "available_tasks": ["TASK_UPLOAD"],
-    "public": true,
-    "custom": false,
+    "title": "Google Cloud Storage",
     "tombstone": false,
     "type": "CONNECTOR_TYPE_DATA",
+    "uid": "205cbeff-6f45-4abe-b0a8-cec1a310137f",
     "vendor": "Google",
     "vendor_attributes": {}
   }

@@ -1,550 +1,63 @@
 {
   "$defs": {
+    "options": {
+      "properties": {
+        "use_cache": {
+          "instillFormat": "boolean",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "boolean"
+        },
+        "use_gpu": {
+          "instillFormat": "boolean",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "boolean"
+        },
+        "wait_for_model": {
+          "instillFormat": "boolean",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "string_input": {
-      "type": "string",
       "instillFormat": "text",
       "instillUpstreamTypes": [
         "value",
         "reference"
-      ]
-    },
-    "options": {
-      "type": "object",
-      "properties": {
-        "use_gpu": {
-          "type": "boolean",
-          "instillFormat": "boolean",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "use_cache": {
-          "type": "boolean",
-          "instillFormat": "boolean",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "wait_for_model": {
-          "type": "boolean",
-          "instillFormat": "boolean",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        }
-      }
+      ],
+      "type": "string"
     }
   },
-  "TEXT_GENERATION": {
+  "AUDIO_CLASSIFICATION": {
     "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
       "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
+        "audio": {
+          "instillFormat": "audio",
           "instillUpstreamTypes": [
-            "value",
             "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "top_k": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "top_p": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "temperature": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "repetition_penalty": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "max_new_tokens": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "max_time": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "return_full_text": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "num_return_sequences": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "do_sample": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "classes": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "label": {
-                "type": "string"
-              },
-              "score": {
-                "type": "number"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "TEXT_TO_IMAGE": {
-    "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
-      "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "negative_prompt": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "height": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "width": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "num_inference_steps": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "guidance_scale": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "image": {
+          ],
           "type": "string"
         }
-      }
-    }
-  },
-  "FILL_MASK": {
-    "input": {
-      "type": "object",
+      },
       "required": [
-        "inputs"
+        "audio"
       ],
-      "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
+      "type": "object"
     },
     "output": {
-      "type": "object",
-      "properties": {
-        "masks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "sequence": {
-                "type": "string",
-                "instillFormat": "text",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ]
-              },
-              "score": {
-                "type": "number",
-                "instillFormat": "number",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ]
-              },
-              "token": {
-                "type": "integer",
-                "instillFormat": "integer",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ]
-              },
-              "token_str": {
-                "type": "string",
-                "instillFormat": "text",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "SUMMARIZATION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
-      "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "min_length": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "max_length": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "top_k": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "top_p": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "temperature": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "repetition_penalty": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "max_time": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "texts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  },
-  "TEXT_CLASSIFICATION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
-      "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
       "properties": {
         "classes": {
-          "type": "array",
           "items": {
-            "type": "object",
             "properties": {
               "label": {
                 "type": "string"
@@ -552,915 +65,924 @@
               "score": {
                 "type": "number"
               }
-            }
-          }
+            },
+            "type": "object"
+          },
+          "type": "array"
         }
-      }
+      },
+      "type": "object"
     }
   },
-  "TOKEN_CLASSIFICATION": {
+  "CONVERSATIONAL": {
     "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
       "properties": {
         "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
           "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "aggregation_strategy": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "masks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "entity_group": {
-                "type": "string"
-              },
-              "score": {
-                "type": "number"
-              },
-              "word": {
-                "type": "string"
-              },
-              "start": {
-                "type": "integer"
-              },
-              "end": {
-                "type": "integer"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "TRANSLATION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
-      "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "texts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  },
-  "ZERO_SHOT_CLASSIFICATION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "inputs",
-        "parameters"
-      ],
-      "properties": {
-        "inputs": {
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ]
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "parameters": {
-          "type": "object",
-          "required": [
-            "candidate_labels"
-          ],
-          "properties": {
-            "candidate_labels": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
+            "generated_responses": {
               "instillFormat": "text_array",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
-            "multi_label": {
-              "type": "boolean",
-              "instillFormat": "boolean_array",
+            "past_user_inputs": {
+              "instillFormat": "text_array",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "text": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
             }
-          }
+          },
+          "required": [
+            "text"
+          ]
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "parameters": {
+          "properties": {
+            "max_length": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "max_time": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "min_length": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "repetition_penalty": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "temperature": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "top_k": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "top_p": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            }
+          },
+          "type": "object"
         }
-      }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
-        "texts": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "conversation": {
+          "properties": {
+            "generated_responses": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "past_user_inputs": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "generated_text": {
+          "type": "string"
         }
-      }
+      },
+      "type": "object"
     }
   },
   "FEATURE_EXTRACTION": {
     "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
       "properties": {
         "inputs": {
-          "type": "string",
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
             "reference"
-          ]
+          ],
+          "type": "string"
         },
         "options": {
-          "type": "object",
           "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
             "use_cache": {
-              "type": "boolean",
               "instillFormat": "boolean",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
             },
             "wait_for_model": {
-              "type": "boolean",
               "instillFormat": "boolean",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "type": "boolean"
             }
-          }
+          },
+          "type": "object"
         }
-      }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "features": {
-          "type": "array",
           "items": {
-            "type": "array",
             "items": {
               "type": "number"
-            }
-          }
+            },
+            "type": "array"
+          },
+          "type": "array"
         }
-      }
+      },
+      "type": "object"
+    }
+  },
+  "FILL_MASK": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "masks": {
+          "items": {
+            "properties": {
+              "score": {
+                "instillFormat": "number",
+                "instillUpstreamTypes": [
+                  "value",
+                  "reference"
+                ],
+                "type": "number"
+              },
+              "sequence": {
+                "instillFormat": "text",
+                "instillUpstreamTypes": [
+                  "value",
+                  "reference"
+                ],
+                "type": "string"
+              },
+              "token": {
+                "instillFormat": "integer",
+                "instillUpstreamTypes": [
+                  "value",
+                  "reference"
+                ],
+                "type": "integer"
+              },
+              "token_str": {
+                "instillFormat": "text",
+                "instillUpstreamTypes": [
+                  "value",
+                  "reference"
+                ],
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "IMAGE_CLASSIFICATION": {
+    "input": {
+      "properties": {
+        "image": {
+          "instillFormat": "image",
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "classes": {
+          "items": {
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "IMAGE_SEGMENTATION": {
+    "input": {
+      "properties": {
+        "image": {
+          "instillFormat": "image",
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "segments": {
+          "items": {
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "mask": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "IMAGE_TO_TEXT": {
+    "input": {
+      "properties": {
+        "image": {
+          "instillFormat": "image",
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "OBJECT_DETECTION": {
+    "input": {
+      "properties": {
+        "image": {
+          "instillFormat": "image",
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "objects": {
+          "items": {
+            "properties": {
+              "box": {
+                "properties": {
+                  "xmax": {
+                    "type": "number"
+                  },
+                  "xmin": {
+                    "type": "number"
+                  },
+                  "ymax": {
+                    "type": "number"
+                  },
+                  "ymin": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "label": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
     }
   },
   "QUESTION_ANSWERING": {
     "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
       "properties": {
         "inputs": {
-          "type": "object",
+          "properties": {
+            "context": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
+            },
+            "question": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
+            }
+          },
           "required": [
             "question",
             "context"
           ],
-          "properties": {
-            "question": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "context": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
+          "type": "object"
         },
         "options": {
-          "type": "object",
           "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
             "use_cache": {
-              "type": "boolean",
               "instillFormat": "boolean",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
             },
             "wait_for_model": {
-              "type": "boolean",
               "instillFormat": "boolean",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "type": "boolean"
             }
-          }
+          },
+          "type": "object"
         }
-      }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "answer": {
           "type": "string"
+        },
+        "end": {
+          "type": "integer"
         },
         "score": {
           "type": "number"
         },
         "start": {
           "type": "integer"
-        },
-        "end": {
-          "type": "integer"
         }
-      }
-    }
-  },
-  "TABLE_QUESTION_ANSWERING": {
-    "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
-      "properties": {
-        "inputs": {
-          "required": [
-            "query",
-            "table"
-          ],
-          "properties": {
-            "query": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "table": {
-              "type": "object",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "answer": {
-          "type": "string"
-        },
-        "coordinates": {
-          "type": "array",
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            }
-          }
-        },
-        "cells": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "aggregator": {
-          "type": "string"
-        }
-      }
+      },
+      "type": "object"
     }
   },
   "SENTENCE_SIMILARITY": {
     "input": {
-      "type": "object",
-      "required": [
-        "inputs"
-      ],
       "properties": {
         "inputs": {
+          "properties": {
+            "sentences": {
+              "instillFormat": "text_array",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "source_sentence": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
+            }
+          },
           "required": [
             "source_sentence",
             "sentences"
-          ],
-          "properties": {
-            "source_sentence": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "sentences": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "instillFormat": "text_array",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
+          ]
         },
         "options": {
-          "type": "object",
           "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
             "use_cache": {
-              "type": "boolean",
               "instillFormat": "boolean",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
             },
             "wait_for_model": {
-              "type": "boolean",
               "instillFormat": "boolean",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
-              ]
+              ],
+              "type": "boolean"
             }
-          }
+          },
+          "type": "object"
         }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "scores": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          }
-        }
-      }
-    }
-  },
-  "CONVERSATIONAL": {
-    "input": {
-      "type": "object",
+      },
       "required": [
         "inputs"
       ],
-      "properties": {
-        "inputs": {
-          "required": [
-            "text"
-          ],
-          "properties": {
-            "text": {
-              "type": "string",
-              "instillFormat": "text",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "generated_responses": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "instillFormat": "text_array",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "past_user_inputs": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "instillFormat": "text_array",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "options": {
-          "type": "object",
-          "properties": {
-            "use_gpu": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "use_cache": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "wait_for_model": {
-              "type": "boolean",
-              "instillFormat": "boolean",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        },
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "min_length": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "max_length": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "top_k": {
-              "type": "integer",
-              "instillFormat": "integer",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "top_p": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "temperature": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "repetition_penalty": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            },
-            "max_time": {
-              "type": "number",
-              "instillFormat": "number",
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ]
-            }
-          }
-        }
-      }
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
-        "generated_text": {
-          "type": "string"
-        },
-        "conversation": {
-          "type": "object",
-          "properties": {
-            "past_user_inputs": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "generated_responses": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "IMAGE_CLASSIFICATION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "image"
-      ],
-      "properties": {
-        "image": {
-          "type": "string",
-          "instillFormat": "image",
-          "instillUpstreamTypes": [
-            "reference"
-          ]
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "classes": {
-          "type": "array",
+        "scores": {
           "items": {
-            "type": "object",
-            "properties": {
-              "label": {
-                "type": "string"
-              },
-              "score": {
-                "type": "number"
-              }
-            }
-          }
+            "type": "number"
+          },
+          "type": "array"
         }
-      }
-    }
-  },
-  "IMAGE_SEGMENTATION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "image"
-      ],
-      "properties": {
-        "image": {
-          "type": "string",
-          "instillFormat": "image",
-          "instillUpstreamTypes": [
-            "reference"
-          ]
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "segments": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "label": {
-                "type": "string"
-              },
-              "score": {
-                "type": "number"
-              },
-              "mask": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "OBJECT_DETECTION": {
-    "input": {
-      "type": "object",
-      "required": [
-        "image"
-      ],
-      "properties": {
-        "image": {
-          "type": "string",
-          "instillFormat": "image",
-          "instillUpstreamTypes": [
-            "reference"
-          ]
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "objects": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "label": {
-                "type": "string"
-              },
-              "score": {
-                "type": "number"
-              },
-              "box": {
-                "type": "object",
-                "properties": {
-                  "xmin": {
-                    "type": "number"
-                  },
-                  "ymin": {
-                    "type": "number"
-                  },
-                  "xmax": {
-                    "type": "number"
-                  },
-                  "ymax": {
-                    "type": "number"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "IMAGE_TO_TEXT": {
-    "input": {
-      "type": "object",
-      "required": [
-        "image"
-      ],
-      "properties": {
-        "image": {
-          "type": "string",
-          "instillFormat": "image",
-          "instillUpstreamTypes": [
-            "reference"
-          ]
-        }
-      }
-    },
-    "output": {
-      "type": "object",
-      "properties": {
-        "text": {
-          "type": "string"
-        }
-      }
+      },
+      "type": "object"
     }
   },
   "SPEECH_RECOGNITION": {
     "input": {
-      "type": "object",
-      "required": [
-        "audio"
-      ],
       "properties": {
         "audio": {
-          "type": "string",
           "instillFormat": "audio",
           "instillUpstreamTypes": [
             "reference"
-          ]
+          ],
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "audio"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "text": {
           "type": "string"
         }
-      }
+      },
+      "type": "object"
     }
   },
-  "AUDIO_CLASSIFICATION": {
+  "SUMMARIZATION": {
     "input": {
-      "type": "object",
-      "required": [
-        "audio"
-      ],
       "properties": {
-        "audio": {
-          "type": "string",
-          "instillFormat": "audio",
+        "inputs": {
+          "instillFormat": "text",
           "instillUpstreamTypes": [
+            "value",
             "reference"
-          ]
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "parameters": {
+          "properties": {
+            "max_length": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "max_time": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "min_length": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "repetition_penalty": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "temperature": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "top_k": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "top_p": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            }
+          },
+          "type": "object"
         }
-      }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
+      "properties": {
+        "texts": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "TABLE_QUESTION_ANSWERING": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "properties": {
+            "query": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
+            },
+            "table": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "query",
+            "table"
+          ]
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "aggregator": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        },
+        "cells": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "coordinates": {
+          "items": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "TEXT_CLASSIFICATION": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
       "properties": {
         "classes": {
-          "type": "array",
           "items": {
-            "type": "object",
             "properties": {
               "label": {
                 "type": "string"
@@ -1468,10 +990,488 @@
               "score": {
                 "type": "number"
               }
-            }
-          }
+            },
+            "type": "object"
+          },
+          "type": "array"
         }
-      }
+      },
+      "type": "object"
+    }
+  },
+  "TEXT_GENERATION": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "parameters": {
+          "properties": {
+            "do_sample": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "max_new_tokens": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "max_time": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "num_return_sequences": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "repetition_penalty": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "return_full_text": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "temperature": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "top_k": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "top_p": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "classes": {
+          "items": {
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "TEXT_TO_IMAGE": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "parameters": {
+          "properties": {
+            "guidance_scale": {
+              "instillFormat": "number",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "number"
+            },
+            "height": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "negative_prompt": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
+            },
+            "num_inference_steps": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            },
+            "width": {
+              "instillFormat": "integer",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "image": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "TOKEN_CLASSIFICATION": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "parameters": {
+          "properties": {
+            "aggregation_strategy": {
+              "instillFormat": "text",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "masks": {
+          "items": {
+            "properties": {
+              "end": {
+                "type": "integer"
+              },
+              "entity_group": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              },
+              "start": {
+                "type": "integer"
+              },
+              "word": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "TRANSLATION": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "texts": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "ZERO_SHOT_CLASSIFICATION": {
+    "input": {
+      "properties": {
+        "inputs": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "properties": {
+            "use_cache": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "use_gpu": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            },
+            "wait_for_model": {
+              "instillFormat": "boolean",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "parameters": {
+          "properties": {
+            "candidate_labels": {
+              "instillFormat": "text_array",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "multi_label": {
+              "instillFormat": "boolean_array",
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ],
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "candidate_labels"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "inputs",
+        "parameters"
+      ],
+      "type": "object"
+    },
+    "output": {
+      "properties": {
+        "texts": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
     }
   }
 }

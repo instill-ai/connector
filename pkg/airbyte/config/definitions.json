@@ -652,8 +652,8 @@
             "type": "integer"
           },
           "credentials_json": {
-            "credential_field": true,
             "always_show": true,
+            "credential_field": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.com/integrations/destinations/bigquery#service-account-key\">docs</a> if you need help generating this key. Default credentials will be used if this field is left empty.",
             "group": "connection",
             "order": 4,
