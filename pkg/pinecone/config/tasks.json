@@ -1,135 +1,164 @@
 {
   "TASK_QUERY": {
     "input": {
-      "type": "object",
-      "required": ["top_k"],
       "properties": {
-        "namespace": {
-          "type": "string",
-          "description": "The namespace to query",
-          "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "top_k": {
-          "type": "integer",
-          "description": "The number of results to return for each query",
-          "instillFormat": "integer",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "include_values": {
-          "type": "boolean",
-          "description": "Indicates whether vector values are included in the response",
-          "default": false,
-          "instillFormat": "boolean",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "include_metadata": {
-          "type": "boolean",
-          "description": "Indicates whether metadata is included in the response as well as the ids",
-          "default": false,
-          "instillFormat": "boolean",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "vector": {
-          "type": "array",
-          "description": "An array of dimensions for the query vector.",
-          "items": {
-            "type": "number",
-            "description": "A dimension of the vector",
-            "example": 0.8167237
-          },
-          "minItems": 1,
-          "instillFormat": "number_array",
-          "instillUpstreamTypes": ["reference"]
-        },
         "id": {
-          "type": "string",
           "description": "The unique ID of the vector to be used as a query vector",
           "instillFormat": "text",
-          "instillUpstreamTypes": ["reference"]
+          "instillUpstreamTypes": [
+            "reference",
+            "template"
+          ],
+          "type": "string"
+        },
+        "include_metadata": {
+          "default": false,
+          "description": "Indicates whether metadata is included in the response as well as the ids",
+          "instillFormat": "boolean",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "boolean"
+        },
+        "include_values": {
+          "default": false,
+          "description": "Indicates whether vector values are included in the response",
+          "instillFormat": "boolean",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "boolean"
+        },
+        "namespace": {
+          "description": "The namespace to query",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "type": "string"
+        },
+        "top_k": {
+          "description": "The number of results to return for each query",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "type": "integer"
+        },
+        "vector": {
+          "description": "An array of dimensions for the query vector.",
+          "instillFormat": "number_array",
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "items": {
+            "description": "A dimension of the vector",
+            "example": 0.8167237,
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "top_k"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
-        "namespace": {
-          "type": "string",
-          "description": "The namespace of the query",
-          "instillFormat": "text"
-        },
         "matches": {
-          "type": "array",
-          "instillFormat": "object_array",
           "description": "The matches returned for the query",
+          "instillFormat": "object_array",
           "items": {
-            "type": "object",
             "instillFormat": "object",
             "properties": {
               "id": {
-                "type": "string",
                 "description": "The id of the matched vector",
-                "instillFormat": "text"
-              },
-              "score": {
-                "type": "number",
-                "description": "A measure of similarity between this vector and the query vector. The higher the score, the more they are similar.",
-                "instillFormat": "number"
-              },
-              "values": {
-                "type": "array",
-                "description": "Vector data values",
-                "items": {
-                  "type": "number",
-                  "description": "Each float value represents one dimension"
-                },
-                "instillFormat": "number_array"
+                "instillFormat": "text",
+                "type": "string"
               },
               "metadata": {
-                "type": "object",
                 "description": "Metadata",
-                "instillFormat": "object"
+                "instillFormat": "object",
+                "type": "object"
+              },
+              "score": {
+                "description": "A measure of similarity between this vector and the query vector. The higher the score, the more they are similar.",
+                "instillFormat": "number",
+                "type": "number"
+              },
+              "values": {
+                "description": "Vector data values",
+                "instillFormat": "number_array",
+                "items": {
+                  "description": "Each float value represents one dimension",
+                  "type": "number"
+                },
+                "type": "array"
               }
-            }
-          }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "namespace": {
+          "description": "The namespace of the query",
+          "instillFormat": "text",
+          "type": "string"
         }
-      }
+      },
+      "type": "object"
     }
   },
   "TASK_UPSERT": {
     "input": {
-      "type": "object",
-      "required": ["id", "values"],
       "properties": {
         "id": {
-          "type": "string",
           "description": "This is the vector's unique id",
           "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "type": "string"
         },
         "values": {
-          "type": "array",
           "description": "An array of dimensions for the vector to be saved",
+          "instillFormat": "number_array",
+          "instillUpstreamTypes": [
+            "reference"
+          ],
           "items": {
-            "type": "number",
             "description": "A dimension of the vector",
-            "example": 0.8167237
+            "example": 0.8167237,
+            "type": "number"
           },
           "minItems": 1,
-          "instillFormat": "number_array",
-          "instillUpstreamTypes": ["reference"]
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "id",
+        "values"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "upserted_count": {
-          "type": "integer",
           "description": "Number of records modified or added",
-          "instillFormat": "integer"
+          "instillFormat": "integer",
+          "type": "integer"
         }
-      }
+      },
+      "type": "object"
     }
   }
 }

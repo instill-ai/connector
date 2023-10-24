@@ -1,138 +1,193 @@
 {
   "TASK_SPEECH_RECOGNITION": {
     "input": {
-      "type": "object",
-      "required": ["audio", "model"],
       "properties": {
         "audio": {
-          "title": "Audio",
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/file",
           "instillFormat": "audio",
-          "instillUpstreamTypes": ["reference"]
-        },
-        "model": {
-          "title": "Model",
-          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/model",
-          "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "temperature": {
-          "title": "Temperature",
-          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/temperature",
-          "instillFormat": "number",
-          "instillUpstreamTypes": ["value", "reference"]
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "title": "Audio"
         },
         "language": {
-          "title": "Language",
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/language",
           "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Language"
+        },
+        "model": {
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/model",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model"
         },
         "prompt": {
-          "title": "Prompt",
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/prompt",
           "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Prompt"
+        },
+        "temperature": {
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/temperature",
+          "instillFormat": "number",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Temperature"
         }
-      }
+      },
+      "required": [
+        "audio",
+        "model"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "text": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionResponse/properties/text",
           "instillFormat": "text"
         }
-      }
+      },
+      "type": "object"
     }
   },
   "TASK_TEXT_EMBEDDINGS": {
     "input": {
-      "type": "object",
-      "required": ["text", "model"],
       "properties": {
-        "text": {
-          "title": "Text",
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
         "model": {
-          "title": "Model",
           "$ref": "openai.json#/components/schemas/CreateEmbeddingRequest/properties/model",
           "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model"
+        },
+        "text": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Text",
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "text",
+        "model"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "embedding": {
           "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/embedding",
           "instillFormat": "number_array"
         }
-      }
+      },
+      "type": "object"
     }
   },
   "TASK_TEXT_GENERATION": {
     "input": {
-      "type": "object",
-      "required": ["model", "prompt"],
       "properties": {
-        "prompt": {
-          "title": "Prompt",
-          "type": "string",
-          "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "model": {
-          "title": "Model",
-          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/model",
-          "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "system_message": {
-          "title": "System message",
-          "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model’s behavior is using a generic message as \"You are a helpful assistant.\"",
-          "type": "string",
-          "default": "You are a helpful assistant.",
-          "maxLength": 2048,
-          "instillFormat": "text",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "temperature": {
-          "title": "Temperature",
-          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/temperature",
-          "instillFormat": "number",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
-        "n": {
-          "title": "N",
-          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/n",
-          "instillFormat": "integer",
-          "instillUpstreamTypes": ["value", "reference"]
-        },
         "max_tokens": {
-          "title": "Max Tokens",
           "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/max_tokens",
           "instillFormat": "integer",
-          "instillUpstreamTypes": ["value", "reference"]
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Max Tokens"
+        },
+        "model": {
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/model",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model"
+        },
+        "n": {
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/n",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "N"
+        },
+        "prompt": {
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Prompt",
+          "type": "string"
+        },
+        "system_message": {
+          "default": "You are a helpful assistant.",
+          "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model\u2019s behavior is using a generic message as \"You are a helpful assistant.\"",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "maxLength": 2048,
+          "title": "System message",
+          "type": "string"
+        },
+        "temperature": {
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/temperature",
+          "instillFormat": "number",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Temperature"
         }
-      }
+      },
+      "required": [
+        "model",
+        "prompt"
+      ],
+      "type": "object"
     },
     "output": {
-      "type": "object",
       "properties": {
         "texts": {
-          "type": "array",
+          "instillFormat": "text_array",
           "items": {
-            "type": "string",
-            "instillFormat": "text"
+            "instillFormat": "text",
+            "type": "string"
           },
-          "instillFormat": "text_array"
+          "type": "array"
         }
-      }
+      },
+      "type": "object"
     }
   }
 }

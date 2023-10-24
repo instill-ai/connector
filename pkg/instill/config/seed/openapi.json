@@ -1,151 +1,49 @@
 {
   "TASK_CLASSIFICATION": {
-    "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
     },
+    "openapi": "3.0.0",
     "paths": {
       "/execute": {
         "post": {
           "requestBody": {
-            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "inputs": {
-                      "type": "array",
                       "items": {
                         "$ref": "data.json#/TASK_CLASSIFICATION/input"
-                      }
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "required": true
           },
           "responses": {
             "200": {
-              "description": "",
               "content": {
                 "application/json": {
                   "schema": {
-                    "type": "object",
                     "properties": {
                       "outputs": {
-                        "type": "array",
                         "items": {
                           "$ref": "data.json#/TASK_CLASSIFICATION/output"
-                        }
+                        },
+                        "type": "array"
                       }
-                    }
+                    },
+                    "type": "object"
                   }
                 }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "TASK_INSTANCE_SEGMENTATION": {
-    "openapi": "3.0.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
-    },
-    "paths": {
-      "/execute": {
-        "post": {
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "inputs": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "data.json#/TASK_INSTANCE_SEGMENTATION/input"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "outputs": {
-                        "type": "array",
-                        "items": {
-                          "$ref": "data.json#/TASK_INSTANCE_SEGMENTATION/output"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "TASK_KEYPOINT": {
-    "openapi": "3.0.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
-    },
-    "paths": {
-      "/execute": {
-        "post": {
-          "requestBody": {
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "inputs": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "data.json#/TASK_KEYPOINT/input"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "outputs": {
-                        "type": "array",
-                        "items": {
-                          "$ref": "data.json#/TASK_KEYPOINT/output"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              },
+              "description": ""
             }
           }
         }
@@ -153,50 +51,152 @@
     }
   },
   "TASK_DETECTION": {
-    "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
     },
+    "openapi": "3.0.0",
     "paths": {
       "/execute": {
         "post": {
           "requestBody": {
-            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "inputs": {
-                      "type": "array",
                       "items": {
                         "$ref": "data.json#/TASK_DETECTION/input"
-                      }
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "required": true
           },
           "responses": {
             "200": {
-              "description": "",
               "content": {
                 "application/json": {
                   "schema": {
-                    "type": "object",
                     "properties": {
                       "outputs": {
-                        "type": "array",
                         "items": {
                           "$ref": "data.json#/TASK_DETECTION/output"
-                        }
+                        },
+                        "type": "array"
                       }
-                    }
+                    },
+                    "type": "object"
                   }
                 }
+              },
+              "description": ""
+            }
+          }
+        }
+      }
+    }
+  },
+  "TASK_INSTANCE_SEGMENTATION": {
+    "info": {
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
+    },
+    "openapi": "3.0.0",
+    "paths": {
+      "/execute": {
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "inputs": {
+                      "items": {
+                        "$ref": "data.json#/TASK_INSTANCE_SEGMENTATION/input"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
               }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "outputs": {
+                        "items": {
+                          "$ref": "data.json#/TASK_INSTANCE_SEGMENTATION/output"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              },
+              "description": ""
+            }
+          }
+        }
+      }
+    }
+  },
+  "TASK_KEYPOINT": {
+    "info": {
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
+    },
+    "openapi": "3.0.0",
+    "paths": {
+      "/execute": {
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "inputs": {
+                      "items": {
+                        "$ref": "data.json#/TASK_KEYPOINT/input"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "outputs": {
+                        "items": {
+                          "$ref": "data.json#/TASK_KEYPOINT/output"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object"
+                  }
+                }
+              },
+              "description": ""
             }
           }
         }
@@ -204,50 +204,50 @@
     }
   },
   "TASK_OCR": {
-    "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
     },
+    "openapi": "3.0.0",
     "paths": {
       "/execute": {
         "post": {
           "requestBody": {
-            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "inputs": {
-                      "type": "array",
                       "items": {
                         "$ref": "data.json#/TASK_OCR/input"
-                      }
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "required": true
           },
           "responses": {
             "200": {
-              "description": "",
               "content": {
                 "application/json": {
                   "schema": {
-                    "type": "object",
                     "properties": {
                       "outputs": {
-                        "type": "array",
                         "items": {
                           "$ref": "data.json#/TASK_OCR/output"
-                        }
+                        },
+                        "type": "array"
                       }
-                    }
+                    },
+                    "type": "object"
                   }
                 }
-              }
+              },
+              "description": ""
             }
           }
         }
@@ -255,50 +255,50 @@
     }
   },
   "TASK_SEMANTIC_SEGMENTATION": {
-    "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
     },
+    "openapi": "3.0.0",
     "paths": {
       "/execute": {
         "post": {
           "requestBody": {
-            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "inputs": {
-                      "type": "array",
                       "items": {
                         "$ref": "data.json#/TASK_SEMANTIC_SEGMENTATION/input"
-                      }
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "required": true
           },
           "responses": {
             "200": {
-              "description": "",
               "content": {
                 "application/json": {
                   "schema": {
-                    "type": "object",
                     "properties": {
                       "outputs": {
-                        "type": "array",
                         "items": {
                           "$ref": "data.json#/TASK_SEMANTIC_SEGMENTATION/output"
-                        }
+                        },
+                        "type": "array"
                       }
-                    }
+                    },
+                    "type": "object"
                   }
                 }
-              }
+              },
+              "description": ""
             }
           }
         }
@@ -306,50 +306,50 @@
     }
   },
   "TASK_TEXT_GENERATION": {
-    "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
     },
+    "openapi": "3.0.0",
     "paths": {
       "/execute": {
         "post": {
           "requestBody": {
-            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "inputs": {
-                      "type": "array",
                       "items": {
                         "$ref": "data.json#/TASK_TEXT_GENERATION/input"
-                      }
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "required": true
           },
           "responses": {
             "200": {
-              "description": "",
               "content": {
                 "application/json": {
                   "schema": {
-                    "type": "object",
                     "properties": {
                       "outputs": {
-                        "type": "array",
                         "items": {
                           "$ref": "data.json#/TASK_TEXT_GENERATION/output"
-                        }
+                        },
+                        "type": "array"
                       }
-                    }
+                    },
+                    "type": "object"
                   }
                 }
-              }
+              },
+              "description": ""
             }
           }
         }
@@ -357,50 +357,50 @@
     }
   },
   "TASK_TEXT_TO_IMAGE": {
-    "openapi": "3.0.0",
     "info": {
-      "version": "1.0.0",
-      "title": "Instill-Model Connector Openapi"
+      "title": "Instill-Model Connector Openapi",
+      "version": "1.0.0"
     },
+    "openapi": "3.0.0",
     "paths": {
       "/execute": {
         "post": {
           "requestBody": {
-            "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "properties": {
                     "inputs": {
-                      "type": "array",
                       "items": {
                         "$ref": "data.json#/TASK_TEXT_TO_IMAGE/input"
-                      }
+                      },
+                      "type": "array"
                     }
-                  }
+                  },
+                  "type": "object"
                 }
               }
-            }
+            },
+            "required": true
           },
           "responses": {
             "200": {
-              "description": "",
               "content": {
                 "application/json": {
                   "schema": {
-                    "type": "object",
                     "properties": {
                       "outputs": {
-                        "type": "array",
                         "items": {
                           "$ref": "data.json#/TASK_TEXT_TO_IMAGE/output"
-                        }
+                        },
+                        "type": "array"
                       }
-                    }
+                    },
+                    "type": "object"
                   }
                 }
-              }
+              },
+              "description": ""
             }
           }
         }

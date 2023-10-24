@@ -1,46 +1,5 @@
 [
   {
-    "uid": "0255ef87-33ce-4f88-b9db-8897f8c17233",
-    "id": "ai-hugging-face",
-    "title": "Hugging Face",
-    "documentation_url": "https://www.instill.tech/docs/vdp/ai-connectors/hugging-face",
-    "icon": "huggingface.svg",
-    "icon_url": "",
-    "spec": {
-      "resource_specification": {
-        "$schema": "http://json-schema.org/draft-07/schema#",
-        "title": "Hugging Face Connector Spec",
-        "type": "object",
-        "required": [
-          "api_key",
-          "base_url",
-          "is_custom_endpoint"
-        ],
-        "additionalProperties": true,
-        "properties": {
-          "api_key": {
-            "credential_field": true,
-            "title": "API Key",
-            "description": "Fill your Hugging face API token. To find your token, visit https://huggingface.co/settings/tokens.",
-            "type": "string"
-          },
-          "base_url": {
-            "credential_field": false,
-            "title": "Base URL",
-            "description": "Hostname for the endpoint. To use Inference API set to https://api-inference.huggingface.co, for Inference Endpoint set to your custom endpoint.",
-            "type": "string",
-            "default": "https://api-inference.huggingface.co"
-          },
-          "is_custom_endpoint": {
-            "credential_field": false,
-            "title": "Is Custom Endpoint",
-            "description": "Fill true if you are using a custom Inference Endpoint and not the Inference API.",
-            "type": "boolean",
-            "default": false
-          }
-        }
-      }
-    },
     "available_tasks": [
       "TEXT_GENERATION",
       "TEXT_TO_IMAGE",
@@ -62,10 +21,51 @@
       "SPEECH_RECOGNITION",
       "AUDIO_CLASSIFICATION"
     ],
-    "public": true,
     "custom": false,
-    "tombstone": false,
+    "documentation_url": "https://www.instill.tech/docs/vdp/ai-connectors/hugging-face",
+    "icon": "huggingface.svg",
+    "icon_url": "",
+    "id": "ai-hugging-face",
+    "public": true,
+    "spec": {
+      "resource_specification": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": true,
+        "properties": {
+          "api_key": {
+            "credential_field": true,
+            "description": "Fill your Hugging face API token. To find your token, visit https://huggingface.co/settings/tokens.",
+            "title": "API Key",
+            "type": "string"
+          },
+          "base_url": {
+            "credential_field": false,
+            "default": "https://api-inference.huggingface.co",
+            "description": "Hostname for the endpoint. To use Inference API set to https://api-inference.huggingface.co, for Inference Endpoint set to your custom endpoint.",
+            "title": "Base URL",
+            "type": "string"
+          },
+          "is_custom_endpoint": {
+            "credential_field": false,
+            "default": false,
+            "description": "Fill true if you are using a custom Inference Endpoint and not the Inference API.",
+            "title": "Is Custom Endpoint",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "api_key",
+          "base_url",
+          "is_custom_endpoint"
+        ],
+        "title": "Hugging Face Connector Spec",
+        "type": "object"
+      }
+    },
+    "title": "Hugging Face",
+    "tombstone": true,
     "type": "CONNECTOR_TYPE_AI",
+    "uid": "0255ef87-33ce-4f88-b9db-8897f8c17233",
     "vendor": "Hugging Face",
     "vendor_attributes": {}
   }
