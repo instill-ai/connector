@@ -1,0 +1,53 @@
+[
+  {
+    "uid": "e2ffe076-ab2c-4e5e-9587-a613a6b1c146",
+    "id": "data-bigquery",
+    "title": "BigQuery",
+    "documentation_url": "https://www.instill.tech/docs/vdp/data-connectors/bigquery",
+    "icon": "bigquery.svg",
+    "icon_url": "",
+    "spec": {
+      "resource_specification": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "BigQuery Connector Spec",
+        "type": "object",
+        "required": ["json_key", "project_id", "dataset_id", "table_name"],
+        "additionalProperties": false,
+        "properties": {
+          "json_key": {
+            "title": "JSON Key File contents",
+            "description": "Contents of the JSON key file with access to the bucket.",
+            "type": "string",
+            "credential_field": true,
+            "order": 0
+          },
+          "project_id": {
+            "title": "BigQuery Project ID",
+            "description": "Fill in your BigQuery Project ID.",
+            "type": "string",
+            "order": 1
+          },
+          "dataset_id": {
+            "title": "BigQuery Dataset ID",
+            "description": "Fill in your BigQuery Dataset ID.",
+            "type": "string",
+            "order": 2
+          },
+          "table_name": {
+            "title": "BigQuery Table Name",
+            "description": "Fill in your BigQuery Table Name.",
+            "type": "string",
+            "order": 3
+          }
+        }
+      }
+    },
+    "available_tasks": ["TASK_INSERT"],
+    "public": true,
+    "custom": false,
+    "tombstone": false,
+    "type": "CONNECTOR_TYPE_DATA",
+    "vendor": "Google",
+    "vendor_attributes": {}
+  }
+]

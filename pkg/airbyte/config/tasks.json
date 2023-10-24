@@ -1,0 +1,26 @@
+{
+  "TASK_WRITE_DESTINATION": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z_][a-zA-Z_0-9]*$": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "integer" },
+                { "type": "number" },
+                { "type": "boolean" },
+                { "type": "object" }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "output": {
+      "type": "object"
+    }
+  }
+}
