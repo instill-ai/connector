@@ -1,0 +1,222 @@
+{
+  "$defs": {
+    "common": {
+      "type": "object",
+      "required": ["image_base64", "model_namespace", "model_id"],
+      "properties": {
+        "image_base64": {
+          "title": "Image",
+          "type": "string",
+          "instillFormat": "image",
+          "instillUpstreamTypes": ["reference"]
+        },
+        "model_namespace": {
+          "title": "Model Namespace",
+          "description": "Namespace of the Instill Model model to be used.",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "model_id": {
+          "title": "Model Id",
+          "description": "ID of the Instill Model model to be used.",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        }
+      }
+    }
+  },
+  "TASK_CLASSIFICATION": {
+    "input": {
+      "type": "object",
+      "$ref": "#/$defs/common"
+    },
+    "output": {
+      "type": "object",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/classification"
+    }
+  },
+  "TASK_INSTANCE_SEGMENTATION": {
+    "input": {
+      "type": "object",
+      "$ref": "#/$defs/common"
+    },
+    "output": {
+      "type": "object",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/instance_segmentation"
+    }
+  },
+  "TASK_KEYPOINT": {
+    "input": {
+      "type": "object",
+      "$ref": "#/$defs/common"
+    },
+    "output": {
+      "type": "object",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/keypoint"
+    }
+  },
+  "TASK_DETECTION": {
+    "input": {
+      "type": "object",
+      "$ref": "#/$defs/common"
+    },
+    "output": {
+      "type": "object",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/detection"
+    }
+  },
+  "TASK_OCR": {
+    "input": {
+      "type": "object",
+      "$ref": "#/$defs/common"
+    },
+    "output": {
+      "type": "object",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/ocr"
+    }
+  },
+  "TASK_SEMANTIC_SEGMENTATION": {
+    "input": {
+      "type": "object",
+      "$ref": "#/$defs/common"
+    },
+    "output": {
+      "type": "object",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/semantic_segmentation"
+    }
+  },
+  "TASK_TEXT_GENERATION": {
+    "input": {
+      "type": "object",
+      "required": ["prompt", "model_namespace", "model_id"],
+      "properties": {
+        "model_namespace": {
+          "title": "Model Namespace",
+          "description": "Namespace of the Instill Model model to be used.",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "model_id": {
+          "title": "Model Id",
+          "description": "ID of the Instill Model model to be used.",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "prompt": {
+          "title": "Prompt",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "output_len": {
+          "title": "Output Length",
+          "type": "integer",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "bad_words_list": {
+          "title": "Bad Words List",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "stop_words_list": {
+          "title": "Stop Words List",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "top_k": {
+          "title": "Top K",
+          "type": "integer",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": ["value", "reference"]
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "instillFormat": "text"
+        }
+      }
+    }
+  },
+  "TASK_TEXT_TO_IMAGE": {
+    "input": {
+      "type": "object",
+      "required": ["prompt", "model_namespace", "model_id"],
+      "properties": {
+        "model_namespace": {
+          "title": "Model Namespace",
+          "description": "Namespace of the Instill Model model to be used.",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "model_id": {
+          "title": "Model Id",
+          "description": "ID of the Instill Model model to be used.",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "prompt": {
+          "title": "Prompt",
+          "type": "string",
+          "instillFormat": "text",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "cfg_scale": {
+          "title": "CFG Scale",
+          "type": "number",
+          "instillFormat": "number",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "steps": {
+          "title": "Steps",
+          "type": "integer",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "samples": {
+          "title": "Samples",
+          "type": "integer",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": ["value", "reference"]
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer",
+          "instillFormat": "integer",
+          "instillUpstreamTypes": ["value", "reference"]
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "instillFormat": "image"
+          },
+          "instillFormat": "image_array"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "custom": false,
+    "documentation_url": "https://www.instill.tech/docs/vdp/blockchain-connectors/numbers",
+    "icon": "numbers.svg",
+    "icon_url": "",
+    "id": "blockchain-numbers",
+    "public": true,
+    "spec": {
+      "resource_specification": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Numbers Protocol Blockchain Connector Spec",
+        "type": "object",
+        "required": [
+          "capture_token"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "capture_token": {
+            "title": "Capture token",
+            "description": "Fill your Capture token in the Capture App. To access your tokens, you need a Capture App account and you can sign in with email or wallet to acquire the Capture Token.",
+            "type": "string",
+            "credential_field": true
+          }
+        }
+      }
+    },
+    "available_tasks": ["TASK_COMMIT"],
+    "title": "Numbers Protocol",
+    "tombstone": false,
+    "type": "CONNECTOR_TYPE_BLOCKCHAIN",
+    "vendor": "Numbers Protocol",
+    "uid": "70d8664a-d512-4517-a5e8-5d4da81756a7",
+    "vendor_attributes": {}
+  }
+]
