@@ -1,0 +1,41 @@
+{
+  "TASK_UPLOAD": {
+    "input": {
+      "type": "object",
+      "required": [
+        "object_name",
+        "data"
+      ],
+      "properties": {
+        "object_name": {
+          "type": "string",
+          "description": "The name of the object to be created",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ]
+        },
+        "data": {
+          "type": "string",
+          "description": "The data to be saved in the object",
+          "instillFormat": "text",
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ]
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Status of the upload operation",
+          "instillFormat": "text"
+        }
+      }
+    }
+  }
+}
