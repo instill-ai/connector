@@ -1,6 +1,7 @@
 {
   "$defs": {
     "options": {
+      "instillFormat": "object",
       "properties": {
         "use_cache": {
           "instillFormat": "boolean",
@@ -33,12 +34,13 @@
       "instillFormat": "text",
       "instillUpstreamTypes": [
         "value",
-        "reference"
+        "reference",
+        "template"
       ],
       "type": "string"
     }
   },
-  "AUDIO_CLASSIFICATION": {
+  "TASK_AUDIO_CLASSIFICATION": {
     "input": {
       "properties": {
         "audio": {
@@ -57,12 +59,16 @@
     "output": {
       "properties": {
         "classes": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "label": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "number",
                 "type": "number"
               }
             },
@@ -74,7 +80,7 @@
       "type": "object"
     }
   },
-  "CONVERSATIONAL": {
+  "TASK_CONVERSATIONAL": {
     "input": {
       "properties": {
         "inputs": {
@@ -86,6 +92,7 @@
                 "reference"
               ],
               "items": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "type": "array"
@@ -97,6 +104,7 @@
                 "reference"
               ],
               "items": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "type": "array"
@@ -105,7 +113,8 @@
               "instillFormat": "text",
               "instillUpstreamTypes": [
                 "value",
-                "reference"
+                "reference",
+                "template"
               ],
               "type": "string"
             }
@@ -115,6 +124,7 @@
           ]
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -144,6 +154,7 @@
           "type": "object"
         },
         "parameters": {
+          "instillFormat": "object",
           "properties": {
             "max_length": {
               "instillFormat": "integer",
@@ -213,15 +224,20 @@
     "output": {
       "properties": {
         "conversation": {
+          "instillFormat": "object",
           "properties": {
             "generated_responses": {
+              "instillFormat": "text_array",
               "items": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "type": "array"
             },
             "past_user_inputs": {
+              "instillFormat": "text_array",
               "items": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "type": "array"
@@ -230,24 +246,27 @@
           "type": "object"
         },
         "generated_text": {
+          "instillFormat": "text",
           "type": "string"
         }
       },
       "type": "object"
     }
   },
-  "FEATURE_EXTRACTION": {
+  "TASK_FEATURE_EXTRACTION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -285,8 +304,11 @@
     "output": {
       "properties": {
         "features": {
+          "instillFormat": "number_array",
           "items": {
+            "instillFormat": "number_array",
             "items": {
+              "instillFormat": "number",
               "type": "number"
             },
             "type": "array"
@@ -297,18 +319,20 @@
       "type": "object"
     }
   },
-  "FILL_MASK": {
+  "TASK_FILL_MASK": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -346,38 +370,24 @@
     "output": {
       "properties": {
         "masks": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "score": {
                 "instillFormat": "number",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ],
                 "type": "number"
               },
               "sequence": {
                 "instillFormat": "text",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ],
                 "type": "string"
               },
               "token": {
                 "instillFormat": "integer",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ],
                 "type": "integer"
               },
               "token_str": {
                 "instillFormat": "text",
-                "instillUpstreamTypes": [
-                  "value",
-                  "reference"
-                ],
                 "type": "string"
               }
             },
@@ -389,7 +399,7 @@
       "type": "object"
     }
   },
-  "IMAGE_CLASSIFICATION": {
+  "TASK_IMAGE_CLASSIFICATION": {
     "input": {
       "properties": {
         "image": {
@@ -408,12 +418,16 @@
     "output": {
       "properties": {
         "classes": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "label": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "number",
                 "type": "number"
               }
             },
@@ -425,7 +439,7 @@
       "type": "object"
     }
   },
-  "IMAGE_SEGMENTATION": {
+  "TASK_IMAGE_SEGMENTATION": {
     "input": {
       "properties": {
         "image": {
@@ -444,15 +458,20 @@
     "output": {
       "properties": {
         "segments": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "label": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "mask": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "number",
                 "type": "number"
               }
             },
@@ -464,7 +483,7 @@
       "type": "object"
     }
   },
-  "IMAGE_TO_TEXT": {
+  "TASK_IMAGE_TO_TEXT": {
     "input": {
       "properties": {
         "image": {
@@ -483,13 +502,14 @@
     "output": {
       "properties": {
         "text": {
+          "instillFormat": "text",
           "type": "string"
         }
       },
       "type": "object"
     }
   },
-  "OBJECT_DETECTION": {
+  "TASK_OBJECT_DETECTION": {
     "input": {
       "properties": {
         "image": {
@@ -508,29 +528,38 @@
     "output": {
       "properties": {
         "objects": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "box": {
+                "instillFormat": "object",
                 "properties": {
                   "xmax": {
+                    "instillFormat": "number",
                     "type": "number"
                   },
                   "xmin": {
+                    "instillFormat": "number",
                     "type": "number"
                   },
                   "ymax": {
+                    "instillFormat": "number",
                     "type": "number"
                   },
                   "ymin": {
+                    "instillFormat": "number",
                     "type": "number"
                   }
                 },
                 "type": "object"
               },
               "label": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "number",
                 "type": "number"
               }
             },
@@ -542,7 +571,7 @@
       "type": "object"
     }
   },
-  "QUESTION_ANSWERING": {
+  "TASK_QUESTION_ANSWERING": {
     "input": {
       "properties": {
         "inputs": {
@@ -551,7 +580,8 @@
               "instillFormat": "text",
               "instillUpstreamTypes": [
                 "value",
-                "reference"
+                "reference",
+                "template"
               ],
               "type": "string"
             },
@@ -559,7 +589,8 @@
               "instillFormat": "text",
               "instillUpstreamTypes": [
                 "value",
-                "reference"
+                "reference",
+                "template"
               ],
               "type": "string"
             }
@@ -571,6 +602,7 @@
           "type": "object"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -608,22 +640,26 @@
     "output": {
       "properties": {
         "answer": {
+          "instillFormat": "text",
           "type": "string"
         },
         "end": {
+          "instillFormat": "integer",
           "type": "integer"
         },
         "score": {
+          "instillFormat": "number",
           "type": "number"
         },
         "start": {
+          "instillFormat": "integer",
           "type": "integer"
         }
       },
       "type": "object"
     }
   },
-  "SENTENCE_SIMILARITY": {
+  "TASK_SENTENCE_SIMILARITY": {
     "input": {
       "properties": {
         "inputs": {
@@ -635,6 +671,7 @@
                 "reference"
               ],
               "items": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "type": "array"
@@ -654,6 +691,7 @@
           ]
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -691,7 +729,9 @@
     "output": {
       "properties": {
         "scores": {
+          "instillFormat": "number_array",
           "items": {
+            "instillFormat": "number",
             "type": "number"
           },
           "type": "array"
@@ -700,7 +740,7 @@
       "type": "object"
     }
   },
-  "SPEECH_RECOGNITION": {
+  "TASK_SPEECH_RECOGNITION": {
     "input": {
       "properties": {
         "audio": {
@@ -719,24 +759,27 @@
     "output": {
       "properties": {
         "text": {
+          "instillFormat": "text",
           "type": "string"
         }
       },
       "type": "object"
     }
   },
-  "SUMMARIZATION": {
+  "TASK_SUMMARIZATION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -835,7 +878,9 @@
     "output": {
       "properties": {
         "texts": {
+          "instillFormat": "text_array",
           "items": {
+            "instillFormat": "text",
             "type": "string"
           },
           "type": "array"
@@ -844,7 +889,7 @@
       "type": "object"
     }
   },
-  "TABLE_QUESTION_ANSWERING": {
+  "TASK_TABLE_QUESTION_ANSWERING": {
     "input": {
       "properties": {
         "inputs": {
@@ -858,7 +903,7 @@
               "type": "string"
             },
             "table": {
-              "instillFormat": "text",
+              "instillFormat": "object",
               "instillUpstreamTypes": [
                 "value",
                 "reference"
@@ -872,6 +917,7 @@
           ]
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -909,20 +955,27 @@
     "output": {
       "properties": {
         "aggregator": {
+          "instillFormat": "text",
           "type": "string"
         },
         "answer": {
+          "instillFormat": "text",
           "type": "string"
         },
         "cells": {
+          "instillFormat": "text_array",
           "items": {
+            "instillFormat": "text",
             "type": "string"
           },
           "type": "array"
         },
         "coordinates": {
+          "instillFormat": "integer_array",
           "items": {
+            "instillFormat": "integer_array",
             "items": {
+              "instillFormat": "integer",
               "type": "integer"
             },
             "type": "array"
@@ -933,18 +986,20 @@
       "type": "object"
     }
   },
-  "TEXT_CLASSIFICATION": {
+  "TASK_TEXT_CLASSIFICATION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -982,12 +1037,16 @@
     "output": {
       "properties": {
         "classes": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "label": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "text",
                 "type": "number"
               }
             },
@@ -999,18 +1058,20 @@
       "type": "object"
     }
   },
-  "TEXT_GENERATION": {
+  "TASK_TEXT_GENERATION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -1125,12 +1186,16 @@
     "output": {
       "properties": {
         "classes": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "label": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "number",
                 "type": "number"
               }
             },
@@ -1142,18 +1207,20 @@
       "type": "object"
     }
   },
-  "TEXT_TO_IMAGE": {
+  "TASK_TEXT_TO_IMAGE": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -1204,7 +1271,8 @@
               "instillFormat": "text",
               "instillUpstreamTypes": [
                 "value",
-                "reference"
+                "reference",
+                "template"
               ],
               "type": "string"
             },
@@ -1236,24 +1304,27 @@
     "output": {
       "properties": {
         "image": {
+          "instillFormat": "image",
           "type": "string"
         }
       },
       "type": "object"
     }
   },
-  "TOKEN_CLASSIFICATION": {
+  "TASK_TOKEN_CLASSIFICATION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -1288,7 +1359,8 @@
               "instillFormat": "text",
               "instillUpstreamTypes": [
                 "value",
-                "reference"
+                "reference",
+                "template"
               ],
               "type": "string"
             }
@@ -1304,21 +1376,28 @@
     "output": {
       "properties": {
         "masks": {
+          "instillFormat": "object_array",
           "items": {
+            "instillFormat": "object",
             "properties": {
               "end": {
+                "instillFormat": "integer",
                 "type": "integer"
               },
               "entity_group": {
+                "instillFormat": "text",
                 "type": "string"
               },
               "score": {
+                "instillFormat": "number",
                 "type": "number"
               },
               "start": {
+                "instillFormat": "integer",
                 "type": "integer"
               },
               "word": {
+                "instillFormat": "text",
                 "type": "string"
               }
             },
@@ -1330,18 +1409,20 @@
       "type": "object"
     }
   },
-  "TRANSLATION": {
+  "TASK_TRANSLATION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -1379,7 +1460,9 @@
     "output": {
       "properties": {
         "texts": {
+          "instillFormat": "text_array",
           "items": {
+            "instillFormat": "text",
             "type": "string"
           },
           "type": "array"
@@ -1388,18 +1471,20 @@
       "type": "object"
     }
   },
-  "ZERO_SHOT_CLASSIFICATION": {
+  "TASK_ZERO_SHOT_CLASSIFICATION": {
     "input": {
       "properties": {
         "inputs": {
           "instillFormat": "text",
           "instillUpstreamTypes": [
             "value",
-            "reference"
+            "reference",
+            "template"
           ],
           "type": "string"
         },
         "options": {
+          "instillFormat": "object",
           "properties": {
             "use_cache": {
               "instillFormat": "boolean",
@@ -1465,7 +1550,9 @@
     "output": {
       "properties": {
         "texts": {
+          "instillFormat": "text_array",
           "items": {
+            "instillFormat": "text",
             "type": "string"
           },
           "type": "array"
