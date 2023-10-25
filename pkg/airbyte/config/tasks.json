@@ -10,7 +10,8 @@
               "instillUpstreamTypes": [
                 "reference",
                 "template"
-              ]
+              ],
+              "type": "string"
             }
           },
           "type": "object"
