@@ -1,9 +1,18 @@
 {
   "$defs": {
     "common": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -13,17 +22,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -38,6 +49,7 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     }
   },
@@ -47,7 +59,10 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/classification",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/6831f339375950f3f04429416124be96cbdd623a/shared_schema.json#/$defs/instill_types/classification",
+      "description": "Output",
+      "instillUIOrder": 0,
+      "title": "Output",
       "type": "object"
     }
   },
@@ -57,7 +72,10 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/detection",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/6831f339375950f3f04429416124be96cbdd623a/shared_schema.json#/$defs/instill_types/detection",
+      "description": "Output",
+      "instillUIOrder": 0,
+      "title": "Output",
       "type": "object"
     }
   },
@@ -67,7 +85,10 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/instance_segmentation",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/6831f339375950f3f04429416124be96cbdd623a/shared_schema.json#/$defs/instill_types/instance_segmentation",
+      "description": "Output",
+      "instillUIOrder": 0,
+      "title": "Output",
       "type": "object"
     }
   },
@@ -77,7 +98,10 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/keypoint",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/6831f339375950f3f04429416124be96cbdd623a/shared_schema.json#/$defs/instill_types/keypoint",
+      "description": "Output",
+      "instillUIOrder": 0,
+      "title": "Output",
       "type": "object"
     }
   },
@@ -87,7 +111,10 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/ocr",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/6831f339375950f3f04429416124be96cbdd623a/shared_schema.json#/$defs/instill_types/ocr",
+      "description": "Output",
+      "instillUIOrder": 0,
+      "title": "Output",
       "type": "object"
     }
   },
@@ -97,15 +124,27 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/semantic_segmentation",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/6831f339375950f3f04429416124be96cbdd623a/shared_schema.json#/$defs/instill_types/semantic_segmentation",
+      "description": "Output",
+      "instillUIOrder": 0,
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_GENERATION": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompt",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "bad_words_list": {
+          "description": "Bad words list",
           "instillFormat": "text",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -117,17 +156,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -137,7 +178,9 @@
           "type": "string"
         },
         "output_len": {
+          "description": "Output length",
           "instillFormat": "integer",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -146,7 +189,9 @@
           "type": "integer"
         },
         "prompt": {
+          "description": "Prompt",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -156,7 +201,9 @@
           "type": "string"
         },
         "seed": {
+          "description": "Seed",
           "instillFormat": "integer",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -165,7 +212,9 @@
           "type": "integer"
         },
         "stop_words_list": {
+          "description": "Stop words list",
           "instillFormat": "text",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -175,7 +224,9 @@
           "type": "string"
         },
         "top_k": {
+          "description": "Top K",
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -189,23 +240,45 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "text"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "text": {
+          "description": "Text",
           "instillFormat": "text",
+          "instillUIOrder": 0,
+          "title": "Text",
           "type": "string"
         }
       },
+      "required": [
+        "text"
+      ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_TO_IMAGE": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompt",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "cfg_scale": {
+          "description": "CFG Scale",
           "instillFormat": "number",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -216,17 +289,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -236,7 +311,9 @@
           "type": "string"
         },
         "prompt": {
+          "description": "Prompt",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -246,7 +323,9 @@
           "type": "string"
         },
         "samples": {
+          "description": "Samples",
           "instillFormat": "integer",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -255,7 +334,9 @@
           "type": "integer"
         },
         "seed": {
+          "description": "Seed",
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -264,7 +345,9 @@
           "type": "integer"
         },
         "steps": {
+          "description": "Steps",
           "instillFormat": "integer",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -278,19 +361,32 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "images"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "images": {
+          "description": "Images",
           "instillFormat": "image_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "image",
             "type": "string"
           },
+          "title": "Images",
           "type": "array"
         }
       },
+      "required": [
+        "images"
+      ],
+      "title": "Output",
       "type": "object"
     }
   }

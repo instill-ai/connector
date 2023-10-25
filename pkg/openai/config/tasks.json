@@ -1,11 +1,13 @@
 {
   "TASK_SPEECH_RECOGNITION": {
     "input": {
+      "instillUIOrder": 0,
       "properties": {
         "audio": {
           "description": "The audio file object (not file name) to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.\n",
           "format": "binary",
           "instillFormat": "audio",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -16,6 +18,7 @@
         "language": {
           "description": "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.\n",
           "instillFormat": "text",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -31,6 +34,7 @@
           ],
           "example": "whisper-1",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -43,6 +47,7 @@
         "prompt": {
           "description": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should match the audio language.\n",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -55,6 +60,7 @@
           "default": 0,
           "description": "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n",
           "instillFormat": "number",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -67,20 +73,29 @@
         "audio",
         "model"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "instillUIOrder": 0,
       "properties": {
         "text": {
           "instillFormat": "text",
+          "instillUIOrder": 0,
+          "title": "Text",
           "type": "string"
         }
       },
+      "required": [
+        "text"
+      ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_EMBEDDINGS": {
     "input": {
+      "instillUIOrder": 0,
       "properties": {
         "model": {
           "description": "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.\n",
@@ -89,6 +104,7 @@
           ],
           "example": "text-embedding-ada-002",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -100,6 +116,7 @@
         },
         "text": {
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -113,29 +130,39 @@
         "text",
         "model"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "instillUIOrder": 0,
       "properties": {
         "embedding": {
           "instillFormat": "number_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "number",
             "type": "number"
           },
+          "title": "Embedding",
           "type": "array"
         }
       },
+      "required": [
+        "embedding"
+      ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_GENERATION": {
     "input": {
+      "instillUIOrder": 0,
       "properties": {
         "max_tokens": {
           "default": "inf",
           "description": "The maximum number of [tokens](/tokenizer) to generate in the chat completion.\n\nThe total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.\n",
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -160,6 +187,7 @@
           ],
           "example": "gpt-3.5-turbo",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -174,6 +202,7 @@
           "description": "How many chat completion choices to generate for each input message.",
           "example": 1,
           "instillFormat": "integer",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -186,6 +215,7 @@
         },
         "prompt": {
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -198,6 +228,7 @@
           "default": "You are a helpful assistant.",
           "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model\u2019s behavior is using a generic message as \"You are a helpful assistant.\"",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -212,6 +243,7 @@
           "description": "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n\nWe generally recommend altering this or `top_p` but not both.\n",
           "example": 1,
           "instillFormat": "number",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -227,19 +259,27 @@
         "model",
         "prompt"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "instillUIOrder": 0,
       "properties": {
         "texts": {
           "instillFormat": "text_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "text",
             "type": "string"
           },
+          "title": "Texts",
           "type": "array"
         }
       },
+      "required": [
+        "texts"
+      ],
+      "title": "Output",
       "type": "object"
     }
   }

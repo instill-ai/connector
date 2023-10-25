@@ -1,10 +1,13 @@
 {
   "TASK_COMMIT": {
     "input": {
+      "description": "Input",
+      "instillUIOrder": 0,
       "properties": {
         "abstract": {
           "description": "A summary or abstract of the asset.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -16,6 +19,7 @@
         "asset_creator": {
           "description": "Name of the asset creator.",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -25,10 +29,13 @@
           "type": "string"
         },
         "custom": {
+          "description": "Custom",
+          "instillUIOrder": 3,
           "properties": {
             "creator_wallet": {
               "description": "The Wallet address of the asset creator.",
               "instillFormat": "text",
+              "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
                 "reference",
@@ -48,6 +55,7 @@
                 "algorithmicMedia"
               ],
               "instillFormat": "text",
+              "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
                 "reference",
@@ -59,6 +67,7 @@
             "generated_by": {
               "description": "The AI model used to generate the content.",
               "instillFormat": "text",
+              "instillUIOrder": 2,
               "instillUpstreamTypes": [
                 "value",
                 "reference",
@@ -71,6 +80,7 @@
               "default": "https://console.instill.tech",
               "description": "URL of the service that is used to generate the content.",
               "instillFormat": "text",
+              "instillUIOrder": 3,
               "instillUpstreamTypes": [
                 "value",
                 "reference",
@@ -80,11 +90,14 @@
               "type": "string"
             },
             "license": {
+              "description": "License",
+              "instillUIOrder": 4,
               "properties": {
                 "document": {
                   "description": "URL of the license file.",
                   "instillEnableCopyButton": true,
                   "instillFormat": "text",
+                  "instillUIOrder": 0,
                   "instillUpstreamTypes": [
                     "value",
                     "reference",
@@ -96,6 +109,7 @@
                 "name": {
                   "description": "License of the asset file.",
                   "instillFormat": "text",
+                  "instillUIOrder": 1,
                   "instillUpstreamTypes": [
                     "value",
                     "reference",
@@ -105,6 +119,7 @@
                   "type": "string"
                 }
               },
+              "required": [],
               "title": "License",
               "type": "object"
             },
@@ -121,6 +136,7 @@
                 "aiTrainingWithAuthorship"
               ],
               "instillFormat": "text",
+              "instillUIOrder": 5,
               "instillUpstreamTypes": [
                 "value",
                 "reference",
@@ -130,12 +146,14 @@
               "type": "string"
             }
           },
+          "required": [],
           "title": "Custom",
           "type": "object"
         },
         "images": {
           "description": "The images you want to upload to blockchain.",
           "instillFormat": "image_array",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -151,14 +169,18 @@
       "required": [
         "images"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "description": "Output",
+      "instillUIOrder": 0,
       "properties": {
         "asset_urls": {
           "description": "Asset Urls",
           "instillEnableCopyButton": true,
           "instillFormat": "text_array",
+          "instillUIOrder": 0,
           "items": {
             "instillEnableCopyButton": true,
             "instillFormat": "text",
@@ -171,6 +193,7 @@
       "required": [
         "asset_urls"
       ],
+      "title": "Output",
       "type": "object"
     }
   }

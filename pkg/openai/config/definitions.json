@@ -19,11 +19,13 @@
           "api_key": {
             "credential_field": true,
             "description": "Fill your OpenAI API key. To find your keys, visit your OpenAI's API Keys page.",
+            "instillUIOrder": 0,
             "title": "API Key",
             "type": "string"
           },
           "organization": {
             "description": "Specify which organization is used for the requests. Usage will count against the specified organization's subscription quota.",
+            "instillUIOrder": 1,
             "title": "Organization",
             "type": "string"
           }

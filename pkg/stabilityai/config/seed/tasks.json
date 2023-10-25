@@ -2,10 +2,16 @@
   "TASK_IMAGE_TO_IMAGE": {
     "input": {
       "additionalProperties": false,
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompts"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "cfg_scale": {
           "$ref": "stabilityai.json#/components/schemas/CfgScale",
           "instillFormat": "number",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -14,7 +20,9 @@
         },
         "clip_guidance_preset": {
           "$ref": "stabilityai.json#/components/schemas/ClipGuidancePreset",
+          "description": "Clip guidance preset",
           "instillFormat": "text",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -39,6 +47,7 @@
             "stable-inpainting-512-v2-0"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -50,6 +59,7 @@
         "image_strength": {
           "$ref": "stabilityai.json#/components/schemas/InitImageStrength",
           "instillFormat": "number",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -59,6 +69,7 @@
         "init_image": {
           "$ref": "stabilityai.json#/components/schemas/InitImage",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -67,6 +78,7 @@
         "init_image_mode": {
           "$ref": "stabilityai.json#/components/schemas/InitImageMode",
           "instillFormat": "text",
+          "instillUIOrder": 7,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -77,6 +89,7 @@
         "prompts": {
           "description": "An array of prompts to use for generation.",
           "instillFormat": "text_array",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -90,6 +103,7 @@
         "sampler": {
           "$ref": "stabilityai.json#/components/schemas/Sampler",
           "instillFormat": "text",
+          "instillUIOrder": 8,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -100,6 +114,7 @@
         "samples": {
           "$ref": "stabilityai.json#/components/schemas/Samples",
           "instillFormat": "integer",
+          "instillUIOrder": 9,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -109,6 +124,7 @@
         "seed": {
           "$ref": "stabilityai.json#/components/schemas/Seed",
           "instillFormat": "number",
+          "instillUIOrder": 10,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -118,6 +134,7 @@
         "step_schedule_end": {
           "$ref": "stabilityai.json#/components/schemas/StepScheduleEnd",
           "instillFormat": "number",
+          "instillUIOrder": 11,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -127,6 +144,7 @@
         "step_schedule_start": {
           "$ref": "stabilityai.json#/components/schemas/StepScheduleStart",
           "instillFormat": "number",
+          "instillUIOrder": 12,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -136,6 +154,7 @@
         "steps": {
           "$ref": "stabilityai.json#/components/schemas/Steps",
           "instillFormat": "integer",
+          "instillUIOrder": 13,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -145,6 +164,7 @@
         "style_preset": {
           "$ref": "stabilityai.json#/components/schemas/StylePreset",
           "instillFormat": "text",
+          "instillUIOrder": 14,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -155,6 +175,7 @@
         "weights": {
           "description": "An array of weights to use for generation.",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -170,20 +191,26 @@
       "required": [
         "prompts"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
-      "$ref": "#/TASK_TEXT_TO_IMAGE/output",
-      "instillFormat": "image"
+      "$ref": "#/TASK_TEXT_TO_IMAGE/output"
     }
   },
   "TASK_TEXT_TO_IMAGE": {
     "input": {
       "additionalProperties": false,
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompts"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "cfg_scale": {
           "$ref": "stabilityai.json#/components/schemas/CfgScale",
           "instillFormat": "number",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -192,7 +219,9 @@
         },
         "clip_guidance_preset": {
           "$ref": "stabilityai.json#/components/schemas/ClipGuidancePreset",
+          "description": "Clip guidance preset",
           "instillFormat": "text",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -217,6 +246,7 @@
             "stable-inpainting-512-v2-0"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -228,6 +258,7 @@
         "height": {
           "$ref": "stabilityai.json#/components/schemas/DiffuseImageHeight",
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -237,6 +268,7 @@
         "prompts": {
           "description": "An array of prompts to use for generation.",
           "instillFormat": "text_array",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -250,6 +282,7 @@
         "sampler": {
           "$ref": "stabilityai.json#/components/schemas/Sampler",
           "instillFormat": "text",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -260,6 +293,7 @@
         "samples": {
           "$ref": "stabilityai.json#/components/schemas/Samples",
           "instillFormat": "integer",
+          "instillUIOrder": 7,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -269,6 +303,7 @@
         "seed": {
           "$ref": "stabilityai.json#/components/schemas/Seed",
           "instillFormat": "number",
+          "instillUIOrder": 8,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -278,6 +313,7 @@
         "steps": {
           "$ref": "stabilityai.json#/components/schemas/Steps",
           "instillFormat": "integer",
+          "instillUIOrder": 9,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -287,6 +323,7 @@
         "style_preset": {
           "$ref": "stabilityai.json#/components/schemas/StylePreset",
           "instillFormat": "text",
+          "instillUIOrder": 10,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -297,6 +334,7 @@
         "weights": {
           "description": "An array of weights to use for generation.",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -311,6 +349,7 @@
         "width": {
           "$ref": "stabilityai.json#/components/schemas/DiffuseImageWidth",
           "instillFormat": "integer",
+          "instillUIOrder": 11,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -321,13 +360,22 @@
       "required": [
         "prompts"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "images",
+        "seeds"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "images": {
+          "description": "Generated images",
           "instillFormat": "image_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "image",
             "type": "string"
@@ -336,7 +384,9 @@
           "type": "array"
         },
         "seeds": {
+          "description": "Seeds of generated images",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "items": {
             "$ref": "stabilityai.json#/components/schemas/Image/properties/seed",
             "instillFormat": "number"
@@ -349,6 +399,7 @@
         "images",
         "seeds"
       ],
+      "title": "Output",
       "type": "object"
     }
   }

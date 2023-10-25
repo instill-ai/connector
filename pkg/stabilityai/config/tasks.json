@@ -2,12 +2,18 @@
   "TASK_IMAGE_TO_IMAGE": {
     "input": {
       "additionalProperties": false,
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompts"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "cfg_scale": {
           "default": 7,
           "description": "How strictly the diffusion process adheres to the prompt text (higher values keep your image closer to your prompt)",
           "example": 7,
           "instillFormat": "number",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -19,6 +25,7 @@
         },
         "clip_guidance_preset": {
           "default": "NONE",
+          "description": "Clip guidance preset",
           "enum": [
             "FAST_BLUE",
             "FAST_GREEN",
@@ -30,6 +37,7 @@
           ],
           "example": "FAST_BLUE",
           "instillFormat": "text",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -55,6 +63,7 @@
             "stable-inpainting-512-v2-0"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -69,6 +78,7 @@
           "example": 0.4,
           "format": "float",
           "instillFormat": "number",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -83,6 +93,7 @@
           "example": "<image binary>",
           "format": "binary",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -98,6 +109,7 @@
             "STEP_SCHEDULE"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 7,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -109,6 +121,7 @@
         "prompts": {
           "description": "An array of prompts to use for generation.",
           "instillFormat": "text_array",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -138,6 +151,7 @@
           ],
           "example": "K_DPM_2_ANCESTRAL",
           "instillFormat": "text",
+          "instillUIOrder": 8,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -151,6 +165,7 @@
           "description": "Number of images to generate",
           "example": 1,
           "instillFormat": "integer",
+          "instillUIOrder": 9,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -166,6 +181,7 @@
           "description": "Random noise seed (omit this option or use `0` for a random seed)",
           "example": 0,
           "instillFormat": "number",
+          "instillUIOrder": 10,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -180,6 +196,7 @@
           "description": "Skips a proportion of the end of the diffusion steps, allowing the init_image to influence the final generated image.  Lower values will result in more influence from the init_image, while higher values will result in more influence from the diffusion steps.",
           "example": 0.01,
           "instillFormat": "number",
+          "instillUIOrder": 11,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -194,6 +211,7 @@
           "description": "Skips a proportion of the start of the diffusion steps, allowing the init_image to influence the final generated image.  Lower values will result in more influence from the init_image, while higher values will result in more influence from the diffusion steps.  (e.g. a value of `0` would simply return you the init_image, where a value of `1` would return you a completely different image.)",
           "example": 0.4,
           "instillFormat": "number",
+          "instillUIOrder": 12,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -208,6 +226,7 @@
           "description": "Number of diffusion steps to run",
           "example": 75,
           "instillFormat": "integer",
+          "instillUIOrder": 13,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -240,6 +259,7 @@
             "tile-texture"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 14,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -251,6 +271,7 @@
         "weights": {
           "description": "An array of weights to use for generation.",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -269,14 +290,22 @@
       "required": [
         "prompts"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
-      "instillFormat": "image",
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "images",
+        "seeds"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "images": {
+          "description": "Generated images",
           "instillFormat": "image_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "image",
             "type": "string"
@@ -285,7 +314,9 @@
           "type": "array"
         },
         "seeds": {
+          "description": "Seeds of generated images",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "items": {
             "description": "The seed associated with this image",
             "example": 1229191277,
@@ -300,18 +331,25 @@
         "images",
         "seeds"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_TO_IMAGE": {
     "input": {
       "additionalProperties": false,
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompts"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "cfg_scale": {
           "default": 7,
           "description": "How strictly the diffusion process adheres to the prompt text (higher values keep your image closer to your prompt)",
           "example": 7,
           "instillFormat": "number",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -323,6 +361,7 @@
         },
         "clip_guidance_preset": {
           "default": "NONE",
+          "description": "Clip guidance preset",
           "enum": [
             "FAST_BLUE",
             "FAST_GREEN",
@@ -334,6 +373,7 @@
           ],
           "example": "FAST_BLUE",
           "instillFormat": "text",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -359,6 +399,7 @@
             "stable-inpainting-512-v2-0"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -372,6 +413,7 @@
           "description": "Height of the image in pixels.  Must be in increments of 64 and pass the following validation:\n- For 512 engines: 262,144 \u2264 `height * width` \u2264 1,048,576\n- For 768 engines: 589,824 \u2264 `height * width` \u2264 1,048,576\n- For SDXL Beta: can be as low as 128 and as high as 896 as long as `width` is not greater than 512. If `width` is greater than 512 then this can be _at most_ 512.\n- For SDXL v0.9: valid dimensions are 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152\n- For SDXL v1.0: valid dimensions are the same as SDXL v0.9",
           "example": 512,
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -385,6 +427,7 @@
         "prompts": {
           "description": "An array of prompts to use for generation.",
           "instillFormat": "text_array",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -414,6 +457,7 @@
           ],
           "example": "K_DPM_2_ANCESTRAL",
           "instillFormat": "text",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -427,6 +471,7 @@
           "description": "Number of images to generate",
           "example": 1,
           "instillFormat": "integer",
+          "instillUIOrder": 7,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -442,6 +487,7 @@
           "description": "Random noise seed (omit this option or use `0` for a random seed)",
           "example": 0,
           "instillFormat": "number",
+          "instillUIOrder": 8,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -457,6 +503,7 @@
           "description": "Number of diffusion steps to run",
           "example": 75,
           "instillFormat": "integer",
+          "instillUIOrder": 9,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -489,6 +536,7 @@
             "tile-texture"
           ],
           "instillFormat": "text",
+          "instillUIOrder": 10,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -500,6 +548,7 @@
         "weights": {
           "description": "An array of weights to use for generation.",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -519,6 +568,7 @@
           "description": "Width of the image in pixels.  Must be in increments of 64 and pass the following validation:\n- For 512 engines: 262,144 \u2264 `height * width` \u2264 1,048,576\n- For 768 engines: 589,824 \u2264 `height * width` \u2264 1,048,576\n- For SDXL Beta: can be as low as 128 and as high as 896 as long as `height` is not greater than 512. If `height` is greater than 512 then this can be _at most_ 512.\n- For SDXL v0.9: valid dimensions are 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152\n- For SDXL v1.0: valid dimensions are the same as SDXL v0.9",
           "example": 512,
           "instillFormat": "integer",
+          "instillUIOrder": 11,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -533,13 +583,22 @@
       "required": [
         "prompts"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "images",
+        "seeds"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "images": {
+          "description": "Generated images",
           "instillFormat": "image_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "image",
             "type": "string"
@@ -548,7 +607,9 @@
           "type": "array"
         },
         "seeds": {
+          "description": "Seeds of generated images",
           "instillFormat": "number_array",
+          "instillUIOrder": 1,
           "items": {
             "description": "The seed associated with this image",
             "example": 1229191277,
@@ -563,6 +624,7 @@
         "images",
         "seeds"
       ],
+      "title": "Output",
       "type": "object"
     }
   }

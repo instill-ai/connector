@@ -286,7 +286,7 @@ type QuestionAnsweringResponse struct {
 	Start int `json:"start,omitempty"`
 
 	// The string index of the stop of the answer within Context.
-	End int `json:"end,omitempty"`
+	Stop int `json:"stop,omitempty"`
 }
 
 // Request structure for table question answering model
