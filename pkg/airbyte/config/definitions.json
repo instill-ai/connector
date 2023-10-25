@@ -887,7 +887,7 @@
         "ql": 400,
         "sl": 200
       },
-      "dockerImageTag": "2.1.0",
+      "dockerImageTag": "2.1.6",
       "dockerRepository": "airbyte/destination-bigquery",
       "githubIssueLabel": "destination-bigquery",
       "license": "ELv2",
@@ -1178,6 +1178,58 @@
                   }
                 },
                 "title": "Chroma Default Embedding Function",
+                "type": "object"
+              },
+              {
+                "description": "Use a service that's compatible with the OpenAI API to embed text.",
+                "properties": {
+                  "api_key": {
+                    "credential_field": true,
+                    "default": "",
+                    "title": "API key",
+                    "type": "string"
+                  },
+                  "base_url": {
+                    "description": "The base URL for your OpenAI-compatible service",
+                    "examples": [
+                      "https://your-service-name.com"
+                    ],
+                    "title": "Base URL",
+                    "type": "string"
+                  },
+                  "dimensions": {
+                    "description": "The number of dimensions the embedding model is generating",
+                    "examples": [
+                      1536,
+                      384
+                    ],
+                    "title": "Embedding dimensions",
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "const": "openai_compatible",
+                    "default": "openai_compatible",
+                    "enum": [
+                      "openai_compatible"
+                    ],
+                    "title": "Mode",
+                    "type": "string"
+                  },
+                  "model_name": {
+                    "default": "text-embedding-ada-002",
+                    "description": "The name of the model to use for embedding",
+                    "examples": [
+                      "text-embedding-ada-002"
+                    ],
+                    "title": "Model name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "base_url",
+                  "dimensions"
+                ],
+                "title": "OpenAI-compatible",
                 "type": "object"
               }
             ],
@@ -1470,13 +1522,13 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.0.3",
+      "dockerImageTag": "0.0.4",
       "dockerRepository": "airbyte/destination-chroma",
       "githubIssueLabel": "destination-chroma",
       "license": "MIT",
       "releaseStage": "alpha",
       "resourceRequirements": {},
-      "sourceType": "database",
+      "sourceType": "vectorstore",
       "spec": {
         "supported_destination_sync_modes": [
           "overwrite",
@@ -2528,12 +2580,25 @@
     "available_tasks": [
       "TASK_WRITE_DESTINATION"
     ],
+    "connectorBuildOptions": {
+      "baseImage": "docker.io/airbyte/python-connector-base:1.1.0@sha256:bd98f6505c6764b1b5f99d3aedc23dfc9e9af631a62533f60eb32b1d3dbab20c"
+    },
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/duckdb",
     "icon": "duckdb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-duckdb/latest/icon.svg",
     "id": "airbyte-destination-duckdb",
     "public": true,
+    "releases": {
+      "breakingChanges": {
+        "0.3.0": {
+          "message": "This version uses the DuckDB 0.9.1 database driver, which is not backwards compatible with prior versions. MotherDuck users can upgrade their database by visiting https://app.motherduck.com/ and accepting the upgrade. For more information, see the connector migration guide.",
+          "migrationDocumentationUrl": "https://docs.airbyte.com/integrations/destinations/duckdb-migrations#0.3.0",
+          "upgradeDeadline": "2023-10-31"
+        }
+      },
+      "migrationDocumentationUrl": "https://docs.airbyte.com/integrations/destinations/duckdb-migrations"
+    },
     "spec": {
       "resource_specification": {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -2580,7 +2645,7 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.2.1",
+      "dockerImageTag": "0.3.0",
       "dockerRepository": "airbyte/destination-duckdb",
       "githubIssueLabel": "destination-duckdb",
       "license": "MIT",
@@ -5818,6 +5883,9 @@
     "available_tasks": [
       "TASK_WRITE_DESTINATION"
     ],
+    "connectorBuildOptions": {
+      "baseImage": "docker.io/airbyte/python-connector-base:1.1.0@sha256:bd98f6505c6764b1b5f99d3aedc23dfc9e9af631a62533f60eb32b1d3dbab20c"
+    },
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/milvus",
     "icon": "milvus.svg",
@@ -5989,6 +6057,58 @@
                   "deployment"
                 ],
                 "title": "Azure OpenAI",
+                "type": "object"
+              },
+              {
+                "description": "Use a service that's compatible with the OpenAI API to embed text.",
+                "properties": {
+                  "api_key": {
+                    "credential_field": true,
+                    "default": "",
+                    "title": "API key",
+                    "type": "string"
+                  },
+                  "base_url": {
+                    "description": "The base URL for your OpenAI-compatible service",
+                    "examples": [
+                      "https://your-service-name.com"
+                    ],
+                    "title": "Base URL",
+                    "type": "string"
+                  },
+                  "dimensions": {
+                    "description": "The number of dimensions the embedding model is generating",
+                    "examples": [
+                      1536,
+                      384
+                    ],
+                    "title": "Embedding dimensions",
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "const": "openai_compatible",
+                    "default": "openai_compatible",
+                    "enum": [
+                      "openai_compatible"
+                    ],
+                    "title": "Mode",
+                    "type": "string"
+                  },
+                  "model_name": {
+                    "default": "text-embedding-ada-002",
+                    "description": "The name of the model to use for embedding",
+                    "examples": [
+                      "text-embedding-ada-002"
+                    ],
+                    "title": "Model name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "base_url",
+                  "dimensions"
+                ],
+                "title": "OpenAI-compatible",
                 "type": "object"
               }
             ],
@@ -6307,7 +6427,7 @@
         "ql": 300,
         "sl": 200
       },
-      "dockerImageTag": "0.0.4",
+      "dockerImageTag": "0.0.6",
       "dockerRepository": "airbyte/destination-milvus",
       "githubIssueLabel": "destination-milvus",
       "license": "MIT",
@@ -6323,7 +6443,7 @@
           }
         ]
       },
-      "sourceType": "database",
+      "sourceType": "vectorstore",
       "spec": {
         "supported_destination_sync_modes": [
           "overwrite",
@@ -7695,6 +7815,9 @@
     "available_tasks": [
       "TASK_WRITE_DESTINATION"
     ],
+    "connectorBuildOptions": {
+      "baseImage": "docker.io/airbyte/python-connector-base:1.1.0@sha256:bd98f6505c6764b1b5f99d3aedc23dfc9e9af631a62533f60eb32b1d3dbab20c"
+    },
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pinecone",
     "icon": "pinecone.svg",
@@ -7828,6 +7951,58 @@
                   "deployment"
                 ],
                 "title": "Azure OpenAI",
+                "type": "object"
+              },
+              {
+                "description": "Use a service that's compatible with the OpenAI API to embed text.",
+                "properties": {
+                  "api_key": {
+                    "credential_field": true,
+                    "default": "",
+                    "title": "API key",
+                    "type": "string"
+                  },
+                  "base_url": {
+                    "description": "The base URL for your OpenAI-compatible service",
+                    "examples": [
+                      "https://your-service-name.com"
+                    ],
+                    "title": "Base URL",
+                    "type": "string"
+                  },
+                  "dimensions": {
+                    "description": "The number of dimensions the embedding model is generating",
+                    "examples": [
+                      1536,
+                      384
+                    ],
+                    "title": "Embedding dimensions",
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "const": "openai_compatible",
+                    "default": "openai_compatible",
+                    "enum": [
+                      "openai_compatible"
+                    ],
+                    "title": "Mode",
+                    "type": "string"
+                  },
+                  "model_name": {
+                    "default": "text-embedding-ada-002",
+                    "description": "The name of the model to use for embedding",
+                    "examples": [
+                      "text-embedding-ada-002"
+                    ],
+                    "title": "Model name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "base_url",
+                  "dimensions"
+                ],
+                "title": "OpenAI-compatible",
                 "type": "object"
               }
             ],
@@ -8057,7 +8232,7 @@
         "ql": 300,
         "sl": 200
       },
-      "dockerImageTag": "0.0.15",
+      "dockerImageTag": "0.0.17",
       "dockerRepository": "airbyte/destination-pinecone",
       "githubIssueLabel": "destination-pinecone",
       "license": "MIT",
@@ -8073,7 +8248,7 @@
           }
         ]
       },
-      "sourceType": "database",
+      "sourceType": "vectorstore",
       "spec": {
         "supported_destination_sync_modes": [
           "overwrite",
@@ -8991,6 +9166,58 @@
                 ],
                 "title": "Azure OpenAI",
                 "type": "object"
+              },
+              {
+                "description": "Use a service that's compatible with the OpenAI API to embed text.",
+                "properties": {
+                  "api_key": {
+                    "credential_field": true,
+                    "default": "",
+                    "title": "API key",
+                    "type": "string"
+                  },
+                  "base_url": {
+                    "description": "The base URL for your OpenAI-compatible service",
+                    "examples": [
+                      "https://your-service-name.com"
+                    ],
+                    "title": "Base URL",
+                    "type": "string"
+                  },
+                  "dimensions": {
+                    "description": "The number of dimensions the embedding model is generating",
+                    "examples": [
+                      1536,
+                      384
+                    ],
+                    "title": "Embedding dimensions",
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "const": "openai_compatible",
+                    "default": "openai_compatible",
+                    "enum": [
+                      "openai_compatible"
+                    ],
+                    "title": "Mode",
+                    "type": "string"
+                  },
+                  "model_name": {
+                    "default": "text-embedding-ada-002",
+                    "description": "The name of the model to use for embedding",
+                    "examples": [
+                      "text-embedding-ada-002"
+                    ],
+                    "title": "Model name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "base_url",
+                  "dimensions"
+                ],
+                "title": "OpenAI-compatible",
+                "type": "object"
               }
             ],
             "title": "Embedding",
@@ -9292,7 +9519,7 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.0.4",
+      "dockerImageTag": "0.0.5",
       "dockerRepository": "airbyte/destination-qdrant",
       "githubIssueLabel": "destination-qdrant",
       "license": "MIT",
@@ -9308,7 +9535,7 @@
           }
         ]
       },
-      "sourceType": "database",
+      "sourceType": "vectorstore",
       "spec": {
         "supported_destination_sync_modes": [
           "overwrite",
@@ -12079,7 +12306,7 @@
         "ql": 400,
         "sl": 200
       },
-      "dockerImageTag": "3.2.0",
+      "dockerImageTag": "3.2.3",
       "dockerRepository": "airbyte/destination-snowflake",
       "githubIssueLabel": "destination-snowflake",
       "license": "ELv2",
@@ -13331,6 +13558,9 @@
     "available_tasks": [
       "TASK_WRITE_DESTINATION"
     ],
+    "connectorBuildOptions": {
+      "baseImage": "docker.io/airbyte/python-connector-base:1.1.0@sha256:bd98f6505c6764b1b5f99d3aedc23dfc9e9af631a62533f60eb32b1d3dbab20c"
+    },
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/weaviate",
     "icon": "weaviate.svg",
@@ -13527,6 +13757,58 @@
                   }
                 },
                 "title": "Fake",
+                "type": "object"
+              },
+              {
+                "description": "Use a service that's compatible with the OpenAI API to embed text.",
+                "properties": {
+                  "api_key": {
+                    "credential_field": true,
+                    "default": "",
+                    "title": "API key",
+                    "type": "string"
+                  },
+                  "base_url": {
+                    "description": "The base URL for your OpenAI-compatible service",
+                    "examples": [
+                      "https://your-service-name.com"
+                    ],
+                    "title": "Base URL",
+                    "type": "string"
+                  },
+                  "dimensions": {
+                    "description": "The number of dimensions the embedding model is generating",
+                    "examples": [
+                      1536,
+                      384
+                    ],
+                    "title": "Embedding dimensions",
+                    "type": "integer"
+                  },
+                  "mode": {
+                    "const": "openai_compatible",
+                    "default": "openai_compatible",
+                    "enum": [
+                      "openai_compatible"
+                    ],
+                    "title": "Mode",
+                    "type": "string"
+                  },
+                  "model_name": {
+                    "default": "text-embedding-ada-002",
+                    "description": "The name of the model to use for embedding",
+                    "examples": [
+                      "text-embedding-ada-002"
+                    ],
+                    "title": "Model name",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "base_url",
+                  "dimensions"
+                ],
+                "title": "OpenAI-compatible",
                 "type": "object"
               }
             ],
@@ -13877,7 +14159,7 @@
         "ql": 300,
         "sl": 200
       },
-      "dockerImageTag": "0.2.1",
+      "dockerImageTag": "0.2.3",
       "dockerRepository": "airbyte/destination-weaviate",
       "githubIssueLabel": "destination-weaviate",
       "license": "MIT",
@@ -13893,7 +14175,7 @@
           }
         ]
       },
-      "sourceType": "database",
+      "sourceType": "vectorstore",
       "spec": {
         "supported_destination_sync_modes": [
           "overwrite",

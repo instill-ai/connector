@@ -1,32 +1,49 @@
 {
   "TASK_INSERT": {
     "input": {
+      "instillUIOrder": 0,
       "properties": {
         "data": {
           "additionalProperties": false,
+          "instillUIOrder": 0,
           "patternProperties": {
             "^[a-zA-Z_][a-zA-Z_0-9]*$": {
               "instillFormat": "*",
+              "instillUIOrder": 0,
               "instillUpstreamTypes": [
+                "value",
                 "reference",
                 "template"
               ],
-              "type": "string"
+              "title": "Data"
             }
           },
+          "required": [],
+          "title": "Data",
           "type": "object"
         }
       },
+      "required": [
+        "data"
+      ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "instillUIOrder": 0,
       "properties": {
         "status": {
           "description": "Status of the upload operation",
           "instillFormat": "text",
+          "instillUIOrder": 0,
+          "title": "Status",
           "type": "string"
         }
       },
+      "required": [
+        "status"
+      ],
+      "title": "Output",
       "type": "object"
     }
   }

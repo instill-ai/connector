@@ -1,9 +1,18 @@
 {
   "$defs": {
     "common": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -13,17 +22,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -38,14 +49,24 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     }
   },
   "TASK_CLASSIFICATION": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -55,17 +76,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -80,20 +103,27 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
       "instillFormat": "object",
+      "instillUIOrder": 0,
       "properties": {
         "category": {
           "description": "The predicted category of the input.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
+          "title": "Category",
           "type": "string"
         },
         "score": {
           "description": "The confidence score of the predicted category of the input.",
           "instillFormat": "number",
+          "instillUIOrder": 1,
+          "title": "Score",
           "type": "number"
         }
       },
@@ -101,14 +131,24 @@
         "category",
         "score"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_DETECTION": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -118,17 +158,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -143,15 +185,19 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
       "instillFormat": "object",
+      "instillUIOrder": 0,
       "properties": {
         "objects": {
           "description": "A list of detected objects.",
           "instillFormat": "object_array",
+          "instillUIOrder": 0,
           "items": {
             "additionalProperties": false,
             "instillFormat": "object",
@@ -160,25 +206,34 @@
                 "additionalProperties": false,
                 "description": "The detected bounding box in (left, top, width, height) format.",
                 "instillFormat": "object",
+                "instillUIOrder": 1,
                 "properties": {
                   "height": {
                     "description": "Bounding box height value",
                     "instillFormat": "number",
+                    "instillUIOrder": 3,
+                    "title": "Height",
                     "type": "number"
                   },
                   "left": {
                     "description": "Bounding box left x-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 0,
+                    "title": "Left",
                     "type": "number"
                   },
                   "top": {
                     "description": "Bounding box top y-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 1,
+                    "title": "Top",
                     "type": "number"
                   },
                   "width": {
                     "description": "Bounding box width value",
                     "instillFormat": "number",
+                    "instillUIOrder": 2,
+                    "title": "Width",
                     "type": "number"
                   }
                 },
@@ -188,16 +243,21 @@
                   "width",
                   "height"
                 ],
+                "title": "Bounding box",
                 "type": "object"
               },
               "category": {
                 "description": "The predicted category of the bounding box.",
                 "instillFormat": "text",
+                "instillUIOrder": 2,
+                "title": "Category",
                 "type": "string"
               },
               "score": {
                 "description": "The confidence score of the predicted category of the bounding box.",
                 "instillFormat": "number",
+                "instillUIOrder": 3,
+                "title": "Score",
                 "type": "number"
               }
             },
@@ -206,22 +266,34 @@
               "category",
               "score"
             ],
+            "title": "Object",
             "type": "object"
           },
+          "title": "Objects",
           "type": "array"
         }
       },
       "required": [
         "objects"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_INSTANCE_SEGMENTATION": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -231,17 +303,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -256,15 +330,19 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
       "instillFormat": "object",
+      "instillUIOrder": 0,
       "properties": {
         "objects": {
           "description": "A list of detected instance bounding boxes.",
           "instillFormat": "object_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
             "properties": {
@@ -272,25 +350,34 @@
                 "additionalProperties": false,
                 "description": "The detected bounding box in (left, top, width, height) format.",
                 "instillFormat": "object",
+                "instillUIOrder": 1,
                 "properties": {
                   "height": {
                     "description": "Bounding box height value",
                     "instillFormat": "number",
+                    "instillUIOrder": 3,
+                    "title": "Height",
                     "type": "number"
                   },
                   "left": {
                     "description": "Bounding box left x-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 0,
+                    "title": "Left",
                     "type": "number"
                   },
                   "top": {
                     "description": "Bounding box top y-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 1,
+                    "title": "Top",
                     "type": "number"
                   },
                   "width": {
                     "description": "Bounding box width value",
                     "instillFormat": "number",
+                    "instillUIOrder": 2,
+                    "title": "Width",
                     "type": "number"
                   }
                 },
@@ -300,21 +387,28 @@
                   "width",
                   "height"
                 ],
+                "title": "Bounding Box",
                 "type": "object"
               },
               "category": {
                 "description": "The predicted category of the bounding box.",
                 "instillFormat": "text",
+                "instillUIOrder": 2,
+                "title": "Category",
                 "type": "string"
               },
               "rle": {
                 "description": "Run Length Encoding (RLE) of instance mask within the bounding box.",
                 "instillFormat": "text",
+                "instillUIOrder": 0,
+                "title": "RLE",
                 "type": "string"
               },
               "score": {
                 "description": "The confidence score of the predicted instance object.",
                 "instillFormat": "number",
+                "instillUIOrder": 3,
+                "title": "Score",
                 "type": "number"
               }
             },
@@ -324,22 +418,34 @@
               "category",
               "score"
             ],
+            "title": "Object",
             "type": "object"
           },
+          "title": "Objects",
           "type": "array"
         }
       },
       "required": [
         "objects"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_KEYPOINT": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -349,17 +455,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -374,15 +482,19 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
       "instillFormat": "object",
+      "instillUIOrder": 0,
       "properties": {
         "objects": {
           "description": "A list of keypoint objects, a keypoint object includes all the pre-defined keypoints of a detected object.",
           "instillFormat": "object_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
             "properties": {
@@ -390,25 +502,34 @@
                 "additionalProperties": false,
                 "description": "The detected bounding box in (left, top, width, height) format.",
                 "instillFormat": "object",
+                "instillUIOrder": 2,
                 "properties": {
                   "height": {
                     "description": "Bounding box height value",
                     "instillFormat": "number",
+                    "instillUIOrder": 3,
+                    "title": "Height",
                     "type": "number"
                   },
                   "left": {
                     "description": "Bounding box left x-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 0,
+                    "title": "Left",
                     "type": "number"
                   },
                   "top": {
                     "description": "Bounding box top y-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 1,
+                    "title": "Top",
                     "type": "number"
                   },
                   "width": {
                     "description": "Bounding box width value",
                     "instillFormat": "number",
+                    "instillUIOrder": 2,
+                    "title": "Width",
                     "type": "number"
                   }
                 },
@@ -418,26 +539,32 @@
                   "width",
                   "height"
                 ],
+                "title": "Bounding Box",
                 "type": "object"
               },
               "keypoints": {
                 "description": "A keypoint group is composed of a list of pre-defined keypoints of a detected object.",
+                "instillUIOrder": 0,
                 "items": {
                   "instillFormat": "object",
+                  "instillUIOrder": 0,
                   "properties": {
                     "v": {
                       "description": "visibility score of the keypoint.",
                       "instillFormat": "number",
+                      "instillUIOrder": 2,
                       "type": "number"
                     },
                     "x": {
                       "description": "x coordinate of the keypoint.",
                       "instillFormat": "number",
+                      "instillUIOrder": 0,
                       "type": "number"
                     },
                     "y": {
                       "description": "y coordinate of the keypoint.",
                       "instillFormat": "number",
+                      "instillUIOrder": 1,
                       "type": "number"
                     }
                   },
@@ -446,13 +573,17 @@
                     "y",
                     "v"
                   ],
+                  "title": "Object",
                   "type": "object"
                 },
+                "title": "Keypoints",
                 "type": "object_array"
               },
               "score": {
                 "description": "The confidence score of the predicted object.",
                 "instillFormat": "number",
+                "instillUIOrder": 1,
+                "title": "Score",
                 "type": "number"
               }
             },
@@ -461,22 +592,34 @@
               "score",
               "bounding_box"
             ],
+            "title": "Object",
             "type": "object"
           },
+          "title": "Objects",
           "type": "array"
         }
       },
       "required": [
         "objects"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_OCR": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -486,17 +629,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -511,15 +656,19 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
       "instillFormat": "object",
+      "instillUIOrder": 0,
       "properties": {
         "objects": {
           "description": "A list of detected bounding boxes.",
           "instillFormat": "object_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
             "properties": {
@@ -527,25 +676,34 @@
                 "additionalProperties": false,
                 "description": "The detected bounding box in (left, top, width, height) format.",
                 "instillFormat": "object",
+                "instillUIOrder": 0,
                 "properties": {
                   "height": {
                     "description": "Bounding box height value",
                     "instillFormat": "number",
+                    "instillUIOrder": 3,
+                    "title": "Height",
                     "type": "number"
                   },
                   "left": {
                     "description": "Bounding box left x-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 0,
+                    "title": "Left",
                     "type": "number"
                   },
                   "top": {
                     "description": "Bounding box top y-axis value",
                     "instillFormat": "number",
+                    "instillUIOrder": 1,
+                    "title": "Top",
                     "type": "number"
                   },
                   "width": {
                     "description": "Bounding box width value",
                     "instillFormat": "number",
+                    "instillUIOrder": 2,
+                    "title": "Width",
                     "type": "number"
                   }
                 },
@@ -555,16 +713,21 @@
                   "width",
                   "height"
                 ],
+                "title": "Bounding Box",
                 "type": "object"
               },
               "score": {
                 "description": "The confidence score of the predicted object.",
                 "instillFormat": "number",
+                "instillUIOrder": 2,
+                "title": "Score",
                 "type": "number"
               },
               "text": {
                 "description": "Text string recognised per bounding box.",
                 "instillFormat": "text",
+                "instillUIOrder": 1,
+                "title": "Text",
                 "type": "string"
               }
             },
@@ -573,22 +736,34 @@
               "text",
               "score"
             ],
+            "title": "Object",
             "type": "object"
           },
+          "title": "Objects",
           "type": "array"
         }
       },
       "required": [
         "objects"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_SEMANTIC_SEGMENTATION": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "image_base64": {
+          "description": "Image base64",
           "instillFormat": "image",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -598,17 +773,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -623,26 +800,34 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
       "additionalProperties": false,
+      "description": "Output",
       "instillFormat": "object",
+      "instillUIOrder": 0,
       "properties": {
         "stuffs": {
           "description": "A list of RLE binary masks.",
           "instillFormat": "object_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
             "properties": {
               "category": {
                 "description": "Category text string corresponding to each stuff mask.",
                 "instillFormat": "text",
+                "instillUIOrder": 1,
+                "title": "Category",
                 "type": "string"
               },
               "rle": {
                 "description": "Run Length Encoding (RLE) of each stuff mask within the image.",
                 "instillFormat": "text",
+                "instillUIOrder": 0,
+                "title": "RLE",
                 "type": "string"
               }
             },
@@ -650,22 +835,34 @@
               "rle",
               "category"
             ],
+            "title": "Object",
             "type": "object"
           },
+          "title": "Stuffs",
           "type": "array"
         }
       },
       "required": [
         "stuffs"
       ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_GENERATION": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompt",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "bad_words_list": {
+          "description": "Bad words list",
           "instillFormat": "text",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -677,17 +874,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -697,7 +896,9 @@
           "type": "string"
         },
         "output_len": {
+          "description": "Output length",
           "instillFormat": "integer",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -706,7 +907,9 @@
           "type": "integer"
         },
         "prompt": {
+          "description": "Prompt",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -716,7 +919,9 @@
           "type": "string"
         },
         "seed": {
+          "description": "Seed",
           "instillFormat": "integer",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -725,7 +930,9 @@
           "type": "integer"
         },
         "stop_words_list": {
+          "description": "Stop words list",
           "instillFormat": "text",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -735,7 +942,9 @@
           "type": "string"
         },
         "top_k": {
+          "description": "Top K",
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -749,23 +958,45 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "text"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "text": {
+          "description": "Text",
           "instillFormat": "text",
+          "instillUIOrder": 0,
+          "title": "Text",
           "type": "string"
         }
       },
+      "required": [
+        "text"
+      ],
+      "title": "Output",
       "type": "object"
     }
   },
   "TASK_TEXT_TO_IMAGE": {
     "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompt",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "cfg_scale": {
+          "description": "CFG Scale",
           "instillFormat": "number",
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -776,17 +1007,19 @@
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Model Id",
+          "title": "Model ID",
           "type": "string"
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
           "instillFormat": "text",
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -796,7 +1029,9 @@
           "type": "string"
         },
         "prompt": {
+          "description": "Prompt",
           "instillFormat": "text",
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -806,7 +1041,9 @@
           "type": "string"
         },
         "samples": {
+          "description": "Samples",
           "instillFormat": "integer",
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -815,7 +1052,9 @@
           "type": "integer"
         },
         "seed": {
+          "description": "Seed",
           "instillFormat": "integer",
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -824,7 +1063,9 @@
           "type": "integer"
         },
         "steps": {
+          "description": "Steps",
           "instillFormat": "integer",
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -838,19 +1079,32 @@
         "model_namespace",
         "model_id"
       ],
+      "title": "Input",
       "type": "object"
     },
     "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "images"
+      ],
+      "instillUIOrder": 0,
       "properties": {
         "images": {
+          "description": "Images",
           "instillFormat": "image_array",
+          "instillUIOrder": 0,
           "items": {
             "instillFormat": "image",
             "type": "string"
           },
+          "title": "Images",
           "type": "array"
         }
       },
+      "required": [
+        "images"
+      ],
+      "title": "Output",
       "type": "object"
     }
   }

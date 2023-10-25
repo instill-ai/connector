@@ -18,12 +18,14 @@
           "api_key": {
             "credential_field": true,
             "description": "Fill your Pinecone AI API key. You can create a api key in [Pinecone Console](https://app.pinecone.io/)",
+            "instillUIOrder": 0,
             "title": "API Key",
             "type": "string"
           },
           "url": {
             "credential_field": false,
             "description": "Fill in your Pinecone base URL. It is in the form [https://index_name-project_id.svc.environment.pinecone.io]",
+            "instillUIOrder": 1,
             "title": "Pinecone Base URL",
             "type": "string"
           }
