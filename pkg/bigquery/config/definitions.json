@@ -21,7 +21,7 @@
             "type": "string"
           },
           "json_key": {
-            "credential_field": true,
+            "instillCredentialField": true,
             "description": "Contents of the JSON key file with access to the bucket.",
             "instillUIOrder": 0,
             "title": "JSON Key File contents",
