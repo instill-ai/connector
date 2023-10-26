@@ -15,15 +15,15 @@
         "additionalProperties": false,
         "properties": {
           "bucket_name": {
-            "instillCredentialField": false,
             "description": "Name of the bucket to be used for object storage.",
+            "instillCredentialField": false,
             "instillUIOrder": 0,
             "title": "Bucket Name",
             "type": "string"
           },
           "json_key": {
-            "instillCredentialField": true,
             "description": "Contents of the JSON key file with access to the bucket.",
+            "instillCredentialField": true,
             "instillUIOrder": 1,
             "title": "JSON Key File contents",
             "type": "string"

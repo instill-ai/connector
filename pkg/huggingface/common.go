@@ -44,10 +44,13 @@ func (c *Client) MakeHFAPIRequest(body []byte, model string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = checkRespForError(respBody)
-	if err != nil {
-		return nil, err
+	if resp.StatusCode != http.StatusOK {
+		err = checkRespForError(respBody)
+		if err != nil {
+			return nil, err
+		}
 	}
+
 	return respBody, nil
 }
 

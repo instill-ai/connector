@@ -8,7 +8,6 @@
       "TASK_TOKEN_CLASSIFICATION",
       "TASK_TRANSLATION",
       "TASK_ZERO_SHOT_CLASSIFICATION",
-      "TASK_FEATURE_EXTRACTION",
       "TASK_QUESTION_ANSWERING",
       "TASK_TABLE_QUESTION_ANSWERING",
       "TASK_SENTENCE_SIMILARITY",
@@ -32,24 +31,24 @@
         "additionalProperties": true,
         "properties": {
           "api_key": {
-            "instillCredentialField": true,
             "description": "Fill your Hugging face API token. To find your token, visit https://huggingface.co/settings/tokens.",
+            "instillCredentialField": true,
             "instillUIOrder": 0,
             "title": "API Key",
             "type": "string"
           },
           "base_url": {
-            "instillCredentialField": false,
             "default": "https://api-inference.huggingface.co",
             "description": "Hostname for the endpoint. To use Inference API set to https://api-inference.huggingface.co, for Inference Endpoint set to your custom endpoint.",
+            "instillCredentialField": false,
             "instillUIOrder": 1,
             "title": "Base URL",
             "type": "string"
           },
           "is_custom_endpoint": {
-            "instillCredentialField": false,
             "default": false,
             "description": "Fill true if you are using a custom Inference Endpoint and not the Inference API.",
+            "instillCredentialField": false,
             "instillUIOrder": 2,
             "title": "Is Custom Endpoint",
             "type": "boolean"

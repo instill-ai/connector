@@ -15,11 +15,11 @@
         "additionalProperties": false,
         "properties": {
           "access_key": {
-            "instillCredentialField": true,
             "description": "The Access Key ID of the AWS IAM Role to use for sending  messages",
             "examples": [
               "xxxxxHRNxxx3TBxxxxxx"
             ],
+            "instillCredentialField": true,
             "order": 3,
             "title": "AWS IAM Access Key ID",
             "type": "string"
@@ -94,11 +94,11 @@
             "type": "string"
           },
           "secret_key": {
-            "instillCredentialField": true,
             "description": "The Secret Key of the AWS IAM Role to use for sending messages",
             "examples": [
               "hu+qE5exxxxT6o/ZrKsxxxxxxBhxxXLexxxxxVKz"
             ],
+            "instillCredentialField": true,
             "order": 4,
             "title": "AWS IAM Secret Key",
             "type": "string"
@@ -196,8 +196,8 @@
                     "type": "string"
                   },
                   "role_arn": {
-                    "instillCredentialField": false,
                     "description": "Will assume this role to write data to s3",
+                    "instillCredentialField": false,
                     "title": "Target Role Arn",
                     "type": "string"
                   }
@@ -212,14 +212,14 @@
               {
                 "properties": {
                   "aws_access_key_id": {
-                    "instillCredentialField": true,
                     "description": "AWS User Access Key Id",
+                    "instillCredentialField": true,
                     "title": "Access Key Id",
                     "type": "string"
                   },
                   "aws_secret_access_key": {
-                    "instillCredentialField": true,
                     "description": "Secret Access Key",
+                    "instillCredentialField": true,
                     "title": "Secret Access Key",
                     "type": "string"
                   },
@@ -456,11 +456,11 @@
         "additionalProperties": false,
         "properties": {
           "azure_blob_storage_account_key": {
-            "instillCredentialField": true,
             "description": "The Azure blob storage account key.",
             "examples": [
               "Z8ZkZpteggFx394vm+PJHnGTvdRncaYS+JhLKdj789YNmD+iyGTnG+PV+POiuYNhBg/ACS+LKjd%4FG3FHGN12Nd=="
             ],
+            "instillCredentialField": true,
             "title": "Azure Blob Storage account key",
             "type": "string"
           },
@@ -653,9 +653,9 @@
           },
           "credentials_json": {
             "always_show": true,
-            "instillCredentialField": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.com/integrations/destinations/bigquery#service-account-key\">docs</a> if you need help generating this key. Default credentials will be used if this field is left empty.",
             "group": "connection",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Service Account Key JSON (Required for cloud, optional for open-source)",
             "type": "string"
@@ -735,21 +735,21 @@
                             "type": "string"
                           },
                           "hmac_key_access_id": {
-                            "instillCredentialField": true,
                             "description": "HMAC key access ID. When linked to a service account, this ID is 61 characters long; when linked to a user account, it is 24 characters long.",
                             "examples": [
                               "1234567890abcdefghij1234"
                             ],
+                            "instillCredentialField": true,
                             "order": 1,
                             "title": "HMAC Key Access ID",
                             "type": "string"
                           },
                           "hmac_key_secret": {
-                            "instillCredentialField": true,
                             "description": "The corresponding secret for the access ID. It is a 40-character base-64 encoded string.",
                             "examples": [
                               "1234567890abcdefghij1234567890ABCDEFGHIJ"
                             ],
+                            "instillCredentialField": true,
                             "order": 2,
                             "title": "HMAC Key Secret",
                             "type": "string"
@@ -958,8 +958,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with Cassandra.",
+            "instillCredentialField": true,
             "order": 2,
             "title": "Password",
             "type": "string"
@@ -1184,8 +1184,8 @@
                 "description": "Use a service that's compatible with the OpenAI API to embed text.",
                 "properties": {
                   "api_key": {
-                    "instillCredentialField": true,
                     "default": "",
+                    "instillCredentialField": true,
                     "title": "API key",
                     "type": "string"
                   },
@@ -1286,9 +1286,9 @@
                         "type": "string"
                       },
                       "password": {
-                        "instillCredentialField": true,
                         "default": "",
                         "description": "Password used in server/client mode only",
+                        "instillCredentialField": true,
                         "order": 4,
                         "title": "Password",
                         "type": "string"
@@ -1576,8 +1576,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -1621,8 +1621,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -1701,8 +1701,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -1793,8 +1793,8 @@
         "additionalProperties": false,
         "properties": {
           "access_key": {
-            "instillCredentialField": "true",
             "description": "API access key used to send data to a Convex deployment.",
+            "instillCredentialField": "true",
             "type": "string"
           },
           "deployment_url": {
@@ -1999,15 +1999,15 @@
             "type": "string"
           },
           "api_key": {
-            "instillCredentialField": true,
             "description": "An API key generated in Cumul.io's platform (can be generated here: https://app.cumul.io/start/profile/integration).",
+            "instillCredentialField": true,
             "order": 1,
             "title": "Cumul.io API Key",
             "type": "string"
           },
           "api_token": {
-            "instillCredentialField": true,
             "description": "The corresponding API token generated in Cumul.io's platform (can be generated here: https://app.cumul.io/start/profile/integration).",
+            "instillCredentialField": true,
             "order": 2,
             "title": "Cumul.io API Token",
             "type": "string"
@@ -2082,8 +2082,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 6,
             "title": "Password",
             "type": "string"
@@ -2215,11 +2215,11 @@
                     "type": "string"
                   },
                   "s3_access_key_id": {
-                    "instillCredentialField": true,
                     "description": "The Access Key Id granting allow one to access the above S3 staging bucket. Airbyte requires Read and Write permissions to the given bucket.",
                     "examples": [
                       "A012345678910EXAMPLE"
                     ],
+                    "instillCredentialField": true,
                     "order": 5,
                     "title": "S3 Access Key ID",
                     "type": "string"
@@ -2278,11 +2278,11 @@
                     "type": "string"
                   },
                   "s3_secret_access_key": {
-                    "instillCredentialField": true,
                     "description": "The corresponding secret to the above access key id.",
                     "examples": [
                       "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
                     ],
+                    "instillCredentialField": true,
                     "order": 6,
                     "title": "S3 Secret Access Key",
                     "type": "string"
@@ -2329,11 +2329,11 @@
                     "type": "string"
                   },
                   "azure_blob_storage_sas_token": {
-                    "instillCredentialField": true,
                     "description": "Shared access signature (SAS) token to grant limited access to objects in your storage account.",
                     "examples": [
                       "?sv=2016-05-31&ss=b&srt=sco&sp=rwdl&se=2018-06-27T10:05:50Z&st=2017-06-27T02:05:50Z&spr=https,http&sig=bgqQwoXwxzuD2GJfagRg7VOS8hzNr3QLT7rhS8OFRLQ%3D"
                     ],
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "SAS Token",
                     "type": "string"
@@ -2373,11 +2373,11 @@
             "type": "string"
           },
           "databricks_personal_access_token": {
-            "instillCredentialField": true,
             "description": "Databricks Personal Access Token for making authenticated requests.",
             "examples": [
               "dapi0123456789abcdefghij0123456789AB"
             ],
+            "instillCredentialField": true,
             "order": 5,
             "title": "Access Token",
             "type": "string"
@@ -2508,8 +2508,8 @@
             "type": "integer"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 5,
             "title": "Password",
             "type": "string"
@@ -2615,8 +2615,8 @@
             "type": "string"
           },
           "motherduck_api_key": {
-            "instillCredentialField": true,
             "description": "API key to use for authentication to a MotherDuck database.",
+            "instillCredentialField": true,
             "title": "MotherDuck API Key",
             "type": "string"
           },
@@ -2682,11 +2682,11 @@
         "additionalProperties": false,
         "properties": {
           "access_key_id": {
-            "instillCredentialField": true,
             "description": "The access key id to access the DynamoDB. Airbyte requires Read and Write permissions to the DynamoDB.",
             "examples": [
               "A012345678910EXAMPLE"
             ],
+            "instillCredentialField": true,
             "title": "DynamoDB Key Id",
             "type": "string"
           },
@@ -2742,11 +2742,11 @@
             "type": "string"
           },
           "secret_access_key": {
-            "instillCredentialField": true,
             "description": "The corresponding secret to the access key id.",
             "examples": [
               "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
             ],
+            "instillCredentialField": true,
             "title": "DynamoDB Access Key",
             "type": "string"
           }
@@ -3085,8 +3085,8 @@
                     "type": "string"
                   },
                   "apiKeySecret": {
-                    "instillCredentialField": true,
                     "description": "The secret associated with the API Key ID.",
+                    "instillCredentialField": true,
                     "title": "API Key Secret",
                     "type": "string"
                   },
@@ -3111,8 +3111,8 @@
                     "type": "string"
                   },
                   "password": {
-                    "instillCredentialField": true,
                     "description": "Basic auth password to access a secure Elasticsearch server",
+                    "instillCredentialField": true,
                     "title": "Password",
                     "type": "string"
                   },
@@ -3134,8 +3134,8 @@
             "type": "object"
           },
           "ca_certificate": {
-            "instillCredentialField": true,
             "description": "CA certificate",
+            "instillCredentialField": true,
             "multiline": true,
             "title": "CA certificate",
             "type": "string"
@@ -3165,8 +3165,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -3245,8 +3245,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -3348,8 +3348,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -3479,14 +3479,14 @@
                 "additionalProperties": false,
                 "properties": {
                   "aws_key_id": {
-                    "instillCredentialField": true,
                     "description": "AWS access key granting read and write access to S3.",
+                    "instillCredentialField": true,
                     "title": "AWS Key ID",
                     "type": "string"
                   },
                   "aws_key_secret": {
-                    "instillCredentialField": true,
                     "description": "Corresponding secret part of the AWS Key",
+                    "instillCredentialField": true,
                     "title": "AWS Key Secret",
                     "type": "string"
                   },
@@ -3522,8 +3522,8 @@
             "type": "object"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Firebolt password.",
+            "instillCredentialField": true,
             "order": 1,
             "title": "Password",
             "type": "string"
@@ -3596,8 +3596,8 @@
         "additionalProperties": false,
         "properties": {
           "credentials_json": {
-            "instillCredentialField": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.io/integrations/destinations/firestore\">docs</a> if you need help generating this key. Default credentials will be used if this field is left empty.",
+            "instillCredentialField": true,
             "title": "Credentials JSON",
             "type": "string"
           },
@@ -3673,21 +3673,21 @@
                     "type": "string"
                   },
                   "hmac_key_access_id": {
-                    "instillCredentialField": true,
                     "description": "When linked to a service account, this ID is 61 characters long; when linked to a user account, it is 24 characters long. Read more <a href=\"https://cloud.google.com/storage/docs/authentication/hmackeys#overview\">here</a>.",
                     "examples": [
                       "1234567890abcdefghij1234"
                     ],
+                    "instillCredentialField": true,
                     "order": 0,
                     "title": "Access ID",
                     "type": "string"
                   },
                   "hmac_key_secret": {
-                    "instillCredentialField": true,
                     "description": "The corresponding secret for the access ID. It is a 40-character base-64 encoded string.  Read more <a href=\"https://cloud.google.com/storage/docs/authentication/hmackeys#secrets\">here</a>.",
                     "examples": [
                       "1234567890abcdefghij1234567890ABCDEFGHIJ"
                     ],
+                    "instillCredentialField": true,
                     "order": 1,
                     "title": "Secret",
                     "type": "string"
@@ -4173,20 +4173,20 @@
             "description": "Google API Credentials for connecting to Google Sheets and Google Drive APIs",
             "properties": {
               "client_id": {
-                "instillCredentialField": true,
                 "description": "The Client ID of your Google Sheets developer application.",
+                "instillCredentialField": true,
                 "title": "Client ID",
                 "type": "string"
               },
               "client_secret": {
-                "instillCredentialField": true,
                 "description": "The Client Secret of your Google Sheets developer application.",
+                "instillCredentialField": true,
                 "title": "Client Secret",
                 "type": "string"
               },
               "refresh_token": {
-                "instillCredentialField": true,
                 "description": "The token for obtaining new access token.",
+                "instillCredentialField": true,
                 "title": "Refresh Token",
                 "type": "string"
               }
@@ -4416,8 +4416,8 @@
                     "type": "string"
                   },
                   "password": {
-                    "instillCredentialField": true,
                     "description": "Password associated with the username.",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -4454,19 +4454,19 @@
                     "type": "string"
                   },
                   "rest_credential": {
-                    "instillCredentialField": true,
                     "examples": [
                       "username:password"
                     ],
+                    "instillCredentialField": true,
                     "order": 2,
                     "title": "A credential to exchange for a token in the OAuth2 client credentials flow.",
                     "type": "string"
                   },
                   "rest_token": {
-                    "instillCredentialField": true,
                     "examples": [
                       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
                     ],
+                    "instillCredentialField": true,
                     "order": 3,
                     "title": "A Bearer token which will be used for interaction with the server.",
                     "type": "string"
@@ -4541,11 +4541,11 @@
                 "description": "S3 object storage",
                 "properties": {
                   "access_key_id": {
-                    "instillCredentialField": true,
                     "description": "The access key ID to access the S3 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>.",
                     "examples": [
                       "A012345678910EXAMPLE"
                     ],
+                    "instillCredentialField": true,
                     "order": 0,
                     "title": "S3 Key ID",
                     "type": "string"
@@ -4617,11 +4617,11 @@
                     "type": "string"
                   },
                   "secret_access_key": {
-                    "instillCredentialField": true,
                     "description": "The corresponding secret to the access key ID. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>",
                     "examples": [
                       "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
                     ],
+                    "instillCredentialField": true,
                     "order": 1,
                     "title": "S3 Access Key",
                     "type": "string"
@@ -4865,9 +4865,9 @@
               {
                 "properties": {
                   "sasl_jaas_config": {
-                    "instillCredentialField": true,
                     "default": "",
                     "description": "JAAS login context parameters for SASL connections in the format used by JAAS configuration files.",
+                    "instillCredentialField": true,
                     "title": "SASL JAAS Config",
                     "type": "string"
                   },
@@ -4898,9 +4898,9 @@
               {
                 "properties": {
                   "sasl_jaas_config": {
-                    "instillCredentialField": true,
                     "default": "",
                     "description": "JAAS login context parameters for SASL connections in the format used by JAAS configuration files.",
+                    "instillCredentialField": true,
                     "title": "SASL JAAS Config",
                     "type": "string"
                   },
@@ -5081,11 +5081,11 @@
         "additionalProperties": false,
         "properties": {
           "api_key": {
-            "instillCredentialField": true,
             "description": "To get Keen Master API Key, navigate to the Access tab from the left-hand, side panel and check the Project Details section.",
             "examples": [
               "ABCDEFGHIJKLMNOPRSTUWXYZ"
             ],
+            "instillCredentialField": true,
             "title": "API Key",
             "type": "string"
           },
@@ -5160,8 +5160,8 @@
         "additionalProperties": true,
         "properties": {
           "accessKey": {
-            "instillCredentialField": true,
             "description": "Generate the AWS Access Key for current user.",
+            "instillCredentialField": true,
             "order": 3,
             "title": "Access Key",
             "type": "string"
@@ -5185,8 +5185,8 @@
             "type": "string"
           },
           "privateKey": {
-            "instillCredentialField": true,
             "description": "The AWS Private Key - a string of numbers and letters that are unique for each account, also known as a \"recovery phrase\".",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Private Key",
             "type": "string"
@@ -5616,8 +5616,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "The Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -5654,8 +5654,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -5734,8 +5734,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -5819,8 +5819,8 @@
         "additionalProperties": false,
         "properties": {
           "api_key": {
-            "instillCredentialField": true,
             "description": "MeiliSearch API Key. See the <a href=\"https://docs.airbyte.com/integrations/destinations/meilisearch\">docs</a> for more information on how to obtain this key.",
+            "instillCredentialField": true,
             "order": 1,
             "title": "API Key",
             "type": "string"
@@ -6045,8 +6045,8 @@
                     "type": "string"
                   },
                   "openai_key": {
-                    "instillCredentialField": true,
                     "description": "The API key for your Azure OpenAI resource.  You can find this in the Azure portal under your Azure OpenAI resource",
+                    "instillCredentialField": true,
                     "title": "Azure OpenAI API key",
                     "type": "string"
                   }
@@ -6063,8 +6063,8 @@
                 "description": "Use a service that's compatible with the OpenAI API to embed text.",
                 "properties": {
                   "api_key": {
-                    "instillCredentialField": true,
                     "default": "",
+                    "instillCredentialField": true,
                     "title": "API key",
                     "type": "string"
                   },
@@ -6135,8 +6135,8 @@
                         "type": "string"
                       },
                       "token": {
-                        "instillCredentialField": true,
                         "description": "API Token for the Milvus instance",
+                        "instillCredentialField": true,
                         "title": "API Token",
                         "type": "string"
                       }
@@ -6160,8 +6160,8 @@
                         "type": "string"
                       },
                       "password": {
-                        "instillCredentialField": true,
                         "description": "Password for the Milvus instance",
+                        "instillCredentialField": true,
                         "order": 2,
                         "title": "Password",
                         "type": "string"
@@ -6496,8 +6496,8 @@
                     "type": "string"
                   },
                   "password": {
-                    "instillCredentialField": true,
                     "description": "Password associated with the username.",
+                    "instillCredentialField": true,
                     "order": 2,
                     "title": "Password",
                     "type": "string"
@@ -6650,8 +6650,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -6730,8 +6730,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -6859,8 +6859,8 @@
             "type": "boolean"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password to use for the connection.",
+            "instillCredentialField": true,
             "title": "Password",
             "type": "string"
           },
@@ -6979,8 +6979,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "The password associated with this username.",
+            "instillCredentialField": true,
             "order": 5,
             "title": "Password",
             "type": "string"
@@ -7097,8 +7097,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -7177,8 +7177,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -7288,8 +7288,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -7333,8 +7333,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -7413,8 +7413,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -7563,8 +7563,8 @@
                     "type": "string"
                   },
                   "ssl_certificate": {
-                    "instillCredentialField": true,
                     "description": "Privacy Enhanced Mail (PEM) files are concatenated certificate containers frequently used in certificate installations.",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "title": "SSL PEM file",
                     "type": "string"
@@ -7594,8 +7594,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "The password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -7648,8 +7648,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -7728,8 +7728,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -7939,8 +7939,8 @@
                     "type": "string"
                   },
                   "openai_key": {
-                    "instillCredentialField": true,
                     "description": "The API key for your Azure OpenAI resource.  You can find this in the Azure portal under your Azure OpenAI resource",
+                    "instillCredentialField": true,
                     "title": "Azure OpenAI API key",
                     "type": "string"
                   }
@@ -7957,8 +7957,8 @@
                 "description": "Use a service that's compatible with the OpenAI API to embed text.",
                 "properties": {
                   "api_key": {
-                    "instillCredentialField": true,
                     "default": "",
+                    "instillCredentialField": true,
                     "title": "API key",
                     "type": "string"
                   },
@@ -8028,8 +8028,8 @@
                 "type": "string"
               },
               "pinecone_key": {
-                "instillCredentialField": true,
                 "description": "The Pinecone API key to use matching the environment (copy from Pinecone console)",
+                "instillCredentialField": true,
                 "title": "Pinecone API key",
                 "type": "string"
               }
@@ -8296,8 +8296,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 5,
             "title": "Password",
             "type": "string"
@@ -8415,16 +8415,16 @@
                 "description": "Verify-ca SSL mode.",
                 "properties": {
                   "ca_certificate": {
-                    "instillCredentialField": true,
                     "description": "CA certificate",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 1,
                     "title": "CA certificate",
                     "type": "string"
                   },
                   "client_key_password": {
-                    "instillCredentialField": true,
                     "description": "Password for keystorage. This field is optional. If you do not add it - the password will be generated automatically.",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Client key password",
                     "type": "string"
@@ -8450,32 +8450,32 @@
                 "description": "Verify-full SSL mode.",
                 "properties": {
                   "ca_certificate": {
-                    "instillCredentialField": true,
                     "description": "CA certificate",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 1,
                     "title": "CA certificate",
                     "type": "string"
                   },
                   "client_certificate": {
-                    "instillCredentialField": true,
                     "description": "Client certificate",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 2,
                     "title": "Client certificate",
                     "type": "string"
                   },
                   "client_key": {
-                    "instillCredentialField": true,
                     "description": "Client key",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 3,
                     "title": "Client key",
                     "type": "string"
                   },
                   "client_key_password": {
-                    "instillCredentialField": true,
                     "description": "Password for keystorage. This field is optional. If you do not add it - the password will be generated automatically.",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Client key password",
                     "type": "string"
@@ -8523,8 +8523,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -8603,8 +8603,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -8723,8 +8723,8 @@
             "type": "integer"
           },
           "credentials_json": {
-            "instillCredentialField": true,
             "description": "The contents of the JSON service account key. Check out the <a href=\"https://docs.airbyte.com/integrations/destinations/pubsub\">docs</a> if you need help generating this key.",
+            "instillCredentialField": true,
             "title": "Credentials JSON",
             "type": "string"
           },
@@ -9153,8 +9153,8 @@
                     "type": "string"
                   },
                   "openai_key": {
-                    "instillCredentialField": true,
                     "description": "The API key for your Azure OpenAI resource.  You can find this in the Azure portal under your Azure OpenAI resource",
+                    "instillCredentialField": true,
                     "title": "Azure OpenAI API key",
                     "type": "string"
                   }
@@ -9171,8 +9171,8 @@
                 "description": "Use a service that's compatible with the OpenAI API to embed text.",
                 "properties": {
                   "api_key": {
-                    "instillCredentialField": true,
                     "default": "",
+                    "instillCredentialField": true,
                     "title": "API key",
                     "type": "string"
                   },
@@ -9234,8 +9234,8 @@
                   {
                     "properties": {
                       "api_key": {
-                        "instillCredentialField": true,
                         "description": "API Key for the Qdrant instance",
+                        "instillCredentialField": true,
                         "title": "API Key",
                         "type": "string"
                       },
@@ -9564,11 +9564,11 @@
         "$schema": "http://json-schema.org/draft-07/schema#",
         "properties": {
           "access_key_id": {
-            "instillCredentialField": true,
             "description": "The access key ID to access the R2 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://developers.cloudflare.com/r2/platform/s3-compatibility/tokens/\">here</a>.",
             "examples": [
               "A012345678910EXAMPLE"
             ],
+            "instillCredentialField": true,
             "order": 1,
             "title": "R2 Key ID *",
             "type": "string"
@@ -9893,11 +9893,11 @@
             "type": "string"
           },
           "secret_access_key": {
-            "instillCredentialField": true,
             "description": "The corresponding secret to the access key ID. Read more <a href=\"https://developers.cloudflare.com/r2/platform/s3-compatibility/tokens/\">here</a>",
             "examples": [
               "a012345678910ABCDEFGHAbCdEfGhEXAMPLEKEY"
             ],
+            "instillCredentialField": true,
             "order": 2,
             "title": "R2 Access Key *",
             "type": "string"
@@ -9971,8 +9971,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "The password to connect.",
+            "instillCredentialField": true,
             "title": "Password",
             "type": "string"
           },
@@ -10072,8 +10072,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with Redis.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -10121,32 +10121,32 @@
                 "description": "Verify-full SSL mode.",
                 "properties": {
                   "ca_certificate": {
-                    "instillCredentialField": true,
                     "description": "CA certificate",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 1,
                     "title": "CA Certificate",
                     "type": "string"
                   },
                   "client_certificate": {
-                    "instillCredentialField": true,
                     "description": "Client certificate",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 2,
                     "title": "Client Certificate",
                     "type": "string"
                   },
                   "client_key": {
-                    "instillCredentialField": true,
                     "description": "Client key",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 3,
                     "title": "Client Key",
                     "type": "string"
                   },
                   "client_key_password": {
-                    "instillCredentialField": true,
                     "description": "Password for keystorage. If you do not add it - the password will be generated automatically.",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Client key password",
                     "type": "string"
@@ -10194,8 +10194,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -10274,8 +10274,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -10518,9 +10518,9 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
             "group": "connection",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -10569,8 +10569,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -10649,8 +10649,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -10678,8 +10678,8 @@
                 "description": "<i>(recommended)</i> Uploads data to S3 and then uses a COPY to insert the data into Redshift. COPY is recommended for production workloads for better speed and scalability. See <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html\">AWS docs</a> for more details.",
                 "properties": {
                   "access_key_id": {
-                    "instillCredentialField": true,
                     "description": "This ID grants access to the above S3 staging bucket. Airbyte requires Read and Write permissions to the given bucket. See <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">AWS docs</a> on how to generate an access key ID and secret access key.",
+                    "instillCredentialField": true,
                     "title": "S3 Key Id",
                     "type": "string"
                   },
@@ -10719,8 +10719,8 @@
                             "type": "string"
                           },
                           "key_encrypting_key": {
-                            "instillCredentialField": true,
                             "description": "The key, base64-encoded. Must be either 128, 192, or 256 bits. Leave blank to have Airbyte generate an ephemeral key for each sync.",
+                            "instillCredentialField": true,
                             "title": "Key",
                             "type": "string"
                           }
@@ -10818,8 +10818,8 @@
                     "type": "string"
                   },
                   "secret_access_key": {
-                    "instillCredentialField": true,
                     "description": "The corresponding secret to the above access key id. See <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">AWS docs</a> on how to generate an access key ID and secret access key.",
+                    "instillCredentialField": true,
                     "title": "S3 Access Key",
                     "type": "string"
                   }
@@ -10935,29 +10935,29 @@
         "additionalProperties": false,
         "properties": {
           "api_key": {
-            "instillCredentialField": true,
             "description": "Rockset api key",
+            "instillCredentialField": true,
             "order": 0,
             "title": "Api Key",
             "type": "string"
           },
           "api_server": {
-            "instillCredentialField": false,
             "default": "https://api.rs2.usw2.rockset.com",
             "description": "Rockset api URL",
+            "instillCredentialField": false,
             "order": 2,
             "pattern": "^https:\\/\\/.*.rockset.com$",
             "title": "Api Server",
             "type": "string"
           },
           "workspace": {
-            "instillCredentialField": false,
             "default": "commons",
             "description": "The Rockset workspace in which collections will be created + written to.",
             "examples": [
               "commons",
               "my_workspace"
             ],
+            "instillCredentialField": false,
             "order": 1,
             "title": "Workspace",
             "type": "string"
@@ -11018,11 +11018,11 @@
         "$schema": "http://json-schema.org/draft-07/schema#",
         "properties": {
           "access_key_id": {
-            "instillCredentialField": true,
             "description": "The access key ID to access the S3 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>.",
             "examples": [
               "A012345678910EXAMPLE"
             ],
+            "instillCredentialField": true,
             "order": 0,
             "title": "S3 Key ID",
             "type": "string"
@@ -11200,11 +11200,11 @@
             "type": "string"
           },
           "secret_access_key": {
-            "instillCredentialField": true,
             "description": "The corresponding secret to the access key ID. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>",
             "examples": [
               "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
             ],
+            "instillCredentialField": true,
             "order": 1,
             "title": "S3 Access Key",
             "type": "string"
@@ -11269,11 +11269,11 @@
         "$schema": "http://json-schema.org/draft-07/schema#",
         "properties": {
           "access_key_id": {
-            "instillCredentialField": true,
             "description": "The access key ID to access the S3 bucket. Airbyte requires Read and Write permissions to the given bucket. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>.",
             "examples": [
               "A012345678910EXAMPLE"
             ],
+            "instillCredentialField": true,
             "order": 0,
             "title": "S3 Key ID",
             "type": "string"
@@ -11717,11 +11717,11 @@
             "type": "string"
           },
           "secret_access_key": {
-            "instillCredentialField": true,
             "description": "The corresponding secret to the access key ID. Read more <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys\">here</a>",
             "examples": [
               "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
             ],
+            "instillCredentialField": true,
             "order": 1,
             "title": "S3 Access Key",
             "type": "string"
@@ -11807,8 +11807,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with Scylla.",
+            "instillCredentialField": true,
             "order": 2,
             "title": "Password",
             "type": "string"
@@ -11918,8 +11918,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -12006,8 +12006,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 3,
             "title": "Password",
             "type": "string"
@@ -12110,8 +12110,8 @@
                 "order": 0,
                 "properties": {
                   "access_token": {
-                    "instillCredentialField": true,
                     "description": "Enter you application's Access Token",
+                    "instillCredentialField": true,
                     "title": "Access Token",
                     "type": "string"
                   },
@@ -12125,20 +12125,20 @@
                     "type": "string"
                   },
                   "client_id": {
-                    "instillCredentialField": true,
                     "description": "Enter your application's Client ID",
+                    "instillCredentialField": true,
                     "title": "Client ID",
                     "type": "string"
                   },
                   "client_secret": {
-                    "instillCredentialField": true,
                     "description": "Enter your application's Client secret",
+                    "instillCredentialField": true,
                     "title": "Client Secret",
                     "type": "string"
                   },
                   "refresh_token": {
-                    "instillCredentialField": true,
                     "description": "Enter your application's Refresh Token",
+                    "instillCredentialField": true,
                     "title": "Refresh Token",
                     "type": "string"
                   }
@@ -12163,15 +12163,15 @@
                     "type": "string"
                   },
                   "private_key": {
-                    "instillCredentialField": true,
                     "description": "RSA Private key to use for Snowflake connection. See the <a href=\"https://docs.airbyte.com/integrations/destinations/snowflake\">docs</a> for more information on how to obtain this key.",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "title": "Private Key",
                     "type": "string"
                   },
                   "private_key_password": {
-                    "instillCredentialField": true,
                     "description": "Passphrase for private key",
+                    "instillCredentialField": true,
                     "title": "Passphrase",
                     "type": "string"
                   }
@@ -12195,8 +12195,8 @@
                     "type": "string"
                   },
                   "password": {
-                    "instillCredentialField": true,
                     "description": "Enter the password associated with the username.",
+                    "instillCredentialField": true,
                     "order": 1,
                     "title": "Password",
                     "type": "string"
@@ -12510,11 +12510,11 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Starburst Galaxy password for the specified user.",
             "examples": [
               "password"
             ],
+            "instillCredentialField": true,
             "order": 5,
             "title": "Password",
             "type": "string"
@@ -12559,11 +12559,11 @@
                     "type": "string"
                   },
                   "s3_access_key_id": {
-                    "instillCredentialField": true,
                     "description": "Access key with access to the bucket. Airbyte requires read and write permissions to a given bucket.",
                     "examples": [
                       "A012345678910EXAMPLE"
                     ],
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Access key",
                     "type": "string"
@@ -12608,11 +12608,11 @@
                     "type": "string"
                   },
                   "s3_secret_access_key": {
-                    "instillCredentialField": true,
                     "description": "Secret key used with the specified access key.",
                     "examples": [
                       "a012345678910ABCDEFGH/AbCdEfGhEXAMPLEKEY"
                     ],
+                    "instillCredentialField": true,
                     "order": 5,
                     "title": "Secret key",
                     "type": "string"
@@ -12715,8 +12715,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 2,
             "title": "Password",
             "type": "string"
@@ -12831,8 +12831,8 @@
                     "type": "string"
                   },
                   "ssl_ca_certificate": {
-                    "instillCredentialField": true,
                     "description": "Specifies the file name of a PEM file that contains Certificate Authority (CA) certificates for use with SSLMODE=verify-ca.\n See more information - <a href=\"https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/jdbcug_chapter_2.html#URL_SSLCA\"> in the docs</a>.",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 1,
                     "title": "CA certificate",
@@ -12859,8 +12859,8 @@
                     "type": "string"
                   },
                   "ssl_ca_certificate": {
-                    "instillCredentialField": true,
                     "description": "Specifies the file name of a PEM file that contains Certificate Authority (CA) certificates for use with SSLMODE=verify-full.\n See more information - <a href=\"https://teradata-docs.s3.amazonaws.com/doc/connectivity/jdbc/reference/current/jdbcug_chapter_2.html#URL_SSLCA\"> in the docs</a>.",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 1,
                     "title": "CA certificate",
@@ -12960,9 +12960,9 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "default": "",
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -13006,8 +13006,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -13086,8 +13086,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -13178,8 +13178,8 @@
         "additionalProperties": false,
         "properties": {
           "apikey": {
-            "instillCredentialField": true,
             "description": "Personal API key",
+            "instillCredentialField": true,
             "order": 1,
             "title": "API key",
             "type": "string"
@@ -13353,8 +13353,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "Password associated with the username.",
+            "instillCredentialField": true,
             "order": 4,
             "title": "Password",
             "type": "string"
@@ -13397,8 +13397,8 @@
               {
                 "properties": {
                   "ssh_key": {
-                    "instillCredentialField": true,
                     "description": "OS-level user account ssh key credentials in RSA PEM format ( created with ssh-keygen -t rsa -m PEM -f myuser_rsa )",
+                    "instillCredentialField": true,
                     "multiline": true,
                     "order": 4,
                     "title": "SSH Private Key",
@@ -13477,8 +13477,8 @@
                     "type": "string"
                   },
                   "tunnel_user_password": {
-                    "instillCredentialField": true,
                     "description": "OS-level password for logging into the jump server host",
+                    "instillCredentialField": true,
                     "order": 4,
                     "title": "Password",
                     "type": "string"
@@ -13643,8 +13643,8 @@
                     "type": "string"
                   },
                   "openai_key": {
-                    "instillCredentialField": true,
                     "description": "The API key for your Azure OpenAI resource.  You can find this in the Azure portal under your Azure OpenAI resource",
+                    "instillCredentialField": true,
                     "title": "Azure OpenAI API key",
                     "type": "string"
                   }
@@ -13763,8 +13763,8 @@
                 "description": "Use a service that's compatible with the OpenAI API to embed text.",
                 "properties": {
                   "api_key": {
-                    "instillCredentialField": true,
                     "default": "",
+                    "instillCredentialField": true,
                     "title": "API key",
                     "type": "string"
                   },
@@ -13866,8 +13866,8 @@
                         "type": "string"
                       },
                       "token": {
-                        "instillCredentialField": true,
                         "description": "API Token for the Weaviate instance",
+                        "instillCredentialField": true,
                         "title": "API Token",
                         "type": "string"
                       }
@@ -13891,8 +13891,8 @@
                         "type": "string"
                       },
                       "password": {
-                        "instillCredentialField": true,
                         "description": "Password for the Weaviate cluster",
+                        "instillCredentialField": true,
                         "order": 2,
                         "title": "Password",
                         "type": "string"
@@ -14205,8 +14205,8 @@
         "additionalProperties": true,
         "properties": {
           "api_key": {
-            "instillCredentialField": true,
             "description": "API Key to connect.",
+            "instillCredentialField": true,
             "order": 0,
             "title": "API Key",
             "type": "string"
@@ -14290,8 +14290,8 @@
             "type": "string"
           },
           "password": {
-            "instillCredentialField": true,
             "description": "The Password associated with the username.",
+            "instillCredentialField": true,
             "order": 5,
             "title": "Password",
             "type": "string"
@@ -14384,8 +14384,8 @@
         "additionalProperties": false,
         "properties": {
           "privateKey": {
-            "instillCredentialField": true,
             "description": "You private key on Streamr",
+            "instillCredentialField": true,
             "type": "string"
           },
           "streamId": {

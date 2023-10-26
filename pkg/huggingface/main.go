@@ -117,11 +117,10 @@ func isCustomEndpoint(config *structpb.Struct) bool {
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	client := NewClient(getAPIKey(e.Config), getBaseURL(e.Config), isCustomEndpoint(e.Config))
 	outputs := []*structpb.Struct{}
-	task := inputs[0].GetFields()["task"].GetStringValue()
 	model := inputs[0].GetFields()["model"].GetStringValue()
 
 	for _, input := range inputs {
-		switch task {
+		switch e.Task {
 		case textGenerationTask:
 			inputStruct := TextGenerationRequest{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
@@ -138,14 +137,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			generatedTexts := structpb.ListValue{}
-			generatedTexts.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				generatedTexts.Values[i] = &structpb.Value{Kind: &structpb.Value_StringValue{StringValue: outputArr[i].GeneratedText}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"texts": {Kind: &structpb.Value_ListValue{ListValue: &generatedTexts}}},
-			}
+			output := structpb.Struct{Fields: make(map[string]*structpb.Value)}
+			output.Fields["generated_text"] = structpb.NewStringValue(outputArr[0].GeneratedText)
 			outputs = append(outputs, &output)
 		case textToImageTask:
 			inputStruct := TextToImageRequest{}
@@ -185,10 +178,10 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			masks := structpb.ListValue{}
-			masks.Values = make([]*structpb.Value, len(outputArr))
+			results := structpb.ListValue{}
+			results.Values = make([]*structpb.Value, len(outputArr))
 			for i := range outputArr {
-				masks.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
+				results.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
 					StructValue: &structpb.Struct{
 						Fields: map[string]*structpb.Value{
 							"sequence":  {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Sequence}},
@@ -200,7 +193,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				}}
 			}
 			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"masks": {Kind: &structpb.Value_ListValue{ListValue: &masks}}},
+				Fields: map[string]*structpb.Value{"results": {Kind: &structpb.Value_ListValue{ListValue: &results}}},
 			}
 			outputs = append(outputs, &output)
 		case summarizationTask:
@@ -219,14 +212,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			summaries := structpb.ListValue{}
-			summaries.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				summaries.Values[i] = &structpb.Value{Kind: &structpb.Value_StringValue{StringValue: outputArr[i].SummaryText}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"texts": {Kind: &structpb.Value_ListValue{ListValue: &summaries}}},
-			}
+			output := structpb.Struct{Fields: make(map[string]*structpb.Value)}
+			output.Fields["summary_text"] = structpb.NewStringValue(outputArr[0].SummaryText)
 			outputs = append(outputs, &output)
 		case textClassificationTask:
 			inputStruct := TextClassificationRequest{}
@@ -248,10 +235,10 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, errors.New("invalid response")
 			}
 			outputArr := nestedArr[0]
-			classes := structpb.ListValue{}
-			classes.Values = make([]*structpb.Value, len(outputArr))
+			results := structpb.ListValue{}
+			results.Values = make([]*structpb.Value, len(outputArr))
 			for i := range outputArr {
-				classes.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
+				results.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
 					StructValue: &structpb.Struct{
 						Fields: map[string]*structpb.Value{
 							"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
@@ -261,7 +248,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				}}
 			}
 			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"classes": {Kind: &structpb.Value_ListValue{ListValue: &classes}}},
+				Fields: map[string]*structpb.Value{"results": {Kind: &structpb.Value_ListValue{ListValue: &results}}},
 			}
 			outputs = append(outputs, &output)
 		case tokenClassificationTask:
@@ -296,7 +283,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				}}
 			}
 			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"classes": {Kind: &structpb.Value_ListValue{ListValue: &classes}}},
+				Fields: map[string]*structpb.Value{"results": {Kind: &structpb.Value_ListValue{ListValue: &classes}}},
 			}
 			outputs = append(outputs, &output)
 		case translationTask:
@@ -315,14 +302,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			translations := structpb.ListValue{}
-			translations.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				translations.Values[i] = &structpb.Value{Kind: &structpb.Value_StringValue{StringValue: outputArr[i].TranslationText}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"texts": {Kind: &structpb.Value_ListValue{ListValue: &translations}}},
-			}
+			output := structpb.Struct{Fields: make(map[string]*structpb.Value)}
+			output.Fields["translation_text"] = structpb.NewStringValue(outputArr[0].TranslationText)
 			outputs = append(outputs, &output)
 		case zeroShotClassificationTask:
 			inputStruct := ZeroShotRequest{}
@@ -341,39 +322,40 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			outputs = append(outputs, &output)
-		case featureExtractionTask:
-			inputStruct := FeatureExtractionRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
-				return nil, err
-			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
-			if err != nil {
-				return nil, err
-			}
-			threeDArr := [][][]float64{}
-			err = json.Unmarshal(resp, &threeDArr)
-			if err != nil {
-				return nil, err
-			}
-			if len(threeDArr) <= 0 {
-				return nil, errors.New("invalid response")
-			}
-			nestedArr := threeDArr[0]
-			features := structpb.ListValue{}
-			features.Values = make([]*structpb.Value, len(nestedArr))
-			for i, innerArr := range nestedArr {
-				innerValues := make([]*structpb.Value, len(innerArr))
-				for j := range innerArr {
-					innerValues[j] = &structpb.Value{Kind: &structpb.Value_NumberValue{NumberValue: innerArr[j]}}
-				}
-				features.Values[i] = &structpb.Value{Kind: &structpb.Value_ListValue{ListValue: &structpb.ListValue{Values: innerValues}}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"features": {Kind: &structpb.Value_ListValue{ListValue: &features}}},
-			}
-			outputs = append(outputs, &output)
+		// TODO: fix this task
+		// case featureExtractionTask:
+		// 	inputStruct := FeatureExtractionRequest{}
+		// 	err := base.ConvertFromStructpb(input, &inputStruct)
+		// 	if err != nil {
+		// 		return nil, err
+		// 	}
+		// 	jsonBody, _ := json.Marshal(inputStruct)
+		// 	resp, err := client.MakeHFAPIRequest(jsonBody, model)
+		// 	if err != nil {
+		// 		return nil, err
+		// 	}
+		// 	threeDArr := [][][]float64{}
+		// 	err = json.Unmarshal(resp, &threeDArr)
+		// 	if err != nil {
+		// 		return nil, err
+		// 	}
+		// 	if len(threeDArr) <= 0 {
+		// 		return nil, errors.New("invalid response")
+		// 	}
+		// 	nestedArr := threeDArr[0]
+		// 	features := structpb.ListValue{}
+		// 	features.Values = make([]*structpb.Value, len(nestedArr))
+		// 	for i, innerArr := range nestedArr {
+		// 		innerValues := make([]*structpb.Value, len(innerArr))
+		// 		for j := range innerArr {
+		// 			innerValues[j] = &structpb.Value{Kind: &structpb.Value_NumberValue{NumberValue: innerArr[j]}}
+		// 		}
+		// 		features.Values[i] = &structpb.Value{Kind: &structpb.Value_ListValue{ListValue: &structpb.ListValue{Values: innerValues}}}
+		// 	}
+		// 	output := structpb.Struct{
+		// 		Fields: map[string]*structpb.Value{"feature": {Kind: &structpb.Value_ListValue{ListValue: &features}}},
+		// 	}
+		// 	outputs = append(outputs, &output)
 		case questionAnsweringTask:
 			inputStruct := QuestionAnsweringRequest{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
@@ -644,7 +626,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 			outputs = append(outputs, &output)
 		default:
-			return nil, fmt.Errorf("not supported task: %s", task)
+			return nil, fmt.Errorf("not supported task: %s", e.Task)
 		}
 	}
 

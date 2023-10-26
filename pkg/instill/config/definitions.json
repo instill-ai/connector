@@ -22,8 +22,8 @@
         "additionalProperties": true,
         "properties": {
           "api_token": {
-            "instillCredentialField": true,
             "description": "To access models on Instill Cloud, enter your Instill Cloud API Token. You can find your tokens by visiting your Instill Cloud's Settings > API Tokens page. Leave this field empty to access models on your local Instill Model.",
+            "instillCredentialField": true,
             "instillUIOrder": 0,
             "title": "API Token",
             "type": "string"

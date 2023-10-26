@@ -1,5 +1,15 @@
 {
   "$defs": {
+    "model": {
+      "instillFormat": "text",
+      "instillUpstreamTypes": [
+        "value",
+        "reference",
+        "template"
+      ],
+      "title": "Model",
+      "type": "string"
+    },
     "options": {
       "instillFormat": "object",
       "properties": {
@@ -48,12 +58,16 @@
       "properties": {
         "audio": {
           "instillFormat": "audio",
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "title": "Audio",
           "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -108,7 +122,7 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "properties": {
             "generated_responses": {
               "description": "A list of strings corresponding to the earlier replies from the model.",
@@ -159,13 +173,17 @@
           "title": "Inputs",
           "type": "object"
         },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
+        },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 2
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillFormat": "object",
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "properties": {
             "max_length": {
               "description": "Integer to define the maximum length in tokens of the output summary.",
@@ -316,52 +334,6 @@
       "type": "object"
     }
   },
-  "TASK_FEATURE_EXTRACTION": {
-    "input": {
-      "instillUIOrder": 0,
-      "properties": {
-        "inputs": {
-          "$ref": "#/$defs/string_input",
-          "description": "a string or a list of strings to get the features from.",
-          "instillUIOrder": 0
-        },
-        "options": {
-          "$ref": "#/$defs/options",
-          "instillUIOrder": 1
-        }
-      },
-      "required": [
-        "inputs"
-      ],
-      "title": "Input",
-      "type": "object"
-    },
-    "output": {
-      "instillUIOrder": 0,
-      "properties": {
-        "features": {
-          "description": "The numbers that are the representation features of the input.",
-          "instillFormat": "number_array",
-          "instillUIOrder": 0,
-          "items": {
-            "instillFormat": "number_array",
-            "items": {
-              "instillFormat": "number",
-              "type": "number"
-            },
-            "type": "array"
-          },
-          "title": "Features",
-          "type": "array"
-        }
-      },
-      "required": [
-        "features"
-      ],
-      "title": "Output",
-      "type": "object"
-    }
-  },
   "TASK_FILL_MASK": {
     "input": {
       "instillUIOrder": 0,
@@ -369,11 +341,15 @@
         "inputs": {
           "$ref": "#/$defs/string_input",
           "description": "a string to be filled from, must contain the [MASK] token (check model card for exact name of the mask)",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 1
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -385,7 +361,7 @@
     "output": {
       "instillUIOrder": 0,
       "properties": {
-        "masks": {
+        "results": {
           "instillFormat": "object_array",
           "instillUIOrder": 0,
           "items": {
@@ -423,12 +399,12 @@
             "required": [],
             "type": "object"
           },
-          "title": "Masks",
+          "title": "Results",
           "type": "array"
         }
       },
       "required": [
-        "masks"
+        "results"
       ],
       "title": "Output",
       "type": "object"
@@ -440,12 +416,16 @@
       "properties": {
         "image": {
           "instillFormat": "image",
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "title": "Image",
           "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -501,12 +481,16 @@
       "properties": {
         "image": {
           "instillFormat": "image",
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "title": "Image",
           "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -533,7 +517,7 @@
               },
               "mask": {
                 "description": "A str (base64 str of a single channel black-and-white img) representing the mask of a segment.",
-                "instillFormat": "text",
+                "instillFormat": "image",
                 "instillUIOrder": 1,
                 "title": "Mask",
                 "type": "string"
@@ -576,6 +560,10 @@
           ],
           "title": "Image",
           "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -607,12 +595,16 @@
       "properties": {
         "image": {
           "instillFormat": "image",
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "title": "Image",
           "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -660,6 +652,12 @@
                     "type": "number"
                   }
                 },
+                "required": [
+                  "xmax",
+                  "xmin",
+                  "ymax",
+                  "ymin"
+                ],
                 "title": "Box",
                 "type": "object"
               },
@@ -678,6 +676,11 @@
                 "type": "number"
               }
             },
+            "required": [
+              "box",
+              "label",
+              "score"
+            ],
             "type": "object"
           },
           "title": "Objects",
@@ -696,7 +699,7 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "properties": {
             "context": {
               "instillFormat": "text",
@@ -728,9 +731,13 @@
           "title": "Inputs",
           "type": "object"
         },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
+        },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 1
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -783,7 +790,7 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "properties": {
             "sentences": {
               "description": "A list of strings which will be compared against the source_sentence.",
@@ -818,6 +825,10 @@
           ],
           "title": "Inputs",
           "type": "object"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
@@ -858,12 +869,16 @@
       "properties": {
         "audio": {
           "instillFormat": "audio",
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "title": "Audio",
           "type": "string"
+        },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -896,14 +911,18 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 2
+          "instillUIOrder": 3
         },
         "parameters": {
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "properties": {
             "max_length": {
               "description": "Integer to define the maximum length in tokens of the output summary.",
@@ -1023,7 +1042,7 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "properties": {
             "query": {
               "description": "The query in plain text that you want to ask the table",
@@ -1055,9 +1074,13 @@
           "title": "Inputs",
           "type": "object"
         },
+        "model": {
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
+        },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 1
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -1123,11 +1146,15 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 1
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -1139,7 +1166,7 @@
     "output": {
       "instillUIOrder": 0,
       "properties": {
-        "classes": {
+        "results": {
           "instillFormat": "object_array",
           "instillUIOrder": 0,
           "items": {
@@ -1166,12 +1193,12 @@
             ],
             "type": "object"
           },
-          "title": "Classes",
+          "title": "Results",
           "type": "array"
         }
       },
       "required": [
-        "classes"
+        "results"
       ],
       "title": "Output",
       "type": "object"
@@ -1183,14 +1210,18 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 1
+          "instillUIOrder": 3
         },
         "parameters": {
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "properties": {
             "do_sample": {
               "description": "Whether or not to use sampling, use greedy decoding otherwise.",
@@ -1327,14 +1358,18 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 2
+          "instillUIOrder": 3
         },
         "parameters": {
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "properties": {
             "guidance_scale": {
               "instillFormat": "number",
@@ -1422,14 +1457,18 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 2
+          "instillUIOrder": 3
         },
         "parameters": {
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "properties": {
             "aggregation_strategy": {
               "description": "There are several aggregation strategies:\nnone: Every token gets classified without further aggregation.\nsimple: Entities are grouped according to the default schema (B-, I- tags get merged when the tag is similar).\nfirst: Same as the simple strategy except words cannot end up with different tags. Words will use the tag of the first token when there is ambiguity.\naverage: Same as the simple strategy except words cannot end up with different tags. Scores are averaged across tokens and then the maximum label is applied.\nmax: Same as the simple strategy except words cannot end up with different tags. Word entity will be the token with the maximum score.",
@@ -1458,7 +1497,7 @@
     "output": {
       "instillUIOrder": 0,
       "properties": {
-        "masks": {
+        "results": {
           "instillFormat": "object_array",
           "instillUIOrder": 0,
           "items": {
@@ -1503,12 +1542,12 @@
             "required": [],
             "type": "object"
           },
-          "title": "Masks",
+          "title": "Results",
           "type": "array"
         }
       },
       "required": [
-        "masks"
+        "results"
       ],
       "title": "Output",
       "type": "object"
@@ -1520,11 +1559,15 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 1
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -1541,7 +1584,7 @@
           "instillFormat": "text",
           "instillUIOrder": 0,
           "title": "Translation Text",
-          "type": "sting"
+          "type": "string"
         }
       },
       "required": [
@@ -1557,14 +1600,18 @@
       "properties": {
         "inputs": {
           "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
+        },
+        "model": {
+          "$ref": "#/$defs/model",
           "instillUIOrder": 0
         },
         "options": {
           "$ref": "#/$defs/options",
-          "instillUIOrder": 2
+          "instillUIOrder": 3
         },
         "parameters": {
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "properties": {
             "candidate_labels": {
               "description": "a list of strings that are potential classes for inputs. (max 10 candidate_labels, for more, simply run multiple requests, results are going to be misleading if using too many candidate_labels anyway. If you want to keep the exact same, you can simply run multi_label=True and do the scaling on your end. )",
@@ -1636,12 +1683,13 @@
           "description": "The string sent as an input",
           "instillFormat": "text",
           "instillUIOrder": 1,
-          "title": "Texts",
-          "type": "array"
+          "title": "Sequence",
+          "type": "string"
         }
       },
       "required": [
-        "texts"
+        "labels",
+        "scores"
       ],
       "title": "Output",
       "type": "object"
