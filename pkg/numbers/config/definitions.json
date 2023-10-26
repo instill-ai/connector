@@ -15,7 +15,7 @@
         "additionalProperties": false,
         "properties": {
           "capture_token": {
-            "credential_field": true,
+            "instillCredentialField": true,
             "description": "Fill your Capture token in the Capture App. To access your tokens, you need a Capture App account and you can sign in with email or wallet to acquire the Capture Token.",
             "instillUIOrder": 0,
             "title": "Capture token",

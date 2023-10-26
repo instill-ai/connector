@@ -32,14 +32,14 @@
         "additionalProperties": true,
         "properties": {
           "api_key": {
-            "credential_field": true,
+            "instillCredentialField": true,
             "description": "Fill your Hugging face API token. To find your token, visit https://huggingface.co/settings/tokens.",
             "instillUIOrder": 0,
             "title": "API Key",
             "type": "string"
           },
           "base_url": {
-            "credential_field": false,
+            "instillCredentialField": false,
             "default": "https://api-inference.huggingface.co",
             "description": "Hostname for the endpoint. To use Inference API set to https://api-inference.huggingface.co, for Inference Endpoint set to your custom endpoint.",
             "instillUIOrder": 1,
@@ -47,7 +47,7 @@
             "type": "string"
           },
           "is_custom_endpoint": {
-            "credential_field": false,
+            "instillCredentialField": false,
             "default": false,
             "description": "Fill true if you are using a custom Inference Endpoint and not the Inference API.",
             "instillUIOrder": 2,
