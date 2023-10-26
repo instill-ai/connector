@@ -66,7 +66,7 @@ for idx in range(len(definitions)):
 
 definitions_json = json.dumps(definitions, indent=2, sort_keys=True)
 definitions_json = definitions_json.replace(
-    "airbyte_secret", "credential_field")
+    "airbyte_secret", "instillCredentialField")
 
 with open('../definitions.json', 'w') as o:
     o.write(definitions_json)

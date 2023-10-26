@@ -2,7 +2,6 @@ package huggingface
 
 import (
 	"bytes"
-	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
@@ -44,51 +43,8 @@ func (c *Client) MakeHFAPIRequest(body []byte, model string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = checkRespForError(respBody)
-	if err != nil {
-		return nil, err
-	}
+
 	return respBody, nil
-}
-
-type apiError struct {
-	Error string `json:"error,omitempty"`
-}
-
-type apiErrors struct {
-	Errors []string `json:"error,omitempty"`
-}
-
-// Checks for errors in the API response and returns them if
-// found.
-func checkRespForError(respJSON []byte) error {
-	// Check for single error
-	{
-		buf := make([]byte, len(respJSON))
-		copy(buf, respJSON)
-		apiErr := apiError{}
-		err := json.Unmarshal(buf, &apiErr)
-		if err != nil {
-			return err
-		}
-		if apiErr.Error != "" {
-			return errors.New(string(respJSON))
-		}
-	}
-	// Check for multiple errors
-	{
-		buf := make([]byte, len(respJSON))
-		copy(buf, respJSON)
-		apiErrs := apiErrors{}
-		err := json.Unmarshal(buf, &apiErrs)
-		if err != nil {
-			return err
-		}
-		if apiErrs.Errors != nil {
-			return errors.New(string(respJSON))
-		}
-	}
-	return nil
 }
 
 func (c *Client) GetConnectionState() (connectorPB.ConnectorResource_State, error) {

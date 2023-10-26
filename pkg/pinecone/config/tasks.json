@@ -106,6 +106,7 @@
                 "description": "Metadata",
                 "instillFormat": "object",
                 "instillUIOrder": 3,
+                "required": [],
                 "title": "Metadata",
                 "type": "object"
               },
@@ -128,6 +129,10 @@
                 "type": "array"
               }
             },
+            "required": [
+              "id",
+              "score"
+            ],
             "title": "Match",
             "type": "object"
           },

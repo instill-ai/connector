@@ -117,11 +117,10 @@ func isCustomEndpoint(config *structpb.Struct) bool {
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	client := NewClient(getAPIKey(e.Config), getBaseURL(e.Config), isCustomEndpoint(e.Config))
 	outputs := []*structpb.Struct{}
-	task := inputs[0].GetFields()["task"].GetStringValue()
 	model := inputs[0].GetFields()["model"].GetStringValue()
 
 	for _, input := range inputs {
-		switch task {
+		switch e.Task {
 		case textGenerationTask:
 			inputStruct := TextGenerationRequest{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
@@ -644,7 +643,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 			outputs = append(outputs, &output)
 		default:
-			return nil, fmt.Errorf("not supported task: %s", task)
+			return nil, fmt.Errorf("not supported task: %s", e.Task)
 		}
 	}
 

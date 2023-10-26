@@ -17,8 +17,8 @@
         "additionalProperties": true,
         "properties": {
           "api_key": {
-            "instillCredentialField": true,
             "description": "Fill your OpenAI API key. To find your keys, visit your OpenAI's API Keys page.",
+            "instillCredentialField": true,
             "instillUIOrder": 0,
             "title": "API Key",
             "type": "string"
