@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0-alpha](https://github.com/instill-ai/connector/compare/v0.4.0-alpha...v0.5.0-alpha) (2023-10-27)
+
+
+### Miscellaneous Chores
+
+* **release:** release v0.5.0-alpha ([58883d9](https://github.com/instill-ai/connector/commit/58883d9b112a6057f60ba530d749103f191b517a))
+
 ## [0.4.0-alpha](https://github.com/instill-ai/connector/compare/v0.3.0-alpha...v0.4.0-alpha) (2023-09-13)
 
 
