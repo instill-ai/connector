@@ -7,7 +7,7 @@ require (
 	cloud.google.com/go/iam v0.13.0
 	cloud.google.com/go/storage v1.29.0
 	github.com/allegro/bigcache v1.2.1
-	github.com/docker/docker v24.0.6+incompatible
+	github.com/docker/docker v24.0.7+incompatible
 	github.com/ghodss/yaml v1.0.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
