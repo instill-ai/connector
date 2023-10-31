@@ -32,8 +32,10 @@ var (
 	definitionsJSON []byte
 	//go:embed config/tasks.json
 	tasksJSON []byte
-	once      sync.Once
-	connector base.IConnector
+	//go:embed config/stabilityai.json
+	stabilityaiJSON []byte
+	once            sync.Once
+	connector       base.IConnector
 )
 
 type Connector struct {
@@ -62,7 +64,7 @@ func Init(logger *zap.Logger) base.IConnector {
 				Component: base.Component{Logger: logger},
 			},
 		}
-		err := connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON)
+		err := connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON, map[string][]byte{"stabilityai.json": stabilityaiJSON})
 		if err != nil {
 			logger.Fatal(err.Error())
 		}

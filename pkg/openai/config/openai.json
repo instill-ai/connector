@@ -3,7 +3,7 @@
     "schemas": {
       "ChatCompletionFunctionParameters": {
         "additionalProperties": true,
-        "description": "The parameters the functions accepts, described as a JSON Schema object. See the [guide](/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`.",
+        "description": "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.\n\nTo describe a function that accepts no parameters, provide the value `{\"type\": \"object\", \"properties\": {}}`.",
         "type": "object"
       },
       "ChatCompletionFunctions": {
@@ -147,7 +147,7 @@
         "properties": {
           "frequency_penalty": {
             "default": 0,
-            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)\n",
+            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/api-reference/parameter-details)\n",
             "maximum": 2,
             "minimum": -2,
             "nullable": true,
@@ -209,7 +209,7 @@
             "type": "array"
           },
           "model": {
-            "description": "ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.",
+            "description": "ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.",
             "enum": [
               "gpt-4",
               "gpt-4-0314",
@@ -238,7 +238,7 @@
           },
           "presence_penalty": {
             "default": 0,
-            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)\n",
+            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/api-reference/parameter-details)\n",
             "maximum": 2,
             "minimum": -2,
             "nullable": true,
@@ -287,7 +287,7 @@
             "type": "number"
           },
           "user": {
-            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).\n",
+            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).\n",
             "example": "user-1234",
             "type": "string"
           }
@@ -438,7 +438,7 @@
           },
           "frequency_penalty": {
             "default": 0,
-            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)\n",
+            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/api-reference/parameter-details)\n",
             "maximum": 2,
             "minimum": -2,
             "nullable": true,
@@ -471,7 +471,7 @@
             "type": "integer"
           },
           "model": {
-            "description": "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.\n",
+            "description": "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.\n",
             "enum": [
               "text-davinci-003",
               "text-davinci-002",
@@ -495,7 +495,7 @@
           },
           "presence_penalty": {
             "default": 0,
-            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)\n",
+            "description": "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.\n\n[See more information about frequency and presence penalties.](https://platform.openai.com/docs/api-reference/parameter-details)\n",
             "maximum": 2,
             "minimum": -2,
             "nullable": true,
@@ -595,7 +595,7 @@
             "type": "number"
           },
           "user": {
-            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).\n",
+            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).\n",
             "example": "user-1234",
             "type": "string"
           }
@@ -872,7 +872,7 @@
             ]
           },
           "model": {
-            "description": "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.\n",
+            "description": "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.\n",
             "enum": [
               "text-embedding-ada-002"
             ],
@@ -881,7 +881,7 @@
             "x-oaiTypeLabel": "string"
           },
           "user": {
-            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).\n",
+            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).\n",
             "example": "user-1234",
             "type": "string"
           }
@@ -953,12 +953,12 @@
         "additionalProperties": false,
         "properties": {
           "file": {
-            "description": "Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.\n\nIf the `purpose` is set to \"fine-tune\", each line is a JSON record with \"prompt\" and \"completion\" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).\n",
+            "description": "Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.\n\nIf the `purpose` is set to \"fine-tune\", each line is a JSON record with \"prompt\" and \"completion\" fields representing your [training examples](https://platform.openai.com/docs/guides/fine-tuning/prepare-training-data).\n",
             "format": "binary",
             "type": "string"
           },
           "purpose": {
-            "description": "The intended purpose of the uploaded documents.\n\nUse \"fine-tune\" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.\n",
+            "description": "The intended purpose of the uploaded documents.\n\nUse \"fine-tune\" for [Fine-tuning](https://platform.openai.com/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.\n",
             "type": "string"
           }
         },
@@ -1005,7 +1005,7 @@
           },
           "compute_classification_metrics": {
             "default": false,
-            "description": "If set, we calculate classification-specific metrics such as accuracy\nand F-1 score using the validation set at the end of every epoch.\nThese metrics can be viewed in the [results file](/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).\n\nIn order to compute classification metrics, you must provide a\n`validation_file`. Additionally, you must\nspecify `classification_n_classes` for multiclass classification or\n`classification_positive_class` for binary classification.\n",
+            "description": "If set, we calculate classification-specific metrics such as accuracy\nand F-1 score using the validation set at the end of every epoch.\nThese metrics can be viewed in the [results file](https://platform.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).\n\nIn order to compute classification metrics, you must provide a\n`validation_file`. Additionally, you must\nspecify `classification_n_classes` for multiclass classification or\n`classification_positive_class` for binary classification.\n",
             "nullable": true,
             "type": "boolean"
           },
@@ -1050,12 +1050,12 @@
             "type": "string"
           },
           "training_file": {
-            "description": "The ID of an uploaded file that contains training data.\n\nSee [upload file](/docs/api-reference/files/upload) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file, where each training\nexample is a JSON object with the keys \"prompt\" and \"completion\".\nAdditionally, you must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning/creating-training-data) for more details.\n",
+            "description": "The ID of an uploaded file that contains training data.\n\nSee [upload file](https://platform.openai.com/docs/api-reference/files/upload) for how to upload a file.\n\nYour dataset must be formatted as a JSONL file, where each training\nexample is a JSON object with the keys \"prompt\" and \"completion\".\nAdditionally, you must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.\n",
             "example": "file-ajSREls59WBbvgSzJSVWxMCB",
             "type": "string"
           },
           "validation_file": {
-            "description": "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe [fine-tuning results file](/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).\nYour train and validation data should be mutually exclusive.\n\nYour dataset must be formatted as a JSONL file, where each validation\nexample is a JSON object with the keys \"prompt\" and \"completion\".\nAdditionally, you must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](/docs/guides/fine-tuning/creating-training-data) for more details.\n",
+            "description": "The ID of an uploaded file that contains validation data.\n\nIf you provide this file, the data is used to generate validation\nmetrics periodically during fine-tuning. These metrics can be viewed in\nthe [fine-tuning results file](https://platform.openai.com/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).\nYour train and validation data should be mutually exclusive.\n\nYour dataset must be formatted as a JSONL file, where each validation\nexample is a JSON object with the keys \"prompt\" and \"completion\".\nAdditionally, you must upload your file with the purpose `fine-tune`.\n\nSee the [fine-tuning guide](https://platform.openai.com/docs/guides/fine-tuning/creating-training-data) for more details.\n",
             "example": "file-XjSREls59WBbvgSzJSVWxMCa",
             "nullable": true,
             "type": "string"
@@ -1116,7 +1116,7 @@
             "type": "string"
           },
           "user": {
-            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).\n",
+            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).\n",
             "example": "user-1234",
             "type": "string"
           }
@@ -1167,7 +1167,7 @@
             "type": "string"
           },
           "user": {
-            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).\n",
+            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).\n",
             "example": "user-1234",
             "type": "string"
           }
@@ -1217,7 +1217,7 @@
             "type": "string"
           },
           "user": {
-            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).\n",
+            "description": "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices/end-user-ids).\n",
             "example": "user-1234",
             "type": "string"
           }
@@ -1390,7 +1390,7 @@
             "x-oaiTypeLabel": "string"
           },
           "prompt": {
-            "description": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should match the audio language.\n",
+            "description": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should match the audio language.\n",
             "type": "string"
           },
           "response_format": {
@@ -1447,7 +1447,7 @@
             "x-oaiTypeLabel": "string"
           },
           "prompt": {
-            "description": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should be in English.\n",
+            "description": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should be in English.\n",
             "type": "string"
           },
           "response_format": {
@@ -2357,7 +2357,7 @@
             "description": "OK"
           }
         },
-        "summary": "Creates a job that fine-tunes a specified model from a given dataset.\n\nResponse includes details of the enqueued job including job status and the name of the fine-tuned models once complete.\n\n[Learn more about Fine-tuning](/docs/guides/fine-tuning)\n",
+        "summary": "Creates a job that fine-tunes a specified model from a given dataset.\n\nResponse includes details of the enqueued job including job status and the name of the fine-tuned models once complete.\n\n[Learn more about Fine-tuning](https://platform.openai.com/docs/guides/fine-tuning)\n",
         "tags": [
           "OpenAI"
         ],
@@ -2401,7 +2401,7 @@
             "description": "OK"
           }
         },
-        "summary": "Gets info about the fine-tune job.\n\n[Learn more about Fine-tuning](/docs/guides/fine-tuning)\n",
+        "summary": "Gets info about the fine-tune job.\n\n[Learn more about Fine-tuning](https://platform.openai.com/docs/guides/fine-tuning)\n",
         "tags": [
           "OpenAI"
         ],
@@ -2819,7 +2819,7 @@
   "x-oaiMeta": {
     "groups": [
       {
-        "description": "List and describe the various models available in the API. You can refer to the [Models](/docs/models) documentation to understand what models are available and the differences between them.\n",
+        "description": "List and describe the various models available in the API. You can refer to the [Models](https://platform.openai.com/docs/models) documentation to understand what models are available and the differences between them.\n",
         "id": "models",
         "title": "Models"
       },
@@ -2829,37 +2829,37 @@
         "title": "Chat"
       },
       {
-        "description": "Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position. Note: We recommend most users use our Chat Completions API. [Learn more](/docs/deprecations/2023-07-06-gpt-and-embeddings)\n",
+        "description": "Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position. Note: We recommend most users use our Chat Completions API. [Learn more](https://platform.openai.com/docs/deprecations/2023-07-06-gpt-and-embeddings)\n",
         "id": "completions",
         "title": "Completions"
       },
       {
-        "description": "Given a prompt and/or an input image, the model will generate a new image.\n\nRelated guide: [Image generation](/docs/guides/images)\n",
+        "description": "Given a prompt and/or an input image, the model will generate a new image.\n\nRelated guide: [Image generation](https://platform.openai.com/docs/guides/images)\n",
         "id": "images",
         "title": "Images"
       },
       {
-        "description": "Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.\n\nRelated guide: [Embeddings](/docs/guides/embeddings)\n",
+        "description": "Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.\n\nRelated guide: [Embeddings](https://platform.openai.com/docs/guides/embeddings)\n",
         "id": "embeddings",
         "title": "Embeddings"
       },
       {
-        "description": "Learn how to turn audio into text.\n\nRelated guide: [Speech to text](/docs/guides/speech-to-text)\n",
+        "description": "Learn how to turn audio into text.\n\nRelated guide: [Speech to text](https://platform.openai.com/docs/guides/speech-to-text)\n",
         "id": "audio",
         "title": "Audio"
       },
       {
-        "description": "Files are used to upload documents that can be used with features like [Fine-tuning](/docs/api-reference/fine-tunes).\n",
+        "description": "Files are used to upload documents that can be used with features like [Fine-tuning](https://platform.openai.com/docs/api-reference/fine-tunes).\n",
         "id": "files",
         "title": "Files"
       },
       {
-        "description": "Manage fine-tuning jobs to tailor a model to your specific training data.\n\nRelated guide: [Fine-tune models](/docs/guides/fine-tuning)\n",
+        "description": "Manage fine-tuning jobs to tailor a model to your specific training data.\n\nRelated guide: [Fine-tune models](https://platform.openai.com/docs/guides/fine-tuning)\n",
         "id": "fine-tunes",
         "title": "Fine-tunes"
       },
       {
-        "description": "Given a input text, outputs if the model classifies it as violating OpenAI's content policy.\n\nRelated guide: [Moderations](/docs/guides/moderation)\n",
+        "description": "Given a input text, outputs if the model classifies it as violating OpenAI's content policy.\n\nRelated guide: [Moderations](https://platform.openai.com/docs/guides/moderation)\n",
         "id": "moderations",
         "title": "Moderations"
       },

@@ -66,15 +66,8 @@
           "type": "string"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -181,46 +174,12 @@
           "type": "object"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 3,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillFormat": "object",
@@ -380,58 +339,17 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
+          "$ref": "#/$defs/string_input",
           "description": "a string to be filled from, must contain the [MASK] token (check model card for exact name of the mask)",
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 2,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -506,15 +424,8 @@
           "type": "string"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -578,15 +489,8 @@
           "type": "string"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -658,15 +562,8 @@
           "type": "string"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -706,15 +603,8 @@
           "type": "string"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -842,46 +732,12 @@
           "type": "object"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 2,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -971,46 +827,12 @@
           "type": "object"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 2,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -1055,15 +877,8 @@
           "type": "string"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         }
       },
       "required": [
@@ -1095,57 +910,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 3,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillUIOrder": 2,
@@ -1301,46 +1075,12 @@
           "type": "object"
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 2,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -1405,57 +1145,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 2,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -1510,57 +1209,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 3,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillUIOrder": 2,
@@ -1699,57 +1357,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 3,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillUIOrder": 2,
@@ -1839,57 +1456,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 3,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillUIOrder": 2,
@@ -1982,57 +1558,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 2,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 2
         }
       },
       "required": [
@@ -2064,57 +1599,16 @@
       "instillUIOrder": 0,
       "properties": {
         "inputs": {
-          "instillFormat": "text",
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "String Input",
-          "type": "string"
+          "$ref": "#/$defs/string_input",
+          "instillUIOrder": 1
         },
         "model": {
-          "instillFormat": "text",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model",
-          "type": "string"
+          "$ref": "#/$defs/model",
+          "instillUIOrder": 0
         },
         "options": {
-          "instillFormat": "object",
-          "instillUIOrder": 3,
-          "properties": {
-            "use_cache": {
-              "description": "There is a cache layer on the inference API to speedup requests we have already seen. Most models can use those results as is as models are deterministic (meaning the results will be the same anyway). However if you use a non deterministic model, you can set this parameter to prevent the caching mechanism from being used resulting in a real new query.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 0,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Use Cache",
-              "type": "boolean"
-            },
-            "wait_for_model": {
-              "description": "If the model is not ready, wait for it instead of receiving 503. It limits the number of requests required to get your inference done. It is advised to only set this flag to true after receiving a 503 error as it will limit hanging in your application to known places.",
-              "instillFormat": "boolean",
-              "instillUIOrder": 2,
-              "instillUpstreamTypes": [
-                "value",
-                "reference"
-              ],
-              "title": "Wait For Model",
-              "type": "boolean"
-            }
-          },
-          "required": [],
-          "title": "Options",
-          "type": "object"
+          "$ref": "#/$defs/options",
+          "instillUIOrder": 3
         },
         "parameters": {
           "instillUIOrder": 2,

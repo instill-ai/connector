@@ -16,7 +16,7 @@ func main() {
 	// It is singleton, should be loaded when connector-backend started
 	connector := connector.Init(logger, connector.ConnectorOptions{})
 
-	fmt.Println(connector.ListConnectorDefinitions())
+	// fmt.Println(connector.ListConnectorDefinitions())
 
 	execution, _ := connector.CreateExecution(uuid.FromStringOrNil("9fb6a2cb-bff5-4c69-bc6d-4538dd8e3362"), "TASK_TEXT_GENERATION", &structpb.Struct{}, logger)
 

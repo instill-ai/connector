@@ -59,7 +59,7 @@ func Init(logger *zap.Logger) base.IConnector {
 				Component: base.Component{Logger: logger},
 			},
 		}
-		err := connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON)
+		err := connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON, nil)
 		if err != nil {
 			logger.Fatal(err.Error())
 		}

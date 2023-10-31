@@ -11,7 +11,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
-	github.com/instill-ai/component v0.6.1-alpha
+	github.com/instill-ai/component v0.6.1-alpha.0.20231031143033-bafafe960082
 	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231019202606-71607ddcd93f
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.0
 	github.com/stretchr/testify v1.8.4
@@ -51,6 +51,11 @@ require (
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/kr/text v0.2.0 // indirect
+	github.com/lestrrat-go/jspointer v0.0.0-20181205001929-82fadba7561c // indirect
+	github.com/lestrrat-go/jsref v0.0.0-20211028120858-c0bcbb5abf20 // indirect
+	github.com/lestrrat-go/option v1.0.0 // indirect
+	github.com/lestrrat-go/pdebug v0.0.0-20210111095411-35b07dbf089b // indirect
+	github.com/lestrrat-go/structinfo v0.0.0-20210312050401-7f8bd69d6acb // indirect
 	github.com/minio/asm2plan9s v0.0.0-20200509001527-cdd76441f9d8 // indirect
 	github.com/minio/c2goasm v0.0.0-20190812172519-36a3d3bbc4f3 // indirect
 	github.com/moby/term v0.5.0 // indirect
