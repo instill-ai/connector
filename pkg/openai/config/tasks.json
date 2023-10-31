@@ -4,19 +4,16 @@
       "instillUIOrder": 0,
       "properties": {
         "audio": {
-          "description": "The audio file object (not file name) to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.\n",
-          "format": "binary",
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/file",
           "instillFormat": "audio",
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
-          "title": "Audio",
-          "type": "string",
-          "x-oaiTypeLabel": "file"
+          "title": "Audio"
         },
         "language": {
-          "description": "The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.\n",
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/language",
           "instillFormat": "text",
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
@@ -24,15 +21,10 @@
             "reference",
             "template"
           ],
-          "title": "Language",
-          "type": "string"
+          "title": "Language"
         },
         "model": {
-          "description": "ID of the model to use. Only `whisper-1` is currently available.\n",
-          "enum": [
-            "whisper-1"
-          ],
-          "example": "whisper-1",
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/model",
           "instillFormat": "text",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -40,12 +32,10 @@
             "reference",
             "template"
           ],
-          "title": "Model",
-          "type": "string",
-          "x-oaiTypeLabel": "string"
+          "title": "Model"
         },
         "prompt": {
-          "description": "An optional text to guide the model's style or continue a previous audio segment. The [prompt](https://platform.openai.com/docs/guides/speech-to-text/prompting) should match the audio language.\n",
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/prompt",
           "instillFormat": "text",
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
@@ -53,20 +43,17 @@
             "reference",
             "template"
           ],
-          "title": "Prompt",
-          "type": "string"
+          "title": "Prompt"
         },
         "temperature": {
-          "default": 0,
-          "description": "The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.\n",
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/temperature",
           "instillFormat": "number",
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
           ],
-          "title": "Temperature",
-          "type": "number"
+          "title": "Temperature"
         }
       },
       "required": [
@@ -80,10 +67,10 @@
       "instillUIOrder": 0,
       "properties": {
         "text": {
+          "$ref": "openai.json#/components/schemas/CreateTranscriptionResponse/properties/text",
           "instillFormat": "text",
           "instillUIOrder": 0,
-          "title": "Text",
-          "type": "string"
+          "title": "Text"
         }
       },
       "required": [
@@ -98,11 +85,7 @@
       "instillUIOrder": 0,
       "properties": {
         "model": {
-          "description": "ID of the model to use. You can use the [List models](https://platform.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://platform.openai.com/docs/models/overview) for descriptions of them.\n",
-          "enum": [
-            "text-embedding-ada-002"
-          ],
-          "example": "text-embedding-ada-002",
+          "$ref": "openai.json#/components/schemas/CreateEmbeddingRequest/properties/model",
           "instillFormat": "text",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -110,9 +93,7 @@
             "reference",
             "template"
           ],
-          "title": "Model",
-          "type": "string",
-          "x-oaiTypeLabel": "string"
+          "title": "Model"
         },
         "text": {
           "instillFormat": "text",
@@ -137,14 +118,10 @@
       "instillUIOrder": 0,
       "properties": {
         "embedding": {
+          "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/embedding",
           "instillFormat": "number_array",
           "instillUIOrder": 0,
-          "items": {
-            "instillFormat": "number",
-            "type": "number"
-          },
-          "title": "Embedding",
-          "type": "array"
+          "title": "Embedding"
         }
       },
       "required": [
@@ -159,33 +136,17 @@
       "instillUIOrder": 0,
       "properties": {
         "max_tokens": {
-          "default": "inf",
-          "description": "The maximum number of [tokens](/tokenizer) to generate in the chat completion.\n\nThe total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.\n",
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/max_tokens",
           "instillFormat": "integer",
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
           ],
-          "title": "Max Tokens",
-          "type": "integer"
+          "title": "Max Tokens"
         },
         "model": {
-          "description": "ID of the model to use. See the [model endpoint compatibility](https://platform.openai.com/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.",
-          "enum": [
-            "gpt-4",
-            "gpt-4-0314",
-            "gpt-4-0613",
-            "gpt-4-32k",
-            "gpt-4-32k-0314",
-            "gpt-4-32k-0613",
-            "gpt-3.5-turbo",
-            "gpt-3.5-turbo-16k",
-            "gpt-3.5-turbo-0301",
-            "gpt-3.5-turbo-0613",
-            "gpt-3.5-turbo-16k-0613"
-          ],
-          "example": "gpt-3.5-turbo",
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/model",
           "instillFormat": "text",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -193,25 +154,17 @@
             "reference",
             "template"
           ],
-          "title": "Model",
-          "type": "string",
-          "x-oaiTypeLabel": "string"
+          "title": "Model"
         },
         "n": {
-          "default": 1,
-          "description": "How many chat completion choices to generate for each input message.",
-          "example": 1,
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/n",
           "instillFormat": "integer",
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
           ],
-          "maximum": 128,
-          "minimum": 1,
-          "nullable": true,
-          "title": "N",
-          "type": "integer"
+          "title": "N"
         },
         "prompt": {
           "instillFormat": "text",
@@ -239,20 +192,14 @@
           "type": "string"
         },
         "temperature": {
-          "default": 1,
-          "description": "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.\n\nWe generally recommend altering this or `top_p` but not both.\n",
-          "example": 1,
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/temperature",
           "instillFormat": "number",
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
           ],
-          "maximum": 2,
-          "minimum": 0,
-          "nullable": true,
-          "title": "Temperature",
-          "type": "number"
+          "title": "Temperature"
         }
       },
       "required": [

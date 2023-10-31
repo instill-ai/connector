@@ -83,7 +83,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 			options:      options,
 		}
 
-		err = connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON)
+		err = connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON, nil)
 		if err != nil {
 			logger.Fatal(err.Error())
 
