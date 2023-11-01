@@ -118,8 +118,8 @@
       "instillUIOrder": 0,
       "properties": {
         "embedding": {
-          "$ref": "https://raw.githubusercontent.com/instill-ai/component/70d06a013fa06f86130bf6e186d8e7839c38c448/shared_schema.json#/$defs/instill_types/embedding",
-          "instillFormat": "number_array",
+          "$ref": "https://raw.githubusercontent.com/instill-ai/component/0bcb5ecde3302537078ece28f218eb2f8d95ef0a/shared_schema.json#/$defs/instill_types/embedding",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "title": "Embedding"
         }
@@ -213,7 +213,7 @@
       "instillUIOrder": 0,
       "properties": {
         "texts": {
-          "instillFormat": "text_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "text",

@@ -152,7 +152,7 @@
         },
         "images": {
           "description": "The images you want to upload to blockchain.",
-          "instillFormat": "image_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
@@ -179,7 +179,7 @@
         "asset_urls": {
           "description": "Asset Urls",
           "instillEnableCopyButton": true,
-          "instillFormat": "text_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillEnableCopyButton": true,

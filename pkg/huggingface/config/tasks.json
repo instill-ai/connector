@@ -80,7 +80,7 @@
       "instillUIOrder": 0,
       "properties": {
         "classes": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -126,7 +126,7 @@
           "properties": {
             "generated_responses": {
               "description": "A list of strings corresponding to the earlier replies from the model.",
-              "instillFormat": "text_array",
+              "instillFormat": "array",
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
@@ -141,7 +141,7 @@
             },
             "past_user_inputs": {
               "description": "A list of strings corresponding to the earlier replies from the user. Should be of the same length of generated_responses.",
-              "instillFormat": "text_array",
+              "instillFormat": "array",
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -291,7 +291,7 @@
           "properties": {
             "generated_responses": {
               "description": "List of strings. The last outputs from the model in the conversation, after the model has run.",
-              "instillFormat": "text_array",
+              "instillFormat": "array",
               "instillUIOrder": 0,
               "items": {
                 "instillFormat": "text",
@@ -302,7 +302,7 @@
             },
             "past_user_inputs": {
               "description": "List of strings. The last inputs from the user in the conversation, after the model has run.",
-              "instillFormat": "text_array",
+              "instillFormat": "array",
               "instillUIOrder": 1,
               "items": {
                 "instillFormat": "text",
@@ -362,7 +362,7 @@
       "instillUIOrder": 0,
       "properties": {
         "results": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -438,7 +438,7 @@
       "instillUIOrder": 0,
       "properties": {
         "classes": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -503,7 +503,7 @@
       "instillUIOrder": 0,
       "properties": {
         "segments": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -617,7 +617,7 @@
       "instillUIOrder": 0,
       "properties": {
         "objects": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -794,7 +794,7 @@
           "properties": {
             "sentences": {
               "description": "A list of strings which will be compared against the source_sentence.",
-              "instillFormat": "text_array",
+              "instillFormat": "array",
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
@@ -846,7 +846,7 @@
       "properties": {
         "scores": {
           "description": "The associated similarity score for each of the given strings",
-          "instillFormat": "number_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "number",
@@ -1108,7 +1108,7 @@
         },
         "cells": {
           "description": "a list of coordinates of the cells contents",
-          "instillFormat": "text_array",
+          "instillFormat": "array",
           "instillUIOrder": 2,
           "items": {
             "instillFormat": "text",
@@ -1119,10 +1119,10 @@
         },
         "coordinates": {
           "description": "a list of coordinates of the cells referenced in the answer",
-          "instillFormat": "integer_array",
+          "instillFormat": "array",
           "instillUIOrder": 3,
           "items": {
-            "instillFormat": "integer_array",
+            "instillFormat": "array",
             "items": {
               "instillFormat": "integer",
               "type": "integer"
@@ -1167,7 +1167,7 @@
       "instillUIOrder": 0,
       "properties": {
         "results": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -1498,7 +1498,7 @@
       "instillUIOrder": 0,
       "properties": {
         "results": {
-          "instillFormat": "object_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "object",
@@ -1615,7 +1615,7 @@
           "properties": {
             "candidate_labels": {
               "description": "a list of strings that are potential classes for inputs. (max 10 candidate_labels, for more, simply run multiple requests, results are going to be misleading if using too many candidate_labels anyway. If you want to keep the exact same, you can simply run multi_label=True and do the scaling on your end. )",
-              "instillFormat": "text_array",
+              "instillFormat": "array",
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
@@ -1630,7 +1630,7 @@
             },
             "multi_label": {
               "description": "Boolean that is set to True if classes can overlap",
-              "instillFormat": "boolean_array",
+              "instillFormat": "array",
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -1659,7 +1659,7 @@
       "properties": {
         "labels": {
           "description": "The list of strings for labels that you sent (in order)",
-          "instillFormat": "text_array",
+          "instillFormat": "array",
           "instillUIOrder": 1,
           "items": {
             "instillFormat": "text",
@@ -1670,7 +1670,7 @@
         },
         "scores": {
           "description": "a list of floats that correspond the the probability of label, in the same order as labels.",
-          "instillFormat": "number_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "number",
