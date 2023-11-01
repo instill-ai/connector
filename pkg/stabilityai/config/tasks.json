@@ -88,7 +88,7 @@
         },
         "prompts": {
           "description": "An array of prompts to use for generation.",
-          "instillFormat": "text_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
@@ -174,7 +174,7 @@
         },
         "weights": {
           "description": "An array of weights to use for generation.",
-          "instillFormat": "number_array",
+          "instillFormat": "array",
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
@@ -267,7 +267,7 @@
         },
         "prompts": {
           "description": "An array of prompts to use for generation.",
-          "instillFormat": "text_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
@@ -333,7 +333,7 @@
         },
         "weights": {
           "description": "An array of weights to use for generation.",
-          "instillFormat": "number_array",
+          "instillFormat": "array",
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
@@ -374,7 +374,7 @@
       "properties": {
         "images": {
           "description": "Generated images",
-          "instillFormat": "image_array",
+          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "image",
@@ -385,7 +385,7 @@
         },
         "seeds": {
           "description": "Seeds of generated images",
-          "instillFormat": "number_array",
+          "instillFormat": "array",
           "instillUIOrder": 1,
           "items": {
             "$ref": "stabilityai.json#/components/schemas/Image/properties/seed",
