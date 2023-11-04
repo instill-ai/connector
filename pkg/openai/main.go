@@ -150,10 +150,10 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			messages := []Message{}
-			messages = append(messages, Message{Role: "user", Content: inputStruct.Prompt})
 			if inputStruct.SystemMessage != nil {
 				messages = append(messages, Message{Role: "system", Content: *inputStruct.SystemMessage})
 			}
+			messages = append(messages, Message{Role: "user", Content: inputStruct.Prompt})
 
 			req := TextCompletionReq{
 				Messages:    messages,
