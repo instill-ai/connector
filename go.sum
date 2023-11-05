@@ -124,8 +124,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.2 h1:I/pwhnUln5wbMnTyRbzswA0/JxpK
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.2/go.mod h1:lsuH8kb4GlMdSlI4alNIBBSAt5CHJtg3i+0WuN9J5YM=
 github.com/h2non/filetype v1.1.3 h1:FKkx9QbD7HR/zjK1Ia5XiBsq9zdLi5Kf3zGyFTAFkGg=
 github.com/h2non/filetype v1.1.3/go.mod h1:319b3zT68BvV+WRj7cwy856M2ehB3HqNOt6sy1HndBY=
-github.com/instill-ai/component v0.6.1-alpha.0.20231101065727-0bcb5ecde330 h1:z5R7Kh0qwhBCZHcE5dlEB0YeDzjAUtbXnA6UWBP03xo=
-github.com/instill-ai/component v0.6.1-alpha.0.20231101065727-0bcb5ecde330/go.mod h1:crtctDOgLbxGzFXNhO8Sx3VNrjdup0F/LQlSmLixFzo=
+github.com/instill-ai/component v0.6.1-alpha.0.20231102045107-dd7aa52dc2cd h1:bEk1ejCb5AoGwN5Q3EI7yNO4ghOTWntaH29qPA+NCtc=
+github.com/instill-ai/component v0.6.1-alpha.0.20231102045107-dd7aa52dc2cd/go.mod h1:crtctDOgLbxGzFXNhO8Sx3VNrjdup0F/LQlSmLixFzo=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231019202606-71607ddcd93f h1:hweU93u6qsg8GH/YSogOfa+wOZEnkilGsijcy1xKX7E=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231019202606-71607ddcd93f/go.mod h1:q/YL5TZXD9nvmJ7Rih4gY3/B2HT2+GiFdxeZp9D+yE4=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
