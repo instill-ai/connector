@@ -5,7 +5,9 @@
       "properties": {
         "audio": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/file",
-          "instillFormat": "audio",
+          "instillAcceptFormats": [
+            "audio/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
@@ -14,7 +16,10 @@
         },
         "language": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/language",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
@@ -25,7 +30,10 @@
         },
         "model": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/model",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -36,7 +44,10 @@
         },
         "prompt": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/prompt",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -47,7 +58,10 @@
         },
         "temperature": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/temperature",
-          "instillFormat": "number",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -68,7 +82,7 @@
       "properties": {
         "text": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionResponse/properties/text",
-          "instillFormat": "text",
+          "instillFormat": "text/plain",
           "instillUIOrder": 0,
           "title": "Text"
         }
@@ -86,7 +100,10 @@
       "properties": {
         "model": {
           "$ref": "openai.json#/components/schemas/CreateEmbeddingRequest/properties/model",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -96,7 +113,10 @@
           "title": "Model"
         },
         "text": {
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -119,7 +139,6 @@
       "properties": {
         "embedding": {
           "$ref": "https://raw.githubusercontent.com/instill-ai/component/0bcb5ecde3302537078ece28f218eb2f8d95ef0a/shared_schema.json#/$defs/instill_types/embedding",
-          "instillFormat": "array",
           "instillUIOrder": 0,
           "title": "Embedding"
         }
@@ -137,7 +156,9 @@
       "properties": {
         "max_tokens": {
           "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/max_tokens",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -147,7 +168,10 @@
         },
         "model": {
           "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/model",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -158,7 +182,9 @@
         },
         "n": {
           "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/n",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -167,7 +193,10 @@
           "title": "N"
         },
         "prompt": {
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -180,7 +209,10 @@
         "system_message": {
           "default": "You are a helpful assistant.",
           "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model\u2019s behavior is using a generic message as \"You are a helpful assistant.\"",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -193,7 +225,10 @@
         },
         "temperature": {
           "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/temperature",
-          "instillFormat": "number",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
@@ -213,10 +248,9 @@
       "instillUIOrder": 0,
       "properties": {
         "texts": {
-          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
-            "instillFormat": "text",
+            "instillFormat": "text/plain",
             "type": "string"
           },
           "title": "Texts",

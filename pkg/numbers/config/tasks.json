@@ -6,7 +6,10 @@
       "properties": {
         "abstract": {
           "description": "A summary or abstract of the asset.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -18,7 +21,10 @@
         },
         "asset_creator": {
           "description": "Name of the asset creator.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -34,7 +40,10 @@
           "properties": {
             "creator_wallet": {
               "description": "The Wallet address of the asset creator.",
-              "instillFormat": "text",
+              "instillAcceptFormats": [
+                "string",
+                "text/*"
+              ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
@@ -54,7 +63,10 @@
                 "digitalArt",
                 "algorithmicMedia"
               ],
-              "instillFormat": "text",
+              "instillAcceptFormats": [
+                "string",
+                "text/*"
+              ],
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -66,7 +78,10 @@
             },
             "generated_by": {
               "description": "The AI model used to generate the content.",
-              "instillFormat": "text",
+              "instillAcceptFormats": [
+                "string",
+                "text/*"
+              ],
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
                 "value",
@@ -79,7 +94,10 @@
             "generated_through": {
               "default": "https://console.instill.tech",
               "description": "URL of the service that is used to generate the content.",
-              "instillFormat": "text",
+              "instillAcceptFormats": [
+                "string",
+                "text/*"
+              ],
               "instillUIOrder": 3,
               "instillUpstreamTypes": [
                 "value",
@@ -95,8 +113,11 @@
               "properties": {
                 "document": {
                   "description": "URL of the license file.",
+                  "instillAcceptFormats": [
+                    "string",
+                    "text/*"
+                  ],
                   "instillEnableCopyButton": true,
-                  "instillFormat": "text",
                   "instillUIOrder": 0,
                   "instillUpstreamTypes": [
                     "value",
@@ -108,7 +129,10 @@
                 },
                 "name": {
                   "description": "License of the asset file.",
-                  "instillFormat": "text",
+                  "instillAcceptFormats": [
+                    "string",
+                    "text/*"
+                  ],
                   "instillUIOrder": 1,
                   "instillUpstreamTypes": [
                     "value",
@@ -135,7 +159,10 @@
                 "aiTraining",
                 "aiTrainingWithAuthorship"
               ],
-              "instillFormat": "text",
+              "instillAcceptFormats": [
+                "string",
+                "text/*"
+              ],
               "instillUIOrder": 5,
               "instillUpstreamTypes": [
                 "value",
@@ -152,14 +179,15 @@
         },
         "images": {
           "description": "The images you want to upload to blockchain.",
-          "instillFormat": "array",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
           "items": {
             "contentEncoding": "base64",
-            "instillFormat": "image",
+            "instillAcceptFormats": [
+              "image/*"
+            ],
             "type": "string"
           },
           "title": "Images",
@@ -179,11 +207,10 @@
         "asset_urls": {
           "description": "Asset Urls",
           "instillEnableCopyButton": true,
-          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
             "instillEnableCopyButton": true,
-            "instillFormat": "text",
+            "instillFormat": "string",
             "type": "string"
           },
           "title": "Asset Urls",

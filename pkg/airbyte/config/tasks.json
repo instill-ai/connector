@@ -5,13 +5,15 @@
       "properties": {
         "data": {
           "additionalProperties": false,
+          "instillShortDescription": "The data to be written into the destination",
           "instillUIOrder": 0,
           "patternProperties": {
             "^[a-zA-Z_][a-zA-Z_0-9]*$": {
-              "instillFormat": "*",
+              "instillAcceptFormats": [
+                "*"
+              ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
-                "value",
                 "reference",
                 "template"
               ],
