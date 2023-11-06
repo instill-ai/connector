@@ -5,7 +5,10 @@
       "properties": {
         "id": {
           "description": "The unique ID of the vector to be used as a query vector",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference",
@@ -17,7 +20,9 @@
         "include_metadata": {
           "default": false,
           "description": "Indicates whether metadata is included in the response as well as the ids",
-          "instillFormat": "boolean",
+          "instillAcceptFormats": [
+            "boolean"
+          ],
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -29,7 +34,9 @@
         "include_values": {
           "default": false,
           "description": "Indicates whether vector values are included in the response",
-          "instillFormat": "boolean",
+          "instillAcceptFormats": [
+            "boolean"
+          ],
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
@@ -40,7 +47,10 @@
         },
         "namespace": {
           "description": "The namespace to query",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -52,7 +62,9 @@
         },
         "top_k": {
           "description": "The number of results to return for each query",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -63,7 +75,6 @@
         },
         "vector": {
           "description": "An array of dimensions for the query vector.",
-          "instillFormat": "array",
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
@@ -71,6 +82,10 @@
           "items": {
             "description": "A dimension of the vector",
             "example": 0.8167237,
+            "instillAcceptFormats": [
+              "number",
+              "integer"
+            ],
             "type": "number"
           },
           "minItems": 1,
@@ -90,21 +105,18 @@
       "properties": {
         "matches": {
           "description": "The matches returned for the query",
-          "instillFormat": "array",
           "instillUIOrder": 1,
           "items": {
-            "instillFormat": "object",
             "properties": {
               "id": {
                 "description": "The id of the matched vector",
-                "instillFormat": "text",
+                "instillFormat": "string",
                 "instillUIOrder": 0,
                 "title": "ID",
                 "type": "string"
               },
               "metadata": {
                 "description": "Metadata",
-                "instillFormat": "object",
                 "instillUIOrder": 3,
                 "required": [],
                 "title": "Metadata",
@@ -119,7 +131,6 @@
               },
               "values": {
                 "description": "Vector data values",
-                "instillFormat": "array",
                 "instillUIOrder": 2,
                 "items": {
                   "description": "Each float value represents one dimension",
@@ -141,7 +152,7 @@
         },
         "namespace": {
           "description": "The namespace of the query",
-          "instillFormat": "text",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Namespace",
           "type": "string"
@@ -161,7 +172,10 @@
       "properties": {
         "id": {
           "description": "This is the vector's unique id",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -173,7 +187,6 @@
         },
         "values": {
           "description": "An array of dimensions for the vector to be saved",
-          "instillFormat": "array",
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
@@ -181,6 +194,10 @@
           "items": {
             "description": "A dimension of the vector",
             "example": 0.8167237,
+            "instillAcceptFormats": [
+              "number",
+              "integer"
+            ],
             "type": "number"
           },
           "minItems": 1,

@@ -11,7 +11,9 @@
       "properties": {
         "image_base64": {
           "description": "Image base64",
-          "instillFormat": "image",
+          "instillAcceptFormats": [
+            "image/*"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
@@ -21,7 +23,10 @@
         },
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -33,7 +38,10 @@
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -59,7 +67,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/dd7aa52dc2cd5185733543ec0d9171b161cee149/schema.json#/$defs/instill_types/classification",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/a7d08f3cab53b870b3d90a6db7b102f9e31860bc/schema.json#/$defs/instill_types/classification",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -72,7 +80,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/dd7aa52dc2cd5185733543ec0d9171b161cee149/schema.json#/$defs/instill_types/detection",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/a7d08f3cab53b870b3d90a6db7b102f9e31860bc/schema.json#/$defs/instill_types/detection",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -85,7 +93,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/dd7aa52dc2cd5185733543ec0d9171b161cee149/schema.json#/$defs/instill_types/instance_segmentation",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/a7d08f3cab53b870b3d90a6db7b102f9e31860bc/schema.json#/$defs/instill_types/instance_segmentation",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -98,7 +106,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/dd7aa52dc2cd5185733543ec0d9171b161cee149/schema.json#/$defs/instill_types/keypoint",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/a7d08f3cab53b870b3d90a6db7b102f9e31860bc/schema.json#/$defs/instill_types/keypoint",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -111,7 +119,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/dd7aa52dc2cd5185733543ec0d9171b161cee149/schema.json#/$defs/instill_types/ocr",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/a7d08f3cab53b870b3d90a6db7b102f9e31860bc/schema.json#/$defs/instill_types/ocr",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -124,7 +132,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/dd7aa52dc2cd5185733543ec0d9171b161cee149/schema.json#/$defs/instill_types/semantic_segmentation",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/a7d08f3cab53b870b3d90a6db7b102f9e31860bc/schema.json#/$defs/instill_types/semantic_segmentation",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -143,7 +151,10 @@
       "properties": {
         "bad_words_list": {
           "description": "Bad words list",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -155,7 +166,10 @@
         },
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -167,7 +181,10 @@
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -179,7 +196,9 @@
         },
         "output_len": {
           "description": "Output length",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
@@ -190,7 +209,10 @@
         },
         "prompt": {
           "description": "Prompt",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -202,7 +224,9 @@
         },
         "seed": {
           "description": "Seed",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
@@ -213,7 +237,10 @@
         },
         "stop_words_list": {
           "description": "Stop words list",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
@@ -225,7 +252,9 @@
         },
         "top_k": {
           "description": "Top K",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -252,7 +281,7 @@
       "properties": {
         "text": {
           "description": "Text",
-          "instillFormat": "text",
+          "instillFormat": "text/plain",
           "instillUIOrder": 0,
           "title": "Text",
           "type": "string"
@@ -277,7 +306,10 @@
       "properties": {
         "cfg_scale": {
           "description": "CFG Scale",
-          "instillFormat": "number",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
@@ -288,7 +320,10 @@
         },
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
@@ -300,7 +335,10 @@
         },
         "model_namespace": {
           "description": "Namespace of the Instill Model model to be used.",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -312,7 +350,10 @@
         },
         "prompt": {
           "description": "Prompt",
-          "instillFormat": "text",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -324,7 +365,9 @@
         },
         "samples": {
           "description": "Samples",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -335,7 +378,9 @@
         },
         "seed": {
           "description": "Seed",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -346,7 +391,9 @@
         },
         "steps": {
           "description": "Steps",
-          "instillFormat": "integer",
+          "instillAcceptFormats": [
+            "integer"
+          ],
           "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
@@ -373,10 +420,9 @@
       "properties": {
         "images": {
           "description": "Images",
-          "instillFormat": "array",
           "instillUIOrder": 0,
           "items": {
-            "instillFormat": "image",
+            "instillFormat": "image/jpeg",
             "type": "string"
           },
           "title": "Images",
