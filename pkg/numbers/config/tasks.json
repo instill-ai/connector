@@ -179,15 +179,15 @@
         },
         "images": {
           "description": "The images you want to upload to blockchain.",
+          "instillAcceptFormats": [
+            "array:image/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
           "items": {
             "contentEncoding": "base64",
-            "instillAcceptFormats": [
-              "image/*"
-            ],
             "type": "string"
           },
           "title": "Images",
