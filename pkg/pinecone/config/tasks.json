@@ -75,6 +75,10 @@
         },
         "vector": {
           "description": "An array of dimensions for the query vector.",
+          "instillAcceptFormats": [
+            "array:number",
+            "array:integer"
+          ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
@@ -82,10 +86,6 @@
           "items": {
             "description": "A dimension of the vector",
             "example": 0.8167237,
-            "instillAcceptFormats": [
-              "number",
-              "integer"
-            ],
             "type": "number"
           },
           "minItems": 1,
@@ -187,6 +187,10 @@
         },
         "values": {
           "description": "An array of dimensions for the vector to be saved",
+          "instillAcceptFormats": [
+            "array:number",
+            "array:integer"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
@@ -194,10 +198,6 @@
           "items": {
             "description": "A dimension of the vector",
             "example": 0.8167237,
-            "instillAcceptFormats": [
-              "number",
-              "integer"
-            ],
             "type": "number"
           },
           "minItems": 1,

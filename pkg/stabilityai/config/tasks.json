@@ -105,16 +105,16 @@
         },
         "prompts": {
           "description": "An array of prompts to use for generation.",
+          "instillAcceptFormats": [
+            "array:string",
+            "array:text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
           "items": {
-            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/text",
-            "instillAcceptFormats": [
-              "string",
-              "text/*"
-            ]
+            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/text"
           },
           "minItems": 1,
           "title": "Prompts",
@@ -213,16 +213,16 @@
         },
         "weights": {
           "description": "An array of weights to use for generation.",
+          "instillAcceptFormats": [
+            "array:number",
+            "array:integer"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "items": {
-            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/weight",
-            "instillAcceptFormats": [
-              "number",
-              "integer"
-            ]
+            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/weight"
           },
           "minItems": 1,
           "title": "Weights",
@@ -319,16 +319,16 @@
         },
         "prompts": {
           "description": "An array of prompts to use for generation.",
+          "instillAcceptFormats": [
+            "array:string",
+            "array:text/*"
+          ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
           "items": {
-            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/text",
-            "instillAcceptFormats": [
-              "string",
-              "text/*"
-            ]
+            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/text"
           },
           "minItems": 1,
           "title": "Prompts",
@@ -401,16 +401,16 @@
         },
         "weights": {
           "description": "An array of weights to use for generation.",
+          "instillAcceptFormats": [
+            "array:number",
+            "array:integer"
+          ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
           "items": {
-            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/weight",
-            "instillAcceptFormats": [
-              "number",
-              "integer"
-            ]
+            "$ref": "stabilityai.json#/components/schemas/TextPrompt/properties/weight"
           },
           "minItems": 1,
           "title": "Weights",
