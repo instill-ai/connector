@@ -56,7 +56,7 @@
             "string",
             "text/*"
           ],
-          "instillUIOrder": 4,
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -71,6 +71,7 @@
             "number",
             "integer"
           ],
+          "instillShortDescription": "How much influence the `init_image` has on the diffusion process.",
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -109,7 +110,7 @@
             "array:string",
             "array:text/*"
           ],
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -126,6 +127,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "Which sampler to use for the diffusion process",
           "instillUIOrder": 8,
           "instillUpstreamTypes": [
             "value",
@@ -165,7 +167,8 @@
             "number",
             "integer"
           ],
-          "instillUIOrder": 11,
+          "instillShortDescription": "Skips a proportion of the end of the diffusion steps",
+          "instillUIOrder": 12,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -178,7 +181,8 @@
             "number",
             "integer"
           ],
-          "instillUIOrder": 12,
+          "instillShortDescription": "Skips a proportion of the start of the diffusion steps",
+          "instillUIOrder": 11,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -217,7 +221,7 @@
             "array:number",
             "array:integer"
           ],
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -254,7 +258,7 @@
             "number",
             "integer"
           ],
-          "instillUIOrder": 2,
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -268,7 +272,7 @@
             "string",
             "text/*"
           ],
-          "instillUIOrder": 3,
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -296,7 +300,7 @@
             "string",
             "text/*"
           ],
-          "instillUIOrder": 4,
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -307,6 +311,7 @@
         },
         "height": {
           "$ref": "stabilityai.json#/components/schemas/DiffuseImageHeight",
+          "description": "The image height",
           "instillAcceptFormats": [
             "integer"
           ],
@@ -323,7 +328,7 @@
             "array:string",
             "array:text/*"
           ],
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -405,7 +410,7 @@
             "array:number",
             "array:integer"
           ],
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -418,10 +423,11 @@
         },
         "width": {
           "$ref": "stabilityai.json#/components/schemas/DiffuseImageWidth",
+          "description": "The image width",
           "instillAcceptFormats": [
             "integer"
           ],
-          "instillUIOrder": 11,
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"

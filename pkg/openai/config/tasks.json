@@ -20,6 +20,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "The language of the input audio.",
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
@@ -34,6 +35,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "ID of the model to use",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -48,6 +50,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "An optional text to guide the model's style or continue a previous audio segment.",
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -62,6 +65,7 @@
             "number",
             "integer"
           ],
+          "instillShortDescription": "The sampling temperature, between 0 and 1.",
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -104,6 +108,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "ID of the model to use",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -113,6 +118,7 @@
           "title": "Model"
         },
         "text": {
+          "description": "The text",
           "instillAcceptFormats": [
             "string",
             "text/*"
@@ -159,6 +165,7 @@
           "instillAcceptFormats": [
             "integer"
           ],
+          "instillShortDescription": "The maximum number of <a href=\"https://platform.openai.com/tokenizer\">tokens</a> to generate in the chat completion.",
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -172,6 +179,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "ID of the model to use",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
@@ -193,6 +201,7 @@
           "title": "N"
         },
         "prompt": {
+          "description": "The prompt text",
           "instillAcceptFormats": [
             "string",
             "text/*"
@@ -213,6 +222,7 @@
             "string",
             "text/*"
           ],
+          "instillShortDescription": "The system message helps set the behavior of the assistant",
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -229,6 +239,7 @@
             "number",
             "integer"
           ],
+          "instillShortDescription": "What sampling temperature to use, between 0 and 2.",
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",

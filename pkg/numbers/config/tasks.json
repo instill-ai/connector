@@ -55,7 +55,7 @@
             },
             "digital_source_type": {
               "default": "trainedAlgorithmicMedia",
-              "description": "Specify the type of the source. More details see https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/assettree/digitalsourcetype",
+              "description": "Specify the type of the source. More details <a href=\"https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/assettree/digitalsourcetype\">here</a>",
               "enum": [
                 "trainedAlgorithmicMedia",
                 "trainedAlgorithmicData",
@@ -149,7 +149,7 @@
             },
             "mining_preference": {
               "default": "notAllowed",
-              "description": "Designates the selection made by the asset creators or licensed owners to decide if the asset is suitable for inclusion in a data mining or AI/ML training workflow. More details see https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/assettree/miningpreference",
+              "description": "Designates the selection made by the asset creators or licensed owners to decide if the asset is suitable for inclusion in a data mining or AI/ML training workflow. More details <a href=\"https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/assettree/miningpreference\">here</a>",
               "enum": [
                 "dataMining",
                 "aiInference",
@@ -163,6 +163,7 @@
                 "string",
                 "text/*"
               ],
+              "instillShortDescription": "Designates the selection made by the asset creators or licensed owners. More details <a href=\"https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/assettree/miningpreference\">here</a>",
               "instillUIOrder": 5,
               "instillUpstreamTypes": [
                 "value",

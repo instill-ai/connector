@@ -31,10 +31,8 @@ var (
 	definitionsJSON []byte
 	//go:embed config/tasks.json
 	tasksJSON []byte
-	//go:embed config/instill.json
-	instillJSON []byte
-	once        sync.Once
-	connector   base.IConnector
+	once      sync.Once
+	connector base.IConnector
 )
 
 type Connector struct {
@@ -64,7 +62,7 @@ func Init(logger *zap.Logger) base.IConnector {
 				Component: base.Component{Logger: logger},
 			},
 		}
-		err := connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON, map[string][]byte{"instill.json": instillJSON})
+		err := connector.LoadConnectorDefinitions(definitionsJSON, tasksJSON, nil)
 		if err != nil {
 			logger.Fatal(err.Error())
 		}
