@@ -1,6 +1,7 @@
 {
   "$defs": {
     "model": {
+      "description": "The Hugging Face model to be used",
       "instillAcceptFormats": [
         "string",
         "text/*"
@@ -49,6 +50,7 @@
       "type": "object"
     },
     "string_input": {
+      "description": "String input",
       "instillAcceptFormats": [
         "string",
         "text/*"
@@ -68,6 +70,7 @@
       "instillUIOrder": 0,
       "properties": {
         "audio": {
+          "description": "The audio file",
           "instillAcceptFormats": [
             "audio/*"
           ],
@@ -158,6 +161,7 @@
                 "array:string",
                 "array:text/*"
               ],
+              "instillShortDescription": "A list of strings corresponding to the earlier replies from the user.",
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -221,6 +225,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "The amount of time in seconds that the query should take maximum.",
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -267,6 +272,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "The temperature of the sampling operation.",
               "instillUIOrder": 4,
               "instillUpstreamTypes": [
                 "value",
@@ -296,6 +302,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "Float to define the tokens that are within the sample operation of text generation.",
               "instillUIOrder": 6,
               "instillUpstreamTypes": [
                 "value",
@@ -445,6 +452,7 @@
       "instillUIOrder": 0,
       "properties": {
         "image": {
+          "description": "The image file",
           "instillAcceptFormats": [
             "image/*"
           ],
@@ -510,6 +518,7 @@
       "instillUIOrder": 0,
       "properties": {
         "image": {
+          "description": "The image file",
           "instillAcceptFormats": [
             "image/*"
           ],
@@ -583,6 +592,7 @@
       "instillUIOrder": 0,
       "properties": {
         "image": {
+          "description": "The image file",
           "instillAcceptFormats": [
             "image/*"
           ],
@@ -626,6 +636,7 @@
       "instillUIOrder": 0,
       "properties": {
         "image": {
+          "description": "The image file",
           "instillAcceptFormats": [
             "image/*"
           ],
@@ -733,6 +744,7 @@
           "instillUIOrder": 1,
           "properties": {
             "context": {
+              "description": "The context for answering the question.",
               "instillAcceptFormats": [
                 "string",
                 "text/*"
@@ -747,6 +759,7 @@
               "type": "string"
             },
             "question": {
+              "description": "The question",
               "instillAcceptFormats": [
                 "string",
                 "text/*"
@@ -852,6 +865,7 @@
                 "string",
                 "text/*"
               ],
+              "instillShortDescription": "The string that you wish to compare the other strings with.",
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -909,6 +923,7 @@
       "instillUIOrder": 0,
       "properties": {
         "audio": {
+          "description": "The audio file",
           "instillAcceptFormats": [
             "audio/*"
           ],
@@ -1031,6 +1046,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "The temperature of the sampling operation.",
               "instillUIOrder": 4,
               "instillUpstreamTypes": [
                 "value",
@@ -1060,6 +1076,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "Float to define the tokens that are within the sample operation of text generation.",
               "instillUIOrder": 6,
               "instillUpstreamTypes": [
                 "value",
@@ -1302,6 +1319,7 @@
               "instillAcceptFormats": [
                 "integer"
               ],
+              "instillShortDescription": "The amount of new tokens to be generated.",
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
@@ -1316,6 +1334,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "The amount of time in seconds that the query should take maximum.",
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
                 "value",
@@ -1370,6 +1389,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "The temperature of the sampling operation.",
               "instillUIOrder": 6,
               "instillUpstreamTypes": [
                 "value",
@@ -1397,6 +1417,7 @@
                 "number",
                 "integer"
               ],
+              "instillShortDescription": "Float to define the tokens that are within the sample operation of text generation.",
               "instillUIOrder": 8,
               "instillUpstreamTypes": [
                 "value",
@@ -1455,6 +1476,7 @@
           "instillUIOrder": 2,
           "properties": {
             "guidance_scale": {
+              "description": "Guidance scale",
               "instillAcceptFormats": [
                 "number",
                 "integer"
@@ -1468,6 +1490,7 @@
               "type": "number"
             },
             "height": {
+              "description": "Image Height",
               "instillAcceptFormats": [
                 "integer"
               ],
@@ -1480,6 +1503,7 @@
               "type": "integer"
             },
             "negative_prompt": {
+              "description": "Negative prompt for generating the image",
               "instillAcceptFormats": [
                 "string",
                 "text/*"
@@ -1494,6 +1518,7 @@
               "type": "string"
             },
             "num_inference_steps": {
+              "description": "Number of inference steps",
               "instillAcceptFormats": [
                 "integer"
               ],
@@ -1506,6 +1531,7 @@
               "type": "integer"
             },
             "width": {
+              "description": "Image width",
               "instillAcceptFormats": [
                 "integer"
               ],
@@ -1571,6 +1597,7 @@
                 "string",
                 "text/*"
               ],
+              "instillShortDescription": "There are several aggregation strategies: none, simple, first, average, and max.",
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
@@ -1711,6 +1738,7 @@
           "properties": {
             "candidate_labels": {
               "description": "a list of strings that are potential classes for inputs. (max 10 candidate_labels, for more, simply run multiple requests, results are going to be misleading if using too many candidate_labels anyway. If you want to keep the exact same, you can simply run multi_label=True and do the scaling on your end. )",
+              "instillShortDescription": "a list of strings that are potential classes for inputs.",
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
