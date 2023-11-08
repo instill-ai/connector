@@ -253,5 +253,5 @@ func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.
 
 // decode if the string is base64 encoded
 func DecodeBase64(input string) ([]byte, error) {
-	return base64.StdEncoding.DecodeString(input)
+	return base64.StdEncoding.DecodeString(base.TrimBase64Mime(input))
 }
