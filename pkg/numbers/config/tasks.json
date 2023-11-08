@@ -7,8 +7,7 @@
         "abstract": {
           "description": "A summary or abstract of the asset.",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -22,8 +21,7 @@
         "asset_creator": {
           "description": "Name of the asset creator.",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
@@ -41,8 +39,7 @@
             "creator_wallet": {
               "description": "The Wallet address of the asset creator.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
@@ -64,8 +61,7 @@
                 "algorithmicMedia"
               ],
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
@@ -79,8 +75,7 @@
             "generated_by": {
               "description": "The AI model used to generate the content.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
@@ -95,8 +90,7 @@
               "default": "https://console.instill.tech",
               "description": "URL of the service that is used to generate the content.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 3,
               "instillUpstreamTypes": [
@@ -114,8 +108,7 @@
                 "document": {
                   "description": "URL of the license file.",
                   "instillAcceptFormats": [
-                    "string",
-                    "text/*"
+                    "string"
                   ],
                   "instillEnableCopyButton": true,
                   "instillUIOrder": 0,
@@ -130,8 +123,7 @@
                 "name": {
                   "description": "License of the asset file.",
                   "instillAcceptFormats": [
-                    "string",
-                    "text/*"
+                    "string"
                   ],
                   "instillUIOrder": 1,
                   "instillUpstreamTypes": [
@@ -160,8 +152,7 @@
                 "aiTrainingWithAuthorship"
               ],
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillShortDescription": "Designates the selection made by the asset creators or licensed owners. More details <a href=\"https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/assettree/miningpreference\">here</a>",
               "instillUIOrder": 5,

@@ -19,8 +19,7 @@
         "object_name": {
           "description": "The name of the object to be created",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [

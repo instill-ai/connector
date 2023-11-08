@@ -25,8 +25,7 @@
           "$ref": "stabilityai.json#/components/schemas/ClipGuidancePreset",
           "description": "Clip guidance preset",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
@@ -53,8 +52,7 @@
             "stable-inpainting-512-v2-0"
           ],
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -93,8 +91,7 @@
         "init_image_mode": {
           "$ref": "stabilityai.json#/components/schemas/InitImageMode",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 7,
           "instillUpstreamTypes": [
@@ -107,8 +104,7 @@
         "prompts": {
           "description": "An array of prompts to use for generation.",
           "instillAcceptFormats": [
-            "array:string",
-            "array:text/*"
+            "array:string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -124,8 +120,7 @@
         "sampler": {
           "$ref": "stabilityai.json#/components/schemas/Sampler",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "Which sampler to use for the diffusion process",
           "instillUIOrder": 8,
@@ -204,8 +199,7 @@
         "style_preset": {
           "$ref": "stabilityai.json#/components/schemas/StylePreset",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 14,
           "instillUpstreamTypes": [
@@ -269,8 +263,7 @@
           "$ref": "stabilityai.json#/components/schemas/ClipGuidancePreset",
           "description": "Clip guidance preset",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
@@ -297,8 +290,7 @@
             "stable-inpainting-512-v2-0"
           ],
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -325,8 +317,7 @@
         "prompts": {
           "description": "An array of prompts to use for generation.",
           "instillAcceptFormats": [
-            "array:string",
-            "array:text/*"
+            "array:string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -342,8 +333,7 @@
         "sampler": {
           "$ref": "stabilityai.json#/components/schemas/Sampler",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 6,
           "instillUpstreamTypes": [
@@ -393,8 +383,7 @@
         "style_preset": {
           "$ref": "stabilityai.json#/components/schemas/StylePreset",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 10,
           "instillUpstreamTypes": [
