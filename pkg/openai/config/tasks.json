@@ -95,6 +95,131 @@
       "type": "object"
     }
   },
+  "TASK_TEXT_TO_IMAGE": {
+    "input": {
+      "instillUIOrder": 0,
+      "properties": {
+        "model": {
+          "$ref": "openai.json#/components/schemas/CreateImageRequest/properties/model",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillShortDescription": "ID of the model to use",
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model"
+        },
+        "prompt": {
+          "$ref": "openai.json#/components/schemas/CreateImageRequest/properties/prompt",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillShortDescription": "A text description of the desired image(s).",
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Prompt"
+        },
+        "n": {
+          "$ref": "openai.json#/components/schemas/CreateImageRequest/properties/n",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "N"
+        },
+        "quality": {
+          "$ref": "openai.json#/components/schemas/CreateImageRequest/properties/quality",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillShortDescription": "The quality of the image that will be generated.",
+          "instillUIOrder": 3,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Quality"
+        },
+        "size": {
+          "$ref": "openai.json#/components/schemas/CreateImageRequest/properties/size",
+          "instillShortDescription": "The size of the generated images.",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 4,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Size"
+        },
+        "style": {
+          "$ref": "openai.json#/components/schemas/CreateImageRequest/properties/style",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillShortDescription": "The style of the generated images.",
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "N"
+        }
+      },
+      "required": [
+        "prompt",
+        "model"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "instillUIOrder": 0,
+      "properties": {
+        "results": {
+          "description": "Generated results",
+          "instillUIOrder": 0,
+          "items": {
+            "properties": {
+              "image": {
+                "instillFormat": "image/webp",
+                "description": "Generated image",
+                "type": "string"    
+              },
+              "revised_prompt": {
+                "instillFormat": "string",
+                "description": "Revised prompt",
+                "type": "string"    
+              }
+            },
+            "description": "Generated result",
+            "required": ["image", "revised_prompt"],
+            "type": "object"
+          },
+          "title": "Images",
+          "type": "array"
+        }
+      },
+      "required": [
+        "results"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  },
   "TASK_TEXT_EMBEDDINGS": {
     "input": {
       "instillUIOrder": 0,
@@ -207,6 +332,42 @@
           ],
           "title": "Prompt",
           "type": "string"
+        },
+        "images": {
+          "description": "The images",
+          "instillAcceptFormats": [
+            "array:image/*"
+          ],
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Image",
+          "type": "array"
+        },
+        "response_format": {
+          "description": "An object specifying the format that the model must output. Used to enable JSON mode.",
+          "properties": {
+            "type": {
+              "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/response_format/properties/type",
+              "instillAcceptFormats": [
+                "string"
+              ],
+              "instillShortDescription":"Setting to `json_object` enables JSON mode. ",
+              "instillUIOrder": 0,
+              "instillUpstreamTypes": [
+                "value",
+                "reference"
+              ]
+            }
+          },
+          "instillUIOrder": 10,
+          "required": ["type"],
+          "title": "Response Format",
+          "type": "object"
         },
         "system_message": {
           "default": "You are a helpful assistant.",

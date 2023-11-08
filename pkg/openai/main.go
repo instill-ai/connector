@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/gabriel-vasile/mimetype"
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -28,6 +29,7 @@ const (
 	textGenerationTask    = "TASK_TEXT_GENERATION"
 	textEmbeddingsTask    = "TASK_TEXT_EMBEDDINGS"
 	speechRecognitionTask = "TASK_SPEECH_RECOGNITION"
+	textToImageTask       = "TASK_TEXT_TO_IMAGE"
 )
 
 var (
@@ -151,9 +153,19 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			messages := []Message{}
 			if inputStruct.SystemMessage != nil {
-				messages = append(messages, Message{Role: "system", Content: *inputStruct.SystemMessage})
+				messages = append(messages, Message{Role: "system", Content: []Content{Content{Type: "text", Text: inputStruct.SystemMessage}}})
 			}
-			messages = append(messages, Message{Role: "user", Content: inputStruct.Prompt})
+			userContents := []Content{}
+			userContents = append(userContents, Content{Type: "text", Text: &inputStruct.Prompt})
+			for _, image := range inputStruct.Images {
+				b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(image))
+				if err != nil {
+					return nil, err
+				}
+				url := fmt.Sprintf("data:%s;base64,%s", mimetype.Detect(b).String(), base.TrimBase64Mime(image))
+				userContents = append(userContents, Content{Type: "image_url", ImageUrl: &ImageUrl{Url: url}})
+			}
+			messages = append(messages, Message{Role: "user", Content: userContents})
 
 			req := TextCompletionReq{
 				Messages:    messages,
@@ -219,7 +231,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 
-			audioBytes, err := base64.StdEncoding.DecodeString(inputStruct.Audio)
+			audioBytes, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Audio))
 			if err != nil {
 				return nil, err
 			}
@@ -237,6 +249,46 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			output, err := base.ConvertToStructpb(resp)
+			if err != nil {
+				return nil, err
+			}
+			outputs = append(outputs, output)
+
+		case textToImageTask:
+
+			inputStruct := ImagesGenerationInput{}
+			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err != nil {
+				return nil, err
+			}
+
+			req := ImageGenerationsReq{
+				Model:          inputStruct.Model,
+				Prompt:         inputStruct.Prompt,
+				Quality:        inputStruct.Quality,
+				Size:           inputStruct.Size,
+				Style:          inputStruct.Style,
+				N:              inputStruct.N,
+				ResponseFormat: "b64_json",
+			}
+
+			resp, err := client.GenerateImagesGenerations(req)
+			if err != nil {
+				return inputs, err
+			}
+
+			results := []ImageGenerationsOutputResult{}
+			for _, data := range resp.Data {
+				results = append(results, ImageGenerationsOutputResult{
+					Image:         data.Image,
+					RevisedPrompt: data.RevisedPrompt,
+				})
+			}
+			outputStruct := ImageGenerationsOutput{
+				Results: results,
+			}
+
+			output, err := base.ConvertToStructpb(outputStruct)
 			if err != nil {
 				return nil, err
 			}

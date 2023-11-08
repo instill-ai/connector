@@ -7,11 +7,13 @@ import (
 
 	"cloud.google.com/go/iam"
 	"cloud.google.com/go/storage"
+
+	"github.com/instill-ai/component/pkg/base"
 )
 
 func uploadToGCS(client *storage.Client, bucketName, objectName, data string) error {
 	wc := client.Bucket(bucketName).Object(objectName).NewWriter(context.Background())
-	b, _ := base64.StdEncoding.DecodeString(data)
+	b, _ := base64.StdEncoding.DecodeString(base.TrimBase64Mime(data))
 	if _, err := io.WriteString(wc, string(b)); err != nil {
 		return err
 	}

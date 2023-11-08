@@ -271,7 +271,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 		}
 
 		for _, image := range inputStruct.Images {
-			imageBytes, err := b64.StdEncoding.DecodeString(image)
+			imageBytes, err := b64.StdEncoding.DecodeString(base.TrimBase64Mime(image))
 			if err != nil {
 				return nil, err
 			}

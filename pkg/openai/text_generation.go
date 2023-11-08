@@ -3,6 +3,7 @@ package openai
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -12,6 +13,7 @@ const (
 
 type TextCompletionInput struct {
 	Prompt        string   `json:"prompt"`
+	Images        []string `json:"images"`
 	Model         string   `json:"model"`
 	SystemMessage *string  `json:"system_message,omitempty"`
 	Temperature   *float32 `json:"temperature,omitempty"`
@@ -37,8 +39,17 @@ type TextCompletionReq struct {
 }
 
 type Message struct {
-	Role    string `json:"role"`
-	Content string `json:"content"`
+	Role    string    `json:"role"`
+	Content []Content `json:"content"`
+}
+
+type ImageUrl struct {
+	Url string `json:"url"`
+}
+type Content struct {
+	Type     string    `json:"type"`
+	Text     *string   `json:"text,omitempty"`
+	ImageUrl *ImageUrl `json:"image_url,omitempty"`
 }
 
 type TextCompletionResp struct {
@@ -49,10 +60,15 @@ type TextCompletionResp struct {
 	Usage   Usage     `json:"usage"`
 }
 
+type OutputMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
 type Choices struct {
-	Index        int     `json:"index"`
-	FinishReason string  `json:"finish_reason"`
-	Message      Message `json:"message"`
+	Index        int           `json:"index"`
+	FinishReason string        `json:"finish_reason"`
+	Message      OutputMessage `json:"message"`
 }
 
 type Usage struct {
@@ -65,6 +81,8 @@ type Usage struct {
 // https://platform.openai.com/docs/api-reference/completions
 func (c *Client) GenerateTextCompletion(req TextCompletionReq) (result TextCompletionResp, err error) {
 	data, _ := json.Marshal(req)
+	fmt.Println()
+	fmt.Println(string(data))
 	err = c.sendReq(completionsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
 	return result, err
 }

@@ -438,7 +438,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			b, err := base64.StdEncoding.DecodeString(inputStruct.Image)
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
 			if err != nil {
 				return nil, err
 			}
@@ -472,7 +472,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			b, err := base64.StdEncoding.DecodeString(inputStruct.Image)
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
 			if err != nil {
 				return nil, err
 			}
@@ -507,7 +507,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			b, err := base64.StdEncoding.DecodeString(inputStruct.Image)
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
 			if err != nil {
 				return nil, err
 			}
@@ -549,7 +549,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			b, err := base64.StdEncoding.DecodeString(inputStruct.Image)
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
 			if err != nil {
 				return nil, err
 			}
@@ -577,7 +577,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			b, err := base64.StdEncoding.DecodeString(inputStruct.Audio)
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Audio))
 			if err != nil {
 				return nil, err
 			}
@@ -597,7 +597,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			b, err := base64.StdEncoding.DecodeString(inputStruct.Audio)
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Audio))
 			if err != nil {
 				return nil, err
 			}

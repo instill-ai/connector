@@ -3,7 +3,8 @@
     "available_tasks": [
       "TASK_TEXT_GENERATION",
       "TASK_TEXT_EMBEDDINGS",
-      "TASK_SPEECH_RECOGNITION"
+      "TASK_SPEECH_RECOGNITION",
+      "TASK_TEXT_TO_IMAGE"
     ],
     "custom": false,
     "documentation_url": "https://www.instill.tech/docs/vdp/ai-connectors/openai",
