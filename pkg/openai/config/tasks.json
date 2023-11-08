@@ -17,8 +17,7 @@
         "language": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/language",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "The language of the input audio.",
           "instillUIOrder": 3,
@@ -32,8 +31,7 @@
         "model": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/model",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "ID of the model to use",
           "instillUIOrder": 0,
@@ -47,8 +45,7 @@
         "prompt": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionRequest/properties/prompt",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "An optional text to guide the model's style or continue a previous audio segment.",
           "instillUIOrder": 2,
@@ -86,7 +83,7 @@
       "properties": {
         "text": {
           "$ref": "openai.json#/components/schemas/CreateTranscriptionResponse/properties/text",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Text"
         }
@@ -105,8 +102,7 @@
         "model": {
           "$ref": "openai.json#/components/schemas/CreateEmbeddingRequest/properties/model",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "ID of the model to use",
           "instillUIOrder": 0,
@@ -120,8 +116,7 @@
         "text": {
           "description": "The text",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -176,8 +171,7 @@
         "model": {
           "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/model",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "ID of the model to use",
           "instillUIOrder": 0,
@@ -203,8 +197,7 @@
         "prompt": {
           "description": "The prompt text",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -219,8 +212,7 @@
           "default": "You are a helpful assistant.",
           "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model\u2019s behavior is using a generic message as \"You are a helpful assistant.\"",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillShortDescription": "The system message helps set the behavior of the assistant",
           "instillUIOrder": 2,
@@ -261,7 +253,7 @@
         "texts": {
           "instillUIOrder": 0,
           "items": {
-            "instillFormat": "text/plain",
+            "instillFormat": "string",
             "type": "string"
           },
           "title": "Texts",

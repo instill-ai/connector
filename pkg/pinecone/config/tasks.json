@@ -6,8 +6,7 @@
         "id": {
           "description": "The unique ID of the vector to be used as a query vector",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -48,8 +47,7 @@
         "namespace": {
           "description": "The namespace to query",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -173,8 +171,7 @@
         "id": {
           "description": "This is the vector's unique id",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [

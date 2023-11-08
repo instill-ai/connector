@@ -3,8 +3,7 @@
     "model": {
       "description": "The Hugging Face model to be used",
       "instillAcceptFormats": [
-        "string",
-        "text/*"
+        "string"
       ],
       "instillUpstreamTypes": [
         "value",
@@ -52,8 +51,7 @@
     "string_input": {
       "description": "String input",
       "instillAcceptFormats": [
-        "string",
-        "text/*"
+        "string"
       ],
       "instillUIOrder": 0,
       "instillUpstreamTypes": [
@@ -141,8 +139,7 @@
             "generated_responses": {
               "description": "A list of strings corresponding to the earlier replies from the model.",
               "instillAcceptFormats": [
-                "array:string",
-                "array:text/*"
+                "array:string"
               ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
@@ -158,8 +155,7 @@
             "past_user_inputs": {
               "description": "A list of strings corresponding to the earlier replies from the user. Should be of the same length of generated_responses.",
               "instillAcceptFormats": [
-                "array:string",
-                "array:text/*"
+                "array:string"
               ],
               "instillShortDescription": "A list of strings corresponding to the earlier replies from the user.",
               "instillUIOrder": 1,
@@ -176,8 +172,7 @@
             "text": {
               "description": "The last input from the user in the conversation.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
@@ -334,7 +329,7 @@
               "description": "List of strings. The last outputs from the model in the conversation, after the model has run.",
               "instillUIOrder": 0,
               "items": {
-                "instillFormat": "text/plain",
+                "instillFormat": "string",
                 "type": "string"
               },
               "title": "Generated Responses",
@@ -344,7 +339,7 @@
               "description": "List of strings. The last inputs from the user in the conversation, after the model has run.",
               "instillUIOrder": 1,
               "items": {
-                "instillFormat": "text/plain",
+                "instillFormat": "string",
                 "type": "string"
               },
               "title": "Past User Inputs",
@@ -360,7 +355,7 @@
         },
         "generated_text": {
           "description": "The answer of the bot",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 1,
           "title": "Generated Text",
           "type": "string"
@@ -413,7 +408,7 @@
               },
               "sequence": {
                 "description": "The actual sequence of tokens that ran against the model (may contain special tokens)",
-                "instillFormat": "text/plain",
+                "instillFormat": "string",
                 "instillUIOrder": 1,
                 "title": "Sequence",
                 "type": "string"
@@ -427,7 +422,7 @@
               },
               "token_str": {
                 "description": "The string representation of the token",
-                "instillFormat": "text/plain",
+                "instillFormat": "string",
                 "instillUIOrder": 3,
                 "title": "Token Str",
                 "type": "string"
@@ -618,7 +613,7 @@
       "instillUIOrder": 0,
       "properties": {
         "text": {
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Text",
           "type": "string"
@@ -746,8 +741,7 @@
             "context": {
               "description": "The context for answering the question.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
@@ -761,8 +755,7 @@
             "question": {
               "description": "The question",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
@@ -801,7 +794,7 @@
       "properties": {
         "answer": {
           "description": "A string that\u2019s the answer within the text.",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Answer",
           "type": "string"
@@ -845,8 +838,7 @@
             "sentences": {
               "description": "A list of strings which will be compared against the source_sentence.",
               "instillAcceptFormats": [
-                "array:string",
-                "array:text/*"
+                "array:string"
               ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
@@ -862,8 +854,7 @@
             "source_sentence": {
               "description": "The string that you wish to compare the other strings with. This can be a phrase, sentence, or longer passage, depending on the model being used.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillShortDescription": "The string that you wish to compare the other strings with.",
               "instillUIOrder": 1,
@@ -950,7 +941,7 @@
       "properties": {
         "text": {
           "description": "The string that was recognized within the audio file.",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Text",
           "type": "string"
@@ -1102,7 +1093,7 @@
       "properties": {
         "summary_text": {
           "description": "The string after summarization",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Summary Text",
           "type": "string"
@@ -1125,8 +1116,7 @@
             "query": {
               "description": "The query in plain text that you want to ask the table",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
@@ -1177,14 +1167,14 @@
       "properties": {
         "aggregator": {
           "description": "The aggregator used to get the answer",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Aggregator",
           "type": "string"
         },
         "answer": {
           "description": "The plaintext answer",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 1,
           "title": "Answer",
           "type": "string"
@@ -1443,7 +1433,7 @@
       "properties": {
         "generated_text": {
           "description": "The continuated string",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 1,
           "title": "Generated Text",
           "type": "string"
@@ -1505,8 +1495,7 @@
             "negative_prompt": {
               "description": "Negative prompt for generating the image",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
@@ -1594,8 +1583,7 @@
             "aggregation_strategy": {
               "description": "There are several aggregation strategies:\nnone: Every token gets classified without further aggregation.\nsimple: Entities are grouped according to the default schema (B-, I- tags get merged when the tag is similar).\nfirst: Same as the simple strategy except words cannot end up with different tags. Words will use the tag of the first token when there is ambiguity.\naverage: Same as the simple strategy except words cannot end up with different tags. Scores are averaged across tokens and then the maximum label is applied.\nmax: Same as the simple strategy except words cannot end up with different tags. Word entity will be the token with the maximum score.",
               "instillAcceptFormats": [
-                "string",
-                "text/*"
+                "string"
               ],
               "instillShortDescription": "There are several aggregation strategies: none, simple, first, average, and max.",
               "instillUIOrder": 0,
@@ -1656,7 +1644,7 @@
               },
               "word": {
                 "description": "The string that was captured",
-                "instillFormat": "text/plain",
+                "instillFormat": "string",
                 "instillUIOrder": 4,
                 "title": "Word",
                 "type": "string"
@@ -1704,7 +1692,7 @@
       "properties": {
         "translation_text": {
           "description": "The string after translation",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 0,
           "title": "Translation Text",
           "type": "string"
@@ -1804,7 +1792,7 @@
         },
         "sequence": {
           "description": "The string sent as an input",
-          "instillFormat": "text/plain",
+          "instillFormat": "string",
           "instillUIOrder": 1,
           "title": "Sequence",
           "type": "string"
