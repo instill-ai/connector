@@ -551,7 +551,7 @@
               },
               "mask": {
                 "description": "A str (base64 str of a single channel black-and-white img) representing the mask of a segment.",
-                "instillFormat": "image/jpeg",
+                "instillFormat": "image/png",
                 "instillUIOrder": 1,
                 "title": "Mask",
                 "type": "string"
@@ -1129,11 +1129,12 @@
             "table": {
               "description": "A table of data represented as a dict of list where entries are headers and the lists are all the values, all lists must have the same size.",
               "instillAcceptFormats": [
-                "application/json"
+                "*"
               ],
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
-                "reference"
+                "reference",
+                "value"
               ],
               "required": [],
               "title": "Table",
