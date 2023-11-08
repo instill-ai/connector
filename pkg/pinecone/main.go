@@ -73,7 +73,7 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return e, nil
 }
 
-// NewClient initializes a new Stability AI client
+// NewClient initializes a new Pinecone client
 func NewClient(apiKey string) Client {
 	tr := &http.Transport{
 		DisableKeepAlives: true,
