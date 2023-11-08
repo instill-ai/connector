@@ -11,6 +11,7 @@ import (
 	"github.com/instill-ai/connector/pkg/airbyte"
 	"github.com/instill-ai/connector/pkg/bigquery"
 	"github.com/instill-ai/connector/pkg/googlecloudstorage"
+	"github.com/instill-ai/connector/pkg/googlesearch"
 	"github.com/instill-ai/connector/pkg/huggingface"
 	"github.com/instill-ai/connector/pkg/instill"
 	"github.com/instill-ai/connector/pkg/numbers"
@@ -49,6 +50,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		connector.(*Connector).ImportDefinitions(airbyte.Init(logger, options.Airbyte))
 		connector.(*Connector).ImportDefinitions(bigquery.Init(logger))
 		connector.(*Connector).ImportDefinitions(googlecloudstorage.Init(logger))
+		connector.(*Connector).ImportDefinitions(googlesearch.Init(logger))
 		connector.(*Connector).ImportDefinitions(pinecone.Init(logger))
 
 	})
