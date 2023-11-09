@@ -14,10 +14,9 @@ definitions = data_json['destinations']
 name_set = set()
 
 for idx in range(len(definitions)):
-    # print(definitions[idx].keys())
-
     definitions[idx]['uid'] = definitions[idx]['destinationDefinitionId']
-    definitions[idx]['id'] = f"airbyte-{definitions[idx]['dockerRepository'].split('/')[1]}"
+    definitions[idx][
+        'id'] = f"airbyte-{definitions[idx]['dockerRepository'].split('/')[1]}"
     definitions[idx]['title'] = "Airbyte " + definitions[idx]['name']
 
     definitions[idx]['vendor_attributes'] = {
@@ -61,7 +60,6 @@ for idx in range(len(definitions)):
     definitions[idx]['type'] = 'CONNECTOR_TYPE_DATA'
     definitions[idx]['vendor'] = 'Airbyte'
     for key in definitions[idx].keys():
-        # print(key)
         name_set.add(key)
 
 definitions_json = json.dumps(definitions, indent=2, sort_keys=True)

@@ -11,14 +11,14 @@ import (
 )
 
 const (
-	// MaxResultsPerPage is the default number of search results per page
-	MaxResultsPerPage int64 = 10
+	// MaxResultsPerPage is the default max number of search results per page
+	MaxResultsPerPage = 10
 	// MaxResults is the maximum number of search results
-	MaxResults int64 = 100
+	MaxResults = 100
 )
 
 // Min returns the smaller of x or y.
-func Min(x, y int64) int64 {
+func Min(x, y int) int {
 	if x > y {
 		return y
 	}
@@ -108,28 +108,44 @@ func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, in
 }
 
 // Search the web using Google Custom Search API and scrape the results if needed
-func search(service *customsearch.Service, cseID string, query string, topK int64, includeLinkText bool, includeLinkHtml bool) ([]*Result, error) {
-	if topK <= 0 || topK > MaxResults {
-		return nil, fmt.Errorf("top_k must be between 1 and %d", MaxResults)
+func search(cseListCall *customsearch.CseListCall, input SearchInput) (SearchOutput, error) {
+	output := SearchOutput{}
+
+	if input.TopK == nil {
+		defaultTopK := int(MaxResultsPerPage)
+		input.TopK = &defaultTopK
+	}
+	if *input.TopK <= 0 || int64(*input.TopK) > MaxResults {
+		return output, fmt.Errorf("top_k must be between 1 and %d", MaxResults)
+	}
+
+	if input.IncludeLinkHtml == nil {
+		defaultValue := false
+		input.IncludeLinkHtml = &defaultValue
+	}
+	if input.IncludeLinkText == nil {
+		defaultValue := false
+		input.IncludeLinkText = &defaultValue
 	}
 
 	// Make the search request
 	results := []*Result{}
 
-	for start := int64(1); start <= topK; start += int64(MaxResultsPerPage) {
-		searchNum := Min(topK-start+1, MaxResultsPerPage)
-		searchResults, err := service.Cse.List().Cx(cseID).Q(query).Start(start).Num(searchNum).Do()
+	for start := 1; start <= *input.TopK; start += MaxResultsPerPage {
+		searchNum := Min(*input.TopK-start+1, MaxResultsPerPage)
+		searchResults, err := cseListCall.Q(input.Query).Start(int64(start)).Num(int64(searchNum)).Do()
 		if err != nil {
-			return nil, err
+			return output, err
 		}
-		rs, err := scrapeSearchResults(searchResults, includeLinkText, includeLinkHtml)
+		rs, err := scrapeSearchResults(searchResults, *input.IncludeLinkText, *input.IncludeLinkHtml)
 		if err != nil {
-			return nil, err
+			return output, err
 		}
 		results = append(results, rs...)
 	}
+	output.Results = results
 
-	return results, nil
+	return output, nil
 }
 
 // Scrape the HTML content of a webpage

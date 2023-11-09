@@ -79,7 +79,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	if err != nil || service == nil {
 		return nil, fmt.Errorf("error creating Google custom search service: %v", err)
 	}
-	cseID := getSearchEngineID(e.Config)
+	cseListCall := service.Cse.List().Cx(getSearchEngineID(e.Config))
 
 	outputs := []*structpb.Struct{}
 
@@ -94,14 +94,10 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			// Make the search request
-			results, err := search(service, cseID, inputStruct.Query, int64(*inputStruct.TopK), *inputStruct.IncludeLinkText, *inputStruct.IncludeLinkHtml)
+			outputStruct, err := search(cseListCall, inputStruct)
 
 			if err != nil {
 				return nil, err
-			}
-
-			outputStruct := SearchOutput{
-				Results: results,
 			}
 
 			outputJson, err := json.Marshal(outputStruct)
