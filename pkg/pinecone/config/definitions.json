@@ -5,7 +5,7 @@
       "TASK_UPSERT"
     ],
     "custom": false,
-    "documentation_url": "https://www.instill.tech/docs/vdp/data-connectors/pinecone",
+    "documentation_url": "https://www.instill.tech/docs/latest/vdp/data-connectors/pinecone",
     "icon": "pinecone.svg",
     "icon_url": "https://www.pinecone.io/favicon.ico",
     "id": "data-pinecone",

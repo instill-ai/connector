@@ -11,7 +11,7 @@
       "TASK_TEXT_TO_IMAGE"
     ],
     "custom": false,
-    "documentation_url": "https://www.instill.tech/docs/vdp/ai-connectors/instill-model",
+    "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/instill-model",
     "icon": "instillmodel.svg",
     "icon_url": "",
     "id": "ai-instill-model",

@@ -5,7 +5,7 @@
       "TASK_IMAGE_TO_IMAGE"
     ],
     "custom": false,
-    "documentation_url": "https://www.instill.tech/docs/vdp/ai-connectors/stability-ai",
+    "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/stability-ai",
     "icon": "stabilityai.svg",
     "icon_url": "",
     "id": "ai-stability-ai",
