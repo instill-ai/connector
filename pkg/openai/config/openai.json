@@ -2167,17 +2167,15 @@
       "CreateImageRequest": {
         "properties": {
           "model": {
-            
-                "enum": [
-                  "dall-e-2",
-                  "dall-e-3"
-                ],
-                "type": "string",
-              
             "default": "dall-e-2",
             "description": "The model to use for image generation.",
+            "enum": [
+              "dall-e-2",
+              "dall-e-3"
+            ],
             "example": "dall-e-3",
             "nullable": true,
+            "type": "string",
             "x-oaiTypeLabel": "string"
           },
           "n": {
