@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
@@ -25,6 +26,9 @@ func (c *Execution) executeKeyPointDetection(grpcClient modelPB.ModelPublicServi
 		err = protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(inputJson, keypointInput)
 		if err != nil {
 			return nil, err
+		}
+		keypointInput.Type = &modelPB.KeypointInput_ImageBase64{
+			ImageBase64: base.TrimBase64Mime(keypointInput.GetImageBase64()),
 		}
 
 		taskInput := &modelPB.TaskInput_Keypoint{
