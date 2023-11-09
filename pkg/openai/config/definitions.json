@@ -7,7 +7,7 @@
       "TASK_TEXT_TO_IMAGE"
     ],
     "custom": false,
-    "documentation_url": "https://www.instill.tech/docs/vdp/ai-connectors/openai",
+    "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/openai",
     "icon": "openai.svg",
     "icon_url": "",
     "id": "ai-openai",
@@ -27,7 +27,7 @@
           "organization": {
             "description": "Specify which organization is used for the requests. Usage will count against the specified organization's subscription quota.",
             "instillUIOrder": 1,
-            "title": "Organization",
+            "title": "Organization ID",
             "type": "string"
           }
         },

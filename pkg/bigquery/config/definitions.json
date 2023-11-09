@@ -4,7 +4,7 @@
       "TASK_INSERT"
     ],
     "custom": false,
-    "documentation_url": "https://www.instill.tech/docs/vdp/data-connectors/bigquery",
+    "documentation_url": "https://www.instill.tech/docs/latest/vdp/data-connectors/bigquery",
     "icon": "bigquery.svg",
     "icon_url": "",
     "id": "data-bigquery",
