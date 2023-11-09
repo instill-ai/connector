@@ -279,6 +279,50 @@
             "reference"
           ],
           "title": "Temperature"
+        },
+        "top_p": {
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/top_p",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
+          "instillShortDescription": "An alternative to sampling with temperature, called nucleus sampling",
+          "instillUIOrder": 11,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Top P"
+        },
+        "presence_penalty": {
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/presence_penalty",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
+          "instillShortDescription": "Number between -2.0 and 2.0",
+          "instillUIOrder": 12,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Presence Penalty"
+        },
+        "frequency_penalty": {
+          "$ref": "openai.json#/components/schemas/CreateChatCompletionRequest/properties/frequency_penalty",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
+          "instillShortDescription": "Number between -2.0 and 2.0",
+          "instillUIOrder": 13,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Frequency Penalty"
         }
       },
       "required": [

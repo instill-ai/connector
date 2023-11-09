@@ -3,7 +3,6 @@ package openai
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -12,13 +11,22 @@ const (
 )
 
 type TextCompletionInput struct {
-	Prompt        string   `json:"prompt"`
-	Images        []string `json:"images"`
-	Model         string   `json:"model"`
-	SystemMessage *string  `json:"system_message,omitempty"`
-	Temperature   *float32 `json:"temperature,omitempty"`
-	N             *int     `json:"n,omitempty"`
-	MaxTokens     *int     `json:"max_tokens,omitempty"`
+	Prompt           string                `json:"prompt"`
+	Images           []string              `json:"images"`
+	Model            string                `json:"model"`
+	SystemMessage    *string               `json:"system_message,omitempty"`
+	Temperature      *float32              `json:"temperature,omitempty"`
+	TopP             *float32              `json:"top_p,omitempty"`
+	N                *int                  `json:"n,omitempty"`
+	Stop             *string               `json:"stop,omitempty"`
+	MaxTokens        *int                  `json:"max_tokens,omitempty"`
+	PresencePenalty  *float32              `json:"presence_penalty,omitempty"`
+	FrequencyPenalty *float32              `json:"frequency_penalty,omitempty"`
+	ResponseFormat   *ResponseFormatStruct `json:"response_format"`
+}
+
+type ResponseFormatStruct struct {
+	Type string `json:"type"`
 }
 
 type TextCompletionOutput struct {
@@ -26,16 +34,16 @@ type TextCompletionOutput struct {
 }
 
 type TextCompletionReq struct {
-	Model            string    `json:"model"`
-	Messages         []Message `json:"messages"`
-	Temperature      *float32  `json:"temperature,omitempty"`
-	TopP             *float32  `json:"top_p,omitempty"`
-	N                *int      `json:"n,omitempty"`
-	Stream           *bool     `json:"stream,omitempty"`
-	Stop             *string   `json:"stop,omitempty"`
-	MaxTokens        *int      `json:"max_tokens,omitempty"`
-	PresencePenalty  *float32  `json:"presence_penalty,omitempty"`
-	FrequencyPenalty *float32  `json:"frequency_penalty,omitempty"`
+	Model            string                `json:"model"`
+	Messages         []Message             `json:"messages"`
+	Temperature      *float32              `json:"temperature,omitempty"`
+	TopP             *float32              `json:"top_p,omitempty"`
+	N                *int                  `json:"n,omitempty"`
+	Stop             *string               `json:"stop,omitempty"`
+	MaxTokens        *int                  `json:"max_tokens,omitempty"`
+	PresencePenalty  *float32              `json:"presence_penalty,omitempty"`
+	FrequencyPenalty *float32              `json:"frequency_penalty,omitempty"`
+	ResponseFormat   *ResponseFormatStruct `json:"response_format"`
 }
 
 type Message struct {
@@ -81,8 +89,6 @@ type Usage struct {
 // https://platform.openai.com/docs/api-reference/completions
 func (c *Client) GenerateTextCompletion(req TextCompletionReq) (result TextCompletionResp, err error) {
 	data, _ := json.Marshal(req)
-	fmt.Println()
-	fmt.Println(string(data))
 	err = c.sendReq(completionsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
 	return result, err
 }

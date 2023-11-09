@@ -3,7 +3,6 @@ package openai
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -48,7 +47,6 @@ type ImageGenerationsResp struct {
 
 func (c *Client) GenerateImagesGenerations(req ImageGenerationsReq) (result ImageGenerationsResp, err error) {
 	data, _ := json.Marshal(req)
-	fmt.Println("datra", string(data))
 	err = c.sendReq(generationURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
 	return result, err
 }

@@ -153,7 +153,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			messages := []Message{}
 			if inputStruct.SystemMessage != nil {
-				messages = append(messages, Message{Role: "system", Content: []Content{Content{Type: "text", Text: inputStruct.SystemMessage}}})
+				messages = append(messages, Message{Role: "system", Content: []Content{{Type: "text", Text: inputStruct.SystemMessage}}})
 			}
 			userContents := []Content{}
 			userContents = append(userContents, Content{Type: "text", Text: &inputStruct.Prompt})
@@ -168,11 +168,15 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			messages = append(messages, Message{Role: "user", Content: userContents})
 
 			req := TextCompletionReq{
-				Messages:    messages,
-				Model:       inputStruct.Model,
-				MaxTokens:   inputStruct.MaxTokens,
-				Temperature: inputStruct.Temperature,
-				N:           inputStruct.N,
+				Messages:         messages,
+				Model:            inputStruct.Model,
+				MaxTokens:        inputStruct.MaxTokens,
+				Temperature:      inputStruct.Temperature,
+				N:                inputStruct.N,
+				ResponseFormat:   inputStruct.ResponseFormat,
+				TopP:             inputStruct.TopP,
+				PresencePenalty:  inputStruct.PresencePenalty,
+				FrequencyPenalty: inputStruct.FrequencyPenalty,
 			}
 			resp, err := client.GenerateTextCompletion(req)
 			if err != nil {
