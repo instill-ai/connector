@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
@@ -26,6 +27,9 @@ func (c *Execution) executeInstanceSegmentation(grpcClient modelPB.ModelPublicSe
 		err = protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(inputJson, segmentationInput)
 		if err != nil {
 			return nil, err
+		}
+		segmentationInput.Type = &modelPB.InstanceSegmentationInput_ImageBase64{
+			ImageBase64: base.TrimBase64Mime(segmentationInput.GetImageBase64()),
 		}
 
 		taskInput := &modelPB.TaskInput_InstanceSegmentation{

@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
@@ -27,6 +28,9 @@ func (c *Execution) executeObjectDetection(grpcClient modelPB.ModelPublicService
 		err = protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(inputJson, detectionInput)
 		if err != nil {
 			return nil, err
+		}
+		detectionInput.Type = &modelPB.DetectionInput_ImageBase64{
+			ImageBase64: base.TrimBase64Mime(detectionInput.GetImageBase64()),
 		}
 
 		modelInput := &modelPB.TaskInput_Detection{

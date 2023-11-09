@@ -189,7 +189,7 @@
           "title": "Model Namespace",
           "type": "string"
         },
-        "output_len": {
+        "max_new_tokens": {
           "description": "The maximum number of tokens for model to generate",
           "instillAcceptFormats": [
             "integer"
@@ -199,7 +199,7 @@
             "value",
             "reference"
           ],
-          "title": "Output Length",
+          "title": "Max new tokens",
           "type": "integer"
         },
         "prompt": {
@@ -216,12 +216,24 @@
           "title": "Prompt",
           "type": "string"
         },
+        "image_base64": {
+          "description": "The prompt image",
+          "instillAcceptFormats": [
+            "image/*"
+          ],
+          "instillUIOrder": 3,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "title": "Prompt Image",
+          "type": "string"
+        },
         "seed": {
           "description": "The seed",
           "instillAcceptFormats": [
             "integer"
           ],
-          "instillUIOrder": 3,
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -255,6 +267,19 @@
           ],
           "title": "Top K",
           "type": "integer"
+        },
+        "temperature": {
+          "description": "The temperature for sampling",
+          "instillAcceptFormats": [
+            "number"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Temperature",
+          "type": "number"
         }
       },
       "required": [
