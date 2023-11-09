@@ -279,10 +279,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			results := []ImageGenerationsOutputResult{}
 			for _, data := range resp.Data {
-				results = append(results, ImageGenerationsOutputResult{
-					Image:         data.Image,
-					RevisedPrompt: data.RevisedPrompt,
-				})
+				results = append(results, ImageGenerationsOutputResult(data))
 			}
 			outputStruct := ImageGenerationsOutput{
 				Results: results,

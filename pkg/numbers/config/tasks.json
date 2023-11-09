@@ -9,6 +9,7 @@
           "instillAcceptFormats": [
             "string"
           ],
+          "instillUIMultiline": true,
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",

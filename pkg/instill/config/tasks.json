@@ -152,6 +152,7 @@
           "instillAcceptFormats": [
             "string"
           ],
+          "instillUIMultiline": true,
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
@@ -160,6 +161,31 @@
           ],
           "title": "Bad Words List",
           "type": "string"
+        },
+        "image_base64": {
+          "description": "The prompt image",
+          "instillAcceptFormats": [
+            "image/*"
+          ],
+          "instillUIOrder": 3,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "title": "Prompt Image",
+          "type": "string"
+        },
+        "max_new_tokens": {
+          "description": "The maximum number of tokens for model to generate",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 6,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Max new tokens",
+          "type": "integer"
         },
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
@@ -189,24 +215,12 @@
           "title": "Model Namespace",
           "type": "string"
         },
-        "max_new_tokens": {
-          "description": "The maximum number of tokens for model to generate",
-          "instillAcceptFormats": [
-            "integer"
-          ],
-          "instillUIOrder": 6,
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ],
-          "title": "Max new tokens",
-          "type": "integer"
-        },
         "prompt": {
           "description": "The prompt text",
           "instillAcceptFormats": [
             "string"
           ],
+          "instillUIMultiline": true,
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -214,18 +228,6 @@
             "template"
           ],
           "title": "Prompt",
-          "type": "string"
-        },
-        "image_base64": {
-          "description": "The prompt image",
-          "instillAcceptFormats": [
-            "image/*"
-          ],
-          "instillUIOrder": 3,
-          "instillUpstreamTypes": [
-            "reference"
-          ],
-          "title": "Prompt Image",
           "type": "string"
         },
         "seed": {
@@ -246,6 +248,7 @@
           "instillAcceptFormats": [
             "string"
           ],
+          "instillUIMultiline": true,
           "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
@@ -254,19 +257,6 @@
           ],
           "title": "Stop Words List",
           "type": "string"
-        },
-        "top_k": {
-          "description": "Top k for sampling",
-          "instillAcceptFormats": [
-            "integer"
-          ],
-          "instillUIOrder": 5,
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ],
-          "title": "Top K",
-          "type": "integer"
         },
         "temperature": {
           "description": "The temperature for sampling",
@@ -280,6 +270,19 @@
           ],
           "title": "Temperature",
           "type": "number"
+        },
+        "top_k": {
+          "description": "Top k for sampling",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Top K",
+          "type": "integer"
         }
       },
       "required": [
@@ -300,6 +303,7 @@
         "text": {
           "description": "Text",
           "instillFormat": "string",
+          "instillUIMultiline": true,
           "instillUIOrder": 0,
           "title": "Text",
           "type": "string"
@@ -369,6 +373,7 @@
           "instillAcceptFormats": [
             "string"
           ],
+          "instillUIMultiline": true,
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
