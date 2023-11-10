@@ -1050,7 +1050,7 @@
                   "text",
                   "json_object"
                 ],
-                "example": "json_object",
+                "example": "text",
                 "type": "string"
               }
             },
