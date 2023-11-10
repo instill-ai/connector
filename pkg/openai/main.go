@@ -173,11 +173,17 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				MaxTokens:        inputStruct.MaxTokens,
 				Temperature:      inputStruct.Temperature,
 				N:                inputStruct.N,
-				ResponseFormat:   inputStruct.ResponseFormat,
 				TopP:             inputStruct.TopP,
 				PresencePenalty:  inputStruct.PresencePenalty,
 				FrequencyPenalty: inputStruct.FrequencyPenalty,
 			}
+
+			// workaround, the OpenAI service can not accept this param
+			if inputStruct.Model != "gpt-4-vision-preview" {
+				fmt.Println(1111, inputStruct.Model)
+				req.ResponseFormat = inputStruct.ResponseFormat
+			}
+
 			resp, err := client.GenerateTextCompletion(req)
 			if err != nil {
 				return inputs, err
