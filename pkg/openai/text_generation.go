@@ -22,11 +22,11 @@ type TextCompletionInput struct {
 	MaxTokens        *int                  `json:"max_tokens,omitempty"`
 	PresencePenalty  *float32              `json:"presence_penalty,omitempty"`
 	FrequencyPenalty *float32              `json:"frequency_penalty,omitempty"`
-	ResponseFormat   *ResponseFormatStruct `json:"response_format"`
+	ResponseFormat   *ResponseFormatStruct `json:"response_format,omitempty"`
 }
 
 type ResponseFormatStruct struct {
-	Type string `json:"type"`
+	Type string `json:"type,omitempty"`
 }
 
 type TextCompletionOutput struct {
@@ -43,7 +43,7 @@ type TextCompletionReq struct {
 	MaxTokens        *int                  `json:"max_tokens,omitempty"`
 	PresencePenalty  *float32              `json:"presence_penalty,omitempty"`
 	FrequencyPenalty *float32              `json:"frequency_penalty,omitempty"`
-	ResponseFormat   *ResponseFormatStruct `json:"response_format"`
+	ResponseFormat   *ResponseFormatStruct `json:"response_format,omitempty"`
 }
 
 type Message struct {
