@@ -74,7 +74,7 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 		}
 
 		textGenOutput := taskOutputs[0].GetTextGeneration()
-		if textGenOutput == nil || len(textGenOutput.GetText()) <= 0 {
+		if textGenOutput == nil {
 			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenOutput, modelName)
 		}
 		outputJson, err := protojson.MarshalOptions{

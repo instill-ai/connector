@@ -184,6 +184,7 @@
             "value",
             "reference"
           ],
+          "default": 50,
           "title": "Max new tokens",
           "type": "integer"
         },
@@ -263,6 +264,7 @@
           "instillAcceptFormats": [
             "number"
           ],
+          "default": 0.7,
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -276,6 +278,7 @@
           "instillAcceptFormats": [
             "integer"
           ],
+          "default": 10,
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
