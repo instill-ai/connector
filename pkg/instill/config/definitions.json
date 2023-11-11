@@ -29,7 +29,7 @@
             "type": "string"
           },
           "server_url": {
-            "default": "https://api-model.instill.tech",
+            "default": "https://api.instill.tech",
             "description": "Base URL for the Instill Model API. To access models on Instill Cloud, use the base URL `https://api.instill.tech`. To access models on your local Instill Model, use the base URL `http://api-gateway:8080`.",
             "instillUIOrder": 1,
             "title": "Server URL",
