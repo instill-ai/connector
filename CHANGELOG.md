@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.0-alpha](https://github.com/instill-ai/connector/compare/v0.5.0-alpha...v0.6.0-alpha) (2023-11-11)
+
+
+### Features
+
+* **ai-openai:** support OpenAI gpt-4-turbo and dall-e-3 ([#43](https://github.com/instill-ai/connector/issues/43)) ([38c451e](https://github.com/instill-ai/connector/commit/38c451e532764a9f1ec5c25abe0d87f5078dcde1))
+* **google-search:** support google search connector ([#41](https://github.com/instill-ai/connector/issues/41)) ([950510e](https://github.com/instill-ai/connector/commit/950510ea5a2bddbfa1d1ad9af8393ddd7bbca680))
+
+
+### Bug Fixes
+
+* **google-search:** fix google search nil pointer ([#48](https://github.com/instill-ai/connector/issues/48)) ([d681159](https://github.com/instill-ai/connector/commit/d6811595a1e79493f6cf78a1b40594b43523f4fd))
+* **openai:** fix the message order in the chat completion request ([#36](https://github.com/instill-ai/connector/issues/36)) ([7ef3177](https://github.com/instill-ai/connector/commit/7ef3177c74149cc7818916dc4c81e90d0dbd84d3))
+
 ## [0.5.0-alpha](https://github.com/instill-ai/connector/compare/v0.4.0-alpha...v0.5.0-alpha) (2023-10-27)
 
 
