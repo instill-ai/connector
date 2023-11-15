@@ -2,7 +2,6 @@ package instill
 
 import (
 	"crypto/tls"
-	"fmt"
 	"strings"
 
 	"google.golang.org/grpc"
@@ -25,7 +24,6 @@ func initModelPublicServiceClient(serverURL string) (modelPB.ModelPublicServiceC
 	serverURL = stripProtocolFromURL(serverURL)
 	clientConn, err := grpc.Dial(serverURL, clientDialOpts)
 	if err != nil {
-		fmt.Println(err)
 		return nil, nil
 	}
 
