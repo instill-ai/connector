@@ -29,6 +29,7 @@ const (
 	textGenerationTask    = "TASK_TEXT_GENERATION"
 	textEmbeddingsTask    = "TASK_TEXT_EMBEDDINGS"
 	speechRecognitionTask = "TASK_SPEECH_RECOGNITION"
+	textToSpeechTask      = "TASK_TEXT_TO_SPEECH"
 	textToImageTask       = "TASK_TEXT_TO_IMAGE"
 )
 
@@ -192,7 +193,6 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			// workaround, the OpenAI service can not accept this param
 			if inputStruct.Model != "gpt-4-vision-preview" {
-				fmt.Println(1111, inputStruct.Model)
 				req.ResponseFormat = inputStruct.ResponseFormat
 			}
 
@@ -271,6 +271,33 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			output, err := base.ConvertToStructpb(resp)
+			if err != nil {
+				return nil, err
+			}
+			outputs = append(outputs, output)
+
+		case textToSpeechTask:
+
+			inputStruct := TextToSpeechInput{}
+			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err != nil {
+				return nil, err
+			}
+
+			req := TextToSpeechReq{
+				Input:          inputStruct.Text,
+				Model:          inputStruct.Model,
+				Voice:          inputStruct.Voice,
+				ResponseFormat: inputStruct.ResponseFormat,
+				Speed:          inputStruct.Speed,
+			}
+
+			outputStruct, err := client.CreateSpeech(req)
+			if err != nil {
+				return inputs, err
+			}
+
+			output, err := base.ConvertToStructpb(outputStruct)
 			if err != nil {
 				return nil, err
 			}
