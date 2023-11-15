@@ -93,9 +93,8 @@ func NewClient(apiKey, org string) Client {
 	return Client{APIKey: apiKey, Org: org, HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}
 }
 
-// sendReq is responsible for making the http request with to given URL, method, and params and unmarshalling the response into given object.
-// func (c *Client) sendReq(reqURL, method string, params interface{}, respObj interface{}) (err error) {
-func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader, respObj interface{}) (err error) {
+// sendReq is responsible for making the http request with to given URL, method, and params
+func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]byte, error) {
 	req, _ := http.NewRequest(method, reqURL, data)
 	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Accept", jsonMimeType)
@@ -110,17 +109,30 @@ func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader, res
 	}
 	if err != nil || res == nil {
 		err = fmt.Errorf("error occurred: %v, while calling URL: %s", err, reqURL)
-		return
+		return nil, err
 	}
-	bytes, _ := io.ReadAll(res.Body)
+	respBody, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
 	if res.StatusCode != http.StatusOK {
-		err = fmt.Errorf("non-200 status code: %d, while calling URL: %s, response body: %s", res.StatusCode, reqURL, bytes)
-		return
+		err = fmt.Errorf("non-200 status code: %d, while calling URL: %s, response body: %s", res.StatusCode, reqURL, respBody)
+		return nil, err
 	}
-	if err = json.Unmarshal(bytes, &respObj); err != nil {
-		err = fmt.Errorf("error in json decode: %s, while calling URL: %s, response body: %s", err, reqURL, bytes)
+	return respBody, nil
+}
+
+// sendReqAndUnmarshal is responsible for making the http request with to given URL, method, and params and unmarshalling the response into given object.
+func (c *Client) sendReqAndUnmarshal(reqURL, method, contentType string, data io.Reader, respObj interface{}) error {
+	respBody, err := c.sendReq(reqURL, method, contentType, data)
+	if err != nil {
+		return err
 	}
-	return
+	err = json.Unmarshal(respBody, &respObj)
+	if err != nil {
+		return fmt.Errorf("error in json decode: %s, while calling URL: %s, response body: %s", err, reqURL, respBody)
+	}
+	return nil
 }
 
 func getAPIKey(config *structpb.Struct) string {

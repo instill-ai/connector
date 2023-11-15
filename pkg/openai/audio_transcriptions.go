@@ -40,7 +40,7 @@ func (c *Client) GenerateAudioTranscriptions(req AudioTranscriptionReq) (result 
 	if err != nil {
 		return result, err
 	}
-	err = c.sendReq(transcriptionsURL, http.MethodPost, contentType, formData, &result)
+	err = c.sendReqAndUnmarshal(transcriptionsURL, http.MethodPost, contentType, formData, &result)
 	return result, err
 }
 

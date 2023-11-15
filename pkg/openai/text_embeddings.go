@@ -41,6 +41,6 @@ type Data struct {
 // https://platform.openai.com/docs/api-reference/embeddings
 func (c *Client) GenerateTextEmbeddings(req TextEmbeddingsReq) (result TextEmbeddingsResp, err error) {
 	data, _ := json.Marshal(req)
-	err = c.sendReq(embeddingsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
+	err = c.sendReqAndUnmarshal(embeddingsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
 	return result, err
 }
