@@ -107,7 +107,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 			output = &structpb.Struct{Fields: map[string]*structpb.Value{"status": {Kind: &structpb.Value_StringValue{StringValue: "success"}}}}
 		default:
-			return nil, errors.New("unsupported task type")
+			return nil, fmt.Errorf("unsupported task: %s", e.Task)
 		}
 		outputs = append(outputs, output)
 	}
