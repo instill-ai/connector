@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "message": {
+      "properties": {
+        "content": {
+          "description": "The message content",
+          "instillFormat": "string",
+          "instillUIMultiline": true,
+          "instillUIOrder": 1,
+          "title": "Content",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "description": "The message metadata",
+          "instillUIOrder": 2,
+          "required": [],
+          "title": "Metadata",
+          "type": "object"
+        },
+        "role": {
+          "description": "The message role, i.e. 'system', 'user' or 'assistant'",
+          "instillFormat": "string",
+          "instillUIOrder": 0,
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "Message",
+      "type": "object"
+    }
+  },
+  "TASK_CHAT_HISTORY_RETRIEVE": {
+    "input": {
+      "instillUIOrder": 0,
+      "properties": {
+        "latest_k": {
+          "default": 10,
+          "description": "The number of latest messages to retrieve",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "minimum": 1,
+          "title": "Latest K",
+          "type": "integer"
+        },
+        "session_id": {
+          "description": "A unique identifier for the chat session",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Session ID",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "instillUIOrder": 0,
+      "properties": {
+        "messages": {
+          "description": "The retrieved chat messages",
+          "instillUIOrder": 0,
+          "items": {
+            "$ref": "#/$defs/message"
+          },
+          "title": "Messages",
+          "type": "array"
+        }
+      },
+      "required": [
+        "messages"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  },
+  "TASK_CHAT_MESSAGE_WRITE": {
+    "input": {
+      "instillUIOrder": 0,
+      "properties": {
+        "content": {
+          "description": "The message content",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
+          "instillUIMultiline": true,
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Content",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "description": "The message metadata",
+          "instillUIOrder": 3,
+          "required": [],
+          "title": "Metadata",
+          "type": "object"
+        },
+        "role": {
+          "description": "The message role, i.e. 'system', 'user' or 'assistant'",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "session_id": {
+          "description": "A unique identifier for the chat session",
+          "instillAcceptFormats": [
+            "string",
+            "text/*"
+          ],
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Session ID",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "role",
+        "content"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "instillUIOrder": 0,
+      "properties": {
+        "status": {
+          "description": "The status of the write operation",
+          "instillFormat": "boolean",
+          "instillUIOrder": 0,
+          "title": "Status",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  }
+}
