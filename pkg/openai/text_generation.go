@@ -10,9 +10,14 @@ const (
 	completionsURL = host + "/v1/chat/completions"
 )
 
+type TextMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
 type TextCompletionInput struct {
 	Prompt           string                `json:"prompt"`
 	Images           []string              `json:"images"`
+	ChatHistory      []*TextMessage        `json:"chat_history,omitempty"`
 	Model            string                `json:"model"`
 	SystemMessage    *string               `json:"system_message,omitempty"`
 	Temperature      *float32              `json:"temperature,omitempty"`

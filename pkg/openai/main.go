@@ -165,8 +165,17 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			messages := []Message{}
-			if inputStruct.SystemMessage != nil {
-				messages = append(messages, Message{Role: "system", Content: []Content{{Type: "text", Text: inputStruct.SystemMessage}}})
+
+			// If chat history is provided, add it to the messages, and ignore the system message
+			if inputStruct.ChatHistory != nil {
+				for _, textMessage := range inputStruct.ChatHistory {
+					messages = append(messages, Message{Role: textMessage.Role, Content: []Content{{Type: "text", Text: &textMessage.Content}}})
+				}
+			} else {
+				// If chat history is not provided, add the system message to the messages
+				if inputStruct.SystemMessage != nil {
+					messages = append(messages, Message{Role: "system", Content: []Content{{Type: "text", Text: inputStruct.SystemMessage}}})
+				}
 			}
 			userContents := []Content{}
 			userContents = append(userContents, Content{Type: "text", Text: &inputStruct.Prompt})

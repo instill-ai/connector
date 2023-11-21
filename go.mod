@@ -15,6 +15,7 @@ require (
 	github.com/h2non/filetype v1.1.3
 	github.com/instill-ai/component v0.7.0-alpha
 	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231107112239-e910edf62911
+	github.com/redis/go-redis/v9 v9.3.0
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
 	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.26.0
@@ -33,7 +34,9 @@ require (
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/apache/arrow/go/v12 v12.0.0 // indirect
 	github.com/apache/thrift v0.16.0 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/distribution/reference v0.5.0 // indirect
 	github.com/docker/distribution v2.8.3+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
