@@ -14,7 +14,7 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 
-	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
 
 const (
@@ -138,14 +138,14 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return outputs, nil
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (connectorPB.ConnectorResource_State, error) {
+func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 	client := NewClient(getHost(config), getPort(config), getUsername(config), getPassword(config))
 	defer client.Close()
 
 	// Ping the Redis server to check the connection
 	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
-		return connectorPB.ConnectorResource_STATE_DISCONNECTED, err
+		return pipelinePB.Connector_STATE_DISCONNECTED, err
 	}
-	return connectorPB.ConnectorResource_STATE_CONNECTED, nil
+	return pipelinePB.Connector_STATE_CONNECTED, nil
 }

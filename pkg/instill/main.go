@@ -17,7 +17,7 @@ import (
 	"github.com/instill-ai/component/pkg/base"
 
 	commonPB "github.com/instill-ai/protogen-go/common/task/v1alpha"
-	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
 
 const (
@@ -184,10 +184,10 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return result, err
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (connectorPB.ConnectorResource_State, error) {
+func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 	err := getModels(config)
 	if err != nil {
-		return connectorPB.ConnectorResource_STATE_ERROR, err
+		return pipelinePB.Connector_STATE_ERROR, err
 	}
-	return connectorPB.ConnectorResource_STATE_CONNECTED, nil
+	return pipelinePB.Connector_STATE_CONNECTED, nil
 }

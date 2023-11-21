@@ -13,8 +13,8 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
-	github.com/instill-ai/component v0.7.0-alpha
-	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231107112239-e910edf62911
+	github.com/instill-ai/component v0.7.0-alpha.0.20231121165153-d69c0e07286c
+	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231121163720-206d6eff20a7
 	github.com/redis/go-redis/v9 v9.3.0
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1
 	github.com/stretchr/testify v1.8.4

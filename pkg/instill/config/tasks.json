@@ -175,6 +175,7 @@
           "type": "string"
         },
         "max_new_tokens": {
+          "default": 50,
           "description": "The maximum number of tokens for model to generate",
           "instillAcceptFormats": [
             "integer"
@@ -184,7 +185,6 @@
             "value",
             "reference"
           ],
-          "default": 50,
           "title": "Max new tokens",
           "type": "integer"
         },
@@ -260,11 +260,11 @@
           "type": "string"
         },
         "temperature": {
+          "default": 0.7,
           "description": "The temperature for sampling",
           "instillAcceptFormats": [
             "number"
           ],
-          "default": 0.7,
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
@@ -274,11 +274,11 @@
           "type": "number"
         },
         "top_k": {
+          "default": 10,
           "description": "Top k for sampling",
           "instillAcceptFormats": [
             "integer"
           ],
-          "default": 10,
           "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
