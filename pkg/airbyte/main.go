@@ -52,7 +52,6 @@ type ConnectorOptions struct {
 	MountTargetVDP        string
 	MountSourceAirbyte    string
 	MountTargetAirbyte    string
-	VDPProtocolPath       string
 	ExcludeLocalConnector bool
 }
 
@@ -100,7 +99,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 			(*def).Tombstone = true
 		}
 
-		InitAirbyteCatalog(logger, options.VDPProtocolPath)
+		InitAirbyteCatalog(logger)
 
 	})
 	return connector
