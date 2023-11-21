@@ -2,12 +2,7 @@ package airbyte
 
 import (
 	"encoding/json"
-	"fmt"
-	"os"
-	"strings"
 
-	"github.com/ghodss/yaml"
-	"github.com/santhosh-tekuri/jsonschema/v5"
 	"go.uber.org/zap"
 )
 
@@ -73,35 +68,12 @@ const dataSchema = `
 `
 
 // InitAirbyteCatalog reads all task AirbyteCatalog files and stores the JSON content in the global TaskAirbyteCatalog variable
-func InitAirbyteCatalog(logger *zap.Logger, vdpProtocolPath string) {
-
-	yamlFile, err := os.ReadFile(vdpProtocolPath)
-	if err != nil {
-		logger.Fatal(fmt.Sprintf("%#v\n", err.Error()))
-	}
-
-	jsonSchemaBytes, err := yaml.YAMLToJSON(yamlFile)
-	if err != nil {
-		logger.Fatal(fmt.Sprintf("%#v\n", err.Error()))
-	}
-
-	compiler := jsonschema.NewCompiler()
-
-	err = compiler.AddResource("protocol.json", strings.NewReader(dataSchema))
-	if err != nil {
-		logger.Fatal(fmt.Sprintf("%#v\n", err.Error()))
-	}
-
-	_, err = compiler.Compile("protocol.json")
-	if err != nil {
-		logger.Fatal(fmt.Sprintf("%#v\n", err.Error()))
-	}
+func InitAirbyteCatalog(logger *zap.Logger) {
 
 	// Initialise TaskOutputAirbyteCatalog.Streams[0]
 	TaskOutputAirbyteCatalog.Streams = []AirbyteStream{
 		{
 			Name:                "vdp",
-			JSONSchema:          jsonSchemaBytes,
 			SupportedSyncModes:  []string{"full_refresh", "incremental"},
 			SourceDefinedCursor: false,
 		},
