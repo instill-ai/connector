@@ -20,7 +20,7 @@ import (
 	"github.com/instill-ai/connector/pkg/redis"
 	"github.com/instill-ai/connector/pkg/stabilityai"
 
-	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
 
 var once sync.Once
@@ -72,6 +72,6 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return c.connectorUIDMap[defUID].CreateExecution(defUID, task, config, logger)
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (connectorPB.ConnectorResource_State, error) {
+func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 	return c.connectorUIDMap[defUid].Test(defUid, config, logger)
 }

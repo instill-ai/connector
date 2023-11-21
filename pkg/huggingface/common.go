@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
 
 const (
@@ -94,15 +94,15 @@ func checkRespForError(respJSON []byte) error {
 	return nil
 }
 
-func (c *Client) GetConnectionState() (connectorPB.ConnectorResource_State, error) {
+func (c *Client) GetConnectionState() (pipelinePB.Connector_State, error) {
 	req, _ := http.NewRequest(http.MethodGet, c.BaseURL, nil)
 	req.Header.Set(AuthHeaderKey, AuthHeaderPrefix+c.APIKey)
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
-		return connectorPB.ConnectorResource_STATE_ERROR, err
+		return pipelinePB.Connector_STATE_ERROR, err
 	}
 	if resp != nil && resp.StatusCode == http.StatusOK {
-		return connectorPB.ConnectorResource_STATE_CONNECTED, nil
+		return pipelinePB.Connector_STATE_CONNECTED, nil
 	}
-	return connectorPB.ConnectorResource_STATE_DISCONNECTED, nil
+	return pipelinePB.Connector_STATE_DISCONNECTED, nil
 }

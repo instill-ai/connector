@@ -20,7 +20,7 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 
-	connectorPB "github.com/instill-ai/protogen-go/vdp/connector/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
 
 const ApiUrlPin = "https://eoqctv92ahgrcif.m.pipedream.net"
@@ -335,11 +335,11 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 }
 
-func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (connectorPB.ConnectorResource_State, error) {
+func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 
 	req, err := http.NewRequest("GET", ApiUrlMe, nil)
 	if err != nil {
-		return connectorPB.ConnectorResource_STATE_ERROR, nil
+		return pipelinePB.Connector_STATE_ERROR, nil
 	}
 	req.Header.Set("Authorization", getToken(config))
 
@@ -352,10 +352,10 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		defer res.Body.Close()
 	}
 	if err != nil {
-		return connectorPB.ConnectorResource_STATE_ERROR, nil
+		return pipelinePB.Connector_STATE_ERROR, nil
 	}
 	if res.StatusCode == http.StatusOK {
-		return connectorPB.ConnectorResource_STATE_CONNECTED, nil
+		return pipelinePB.Connector_STATE_CONNECTED, nil
 	}
-	return connectorPB.ConnectorResource_STATE_ERROR, nil
+	return pipelinePB.Connector_STATE_ERROR, nil
 }
