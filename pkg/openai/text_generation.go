@@ -89,6 +89,6 @@ type Usage struct {
 // https://platform.openai.com/docs/api-reference/completions
 func (c *Client) GenerateTextCompletion(req TextCompletionReq) (result TextCompletionResp, err error) {
 	data, _ := json.Marshal(req)
-	err = c.sendReq(completionsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
+	err = c.sendReqAndUnmarshal(completionsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
 	return result, err
 }

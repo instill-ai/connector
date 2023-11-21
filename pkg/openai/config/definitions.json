@@ -4,6 +4,7 @@
       "TASK_TEXT_GENERATION",
       "TASK_TEXT_EMBEDDINGS",
       "TASK_SPEECH_RECOGNITION",
+      "TASK_TEXT_TO_SPEECH",
       "TASK_TEXT_TO_IMAGE"
     ],
     "custom": false,

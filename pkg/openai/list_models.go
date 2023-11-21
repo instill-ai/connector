@@ -38,6 +38,6 @@ type ListModelsResponse struct {
 // ListModels calls the list models endpoint and returns the available models.
 // https://platform.openai.com/docs/api-reference/models/list
 func (c *Client) ListModels() (resp ListModelsResponse, err error) {
-	err = c.sendReq(listModelsURL, http.MethodGet, jsonMimeType, nil, &resp)
+	err = c.sendReqAndUnmarshal(listModelsURL, http.MethodGet, jsonMimeType, nil, &resp)
 	return resp, err
 }

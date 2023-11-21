@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"testing"
 
+	"go.uber.org/zap"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
