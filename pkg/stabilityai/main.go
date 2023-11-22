@@ -153,6 +153,9 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			for index, t := range inputStruct.Prompts {
 				if inputStruct.Weights != nil && len(*inputStruct.Weights) > index {
 					w = (*inputStruct.Weights)[index]
+				} else {
+					// If weights are not provided, set all weights to 1.0
+					w = 1.0
 				}
 				req.TextPrompts = append(req.TextPrompts, TextPrompt{Text: t, Weight: &w})
 			}
