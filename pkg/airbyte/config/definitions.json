@@ -7,7 +7,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/amazon-sqs",
     "icon": "awssqs.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-amazon-sqs/latest/icon.svg",
-    "id": "airbyte-destination-amazon-sqs",
+    "id": "airbyte_destination_amazon_sqs",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -151,7 +151,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/aws-datalake",
     "icon": "awsdatalake.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-aws-datalake/latest/icon.svg",
-    "id": "airbyte-destination-aws-datalake",
+    "id": "airbyte_destination_aws_datalake",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -421,7 +421,7 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.1.3",
+      "dockerImageTag": "0.1.4",
       "dockerRepository": "airbyte/destination-aws-datalake",
       "githubIssueLabel": "destination-aws-datalake",
       "license": "MIT",
@@ -448,7 +448,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/azure-blob-storage",
     "icon": "azureblobstorage.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-azure-blob-storage/latest/icon.svg",
-    "id": "airbyte-destination-azure-blob-storage",
+    "id": "airbyte_destination_azure_blob_storage",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -611,14 +611,14 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/bigquery",
     "icon": "bigquery.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-bigquery/latest/icon.svg",
-    "id": "airbyte-destination-bigquery",
+    "id": "airbyte_destination_bigquery",
     "public": true,
     "releases": {
       "breakingChanges": {
         "2.0.0": {
           "message": "**Do not upgrade until you have run a test upgrade as outlined [here](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#testing-destinations-v2-for-a-single-connection)**.\nThis version introduces [Destinations V2](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#what-is-destinations-v2), which provides better error handling, incremental delivery of data for large syncs, and improved final table structures. To review the breaking changes, and how to upgrade, see [here](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#quick-start-to-upgrading). These changes will likely require updates to downstream dbt / SQL models, which we walk through [here](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#updating-downstream-transformations).\nSelecting `Upgrade` will upgrade **all** connections using this destination at their next sync. You can manually sync existing connections prior to the next scheduled sync to start the upgrade early.\n",
           "migrationDocumentationUrl": "https://docs.airbyte.com/integrations/destinations/bigquery-migrations#2.0.0",
-          "upgradeDeadline": "2023-11-01"
+          "upgradeDeadline": "2023-11-07"
         }
       },
       "migrationDocumentationUrl": "https://docs.airbyte.com/integrations/destinations/bigquery-migrations"
@@ -695,6 +695,9 @@
               "europe-west7",
               "europe-west8",
               "europe-west9",
+              "europe-west12",
+              "me-central1",
+              "me-central2",
               "me-west1",
               "northamerica-northeast1",
               "northamerica-northeast2",
@@ -706,6 +709,7 @@
               "us-east3",
               "us-east4",
               "us-east5",
+              "us-south1",
               "us-west1",
               "us-west2",
               "us-west3",
@@ -715,6 +719,14 @@
             "order": 1,
             "title": "Dataset Location",
             "type": "string"
+          },
+          "disable_type_dedupe": {
+            "default": false,
+            "description": "Disable Writing Final Tables. WARNING! The data format in _airbyte_data is likely stable but there are no guarantees that other metadata columns will remain the same in future versions",
+            "group": "advanced",
+            "order": 8,
+            "title": "Disable Final Tables. (WARNING! Unstable option; Columns in raw table schema might change between versions)",
+            "type": "boolean"
           },
           "loading_method": {
             "description": "The way data will be uploaded to BigQuery.",
@@ -766,18 +778,6 @@
                     "order": 1,
                     "title": "Credential",
                     "type": "object"
-                  },
-                  "file_buffer_count": {
-                    "default": 10,
-                    "description": "Number of file buffers allocated for writing data. Increasing this number is beneficial for connections using Change Data Capture (CDC) and up to the number of streams within a connection. Increasing the number of file buffers past the maximum number of streams has deteriorating effects",
-                    "examples": [
-                      "10"
-                    ],
-                    "maximum": 50,
-                    "minimum": 10,
-                    "order": 5,
-                    "title": "File Buffer Count",
-                    "type": "integer"
                   },
                   "gcs_bucket_name": {
                     "description": "The name of the GCS bucket. Read more <a href=\"https://cloud.google.com/storage/docs/naming-buckets\">here</a>.",
@@ -848,10 +848,10 @@
             "type": "string"
           },
           "raw_data_dataset": {
-            "description": "The dataset to write raw tables into",
+            "description": "The dataset to write raw tables into (default: airbyte_internal)",
             "group": "advanced",
             "order": 7,
-            "title": "Destinations V2 Raw Table Dataset",
+            "title": "Raw Table Dataset Name",
             "type": "string"
           },
           "transformation_priority": {
@@ -884,10 +884,10 @@
     "vendor": "Airbyte",
     "vendor_attributes": {
       "ab_internal": {
-        "ql": 400,
-        "sl": 200
+        "ql": 300,
+        "sl": 300
       },
-      "dockerImageTag": "2.1.6",
+      "dockerImageTag": "2.3.16",
       "dockerRepository": "airbyte/destination-bigquery",
       "githubIssueLabel": "destination-bigquery",
       "license": "ELv2",
@@ -928,7 +928,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/cassandra",
     "icon": "cassandra.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-cassandra/latest/icon.svg",
-    "id": "airbyte-destination-cassandra",
+    "id": "airbyte_destination_cassandra",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1038,7 +1038,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/chroma",
     "icon": "chroma.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-chroma/latest/icon.svg",
-    "id": "airbyte-destination-chroma",
+    "id": "airbyte_destination_chroma",
     "public": true,
     "releaseDate": "2023-09-13",
     "spec": {
@@ -1355,6 +1355,32 @@
                 "title": "Chunk size",
                 "type": "integer"
               },
+              "field_name_mappings": {
+                "default": [],
+                "description": "List of fields to rename. Not applicable for nested fields, but can be used to rename fields already flattened via dot notation.",
+                "items": {
+                  "properties": {
+                    "from_field": {
+                      "description": "The field name in the source",
+                      "title": "From field name",
+                      "type": "string"
+                    },
+                    "to_field": {
+                      "description": "The field name to use in the destination",
+                      "title": "To field name",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "from_field",
+                    "to_field"
+                  ],
+                  "title": "FieldNameMappingConfigModel",
+                  "type": "object"
+                },
+                "title": "Field name mappings",
+                "type": "array"
+              },
               "metadata_fields": {
                 "always_show": true,
                 "default": [],
@@ -1522,7 +1548,7 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.0.4",
+      "dockerImageTag": "0.0.5",
       "dockerRepository": "airbyte/destination-chroma",
       "githubIssueLabel": "destination-chroma",
       "license": "MIT",
@@ -1550,7 +1576,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/clickhouse",
     "icon": "clickhouse.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-clickhouse/latest/icon.svg",
-    "id": "airbyte-destination-clickhouse",
+    "id": "airbyte_destination_clickhouse",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1785,7 +1811,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/convex",
     "icon": "convex.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-convex/latest/icon.svg",
-    "id": "airbyte-destination-convex",
+    "id": "airbyte_destination_convex",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1855,7 +1881,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/csv",
     "icon": "file-csv.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-csv/latest/icon.svg",
-    "id": "airbyte-destination-csv",
+    "id": "airbyte_destination_csv",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1984,7 +2010,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/cumulio",
     "icon": "cumulio.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-cumulio/latest/icon.svg",
-    "id": "airbyte-destination-cumulio",
+    "id": "airbyte_destination_cumulio",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2062,7 +2088,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/databend",
     "icon": "databend.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-databend/latest/icon.svg",
-    "id": "airbyte-destination-databend",
+    "id": "airbyte_destination_databend",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2164,7 +2190,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/databricks",
     "icon": "databricks.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-databricks/latest/icon.svg",
-    "id": "airbyte-destination-databricks",
+    "id": "airbyte_destination_databricks",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2477,7 +2503,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/doris",
     "icon": "apachedoris.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-doris/latest/icon.svg",
-    "id": "airbyte-destination-doris",
+    "id": "airbyte_destination_doris",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2587,7 +2613,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/duckdb",
     "icon": "duckdb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-duckdb/latest/icon.svg",
-    "id": "airbyte-destination-duckdb",
+    "id": "airbyte_destination_duckdb",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -2674,7 +2700,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/dynamodb",
     "icon": "dynamodb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-dynamodb/latest/icon.svg",
-    "id": "airbyte-destination-dynamodb",
+    "id": "airbyte_destination_dynamodb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2801,7 +2827,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/e2e-test",
     "icon": "airbyte.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-e2e-test/latest/icon.svg",
-    "id": "airbyte-destination-e2e-test",
+    "id": "airbyte_destination_e2e_test",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3051,7 +3077,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/elasticsearch",
     "icon": "elasticsearch.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-elasticsearch/latest/icon.svg",
-    "id": "airbyte-destination-elasticsearch",
+    "id": "airbyte_destination_elasticsearch",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3319,7 +3345,7 @@
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/exasol",
     "icon_url": "",
-    "id": "airbyte-destination-exasol",
+    "id": "airbyte_destination_exasol",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3429,7 +3455,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/firebolt",
     "icon": "firebolt.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-firebolt/latest/icon.svg",
-    "id": "airbyte-destination-firebolt",
+    "id": "airbyte_destination_firebolt",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3588,7 +3614,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/firestore",
     "icon": "firestore.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-firestore/latest/icon.svg",
-    "id": "airbyte-destination-firestore",
+    "id": "airbyte_destination_firestore",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3654,7 +3680,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/gcs",
     "icon": "googlecloudstorage.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-gcs/latest/icon.svg",
-    "id": "airbyte-destination-gcs",
+    "id": "airbyte_destination_gcs",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -4162,7 +4188,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/google-sheets",
     "icon": "google-sheets.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-google-sheets/latest/icon.svg",
-    "id": "airbyte-destination-google-sheets",
+    "id": "airbyte_destination_google_sheets",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -4301,7 +4327,7 @@
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/iceberg",
     "icon_url": "",
-    "id": "airbyte-destination-iceberg",
+    "id": "airbyte_destination_iceberg",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -4725,7 +4751,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/kafka",
     "icon": "kafka.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-kafka/latest/icon.svg",
-    "id": "airbyte-destination-kafka",
+    "id": "airbyte_destination_kafka",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5073,7 +5099,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/keen",
     "icon": "chargify.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-keen/latest/icon.svg",
-    "id": "airbyte-destination-keen",
+    "id": "airbyte_destination_keen",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5152,7 +5178,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/kinesis",
     "icon": "kinesis.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-kinesis/latest/icon.svg",
-    "id": "airbyte-destination-kinesis",
+    "id": "airbyte_destination_kinesis",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5259,7 +5285,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/langchain",
     "icon": "langchain.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-langchain/latest/icon.svg",
-    "id": "airbyte-destination-langchain",
+    "id": "airbyte_destination_langchain",
     "public": true,
     "releaseDate": "2023-07-15",
     "releases": {
@@ -5499,7 +5525,7 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.1.1",
+      "dockerImageTag": "0.1.2",
       "dockerRepository": "airbyte/destination-langchain",
       "githubIssueLabel": "destination-langchain",
       "license": "MIT",
@@ -5527,7 +5553,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/local-json",
     "icon": "file-json.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-local-json/latest/icon.svg",
-    "id": "airbyte-destination-local-json",
+    "id": "airbyte_destination_local_json",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5590,7 +5616,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mariadb-columnstore",
     "icon": "mariadb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mariadb-columnstore/latest/icon.svg",
-    "id": "airbyte-destination-mariadb-columnstore",
+    "id": "airbyte_destination_mariadb_columnstore",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5811,7 +5837,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/meilisearch",
     "icon": "meilisearch.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-meilisearch/latest/icon.svg",
-    "id": "airbyte-destination-meilisearch",
+    "id": "airbyte_destination_meilisearch",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5890,7 +5916,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/milvus",
     "icon": "milvus.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-milvus/latest/icon.svg",
-    "id": "airbyte-destination-milvus",
+    "id": "airbyte_destination_milvus",
     "public": true,
     "releaseDate": "2023-08-15",
     "spec": {
@@ -5933,7 +5959,8 @@
                   }
                 },
                 "required": [
-                  "openai_key"
+                  "openai_key",
+                  "mode"
                 ],
                 "title": "OpenAI",
                 "type": "object"
@@ -5957,7 +5984,8 @@
                   }
                 },
                 "required": [
-                  "cohere_key"
+                  "cohere_key",
+                  "mode"
                 ],
                 "title": "Cohere",
                 "type": "object"
@@ -5975,6 +6003,9 @@
                     "type": "string"
                   }
                 },
+                "required": [
+                  "mode"
+                ],
                 "title": "Fake",
                 "type": "object"
               },
@@ -6011,7 +6042,8 @@
                 },
                 "required": [
                   "field_name",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "From Field",
                 "type": "object"
@@ -6054,7 +6086,8 @@
                 "required": [
                   "openai_key",
                   "api_base",
-                  "deployment"
+                  "deployment",
+                  "mode"
                 ],
                 "title": "Azure OpenAI",
                 "type": "object"
@@ -6106,7 +6139,8 @@
                 },
                 "required": [
                   "base_url",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "OpenAI-compatible",
                 "type": "object"
@@ -6142,7 +6176,8 @@
                       }
                     },
                     "required": [
-                      "token"
+                      "token",
+                      "mode"
                     ],
                     "title": "API Token",
                     "type": "object"
@@ -6175,7 +6210,8 @@
                     },
                     "required": [
                       "username",
-                      "password"
+                      "password",
+                      "mode"
                     ],
                     "title": "Username/Password",
                     "type": "object"
@@ -6193,6 +6229,9 @@
                         "type": "string"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "No auth",
                     "type": "object"
                   }
@@ -6257,8 +6296,35 @@
               "chunk_size": {
                 "description": "Size of chunks in tokens to store in vector store (make sure it is not too big for the context if your LLM)",
                 "maximum": 8191,
+                "minimum": 1,
                 "title": "Chunk size",
                 "type": "integer"
+              },
+              "field_name_mappings": {
+                "default": [],
+                "description": "List of fields to rename. Not applicable for nested fields, but can be used to rename fields already flattened via dot notation.",
+                "items": {
+                  "properties": {
+                    "from_field": {
+                      "description": "The field name in the source",
+                      "title": "From field name",
+                      "type": "string"
+                    },
+                    "to_field": {
+                      "description": "The field name to use in the destination",
+                      "title": "To field name",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "from_field",
+                    "to_field"
+                  ],
+                  "title": "FieldNameMappingConfigModel",
+                  "type": "object"
+                },
+                "title": "Field name mappings",
+                "type": "array"
               },
               "metadata_fields": {
                 "always_show": true,
@@ -6326,6 +6392,9 @@
                         "type": "array"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Separator",
                     "type": "object"
                   },
@@ -6350,6 +6419,9 @@
                         "type": "integer"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Markdown header",
                     "type": "object"
                   },
@@ -6390,7 +6462,8 @@
                       }
                     },
                     "required": [
-                      "language"
+                      "language",
+                      "mode"
                     ],
                     "title": "By Programming Language",
                     "type": "object"
@@ -6427,7 +6500,7 @@
         "ql": 300,
         "sl": 200
       },
-      "dockerImageTag": "0.0.6",
+      "dockerImageTag": "0.0.9",
       "dockerRepository": "airbyte/destination-milvus",
       "githubIssueLabel": "destination-milvus",
       "license": "MIT",
@@ -6465,7 +6538,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mongodb",
     "icon": "mongodb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mongodb/latest/icon.svg",
-    "id": "airbyte-destination-mongodb",
+    "id": "airbyte_destination_mongodb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -6799,7 +6872,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mqtt",
     "icon": "mqtt.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mqtt/latest/icon.svg",
-    "id": "airbyte-destination-mqtt",
+    "id": "airbyte_destination_mqtt",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -6954,7 +7027,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mssql",
     "icon": "mssql.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mssql/latest/icon.svg",
-    "id": "airbyte-destination-mssql",
+    "id": "airbyte_destination_mssql",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7262,7 +7335,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mysql",
     "icon": "mysql.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mysql/latest/icon.svg",
-    "id": "airbyte-destination-mysql",
+    "id": "airbyte_destination_mysql",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7496,7 +7569,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/oracle",
     "icon": "oracle.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-oracle/latest/icon.svg",
-    "id": "airbyte-destination-oracle",
+    "id": "airbyte_destination_oracle",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7822,7 +7895,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pinecone",
     "icon": "pinecone.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-pinecone/latest/icon.svg",
-    "id": "airbyte-destination-pinecone",
+    "id": "airbyte_destination_pinecone",
     "public": true,
     "releaseDate": "2023-08-15",
     "spec": {
@@ -7865,7 +7938,8 @@
                   }
                 },
                 "required": [
-                  "openai_key"
+                  "openai_key",
+                  "mode"
                 ],
                 "title": "OpenAI",
                 "type": "object"
@@ -7889,7 +7963,8 @@
                   }
                 },
                 "required": [
-                  "cohere_key"
+                  "cohere_key",
+                  "mode"
                 ],
                 "title": "Cohere",
                 "type": "object"
@@ -7907,6 +7982,9 @@
                     "type": "string"
                   }
                 },
+                "required": [
+                  "mode"
+                ],
                 "title": "Fake",
                 "type": "object"
               },
@@ -7948,7 +8026,8 @@
                 "required": [
                   "openai_key",
                   "api_base",
-                  "deployment"
+                  "deployment",
+                  "mode"
                 ],
                 "title": "Azure OpenAI",
                 "type": "object"
@@ -8000,7 +8079,8 @@
                 },
                 "required": [
                   "base_url",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "OpenAI-compatible",
                 "type": "object"
@@ -8054,8 +8134,35 @@
               "chunk_size": {
                 "description": "Size of chunks in tokens to store in vector store (make sure it is not too big for the context if your LLM)",
                 "maximum": 8191,
+                "minimum": 1,
                 "title": "Chunk size",
                 "type": "integer"
+              },
+              "field_name_mappings": {
+                "default": [],
+                "description": "List of fields to rename. Not applicable for nested fields, but can be used to rename fields already flattened via dot notation.",
+                "items": {
+                  "properties": {
+                    "from_field": {
+                      "description": "The field name in the source",
+                      "title": "From field name",
+                      "type": "string"
+                    },
+                    "to_field": {
+                      "description": "The field name to use in the destination",
+                      "title": "To field name",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "from_field",
+                    "to_field"
+                  ],
+                  "title": "FieldNameMappingConfigModel",
+                  "type": "object"
+                },
+                "title": "Field name mappings",
+                "type": "array"
               },
               "metadata_fields": {
                 "always_show": true,
@@ -8089,14 +8196,6 @@
               },
               "text_splitter": {
                 "description": "Split text fields into chunks based on the specified method.",
-                "discriminator": {
-                  "mapping": {
-                    "code": "#/definitions/CodeSplitterConfigModel",
-                    "markdown": "#/definitions/MarkdownHeaderSplitterConfigModel",
-                    "separator": "#/definitions/SeparatorSplitterConfigModel"
-                  },
-                  "propertyName": "mode"
-                },
                 "oneOf": [
                   {
                     "description": "Split the text by the list of separators until the chunk size is reached, using the earlier mentioned separators where possible. This is useful for splitting text fields by paragraphs, sentences, words, etc.",
@@ -8131,6 +8230,9 @@
                         "type": "array"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Separator",
                     "type": "object"
                   },
@@ -8155,6 +8257,9 @@
                         "type": "integer"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Markdown header",
                     "type": "object"
                   },
@@ -8195,7 +8300,8 @@
                       }
                     },
                     "required": [
-                      "language"
+                      "language",
+                      "mode"
                     ],
                     "title": "By Programming Language",
                     "type": "object"
@@ -8232,7 +8338,7 @@
         "ql": 300,
         "sl": 200
       },
-      "dockerImageTag": "0.0.17",
+      "dockerImageTag": "0.0.20",
       "dockerRepository": "airbyte/destination-pinecone",
       "githubIssueLabel": "destination-pinecone",
       "license": "MIT",
@@ -8270,7 +8376,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/postgres",
     "icon": "postgresql.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-postgres/latest/icon.svg",
-    "id": "airbyte-destination-postgres",
+    "id": "airbyte_destination_postgres",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -8688,7 +8794,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pubsub",
     "icon": "googlepubsub.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-pubsub/latest/icon.svg",
-    "id": "airbyte-destination-pubsub",
+    "id": "airbyte_destination_pubsub",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -8795,7 +8901,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pulsar",
     "icon": "pulsar.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-pulsar/latest/icon.svg",
-    "id": "airbyte-destination-pulsar",
+    "id": "airbyte_destination_pulsar",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -8998,7 +9104,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/qdrant",
     "icon": "qdrant.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-qdrant/latest/icon.svg",
-    "id": "airbyte-destination-qdrant",
+    "id": "airbyte_destination_qdrant",
     "public": true,
     "releaseDate": "2023-09-22",
     "spec": {
@@ -9041,7 +9147,8 @@
                   }
                 },
                 "required": [
-                  "openai_key"
+                  "openai_key",
+                  "mode"
                 ],
                 "title": "OpenAI",
                 "type": "object"
@@ -9065,7 +9172,8 @@
                   }
                 },
                 "required": [
-                  "cohere_key"
+                  "cohere_key",
+                  "mode"
                 ],
                 "title": "Cohere",
                 "type": "object"
@@ -9083,6 +9191,9 @@
                     "type": "string"
                   }
                 },
+                "required": [
+                  "mode"
+                ],
                 "title": "Fake",
                 "type": "object"
               },
@@ -9119,7 +9230,8 @@
                 },
                 "required": [
                   "field_name",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "From Field",
                 "type": "object"
@@ -9162,7 +9274,8 @@
                 "required": [
                   "openai_key",
                   "api_base",
-                  "deployment"
+                  "deployment",
+                  "mode"
                 ],
                 "title": "Azure OpenAI",
                 "type": "object"
@@ -9214,7 +9327,8 @@
                 },
                 "required": [
                   "base_url",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "OpenAI-compatible",
                 "type": "object"
@@ -9349,8 +9463,35 @@
               "chunk_size": {
                 "description": "Size of chunks in tokens to store in vector store (make sure it is not too big for the context if your LLM)",
                 "maximum": 8191,
+                "minimum": 1,
                 "title": "Chunk size",
                 "type": "integer"
+              },
+              "field_name_mappings": {
+                "default": [],
+                "description": "List of fields to rename. Not applicable for nested fields, but can be used to rename fields already flattened via dot notation.",
+                "items": {
+                  "properties": {
+                    "from_field": {
+                      "description": "The field name in the source",
+                      "title": "From field name",
+                      "type": "string"
+                    },
+                    "to_field": {
+                      "description": "The field name to use in the destination",
+                      "title": "To field name",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "from_field",
+                    "to_field"
+                  ],
+                  "title": "FieldNameMappingConfigModel",
+                  "type": "object"
+                },
+                "title": "Field name mappings",
+                "type": "array"
               },
               "metadata_fields": {
                 "always_show": true,
@@ -9418,6 +9559,9 @@
                         "type": "array"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Separator",
                     "type": "object"
                   },
@@ -9442,6 +9586,9 @@
                         "type": "integer"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Markdown header",
                     "type": "object"
                   },
@@ -9482,7 +9629,8 @@
                       }
                     },
                     "required": [
-                      "language"
+                      "language",
+                      "mode"
                     ],
                     "title": "By Programming Language",
                     "type": "object"
@@ -9519,7 +9667,7 @@
         "ql": 100,
         "sl": 100
       },
-      "dockerImageTag": "0.0.5",
+      "dockerImageTag": "0.0.7",
       "dockerRepository": "airbyte/destination-qdrant",
       "githubIssueLabel": "destination-qdrant",
       "license": "MIT",
@@ -9557,7 +9705,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/r2",
     "icon": "cloudflare-r2.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-r2/latest/icon.svg",
-    "id": "airbyte-destination-r2",
+    "id": "airbyte_destination_r2",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -9955,7 +10103,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/rabbitmq",
     "icon": "pulsar.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-rabbitmq/latest/icon.svg",
-    "id": "airbyte-destination-rabbitmq",
+    "id": "airbyte_destination_rabbitmq",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10045,7 +10193,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/redis",
     "icon": "redis.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-redis/latest/icon.svg",
-    "id": "airbyte-destination-redis",
+    "id": "airbyte_destination_redis",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10351,7 +10499,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/redpanda",
     "icon": "redpanda.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-redpanda/latest/icon.svg",
-    "id": "airbyte-destination-redpanda",
+    "id": "airbyte_destination_redpanda",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10483,7 +10631,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/redshift",
     "icon": "redshift.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-redshift/latest/icon.svg",
-    "id": "airbyte-destination-redshift",
+    "id": "airbyte_destination_redshift",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10879,10 +11027,10 @@
     "vendor": "Airbyte",
     "vendor_attributes": {
       "ab_internal": {
-        "ql": 300,
+        "ql": 200,
         "sl": 100
       },
-      "dockerImageTag": "0.6.8",
+      "dockerImageTag": "0.6.10",
       "dockerRepository": "airbyte/destination-redshift",
       "githubIssueLabel": "destination-redshift",
       "license": "MIT",
@@ -10927,7 +11075,7 @@
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/rockset",
     "icon_url": "",
-    "id": "airbyte-destination-rockset",
+    "id": "airbyte_destination_rockset",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11011,7 +11159,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/s3-glue",
     "icon": "s3-glue.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-s3-glue/latest/icon.svg",
-    "id": "airbyte-destination-s3-glue",
+    "id": "airbyte_destination_s3_glue",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11262,7 +11410,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/s3",
     "icon": "s3.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-s3/latest/icon.svg",
-    "id": "airbyte-destination-s3",
+    "id": "airbyte_destination_s3",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11745,7 +11893,7 @@
     "vendor": "Airbyte",
     "vendor_attributes": {
       "ab_internal": {
-        "ql": 400,
+        "ql": 300,
         "sl": 300
       },
       "dockerImageTag": "0.5.1",
@@ -11787,7 +11935,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/scylla",
     "icon": "scylla.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-scylla/latest/icon.svg",
-    "id": "airbyte-destination-scylla",
+    "id": "airbyte_destination_scylla",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11887,7 +12035,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/selectdb",
     "icon": "selectdb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-selectdb/latest/icon.svg",
-    "id": "airbyte-destination-selectdb",
+    "id": "airbyte_destination_selectdb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11983,7 +12131,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/sftp-json",
     "icon": "sftp.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-sftp-json/latest/icon.svg",
-    "id": "airbyte-destination-sftp-json",
+    "id": "airbyte_destination_sftp_json",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12081,7 +12229,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/snowflake",
     "icon": "snowflake.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-snowflake/latest/icon.svg",
-    "id": "airbyte-destination-snowflake",
+    "id": "airbyte_destination_snowflake",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -12093,7 +12241,7 @@
         "3.0.0": {
           "message": "**Do not upgrade until you have run a test upgrade as outlined [here](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#testing-destinations-v2-for-a-single-connection)**.\nThis version introduces [Destinations V2](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#what-is-destinations-v2), which provides better error handling, incremental delivery of data for large syncs, and improved final table structures. To review the breaking changes, and how to upgrade, see [here](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#quick-start-to-upgrading). These changes will likely require updates to downstream dbt / SQL models, which we walk through [here](https://docs.airbyte.com/release_notes/upgrading_to_destinations_v2/#updating-downstream-transformations).\nSelecting `Upgrade` will upgrade **all** connections using this destination at their next sync. You can manually sync existing connections prior to the next scheduled sync to start the upgrade early.\n",
           "migrationDocumentationUrl": "https://docs.airbyte.com/integrations/destinations/snowflake-migrations#3.0.0",
-          "upgradeDeadline": "2023-11-01"
+          "upgradeDeadline": "2023-11-07"
         }
       },
       "migrationDocumentationUrl": "https://docs.airbyte.com/integrations/destinations/snowflake-migrations"
@@ -12222,6 +12370,13 @@
             "title": "Database",
             "type": "string"
           },
+          "disable_type_dedupe": {
+            "default": false,
+            "description": "Disable Writing Final Tables. WARNING! The data format in _airbyte_data is likely stable but there are no guarantees that other metadata columns will remain the same in future versions",
+            "order": 11,
+            "title": "Disable Final Tables. (WARNING! Unstable option; Columns in raw table schema might change between versions)",
+            "type": "boolean"
+          },
           "host": {
             "description": "Enter your Snowflake account's <a href=\"https://docs.snowflake.com/en/user-guide/admin-account-identifier.html#using-an-account-locator-as-an-identifier\">locator</a> (in the format <account_locator>.<region>.<cloud>.snowflakecomputing.com)",
             "examples": [
@@ -12241,9 +12396,9 @@
             "type": "string"
           },
           "raw_data_schema": {
-            "description": "The schema to write raw tables into",
+            "description": "The schema to write raw tables into (default: airbyte_internal)",
             "order": 10,
-            "title": "Destinations V2 Raw Table Schema",
+            "title": "Raw Table Schema Name",
             "type": "string"
           },
           "role": {
@@ -12303,10 +12458,10 @@
     "vendor": "Airbyte",
     "vendor_attributes": {
       "ab_internal": {
-        "ql": 400,
-        "sl": 200
+        "ql": 300,
+        "sl": 300
       },
-      "dockerImageTag": "3.2.3",
+      "dockerImageTag": "3.4.11",
       "dockerRepository": "airbyte/destination-snowflake",
       "githubIssueLabel": "destination-snowflake",
       "license": "ELv2",
@@ -12417,7 +12572,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/sqlite",
     "icon": "sqlite.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-sqlite/latest/icon.svg",
-    "id": "airbyte-destination-sqlite",
+    "id": "airbyte_destination_sqlite",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12477,7 +12632,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/starburst-galaxy",
     "icon": "starburst-galaxy.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-starburst-galaxy/latest/icon.svg",
-    "id": "airbyte-destination-starburst-galaxy",
+    "id": "airbyte_destination_starburst_galaxy",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12695,7 +12850,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/teradata",
     "icon": "teradata.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-teradata/latest/icon.svg",
-    "id": "airbyte-destination-teradata",
+    "id": "airbyte_destination_teradata",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12934,7 +13089,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/tidb",
     "icon": "tidb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-tidb/latest/icon.svg",
-    "id": "airbyte-destination-tidb",
+    "id": "airbyte_destination_tidb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13170,7 +13325,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/timeplus",
     "icon": "timeplus.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-timeplus/latest/icon.svg",
-    "id": "airbyte-destination-timeplus",
+    "id": "airbyte_destination_timeplus",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13243,7 +13398,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/typesense",
     "icon": "typesense.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-typesense/latest/icon.svg",
-    "id": "airbyte-destination-typesense",
+    "id": "airbyte_destination_typesense",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13327,7 +13482,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/vertica",
     "icon": "vertica.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-vertica/latest/icon.svg",
-    "id": "airbyte-destination-vertica",
+    "id": "airbyte_destination_vertica",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13565,7 +13720,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/weaviate",
     "icon": "weaviate.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-weaviate/latest/icon.svg",
-    "id": "airbyte-destination-weaviate",
+    "id": "airbyte_destination_weaviate",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -13611,6 +13766,9 @@
                     "type": "string"
                   }
                 },
+                "required": [
+                  "mode"
+                ],
                 "title": "No external embedding",
                 "type": "object"
               },
@@ -13652,7 +13810,8 @@
                 "required": [
                   "openai_key",
                   "api_base",
-                  "deployment"
+                  "deployment",
+                  "mode"
                 ],
                 "title": "Azure OpenAI",
                 "type": "object"
@@ -13676,7 +13835,8 @@
                   }
                 },
                 "required": [
-                  "openai_key"
+                  "openai_key",
+                  "mode"
                 ],
                 "title": "OpenAI",
                 "type": "object"
@@ -13700,7 +13860,8 @@
                   }
                 },
                 "required": [
-                  "cohere_key"
+                  "cohere_key",
+                  "mode"
                 ],
                 "title": "Cohere",
                 "type": "object"
@@ -13738,7 +13899,8 @@
                 },
                 "required": [
                   "field_name",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "From Field",
                 "type": "object"
@@ -13756,6 +13918,9 @@
                     "type": "string"
                   }
                 },
+                "required": [
+                  "mode"
+                ],
                 "title": "Fake",
                 "type": "object"
               },
@@ -13806,7 +13971,8 @@
                 },
                 "required": [
                   "base_url",
-                  "dimensions"
+                  "dimensions",
+                  "mode"
                 ],
                 "title": "OpenAI-compatible",
                 "type": "object"
@@ -13873,7 +14039,8 @@
                       }
                     },
                     "required": [
-                      "token"
+                      "token",
+                      "mode"
                     ],
                     "title": "API Token",
                     "type": "object"
@@ -13906,7 +14073,8 @@
                     },
                     "required": [
                       "username",
-                      "password"
+                      "password",
+                      "mode"
                     ],
                     "title": "Username/Password",
                     "type": "object"
@@ -13924,6 +14092,9 @@
                         "type": "string"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "No Authentication",
                     "type": "object"
                   }
@@ -13989,8 +14160,35 @@
               "chunk_size": {
                 "description": "Size of chunks in tokens to store in vector store (make sure it is not too big for the context if your LLM)",
                 "maximum": 8191,
+                "minimum": 1,
                 "title": "Chunk size",
                 "type": "integer"
+              },
+              "field_name_mappings": {
+                "default": [],
+                "description": "List of fields to rename. Not applicable for nested fields, but can be used to rename fields already flattened via dot notation.",
+                "items": {
+                  "properties": {
+                    "from_field": {
+                      "description": "The field name in the source",
+                      "title": "From field name",
+                      "type": "string"
+                    },
+                    "to_field": {
+                      "description": "The field name to use in the destination",
+                      "title": "To field name",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "from_field",
+                    "to_field"
+                  ],
+                  "title": "FieldNameMappingConfigModel",
+                  "type": "object"
+                },
+                "title": "Field name mappings",
+                "type": "array"
               },
               "metadata_fields": {
                 "always_show": true,
@@ -14058,6 +14256,9 @@
                         "type": "array"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Separator",
                     "type": "object"
                   },
@@ -14082,6 +14283,9 @@
                         "type": "integer"
                       }
                     },
+                    "required": [
+                      "mode"
+                    ],
                     "title": "By Markdown header",
                     "type": "object"
                   },
@@ -14122,7 +14326,8 @@
                       }
                     },
                     "required": [
-                      "language"
+                      "language",
+                      "mode"
                     ],
                     "title": "By Programming Language",
                     "type": "object"
@@ -14159,7 +14364,7 @@
         "ql": 300,
         "sl": 200
       },
-      "dockerImageTag": "0.2.3",
+      "dockerImageTag": "0.2.9",
       "dockerRepository": "airbyte/destination-weaviate",
       "githubIssueLabel": "destination-weaviate",
       "license": "MIT",
@@ -14197,7 +14402,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/xata",
     "icon": "xata.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-xata/latest/icon.svg",
-    "id": "airbyte-destination-xata",
+    "id": "airbyte_destination_xata",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -14264,7 +14469,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/yugabytedb",
     "icon": "yugabytedb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-yugabytedb/latest/icon.svg",
-    "id": "airbyte-destination-yugabytedb",
+    "id": "airbyte_destination_yugabytedb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -14376,7 +14581,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/streamr",
     "icon": "streamr.svg",
     "icon_url": "https://storage.googleapis.com/prod-airbyte-cloud-connector-metadata-service/metadata/ghcr.io/devmate-cloud/streamr-airbyte-connectors/latest/icon.svg",
-    "id": "airbyte-devmate-cloud",
+    "id": "airbyte_devmate_cloud",
     "public": true,
     "spec": {
       "resource_specification": {

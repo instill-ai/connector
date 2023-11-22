@@ -57,16 +57,6 @@ type ConfiguredAirbyteStream struct {
 // TaskOutputAirbyteCatalog stores the pre-defined task AirbyteCatalog
 var TaskOutputAirbyteCatalog AirbyteCatalog
 
-// TODO: add this in vdp_protocol
-const dataSchema = `
-{
-	"$schema": "http://json-schema.org/draft-04/schema#",
-	"type": "object",
-	"properties": {
-	}
-}
-`
-
 // InitAirbyteCatalog reads all task AirbyteCatalog files and stores the JSON content in the global TaskAirbyteCatalog variable
 func InitAirbyteCatalog(logger *zap.Logger) {
 
