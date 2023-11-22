@@ -16,7 +16,7 @@ name_set = set()
 for idx in range(len(definitions)):
     definitions[idx]['uid'] = definitions[idx]['destinationDefinitionId']
     definitions[idx][
-        'id'] = f"airbyte-{definitions[idx]['dockerRepository'].split('/')[1]}"
+        'id'] = f"airbyte_{definitions[idx]['dockerRepository'].split('/')[1]}".replace("-", "_")
     definitions[idx]['title'] = "Airbyte " + definitions[idx]['name']
 
     definitions[idx]['vendor_attributes'] = {
