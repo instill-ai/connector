@@ -11,7 +11,7 @@
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/openai",
     "icon": "openai.svg",
     "icon_url": "",
-    "id": "ai-openai",
+    "id": "openai",
     "public": true,
     "spec": {
       "resource_specification": {

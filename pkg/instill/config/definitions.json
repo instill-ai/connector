@@ -14,7 +14,7 @@
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/instill-model",
     "icon": "instillmodel.svg",
     "icon_url": "",
-    "id": "ai-instill-model",
+    "id": "instill_model",
     "public": true,
     "spec": {
       "resource_specification": {

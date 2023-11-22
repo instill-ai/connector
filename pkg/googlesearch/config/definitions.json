@@ -7,7 +7,7 @@
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/data-connectors/google-search",
     "icon": "google-search.svg",
     "icon_url": "",
-    "id": "data-google-search",
+    "id": "google_search",
     "public": true,
     "spec": {
       "resource_specification": {

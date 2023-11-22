@@ -8,7 +8,7 @@
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/stability-ai",
     "icon": "stabilityai.svg",
     "icon_url": "",
-    "id": "ai-stability-ai",
+    "id": "stability_ai",
     "public": true,
     "spec": {
       "resource_specification": {
