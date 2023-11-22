@@ -37,7 +37,8 @@
           }
         },
         "required": [
-          "api_token"
+          "api_token",
+          "server_url"
         ],
         "title": "Instill Model Connector Resource",
         "type": "object"
