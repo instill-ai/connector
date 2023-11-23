@@ -89,13 +89,13 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		}
 
 		if options.ExcludeLocalConnector {
-			def, _ := connector.GetConnectorDefinitionByID("airbyte-destination-local-json")
+			def, _ := connector.GetConnectorDefinitionByID("airbyte_destination_local_json")
 			(*def).Tombstone = true
-			def, _ = connector.GetConnectorDefinitionByID("airbyte-destination-csv")
+			def, _ = connector.GetConnectorDefinitionByID("airbyte_destination_csv")
 			(*def).Tombstone = true
-			def, _ = connector.GetConnectorDefinitionByID("airbyte-destination-sqlite")
+			def, _ = connector.GetConnectorDefinitionByID("airbyte_destination_sqlite")
 			(*def).Tombstone = true
-			def, _ = connector.GetConnectorDefinitionByID("airbyte-destination-duckdb")
+			def, _ = connector.GetConnectorDefinitionByID("airbyte_destination_duckdb")
 			(*def).Tombstone = true
 		}
 
