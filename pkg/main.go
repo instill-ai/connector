@@ -17,6 +17,7 @@ import (
 	"github.com/instill-ai/connector/pkg/numbers"
 	"github.com/instill-ai/connector/pkg/openai"
 	"github.com/instill-ai/connector/pkg/pinecone"
+	"github.com/instill-ai/connector/pkg/redis"
 	"github.com/instill-ai/connector/pkg/restapi"
 	"github.com/instill-ai/connector/pkg/stabilityai"
 
@@ -53,6 +54,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		connector.(*Connector).ImportDefinitions(googlecloudstorage.Init(logger))
 		connector.(*Connector).ImportDefinitions(googlesearch.Init(logger))
 		connector.(*Connector).ImportDefinitions(pinecone.Init(logger))
+		connector.(*Connector).ImportDefinitions(redis.Init(logger))
 		connector.(*Connector).ImportDefinitions(restapi.Init(logger))
 
 	})
