@@ -151,7 +151,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			outputStruct := TextToImageResponse{Image: base64.StdEncoding.EncodeToString(resp)}
+			outputStruct := TextToImageResponse{Image: fmt.Sprintf("data:image/jpeg;base64,%s", base64.StdEncoding.EncodeToString(resp))}
 			outputJson, err := json.Marshal(outputStruct)
 			if err != nil {
 				return nil, err
@@ -492,7 +492,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 					StructValue: &structpb.Struct{Fields: map[string]*structpb.Value{
 						"score": {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
 						"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
-						"mask":  {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Mask}},
+						"mask":  {Kind: &structpb.Value_StringValue{StringValue: fmt.Sprintf("data:image/png;base64,%s", outputArr[i].Mask)}},
 					}}},
 				}
 			}

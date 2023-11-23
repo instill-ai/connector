@@ -170,7 +170,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			for _, image := range images {
-				outputStruct.Images = append(outputStruct.Images, image.Base64)
+				outputStruct.Images = append(outputStruct.Images, fmt.Sprintf("data:image/png;base64,%s", image.Base64))
 				outputStruct.Seeds = append(outputStruct.Seeds, image.Seed)
 			}
 			output, err := base.ConvertToStructpb(outputStruct)
