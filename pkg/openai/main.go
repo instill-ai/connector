@@ -306,6 +306,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return inputs, err
 			}
 
+			outputStruct.Audio = fmt.Sprintf("data:audio/wav;base64,%s", outputStruct.Audio)
+
 			output, err := base.ConvertToStructpb(outputStruct)
 			if err != nil {
 				return nil, err
@@ -337,7 +339,10 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			results := []ImageGenerationsOutputResult{}
 			for _, data := range resp.Data {
-				results = append(results, ImageGenerationsOutputResult(data))
+				results = append(results, ImageGenerationsOutputResult{
+					Image:         fmt.Sprintf("data:image/webp;base64,%s", data.Image),
+					RevisedPrompt: data.RevisedPrompt,
+				})
 			}
 			outputStruct := ImageGenerationsOutput{
 				Results: results,

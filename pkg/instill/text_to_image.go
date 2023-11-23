@@ -52,6 +52,11 @@ func (c *Execution) executeTextToImage(grpcClient modelPB.ModelPublicServiceClie
 		}
 
 		textToImgOutput := taskOutputs[0].GetTextToImage()
+
+		for imageIdx := range textToImgOutput.Images {
+			textToImgOutput.Images[imageIdx] = fmt.Sprintf("data:image/jpeg;base64,%s", textToImgOutput.Images[imageIdx])
+		}
+
 		if textToImgOutput == nil || len(textToImgOutput.Images) <= 0 {
 			return nil, fmt.Errorf("invalid output: %v for model: %s", textToImgOutput, modelName)
 		}

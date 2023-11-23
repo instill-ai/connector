@@ -615,12 +615,11 @@
       "type": "object"
     },
     "output": {
-      "instillFormat": "audio/wav",
       "instillUIOrder": 0,
       "properties": {
         "audio": {
           "description": "AI generated audio",
-          "instillFormat": "audio/*",
+          "instillFormat": "audio/wav",
           "instillUIOrder": 0,
           "title": "Audio",
           "type": "string"
