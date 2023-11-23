@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"google.golang.org/api/customsearch/v1"
+
+	"github.com/instill-ai/connector/pkg/util"
 )
 
 const (
@@ -84,16 +85,24 @@ func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, in
 				fmt.Printf("Error parsing %s: %v", item.Link, err)
 			}
 
-			if includeLinkText {
-				linkText = scrapeWebpageText(doc)
-			}
-
 			if includeLinkHtml {
-				linkHtml, err = scrapeWebpageHtml(doc)
+				linkHtml, err = util.ScrapeWebpageHTML(doc)
 				if err != nil {
 					log.Printf("Error scraping HTML from %s: %v", item.Link, err)
 				}
 			}
+
+			if includeLinkText {
+				linkHtml, err = util.ScrapeWebpageHTML(doc)
+				if err != nil {
+					log.Printf("Error scraping HTML from %s: %v", item.Link, err)
+				}
+				linkText, err = util.ScrapeWebpageHTMLToMarkdown(linkHtml)
+				if err != nil {
+					log.Printf("Error scraping text from %s: %v", item.Link, err)
+				}
+			}
+
 		}
 
 		results = append(results, &Result{
@@ -146,29 +155,4 @@ func search(cseListCall *customsearch.CseListCall, input SearchInput) (SearchOut
 	output.Results = results
 
 	return output, nil
-}
-
-// Scrape the HTML content of a webpage
-func scrapeWebpageHtml(doc *goquery.Document) (string, error) {
-	return doc.Selection.Html()
-}
-
-// Scrape the text content of a webpage
-func scrapeWebpageText(doc *goquery.Document) string {
-	// Extract title, headers and paragraphs (h1, h2, h3, etc.)
-	content := ""
-	doc.Find("title, h1, h2, h3, h4, h5, h6, p, a").Each(func(index int, element *goquery.Selection) {
-		text := element.Text()
-		// Remove extra whitespace and newlines from the paragraph text
-		text = strings.TrimSpace(text)
-		// Append the text to the content string
-		content += text
-		tagName := strings.ToLower(element.Get(0).Data) // Get the tag name
-		if tagName == "a" {
-			content += " "
-		} else {
-			content += "\n"
-		}
-	})
-	return content
 }
