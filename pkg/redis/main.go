@@ -10,8 +10,6 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	goredis "github.com/redis/go-redis/v9"
-
 	"github.com/instill-ai/component/pkg/base"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
@@ -61,48 +59,13 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return e, nil
 }
 
-func NewClient(host string, port int, username, password string) *goredis.Client {
-
-	op := &goredis.Options{
-		Addr:     fmt.Sprintf("%s:%d", host, port),
-		Password: password,
-		DB:       0,
-	}
-	if username != "" {
-		op.Username = username
-	}
-
-	return goredis.NewClient(op)
-
-	// TODO - add TLS support
-	// TODO - add SSL support
-}
-
-func getHost(config *structpb.Struct) string {
-	return config.GetFields()["host"].GetStringValue()
-}
-func getPort(config *structpb.Struct) int {
-	return int(config.GetFields()["port"].GetNumberValue())
-}
-func getPassword(config *structpb.Struct) string {
-	val, ok := config.GetFields()["password"]
-	if !ok {
-		return ""
-	}
-	return val.GetStringValue()
-}
-func getUsername(config *structpb.Struct) string {
-	val, ok := config.GetFields()["username"]
-	if !ok {
-		return ""
-	}
-	return val.GetStringValue()
-}
-
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	outputs := []*structpb.Struct{}
 
-	client := NewClient(getHost(e.Config), getPort(e.Config), getUsername(e.Config), getPassword(e.Config))
+	client, err := NewClient(e.Config)
+	if err != nil {
+		return outputs, err
+	}
 	defer client.Close()
 
 	for _, input := range inputs {
@@ -139,11 +102,14 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 }
 
 func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	client := NewClient(getHost(config), getPort(config), getUsername(config), getPassword(config))
+	client, err := NewClient(config)
+	if err != nil {
+		return pipelinePB.Connector_STATE_ERROR, err
+	}
 	defer client.Close()
 
 	// Ping the Redis server to check the connection
-	_, err := client.Ping(context.Background()).Result()
+	_, err = client.Ping(context.Background()).Result()
 	if err != nil {
 		return pipelinePB.Connector_STATE_DISCONNECTED, err
 	}
