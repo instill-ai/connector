@@ -20,6 +20,7 @@ import (
 	"github.com/instill-ai/connector/pkg/redis"
 	"github.com/instill-ai/connector/pkg/restapi"
 	"github.com/instill-ai/connector/pkg/stabilityai"
+	"github.com/instill-ai/connector/pkg/website"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
 )
@@ -56,6 +57,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		connector.(*Connector).ImportDefinitions(pinecone.Init(logger))
 		connector.(*Connector).ImportDefinitions(redis.Init(logger))
 		connector.(*Connector).ImportDefinitions(restapi.Init(logger))
+		connector.(*Connector).ImportDefinitions(website.Init(logger))
 
 	})
 	return connector

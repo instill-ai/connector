@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strings"
 
+	md "github.com/JohannesKaufmann/html-to-markdown"
+	"github.com/PuerkitoBio/goquery"
 	"github.com/h2non/filetype"
 )
 
@@ -31,4 +33,32 @@ func WriteField(writer *multipart.Writer, key string, value string) {
 	if key != "" && value != "" {
 		_ = writer.WriteField(key, value)
 	}
+}
+
+// ScrapeWebpageHTML scrape the HTML content of a webpage
+func ScrapeWebpageHTML(doc *goquery.Document) (string, error) {
+	return doc.Selection.Html()
+}
+
+// ScrapeWebpageTitle extracts and returns the title from the *goquery.Document
+func ScrapeWebpageTitle(doc *goquery.Document) string {
+	// Find the title tag and get its text content
+	title := doc.Find("title").Text()
+
+	// Return the trimmed title
+	return strings.TrimSpace(title)
+}
+
+// ScrapeWebpageHTMLToMarkdown converts an HTML string to Markdown format
+func ScrapeWebpageHTMLToMarkdown(html string) (string, error) {
+	// Initialize the markdown converter
+	converter := md.NewConverter("", true, nil)
+
+	// Convert the HTML to Markdown
+	markdown, err := converter.ConvertString(html)
+	if err != nil {
+		return "", err
+	}
+
+	return markdown, nil
 }
