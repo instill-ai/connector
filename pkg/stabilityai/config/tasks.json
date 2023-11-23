@@ -210,7 +210,7 @@
           "title": "Style Preset"
         },
         "weights": {
-          "description": "An array of weights to use for generation.",
+          "description": "An array of weights to use for generation. If unspecified, the model will automatically assign a default weight of 1.0 to each prompt.",
           "instillAcceptFormats": [
             "array:number",
             "array:integer"
