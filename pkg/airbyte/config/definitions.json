@@ -7,7 +7,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/amazon-sqs",
     "icon": "awssqs.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-amazon-sqs/latest/icon.svg",
-    "id": "airbyte_destination_amazon_sqs",
+    "id": "airbyte-destination-amazon-sqs",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -151,7 +151,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/aws-datalake",
     "icon": "awsdatalake.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-aws-datalake/latest/icon.svg",
-    "id": "airbyte_destination_aws_datalake",
+    "id": "airbyte-destination-aws-datalake",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -448,7 +448,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/azure-blob-storage",
     "icon": "azureblobstorage.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-azure-blob-storage/latest/icon.svg",
-    "id": "airbyte_destination_azure_blob_storage",
+    "id": "airbyte-destination-azure-blob-storage",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -611,7 +611,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/bigquery",
     "icon": "bigquery.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-bigquery/latest/icon.svg",
-    "id": "airbyte_destination_bigquery",
+    "id": "airbyte-destination-bigquery",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -928,7 +928,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/cassandra",
     "icon": "cassandra.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-cassandra/latest/icon.svg",
-    "id": "airbyte_destination_cassandra",
+    "id": "airbyte-destination-cassandra",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1038,7 +1038,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/chroma",
     "icon": "chroma.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-chroma/latest/icon.svg",
-    "id": "airbyte_destination_chroma",
+    "id": "airbyte-destination-chroma",
     "public": true,
     "releaseDate": "2023-09-13",
     "spec": {
@@ -1576,7 +1576,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/clickhouse",
     "icon": "clickhouse.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-clickhouse/latest/icon.svg",
-    "id": "airbyte_destination_clickhouse",
+    "id": "airbyte-destination-clickhouse",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1811,7 +1811,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/convex",
     "icon": "convex.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-convex/latest/icon.svg",
-    "id": "airbyte_destination_convex",
+    "id": "airbyte-destination-convex",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -1881,7 +1881,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/csv",
     "icon": "file-csv.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-csv/latest/icon.svg",
-    "id": "airbyte_destination_csv",
+    "id": "airbyte-destination-csv",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2010,7 +2010,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/cumulio",
     "icon": "cumulio.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-cumulio/latest/icon.svg",
-    "id": "airbyte_destination_cumulio",
+    "id": "airbyte-destination-cumulio",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2088,7 +2088,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/databend",
     "icon": "databend.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-databend/latest/icon.svg",
-    "id": "airbyte_destination_databend",
+    "id": "airbyte-destination-databend",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2190,7 +2190,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/databricks",
     "icon": "databricks.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-databricks/latest/icon.svg",
-    "id": "airbyte_destination_databricks",
+    "id": "airbyte-destination-databricks",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2503,7 +2503,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/doris",
     "icon": "apachedoris.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-doris/latest/icon.svg",
-    "id": "airbyte_destination_doris",
+    "id": "airbyte-destination-doris",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2613,7 +2613,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/duckdb",
     "icon": "duckdb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-duckdb/latest/icon.svg",
-    "id": "airbyte_destination_duckdb",
+    "id": "airbyte-destination-duckdb",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -2700,7 +2700,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/dynamodb",
     "icon": "dynamodb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-dynamodb/latest/icon.svg",
-    "id": "airbyte_destination_dynamodb",
+    "id": "airbyte-destination-dynamodb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -2827,7 +2827,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/e2e-test",
     "icon": "airbyte.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-e2e-test/latest/icon.svg",
-    "id": "airbyte_destination_e2e_test",
+    "id": "airbyte-destination-e2e-test",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3077,7 +3077,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/elasticsearch",
     "icon": "elasticsearch.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-elasticsearch/latest/icon.svg",
-    "id": "airbyte_destination_elasticsearch",
+    "id": "airbyte-destination-elasticsearch",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3345,7 +3345,7 @@
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/exasol",
     "icon_url": "",
-    "id": "airbyte_destination_exasol",
+    "id": "airbyte-destination-exasol",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3455,7 +3455,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/firebolt",
     "icon": "firebolt.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-firebolt/latest/icon.svg",
-    "id": "airbyte_destination_firebolt",
+    "id": "airbyte-destination-firebolt",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3614,7 +3614,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/firestore",
     "icon": "firestore.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-firestore/latest/icon.svg",
-    "id": "airbyte_destination_firestore",
+    "id": "airbyte-destination-firestore",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -3680,7 +3680,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/gcs",
     "icon": "googlecloudstorage.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-gcs/latest/icon.svg",
-    "id": "airbyte_destination_gcs",
+    "id": "airbyte-destination-gcs",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -4188,7 +4188,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/google-sheets",
     "icon": "google-sheets.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-google-sheets/latest/icon.svg",
-    "id": "airbyte_destination_google_sheets",
+    "id": "airbyte-destination-google-sheets",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -4327,7 +4327,7 @@
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/iceberg",
     "icon_url": "",
-    "id": "airbyte_destination_iceberg",
+    "id": "airbyte-destination-iceberg",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -4751,7 +4751,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/kafka",
     "icon": "kafka.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-kafka/latest/icon.svg",
-    "id": "airbyte_destination_kafka",
+    "id": "airbyte-destination-kafka",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5099,7 +5099,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/keen",
     "icon": "chargify.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-keen/latest/icon.svg",
-    "id": "airbyte_destination_keen",
+    "id": "airbyte-destination-keen",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5178,7 +5178,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/kinesis",
     "icon": "kinesis.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-kinesis/latest/icon.svg",
-    "id": "airbyte_destination_kinesis",
+    "id": "airbyte-destination-kinesis",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5285,7 +5285,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/langchain",
     "icon": "langchain.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-langchain/latest/icon.svg",
-    "id": "airbyte_destination_langchain",
+    "id": "airbyte-destination-langchain",
     "public": true,
     "releaseDate": "2023-07-15",
     "releases": {
@@ -5553,7 +5553,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/local-json",
     "icon": "file-json.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-local-json/latest/icon.svg",
-    "id": "airbyte_destination_local_json",
+    "id": "airbyte-destination-local-json",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5616,7 +5616,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mariadb-columnstore",
     "icon": "mariadb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mariadb-columnstore/latest/icon.svg",
-    "id": "airbyte_destination_mariadb_columnstore",
+    "id": "airbyte-destination-mariadb-columnstore",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5837,7 +5837,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/meilisearch",
     "icon": "meilisearch.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-meilisearch/latest/icon.svg",
-    "id": "airbyte_destination_meilisearch",
+    "id": "airbyte-destination-meilisearch",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -5916,7 +5916,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/milvus",
     "icon": "milvus.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-milvus/latest/icon.svg",
-    "id": "airbyte_destination_milvus",
+    "id": "airbyte-destination-milvus",
     "public": true,
     "releaseDate": "2023-08-15",
     "spec": {
@@ -6538,7 +6538,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mongodb",
     "icon": "mongodb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mongodb/latest/icon.svg",
-    "id": "airbyte_destination_mongodb",
+    "id": "airbyte-destination-mongodb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -6872,7 +6872,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mqtt",
     "icon": "mqtt.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mqtt/latest/icon.svg",
-    "id": "airbyte_destination_mqtt",
+    "id": "airbyte-destination-mqtt",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7027,7 +7027,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mssql",
     "icon": "mssql.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mssql/latest/icon.svg",
-    "id": "airbyte_destination_mssql",
+    "id": "airbyte-destination-mssql",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7335,7 +7335,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/mysql",
     "icon": "mysql.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-mysql/latest/icon.svg",
-    "id": "airbyte_destination_mysql",
+    "id": "airbyte-destination-mysql",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7569,7 +7569,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/oracle",
     "icon": "oracle.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-oracle/latest/icon.svg",
-    "id": "airbyte_destination_oracle",
+    "id": "airbyte-destination-oracle",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -7895,7 +7895,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pinecone",
     "icon": "pinecone.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-pinecone/latest/icon.svg",
-    "id": "airbyte_destination_pinecone",
+    "id": "airbyte-destination-pinecone",
     "public": true,
     "releaseDate": "2023-08-15",
     "spec": {
@@ -8376,7 +8376,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/postgres",
     "icon": "postgresql.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-postgres/latest/icon.svg",
-    "id": "airbyte_destination_postgres",
+    "id": "airbyte-destination-postgres",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -8794,7 +8794,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pubsub",
     "icon": "googlepubsub.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-pubsub/latest/icon.svg",
-    "id": "airbyte_destination_pubsub",
+    "id": "airbyte-destination-pubsub",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -8901,7 +8901,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/pulsar",
     "icon": "pulsar.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-pulsar/latest/icon.svg",
-    "id": "airbyte_destination_pulsar",
+    "id": "airbyte-destination-pulsar",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -9104,7 +9104,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/qdrant",
     "icon": "qdrant.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-qdrant/latest/icon.svg",
-    "id": "airbyte_destination_qdrant",
+    "id": "airbyte-destination-qdrant",
     "public": true,
     "releaseDate": "2023-09-22",
     "spec": {
@@ -9705,7 +9705,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/r2",
     "icon": "cloudflare-r2.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-r2/latest/icon.svg",
-    "id": "airbyte_destination_r2",
+    "id": "airbyte-destination-r2",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10103,7 +10103,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/rabbitmq",
     "icon": "pulsar.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-rabbitmq/latest/icon.svg",
-    "id": "airbyte_destination_rabbitmq",
+    "id": "airbyte-destination-rabbitmq",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10193,7 +10193,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/redis",
     "icon": "redis.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-redis/latest/icon.svg",
-    "id": "airbyte_destination_redis",
+    "id": "airbyte-destination-redis",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10499,7 +10499,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/redpanda",
     "icon": "redpanda.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-redpanda/latest/icon.svg",
-    "id": "airbyte_destination_redpanda",
+    "id": "airbyte-destination-redpanda",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -10631,7 +10631,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/redshift",
     "icon": "redshift.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-redshift/latest/icon.svg",
-    "id": "airbyte_destination_redshift",
+    "id": "airbyte-destination-redshift",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11075,7 +11075,7 @@
     "custom": false,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/rockset",
     "icon_url": "",
-    "id": "airbyte_destination_rockset",
+    "id": "airbyte-destination-rockset",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11159,7 +11159,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/s3-glue",
     "icon": "s3-glue.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-s3-glue/latest/icon.svg",
-    "id": "airbyte_destination_s3_glue",
+    "id": "airbyte-destination-s3-glue",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11410,7 +11410,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/s3",
     "icon": "s3.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-s3/latest/icon.svg",
-    "id": "airbyte_destination_s3",
+    "id": "airbyte-destination-s3",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -11935,7 +11935,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/scylla",
     "icon": "scylla.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-scylla/latest/icon.svg",
-    "id": "airbyte_destination_scylla",
+    "id": "airbyte-destination-scylla",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12035,7 +12035,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/selectdb",
     "icon": "selectdb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-selectdb/latest/icon.svg",
-    "id": "airbyte_destination_selectdb",
+    "id": "airbyte-destination-selectdb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12131,7 +12131,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/sftp-json",
     "icon": "sftp.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-sftp-json/latest/icon.svg",
-    "id": "airbyte_destination_sftp_json",
+    "id": "airbyte-destination-sftp-json",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12229,7 +12229,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/snowflake",
     "icon": "snowflake.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-snowflake/latest/icon.svg",
-    "id": "airbyte_destination_snowflake",
+    "id": "airbyte-destination-snowflake",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -12572,7 +12572,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/sqlite",
     "icon": "sqlite.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-sqlite/latest/icon.svg",
-    "id": "airbyte_destination_sqlite",
+    "id": "airbyte-destination-sqlite",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12632,7 +12632,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/starburst-galaxy",
     "icon": "starburst-galaxy.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-starburst-galaxy/latest/icon.svg",
-    "id": "airbyte_destination_starburst_galaxy",
+    "id": "airbyte-destination-starburst-galaxy",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -12850,7 +12850,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/teradata",
     "icon": "teradata.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-teradata/latest/icon.svg",
-    "id": "airbyte_destination_teradata",
+    "id": "airbyte-destination-teradata",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13089,7 +13089,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/tidb",
     "icon": "tidb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-tidb/latest/icon.svg",
-    "id": "airbyte_destination_tidb",
+    "id": "airbyte-destination-tidb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13325,7 +13325,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/timeplus",
     "icon": "timeplus.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-timeplus/latest/icon.svg",
-    "id": "airbyte_destination_timeplus",
+    "id": "airbyte-destination-timeplus",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13398,7 +13398,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/typesense",
     "icon": "typesense.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-typesense/latest/icon.svg",
-    "id": "airbyte_destination_typesense",
+    "id": "airbyte-destination-typesense",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13482,7 +13482,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/vertica",
     "icon": "vertica.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-vertica/latest/icon.svg",
-    "id": "airbyte_destination_vertica",
+    "id": "airbyte-destination-vertica",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -13720,7 +13720,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/weaviate",
     "icon": "weaviate.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-weaviate/latest/icon.svg",
-    "id": "airbyte_destination_weaviate",
+    "id": "airbyte-destination-weaviate",
     "public": true,
     "releases": {
       "breakingChanges": {
@@ -14402,7 +14402,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/xata",
     "icon": "xata.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-xata/latest/icon.svg",
-    "id": "airbyte_destination_xata",
+    "id": "airbyte-destination-xata",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -14469,7 +14469,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/yugabytedb",
     "icon": "yugabytedb.svg",
     "icon_url": "https://connectors.airbyte.com/files/metadata/airbyte/destination-yugabytedb/latest/icon.svg",
-    "id": "airbyte_destination_yugabytedb",
+    "id": "airbyte-destination-yugabytedb",
     "public": true,
     "spec": {
       "resource_specification": {
@@ -14581,7 +14581,7 @@
     "documentation_url": "https://docs.airbyte.com/integrations/destinations/streamr",
     "icon": "streamr.svg",
     "icon_url": "https://storage.googleapis.com/prod-airbyte-cloud-connector-metadata-service/metadata/ghcr.io/devmate-cloud/streamr-airbyte-connectors/latest/icon.svg",
-    "id": "airbyte_devmate_cloud",
+    "id": "airbyte-devmate-cloud",
     "public": true,
     "spec": {
       "resource_specification": {
