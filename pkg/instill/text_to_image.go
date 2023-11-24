@@ -8,6 +8,7 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
@@ -18,16 +19,34 @@ func (c *Execution) executeTextToImage(grpcClient modelPB.ModelPublicServiceClie
 
 	outputs := []*structpb.Struct{}
 	for _, input := range inputs {
-		inputJson, err := protojson.Marshal(input)
-		if err != nil {
-			return nil, err
+		textToImageInput := &modelPB.TextToImageInput{
+			Prompt: input.GetFields()["prompt"].GetStringValue(),
 		}
-		textToImageInput := &modelPB.TextToImageInput{}
-		err = protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(inputJson, textToImageInput)
-		if err != nil {
-			return nil, err
+		if _, ok := input.GetFields()["steps"]; ok {
+			v := int32(input.GetFields()["steps"].GetNumberValue())
+			textToImageInput.Steps = &v
 		}
-
+		if _, ok := input.GetFields()["image_base64"]; ok {
+			textToImageInput.Type = &modelPB.TextToImageInput_PromptImageBase64{
+				PromptImageBase64: base.TrimBase64Mime(input.GetFields()["image_base64"].GetStringValue()),
+			}
+		}
+		if _, ok := input.GetFields()["cfg_scale"]; ok {
+			v := float32(input.GetFields()["cfg_scale"].GetNumberValue())
+			textToImageInput.CfgScale = &v
+		}
+		if _, ok := input.GetFields()["samples"]; ok {
+			v := int32(input.GetFields()["samples"].GetNumberValue())
+			textToImageInput.Samples = &v
+		}
+		if _, ok := input.GetFields()["seed"]; ok {
+			v := int32(input.GetFields()["seed"].GetNumberValue())
+			textToImageInput.Seed = &v
+		}
+		if _, ok := input.GetFields()["extra_params"]; ok {
+			v := (input.GetFields()["extra_params"].GetStringValue())
+			textToImageInput.ExtraParams = &v
+		}
 		taskInput := &modelPB.TaskInput_TextToImage{
 			TextToImage: textToImageInput,
 		}

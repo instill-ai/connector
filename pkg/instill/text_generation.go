@@ -49,6 +49,10 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 			v := int32(input.GetFields()["seed"].GetNumberValue())
 			textGenerationInput.Seed = &v
 		}
+		if _, ok := input.GetFields()["extra_params"]; ok {
+			v := (input.GetFields()["extra_params"].GetStringValue())
+			textGenerationInput.ExtraParams = &v
+		}
 
 		taskInput := &modelPB.TaskInput_TextGeneration{
 			TextGeneration: textGenerationInput,
