@@ -60,7 +60,7 @@ func (e *VerifyFullSSL) GetConfig() (*tls.Config, error) {
 		// In a production setting, you might want to set MinVersion to tls.VersionTLS12
 		MinVersion: tls.VersionTLS12,
 		// Setting InsecureSkipVerify to true is not recommended in a production environment
-		InsecureSkipVerify: false,
+		InsecureSkipVerify: true,
 	}
 	return tlsConfig, nil
 }
