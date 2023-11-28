@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.7.0-alpha](https://github.com/instill-ai/connector/compare/v0.6.0-alpha...v0.7.0-alpha) (2023-11-28)
+
+
+### Features
+
+* **openai:** support text to speech task ([#52](https://github.com/instill-ai/connector/issues/52)) ([7c3caf7](https://github.com/instill-ai/connector/commit/7c3caf76db144e6ee074f4d5f106b905fc3f68b5))
+* **redis,openai:** support redis as LLM chat memory store ([#53](https://github.com/instill-ai/connector/issues/53)) ([bf5dea7](https://github.com/instill-ai/connector/commit/bf5dea7cf81d09637b638b3b11be003c08dd2da1))
+* **redis:** add SSL/TLS support for Redis ([#62](https://github.com/instill-ai/connector/issues/62)) ([450b60d](https://github.com/instill-ai/connector/commit/450b60d30c7cd376cbd7e5ef81d6bedf278faf56))
+* **restapi:** add REST API connector ([#54](https://github.com/instill-ai/connector/issues/54)) ([a795462](https://github.com/instill-ai/connector/commit/a795462922c7525d46ba3ae509447b29a8733226))
+* **website,googlesearch:** add website connector and improve webpage text parsing ([#64](https://github.com/instill-ai/connector/issues/64)) ([879904f](https://github.com/instill-ai/connector/commit/879904f5e39d60cf487e1cea078a32b617042bc6))
+
+
+### Bug Fixes
+
+* **stability-ai:** add default weight for stable-diffusion-xl-1024-v1-0 ([#61](https://github.com/instill-ai/connector/issues/61)) ([7c18737](https://github.com/instill-ai/connector/commit/7c18737c606bb62e3a2b0bd3ee7e2d00047c849d))
+
 ## [0.6.0-alpha](https://github.com/instill-ai/connector/compare/v0.5.0-alpha...v0.6.0-alpha) (2023-11-11)
 
 
