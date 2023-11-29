@@ -56,8 +56,7 @@
         "session_id": {
           "description": "A unique identifier for the chat session",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -102,8 +101,7 @@
         "content": {
           "description": "The message content",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIMultiline": true,
           "instillUIOrder": 2,
@@ -126,8 +124,7 @@
         "role": {
           "description": "The message role, i.e. 'system', 'user' or 'assistant'",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -141,8 +138,7 @@
         "session_id": {
           "description": "A unique identifier for the chat session",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
