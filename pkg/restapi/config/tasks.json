@@ -68,8 +68,7 @@
         "endpoint_path": {
           "description": "The API endpoint path relative to the base URL",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -91,8 +90,7 @@
         "endpoint_path": {
           "description": "The API endpoint path relative to the base URL",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
@@ -114,7 +112,7 @@
       "properties": {
         "body": {
           "description": "The body of the response",
-          "instillFormat": "*/*",
+          "instillFormat": "semi-structured/object",
           "instillUIOrder": 1,
           "required": [],
           "title": "Body",
@@ -122,7 +120,7 @@
         },
         "header": {
           "description": "The HTTP header of the response",
-          "instillFormat": "*/*",
+          "instillFormat": "semi-structured/object",
           "instillUIOrder": 2,
           "required": [],
           "title": "Header",

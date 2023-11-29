@@ -86,8 +86,7 @@
         "query": {
           "description": "The search query for Google",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIMultiline": true,
           "instillUIOrder": 0,

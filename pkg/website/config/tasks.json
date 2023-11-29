@@ -108,8 +108,7 @@
         "target_url": {
           "description": "The root URL to scrape. All links on this page will be scraped, and all links on those pages, and so on.",
           "instillAcceptFormats": [
-            "string",
-            "text/*"
+            "string"
           ],
           "instillUIMultiline": true,
           "instillUIOrder": 0,

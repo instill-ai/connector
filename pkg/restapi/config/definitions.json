@@ -2,13 +2,18 @@
   {
     "available_tasks": [
       "TASK_GET",
-      "TASK_HEAD"
+      "TASK_POST",
+      "TASK_PATCH",
+      "TASK_PUT",
+      "TASK_DELETE",
+      "TASK_HEAD",
+      "TASK_OPTIONS"
     ],
     "custom": false,
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/data-connectors/restapi",
     "icon": "restapi.svg",
     "icon_url": "",
-    "id": "data-restapi",
+    "id": "restapi",
     "public": true,
     "spec": {
       "resource_specification": {
