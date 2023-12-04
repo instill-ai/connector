@@ -43,10 +43,6 @@ func (c *Execution) executeTextToImage(grpcClient modelPB.ModelPublicServiceClie
 			v := int32(input.GetFields()["seed"].GetNumberValue())
 			textToImageInput.Seed = &v
 		}
-		if _, ok := input.GetFields()["extra_params"]; ok {
-			v := (input.GetFields()["extra_params"].GetStringValue())
-			textToImageInput.ExtraParams = &v
-		}
 		taskInput := &modelPB.TaskInput_TextToImage{
 			TextToImage: textToImageInput,
 		}

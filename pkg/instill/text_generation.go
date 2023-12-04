@@ -8,7 +8,6 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
@@ -28,15 +27,6 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 			v := int32(input.GetFields()["max_new_tokens"].GetNumberValue())
 			textGenerationInput.MaxNewTokens = &v
 		}
-		if _, ok := input.GetFields()["image_base64"]; ok {
-			textGenerationInput.Type = &modelPB.TextGenerationInput_PromptImageBase64{
-				PromptImageBase64: base.TrimBase64Mime(input.GetFields()["image_base64"].GetStringValue()),
-			}
-		}
-		if _, ok := input.GetFields()["stop_words_list"]; ok {
-			v := input.GetFields()["stop_words_list"].GetStringValue()
-			textGenerationInput.StopWordsList = &v
-		}
 		if _, ok := input.GetFields()["temperature"]; ok {
 			v := float32(input.GetFields()["temperature"].GetNumberValue())
 			textGenerationInput.Temperature = &v
@@ -48,10 +38,6 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 		if _, ok := input.GetFields()["seed"]; ok {
 			v := int32(input.GetFields()["seed"].GetNumberValue())
 			textGenerationInput.Seed = &v
-		}
-		if _, ok := input.GetFields()["extra_params"]; ok {
-			v := (input.GetFields()["extra_params"].GetStringValue())
-			textGenerationInput.ExtraParams = &v
 		}
 
 		taskInput := &modelPB.TaskInput_TextGeneration{
