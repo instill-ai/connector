@@ -15,8 +15,8 @@ import (
 type PageInfo struct {
 	Link     string `json:"link"`
 	Title    string `json:"title"`
-	LinkText string `json:"link_html"`
-	LinkHtml string `json:"link_text"`
+	LinkText string `json:"link_text"`
+	LinkHtml string `json:"link_html"`
 }
 
 // ScrapeWebsiteInput defines the input of the scrape website task
