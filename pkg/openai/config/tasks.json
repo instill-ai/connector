@@ -336,7 +336,6 @@
             "reference",
             "template"
           ],
-          "maxLength": 2048,
           "title": "System message",
           "type": "string"
         },
