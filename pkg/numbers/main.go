@@ -20,7 +20,7 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 
-	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 const ApiUrlPin = "https://eoqctv92ahgrcif.m.pipedream.net"

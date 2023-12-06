@@ -28,7 +28,7 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 
-	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 //go:embed config/definitions.json
