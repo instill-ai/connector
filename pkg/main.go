@@ -22,7 +22,7 @@ import (
 	"github.com/instill-ai/connector/pkg/stabilityai"
 	"github.com/instill-ai/connector/pkg/website"
 
-	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 var once sync.Once

@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 const (

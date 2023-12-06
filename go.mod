@@ -14,8 +14,8 @@ require (
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
-	github.com/instill-ai/component v0.7.0-alpha.0.20231123142642-cdd8e3280413
-	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231204163044-92ce7cc80023
+	github.com/instill-ai/component v0.7.1-alpha.0.20231206035822-12eee341c80e
+	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231205045546-99b6fc00f67e
 	github.com/redis/go-redis/v9 v9.3.0
 	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.26.0

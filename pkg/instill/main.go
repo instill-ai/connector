@@ -17,7 +17,7 @@ import (
 	"github.com/instill-ai/component/pkg/base"
 
 	commonPB "github.com/instill-ai/protogen-go/common/task/v1alpha"
-	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1alpha"
+	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 const (
