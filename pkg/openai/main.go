@@ -17,6 +17,7 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
+	"github.com/instill-ai/connector/pkg/util"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
@@ -57,12 +58,7 @@ type Execution struct {
 type Client struct {
 	APIKey     string
 	Org        string
-	HTTPClient HTTPClient
-}
-
-// HTTPClient interface
-type HTTPClient interface {
-	Do(req *http.Request) (*http.Response, error)
+	HTTPClient util.HTTPClient
 }
 
 func Init(logger *zap.Logger) base.IConnector {
