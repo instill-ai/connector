@@ -40,7 +40,7 @@ func (c *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, mode
 		if c.client == nil || grpcClient == nil {
 			return nil, fmt.Errorf("client not setup: %v", c.client)
 		}
-		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)))
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Jwt-Sub", getJwtSub(c.Config))
 		ctx := metadata.NewOutgoingContext(context.Background(), md)
 		res, err := grpcClient.TriggerUserModel(ctx, &req)
 		if err != nil || res == nil {

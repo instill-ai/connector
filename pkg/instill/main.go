@@ -23,6 +23,7 @@ import (
 const (
 	venderName   = "instillModel"
 	getModelPath = "/v1alpha/models"
+	internalMode = "Internal Mode"
 	reqTimeout   = time.Second * 60
 )
 
@@ -47,6 +48,7 @@ type Execution struct {
 // Client represents an Instill Model client
 type Client struct {
 	APIKey     string
+	JwtSub     string
 	HTTPClient HTTPClient
 }
 
@@ -82,14 +84,24 @@ func NewClient(config *structpb.Struct) (*Client, error) {
 		TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
 		DisableKeepAlives: true,
 	}
-	return &Client{APIKey: getAPIKey(config), HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}, nil
+	return &Client{APIKey: getAPIKey(config), JwtSub: getJwtSub(config), HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}, nil
+}
+
+func getMode(config *structpb.Struct) string {
+	return config.GetFields()["mode"].GetStringValue()
 }
 
 func getAPIKey(config *structpb.Struct) string {
 	return config.GetFields()["api_token"].GetStringValue()
 }
+func getJwtSub(config *structpb.Struct) string {
+	return config.GetFields()["instill_jwt_sub"].GetStringValue()
+}
 
 func getServerURL(config *structpb.Struct) string {
+	if getMode(config) == internalMode {
+		return config.GetFields()["instill_model_backend"].GetStringValue()
+	}
 	serverUrl := config.GetFields()["server_url"].GetStringValue()
 	if strings.HasPrefix(serverUrl, "https://") {
 		if len(strings.Split(serverUrl, ":")) == 2 {
@@ -120,6 +132,10 @@ func (c *Client) sendReq(reqURL, method string, params interface{}) (err error) 
 	if c.APIKey != "" {
 		req.Header.Add("Authorization", "Bearer "+c.APIKey)
 	}
+	if c.JwtSub != "" {
+		req.Header.Add("Jwt-Sub", c.JwtSub)
+	}
+
 	http.DefaultClient.Timeout = reqTimeout
 	res, err := c.HTTPClient.Do(req)
 

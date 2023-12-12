@@ -47,7 +47,7 @@ func (c *Execution) executeObjectDetection(grpcClient modelPB.ModelPublicService
 		return nil, fmt.Errorf("client not setup: %v", c.client)
 	}
 
-	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)))
+	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Jwt-Sub", getJwtSub(c.Config))
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	res, err := grpcClient.TriggerUserModel(ctx, &req)
 	if err != nil || res == nil {
