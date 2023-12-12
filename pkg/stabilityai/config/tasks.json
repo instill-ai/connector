@@ -4,7 +4,8 @@
       "additionalProperties": false,
       "description": "Input",
       "instillEditOnNodeFields": [
-        "prompts"
+        "prompts",
+        "engine"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -223,7 +224,8 @@
         }
       },
       "required": [
-        "prompts"
+        "prompts",
+        "engine"
       ],
       "title": "Input",
       "type": "object"
@@ -237,7 +239,8 @@
       "additionalProperties": false,
       "description": "Input",
       "instillEditOnNodeFields": [
-        "prompts"
+        "prompts",
+        "engine"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -415,7 +418,8 @@
         }
       },
       "required": [
-        "prompts"
+        "prompts",
+        "engine"
       ],
       "title": "Input",
       "type": "object"
