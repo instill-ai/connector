@@ -8,63 +8,59 @@ from os.path import dirname
 url = 'https://connectors.airbyte.com/files/registries/v0/oss_registry.json'
 response = urlopen(url)
 data_json = json.loads(response.read())
-
 definitions = data_json['destinations']
-
-name_set = set()
-
-for idx in range(len(definitions)):
+oneOfs = []
+for idx, _ in enumerate(definitions):
     definitions[idx]['uid'] = definitions[idx]['destinationDefinitionId']
     definitions[idx][
         'id'] = f"airbyte-{definitions[idx]['dockerRepository'].split('/')[1]}"
     definitions[idx]['title'] = "Airbyte " + definitions[idx]['name']
 
-    definitions[idx]['vendor_attributes'] = {
-        'dockerRepository': definitions[idx]['dockerRepository'],
-        'dockerImageTag': definitions[idx]['dockerImageTag'],
-        'releaseStage': definitions[idx]['releaseStage'],
-        'tags': definitions[idx]['tags'],
-        'license': definitions[idx]['license'],
-        'githubIssueLabel': definitions[idx]['githubIssueLabel'],
-        'sourceType': definitions[idx]['sourceType'],
-        'resourceRequirements': definitions[idx].get('resourceRequirements', {}),
-        'spec': {
-            'supported_destination_sync_modes': definitions[idx]['spec']['supported_destination_sync_modes'],
-        }
+    definitions[idx]['spec']['connectionSpecification']['properties']["destination"] = {
+        "type": "string",
+        "const": definitions[idx]["id"]
     }
+    title = definitions[idx]["id"]
+    title = title.replace("airbyte-destination-", "")
+    title = title.replace("-", "")
+    title = title.capitalize()
+    definitions[idx]['spec']['connectionSpecification']["title"] = title
 
-    for to_moved in ['resourceRequirements', 'normalizationConfig', 'supportsDbt', 'ab_internal']:
-        if to_moved in definitions[idx]:
-            definitions[idx]['vendor_attributes'][to_moved] = definitions[idx][to_moved]
-    for to_moved in ['supportsIncremental', 'supportsNormalization', 'supportsDBT', 'supported_destination_sync_modes',
-                     'authSpecification', 'advanced_auth', 'supportsNamespaces', 'protocol_version', "$schema"]:
-        if to_moved in definitions[idx]['spec']:
-            definitions[idx]['vendor_attributes']['spec'][to_moved] = definitions[idx]['spec'][to_moved]
+    definitions[idx]['spec']['connectionSpecification']['required'].append(
+        "destination")
+    oneOfs.append(
+        definitions[idx]['spec']['connectionSpecification']
 
-    for to_deleted in ['destinationDefinitionId', 'name', 'dockerRepository', 'dockerImageTag', 'releaseStage', 'ab_internal',
-                       'tags', 'license', 'githubIssueLabel', 'sourceType', 'resourceRequirements', 'normalizationConfig', 'supportsDbt']:
-        definitions[idx].pop(to_deleted, None)
-    for to_deleted in ['supportsIncremental', 'supportsNormalization', 'supportsDBT', 'supported_destination_sync_modes',
-                       'authSpecification', 'advanced_auth', 'supportsNamespaces', 'protocol_version', "$schema"]:
-        definitions[idx]['spec'].pop(to_deleted, None)
-
-    definitions[idx]['documentation_url'] = definitions[idx]['documentationUrl']
-    definitions[idx]['icon_url'] = definitions[idx].get('iconUrl', "")
+    )
     definitions[idx]['spec']['resource_specification'] = definitions[idx]['spec']['connectionSpecification']
 
-    definitions[idx].pop('iconUrl', None)
-    definitions[idx].pop('documentationUrl', None)
-    definitions[idx]["available_tasks"] = ["TASK_WRITE_DESTINATION"]
-    definitions[idx]['spec'].pop('connectionSpecification', None)
-    definitions[idx]['spec'].pop('documentationUrl', None)
-    definitions[idx]['type'] = 'CONNECTOR_TYPE_DATA'
-    definitions[idx]['vendor'] = 'Airbyte'
-    for key in definitions[idx].keys():
-        name_set.add(key)
+new_def = [{
+    "available_tasks": [
+        "TASK_WRITE_DESTINATION"
+    ],
+    "custom": False,
+    "documentation_url": "https://docs.airbyte.com/integrations/destinations",
+    "icon": "airbyte.svg",
+    "icon_url": "",
+    "id": "airbyte-destination",
+    "public": True,
+    "spec": {
+        "resource_specification": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "Destination",
+          "oneOf": oneOfs,
+          "type": "object"
+        }
+    },
+    "title": "Airbyte Destination",
+    "tombstone": False,
+    "type": "CONNECTOR_TYPE_DATA",
+    "uid": "975678a2-5117-48a4-a135-019619dee18e",
+    "vendor": "Airbyte"
+}]
 
-definitions_json = json.dumps(definitions, indent=2, sort_keys=True)
-definitions_json = definitions_json.replace(
-    "airbyte_secret", "instillCredentialField")
+new_def = json.dumps(new_def, indent=2, sort_keys=True)
+new_def = new_def.replace("airbyte_secret", "instillCredentialField")
 
 with open('../definitions.json', 'w') as o:
-    o.write(definitions_json)
+    o.write(new_def)
