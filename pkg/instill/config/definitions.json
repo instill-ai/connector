@@ -8,7 +8,10 @@
       "TASK_OCR",
       "TASK_SEMANTIC_SEGMENTATION",
       "TASK_TEXT_GENERATION",
-      "TASK_TEXT_TO_IMAGE"
+      "TASK_TEXT_GENERATION_CHAT",
+      "TASK_TEXT_TO_IMAGE",
+      "TASK_VISUAL_QUESTION_ANSWERING",
+      "TASK_IMAGE_TO_IMAGE"
     ],
     "custom": false,
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/instill-model",
@@ -37,20 +40,23 @@
                 "title": "API Token",
                 "type": "string"
               },
+              "mode": {
+                "const": "External Mode"
+              },
               "server_url": {
                 "default": "https://api.instill.tech",
                 "description": "Base URL for the Instill Cloud API. To access models on Instill Cloud, use the base URL `https://api.instill.tech`. To access models on your local Instill Core, use the base URL `http://api-gateway:8080`.",
                 "instillUIOrder": 1,
                 "title": "Server URL",
                 "type": "string"
-              },
-              "mode": {
-                "const": "External Mode"
               }
             }
           }
         ],
-        "required": ["api_token", "server_url"],
+        "required": [
+          "api_token",
+          "server_url"
+        ],
         "title": "Instill Model Connector",
         "type": "object"
       }

@@ -8,10 +8,11 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
-func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
+func (c *Execution) executeImageToImage(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	if len(inputs) <= 0 {
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
 	}
@@ -20,24 +21,31 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 
 	for _, input := range inputs {
 
-		textGenerationInput := &modelPB.TextGenerationInput{
-			Prompt: input.GetFields()["prompt"].GetStringValue(),
+		prompt := input.GetFields()["prompt"].GetStringValue()
+		imageToImageInput := &modelPB.ImageToImageInput{
+			Prompt: &prompt,
 		}
-		if _, ok := input.GetFields()["max_new_tokens"]; ok {
-			v := int32(input.GetFields()["max_new_tokens"].GetNumberValue())
-			textGenerationInput.MaxNewTokens = &v
+		if _, ok := input.GetFields()["steps"]; ok {
+			v := int32(input.GetFields()["steps"].GetNumberValue())
+			imageToImageInput.Steps = &v
+		}
+		if _, ok := input.GetFields()["image_base64"]; ok {
+			imageToImageInput.Type = &modelPB.ImageToImageInput_PromptImageBase64{
+				PromptImageBase64: base.TrimBase64Mime(input.GetFields()["image_base64"].GetStringValue()),
+			}
 		}
 		if _, ok := input.GetFields()["temperature"]; ok {
-			v := float32(input.GetFields()["temperature"].GetNumberValue())
-			textGenerationInput.Temperature = &v
+			v := int32(input.GetFields()["temperature"].GetNumberValue())
+			imageToImageInput.Seed = &v
 		}
-		if _, ok := input.GetFields()["top_k"]; ok {
-			v := int32(input.GetFields()["top_k"].GetNumberValue())
-			textGenerationInput.TopK = &v
+		if _, ok := input.GetFields()["cfg_scale"]; ok {
+			v := float32(input.GetFields()["cfg_scale"].GetNumberValue())
+			imageToImageInput.CfgScale = &v
 		}
+
 		if _, ok := input.GetFields()["seed"]; ok {
 			v := int32(input.GetFields()["seed"].GetNumberValue())
-			textGenerationInput.Seed = &v
+			imageToImageInput.Seed = &v
 		}
 		extraParams := []*modelPB.ExtraParamObject{}
 		if _, ok := input.GetFields()["extra_params"]; ok {
@@ -47,11 +55,11 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 					ParamValue: item.(map[string]interface{})["param_value"].(string),
 				})
 			}
-			textGenerationInput.ExtraParams = extraParams
+			imageToImageInput.ExtraParams = extraParams
 		}
 
-		taskInput := &modelPB.TaskInput_TextGeneration{
-			TextGeneration: textGenerationInput,
+		taskInput := &modelPB.TaskInput_ImageToImage{
+			ImageToImage: imageToImageInput,
 		}
 
 		// only support batch 1
@@ -73,14 +81,14 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 			return nil, fmt.Errorf("invalid output: %v for model: %s", taskOutputs, modelName)
 		}
 
-		textGenOutput := taskOutputs[0].GetTextGeneration()
-		if textGenOutput == nil {
-			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenOutput, modelName)
+		imageToImageOutput := taskOutputs[0].GetImageToImage()
+		if imageToImageOutput == nil {
+			return nil, fmt.Errorf("invalid output: %v for model: %s", imageToImageOutput, modelName)
 		}
 		outputJson, err := protojson.MarshalOptions{
 			UseProtoNames:   true,
 			EmitUnpopulated: true,
-		}.Marshal(textGenOutput)
+		}.Marshal(imageToImageOutput)
 		if err != nil {
 			return nil, err
 		}

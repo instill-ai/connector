@@ -193,6 +193,12 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 		result, err = e.executeTextToImage(gRPCCLient, modelName, inputs)
 	case commonPB.Task_TASK_TEXT_GENERATION.String():
 		result, err = e.executeTextGeneration(gRPCCLient, modelName, inputs)
+	case commonPB.Task_TASK_TEXT_GENERATION_CHAT.String():
+		result, err = e.executeTextGenerationChat(gRPCCLient, modelName, inputs)
+	case commonPB.Task_TASK_VISUAL_QUESTION_ANSWERING.String():
+		result, err = e.executeVisualQuestionAnswering(gRPCCLient, modelName, inputs)
+	case commonPB.Task_TASK_IMAGE_TO_IMAGE.String():
+		result, err = e.executeImageToImage(gRPCCLient, modelName, inputs)
 	default:
 		return inputs, fmt.Errorf("unsupported task: %s", e.Task)
 	}
