@@ -57,6 +57,42 @@
       ],
       "title": "Input",
       "type": "object"
+    },
+    "extra_params": {
+      "instillAcceptFormats": [
+        "array:object"
+      ],
+      "instillShortDescription": "Extra Params",
+      "instillUIOrder": 10,
+      "instillUpstreamTypes": [
+        "value",
+        "reference"
+      ],
+      "items": {
+        "properties": {
+          "param_name": {
+            "instillFormat": "string",
+            "instillUIMultiline": true,
+            "instillUIOrder": 0,
+            "title": "Param Name",
+            "type": "string"
+          },
+          "param_value": {
+            "instillFormat": "string",
+            "instillUIOrder": 1,
+            "title": "Param Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "param_name",
+          "param_value"
+        ],
+        "title": "Param",
+        "type": "object"
+      },
+      "title": "Extra Params",
+      "type": "array"
     }
   },
   "TASK_CLASSIFICATION": {
@@ -147,31 +183,6 @@
       ],
       "instillUIOrder": 0,
       "properties": {
-        "extra_params": {
-          "description": "Extra Parameters",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 15,
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ],
-          "title": "Extra Param",
-          "type": "string"
-        },
-        "image_base64": {
-          "description": "The prompt image",
-          "instillAcceptFormats": [
-            "image/*"
-          ],
-          "instillUIOrder": 3,
-          "instillUpstreamTypes": [
-            "reference"
-          ],
-          "title": "Prompt Image",
-          "type": "string"
-        },
         "max_new_tokens": {
           "default": 50,
           "description": "The maximum number of tokens for model to generate",
@@ -242,20 +253,172 @@
           "title": "Seed",
           "type": "integer"
         },
-        "stop_words_list": {
-          "description": "The trigger words to stop generation",
+        "temperature": {
+          "default": 0.7,
+          "description": "The temperature for sampling",
+          "instillAcceptFormats": [
+            "number"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Temperature",
+          "type": "number"
+        },
+        "top_k": {
+          "default": 10,
+          "description": "Top k for sampling",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Top K",
+          "type": "integer"
+        },
+        "extra_params": {
+          "$ref": "#/$defs/extra_params"
+        }
+      },
+      "required": [
+        "prompt",
+        "model_namespace",
+        "model_id"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "text"
+      ],
+      "instillUIOrder": 0,
+      "properties": {
+        "text": {
+          "description": "Text",
+          "instillFormat": "string",
+          "instillUIMultiline": true,
+          "instillUIOrder": 0,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  },
+  "TASK_TEXT_GENERATION_CHAT": {
+    "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "conversation",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
+      "properties": {
+        "conversation": {
+          "description": "Conversion, each message should adhere to the format: : {\"role\": \"The message role, i.e. 'system', 'user' or 'assistant'\", \"content\": \"message content\"}.",
+          "instillAcceptFormats": [
+            "array:*/*"
+          ],
+          "instillShortDescription": "Conversion, each message should adhere to the format: : {\"role\": \"The message role, i.e. 'system', 'user' or 'assistant'\", \"content\": \"message content\"}.",
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "items": {
+            "properties": {
+              "content": {
+                "description": "The message content",
+                "instillFormat": "string",
+                "instillUIMultiline": true,
+                "instillUIOrder": 1,
+                "title": "Content",
+                "type": "string"
+              },
+              "role": {
+                "description": "The message role, i.e. 'system', 'user' or 'assistant'",
+                "instillFormat": "string",
+                "instillUIOrder": 0,
+                "title": "Role",
+                "type": "string"
+              }
+            },
+            "required": [
+              "role",
+              "content"
+            ],
+            "title": "Conversation",
+            "type": "object"
+          },
+          "title": "Conversation",
+          "type": "array"
+        },
+        "max_new_tokens": {
+          "default": 50,
+          "description": "The maximum number of tokens for model to generate",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 6,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Max new tokens",
+          "type": "integer"
+        },
+        "model_id": {
+          "description": "ID of the Instill Model model to be used.",
           "instillAcceptFormats": [
             "string"
           ],
-          "instillUIMultiline": true,
-          "instillUIOrder": 6,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference",
             "template"
           ],
-          "title": "Stop Words List",
+          "title": "Model ID",
           "type": "string"
+        },
+        "model_namespace": {
+          "description": "Namespace of the Instill Model model to be used.",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model Namespace",
+          "type": "string"
+        },
+        "seed": {
+          "description": "The seed",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 4,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Seed",
+          "type": "integer"
         },
         "temperature": {
           "default": 0.7,
@@ -284,10 +447,13 @@
           ],
           "title": "Top K",
           "type": "integer"
+        },
+        "extra_params": {
+          "$ref": "#/$defs/extra_params"
         }
       },
       "required": [
-        "prompt",
+        "conversation",
         "model_namespace",
         "model_id"
       ],
@@ -340,31 +506,6 @@
           ],
           "title": "CFG Scale",
           "type": "number"
-        },
-        "extra_params": {
-          "description": "Extra Parameters",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 15,
-          "instillUpstreamTypes": [
-            "value",
-            "reference"
-          ],
-          "title": "Extra Param",
-          "type": "string"
-        },
-        "image_base64": {
-          "description": "The prompt image",
-          "instillAcceptFormats": [
-            "image/*"
-          ],
-          "instillUIOrder": 3,
-          "instillUpstreamTypes": [
-            "reference"
-          ],
-          "title": "Prompt Image",
-          "type": "string"
         },
         "model_id": {
           "description": "ID of the Instill Model model to be used.",
@@ -447,10 +588,328 @@
           ],
           "title": "Steps",
           "type": "integer"
+        },
+        "extra_params": {
+          "$ref": "#/$defs/extra_params"
         }
       },
       "required": [
         "prompt",
+        "model_namespace",
+        "model_id"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "images"
+      ],
+      "instillUIOrder": 0,
+      "properties": {
+        "images": {
+          "description": "Images",
+          "instillUIOrder": 0,
+          "items": {
+            "instillFormat": "image/jpeg",
+            "type": "string"
+          },
+          "title": "Images",
+          "type": "array"
+        }
+      },
+      "required": [
+        "images"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  },
+  "TASK_VISUAL_QUESTION_ANSWERING": {
+    "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompt",
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
+      "properties": {
+        "image_base64": {
+          "description": "The prompt image",
+          "instillAcceptFormats": [
+            "image/*"
+          ],
+          "instillUIOrder": 3,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "title": "Prompt Image",
+          "type": "string"
+        },
+        "max_new_tokens": {
+          "default": 50,
+          "description": "The maximum number of tokens for model to generate",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 6,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Max new tokens",
+          "type": "integer"
+        },
+        "model_id": {
+          "description": "ID of the Instill Model model to be used.",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model ID",
+          "type": "string"
+        },
+        "model_namespace": {
+          "description": "Namespace of the Instill Model model to be used.",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model Namespace",
+          "type": "string"
+        },
+        "prompt": {
+          "description": "The prompt text",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIMultiline": true,
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Prompt",
+          "type": "string"
+        },
+        "seed": {
+          "description": "The seed",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 4,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Seed",
+          "type": "integer"
+        },
+        "temperature": {
+          "default": 0.7,
+          "description": "The temperature for sampling",
+          "instillAcceptFormats": [
+            "number"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Temperature",
+          "type": "number"
+        },
+        "top_k": {
+          "default": 10,
+          "description": "Top k for sampling",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Top K",
+          "type": "integer"
+        },
+        "extra_params": {
+          "$ref": "#/$defs/extra_params"
+        }
+      },
+      "required": [
+        "prompt",
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "description": "Output",
+      "instillEditOnNodeFields": [
+        "text"
+      ],
+      "instillUIOrder": 0,
+      "properties": {
+        "text": {
+          "description": "Text",
+          "instillFormat": "string",
+          "instillUIMultiline": true,
+          "instillUIOrder": 0,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  },
+  "TASK_IMAGE_TO_IMAGE": {
+    "input": {
+      "description": "Input",
+      "instillEditOnNodeFields": [
+        "prompt",
+        "image_base64",
+        "model_namespace",
+        "model_id"
+      ],
+      "instillUIOrder": 0,
+      "properties": {
+        "image_base64": {
+          "description": "The prompt image",
+          "instillAcceptFormats": [
+            "image/*"
+          ],
+          "instillUIOrder": 3,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "title": "Prompt Image",
+          "type": "string"
+        },
+        "cfg_scale": {
+          "description": "The guidance scale, default is 7.5",
+          "instillAcceptFormats": [
+            "number",
+            "integer"
+          ],
+          "instillUIOrder": 4,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "CFG Scale",
+          "type": "number"
+        },
+        "model_id": {
+          "description": "ID of the Instill Model model to be used.",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model ID",
+          "type": "string"
+        },
+        "model_namespace": {
+          "description": "Namespace of the Instill Model model to be used.",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Model Namespace",
+          "type": "string"
+        },
+        "prompt": {
+          "description": "The prompt text",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIMultiline": true,
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Prompt",
+          "type": "string"
+        },
+        "seed": {
+          "description": "The seed",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 4,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Seed",
+          "type": "integer"
+        },
+        "samples": {
+          "description": "The number of generated samples, default is 1",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Samples",
+          "type": "integer"
+        },
+        "top_k": {
+          "default": 10,
+          "description": "Top k for sampling",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Top K",
+          "type": "integer"
+        },
+        "extra_params": {
+          "$ref": "#/$defs/extra_params"
+        }
+      },
+      "required": [
+        "prompt",
+        "image_base64",
         "model_namespace",
         "model_id"
       ],

@@ -11,7 +11,8 @@ import (
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
-func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
+func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
+
 	if len(inputs) <= 0 {
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
 	}
@@ -20,25 +21,33 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 
 	for _, input := range inputs {
 
-		textGenerationInput := &modelPB.TextGenerationInput{
-			Prompt: input.GetFields()["prompt"].GetStringValue(),
+		conversation := []*modelPB.ConversationObject{}
+		for _, item := range input.GetFields()["conversation"].GetListValue().AsSlice() {
+			conversation = append(conversation, &modelPB.ConversationObject{
+				Role:    item.(map[string]interface{})["role"].(string),
+				Content: item.(map[string]interface{})["content"].(string),
+			})
+		}
+		textGenerationChatInput := &modelPB.TextGenerationChatInput{
+			Conversation: conversation,
 		}
 		if _, ok := input.GetFields()["max_new_tokens"]; ok {
 			v := int32(input.GetFields()["max_new_tokens"].GetNumberValue())
-			textGenerationInput.MaxNewTokens = &v
+			textGenerationChatInput.MaxNewTokens = &v
 		}
 		if _, ok := input.GetFields()["temperature"]; ok {
 			v := float32(input.GetFields()["temperature"].GetNumberValue())
-			textGenerationInput.Temperature = &v
+			textGenerationChatInput.Temperature = &v
 		}
 		if _, ok := input.GetFields()["top_k"]; ok {
 			v := int32(input.GetFields()["top_k"].GetNumberValue())
-			textGenerationInput.TopK = &v
+			textGenerationChatInput.TopK = &v
 		}
 		if _, ok := input.GetFields()["seed"]; ok {
 			v := int32(input.GetFields()["seed"].GetNumberValue())
-			textGenerationInput.Seed = &v
+			textGenerationChatInput.Seed = &v
 		}
+
 		extraParams := []*modelPB.ExtraParamObject{}
 		if _, ok := input.GetFields()["extra_params"]; ok {
 			for _, item := range input.GetFields()["extra_params"].GetListValue().AsSlice() {
@@ -47,11 +56,11 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 					ParamValue: item.(map[string]interface{})["param_value"].(string),
 				})
 			}
-			textGenerationInput.ExtraParams = extraParams
+			textGenerationChatInput.ExtraParams = extraParams
 		}
 
-		taskInput := &modelPB.TaskInput_TextGeneration{
-			TextGeneration: textGenerationInput,
+		taskInput := &modelPB.TaskInput_TextGenerationChat{
+			TextGenerationChat: textGenerationChatInput,
 		}
 
 		// only support batch 1
@@ -73,14 +82,14 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 			return nil, fmt.Errorf("invalid output: %v for model: %s", taskOutputs, modelName)
 		}
 
-		textGenOutput := taskOutputs[0].GetTextGeneration()
-		if textGenOutput == nil {
-			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenOutput, modelName)
+		textGenChatOutput := taskOutputs[0].GetTextGenerationChat()
+		if textGenChatOutput == nil {
+			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenChatOutput, modelName)
 		}
 		outputJson, err := protojson.MarshalOptions{
 			UseProtoNames:   true,
 			EmitUnpopulated: true,
-		}.Marshal(textGenOutput)
+		}.Marshal(textGenChatOutput)
 		if err != nil {
 			return nil, err
 		}
