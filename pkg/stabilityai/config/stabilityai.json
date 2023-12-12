@@ -47,12 +47,12 @@
         }
       },
       "engineID": {
-        "example": "stable-diffusion-v1-5",
+        "example": "stable-diffusion-v1-6",
         "in": "path",
         "name": "engine_id",
         "required": true,
         "schema": {
-          "example": "stable-diffusion-v1-5",
+          "example": "stable-diffusion-v1-6",
           "type": "string"
         }
       },
@@ -120,7 +120,7 @@
             }
           }
         },
-        "description": "General error for invalid parameters, see below for specific errors.\n  - bad_request: one or more provided parameters are invalid (see error description for details)\n  - invalid_samples: Sample count may only be greater than 1 when the accept header is set to `application/json`\n  - invalid_height_or_width: Height and width must be specified in increments of 64\n  - invalid_file_size: The file size of one or more of the provided files is invalid\n  - invalid_mime_type: The mime type of one or more of the provided files is invalid\n  - invalid_image_dimensions: The dimensions of the provided `init_image` and `mask_image` do not match\n  - invalid_mask_image: The parameter `mask_source` was set to `MASK_IMAGE_WHITE` or `MASK_IMAGE_BLACK` but no `mask_image` was provided\n  - invalid_prompts: One or more of the prompts contains filtered words\n  - invalid_pixel_count: Incorrect number of pixels specified. Requirements:\n    - For 512 engines: 262,144 \u2264 `height * width` \u2264 1,048,576\n    - For 768 engines: 589,824 \u2264 `height * width` \u2264 1,048,576\n  - invalid_sdxl_v222_dimensions: Incorrect dimensions specified for SDXL v2-2-2 engine. Requirements:\n    - Neither `height` nor `width` may be below 128\n    - Only one of `height` or `width` may be above 512 (e.g. 512x768 is valid but 578x768 is not)\n    - Maximum dimensions supported are 512x896 or 896x512          \n  - invalid_sdxl_v1_dimensions: Incorrect dimensions specified for SDXL v0.9 or v1.0 engine. Valid dimensions:\n    - 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152"
+        "description": "General error for invalid parameters, see below for specific errors.\n  - bad_request: one or more provided parameters are invalid (see error description for details)\n  - invalid_samples: Sample count may only be greater than 1 when the accept header is set to `application/json`\n  - invalid_height_or_width: Height and width must be specified in increments of 64\n  - invalid_file_size: The file size of one or more of the provided files is invalid\n  - invalid_mime_type: The mime type of one or more of the provided files is invalid\n  - invalid_image_dimensions: The dimensions of the provided `init_image` and `mask_image` do not match\n  - invalid_mask_image: The parameter `mask_source` was set to `MASK_IMAGE_WHITE` or `MASK_IMAGE_BLACK` but no `mask_image` was provided\n  - invalid_prompts: One or more of the prompts contains filtered words\n  - invalid_pixel_count: Incorrect number of pixels specified.\n  - invalid_sdxl_v222_dimensions: Incorrect dimensions specified for SDXL v2-2-2 engine. Requirements:\n    - Neither `height` nor `width` may be below 128\n    - Only one of `height` or `width` may be above 512 (e.g. 512x768 is valid but 578x768 is not)\n    - Maximum dimensions supported are 512x896 or 896x512          \n  - invalid_sdxl_v1_dimensions: Incorrect dimensions specified for SDXL v0.9 or v1.0 engine. Valid dimensions:\n    - 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152"
       },
       "400FromUpscale": {
         "content": {
@@ -196,6 +196,48 @@
           }
         },
         "description": "server_error: Some unexpected server error occurred"
+      },
+      "GenerationResponse": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "description": "An array of results from the generation request, where each image is a base64 encoded PNG.",
+              "properties": {
+                "artifacts": {
+                  "items": {
+                    "$ref": "#/components/schemas/Image"
+                  },
+                  "type": "array",
+                  "x-go-type-skip-optional-pointer": true
+                }
+              },
+              "type": "object"
+            }
+          },
+          "image/png": {
+            "example": "The bytes of the generated image, what did you expect?",
+            "schema": {
+              "description": "The bytes of the generated PNG image",
+              "format": "binary",
+              "type": "string"
+            }
+          }
+        },
+        "description": "One or more images were successfully generated.",
+        "headers": {
+          "Content-Length": {
+            "$ref": "#/components/headers/Content-Length"
+          },
+          "Content-Type": {
+            "$ref": "#/components/headers/Content-Type"
+          },
+          "Finish-Reason": {
+            "$ref": "#/components/headers/Finish-Reason"
+          },
+          "Seed": {
+            "$ref": "#/components/headers/Seed"
+          }
+        }
       }
     },
     "schemas": {
@@ -289,7 +331,7 @@
       },
       "DiffuseImageHeight": {
         "default": 512,
-        "description": "Height of the image in pixels.  Must be in increments of 64 and pass the following validation:\n- For 512 engines: 262,144 \u2264 `height * width` \u2264 1,048,576\n- For 768 engines: 589,824 \u2264 `height * width` \u2264 1,048,576\n- For SDXL Beta: can be as low as 128 and as high as 896 as long as `width` is not greater than 512. If `width` is greater than 512 then this can be _at most_ 512.\n- For SDXL v0.9: valid dimensions are 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152\n- For SDXL v1.0: valid dimensions are the same as SDXL v0.9",
+        "description": "Height of the image to generate, in pixels, in an increment divible by 64.\n\nEngine-specific dimension validation:\n- SDXL Beta: must be between 128x128 and 512x896 (or 896x512); only one dimension can be greater than 512.  \n- SDXL v0.9: must be one of 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152\n- SDXL v1.0: same as SDXL v0.9\n- SD   v1.6: must be between 320x320 and 1536x1536",
         "example": 512,
         "minimum": 128,
         "multipleOf": 64,
@@ -298,7 +340,7 @@
       },
       "DiffuseImageWidth": {
         "default": 512,
-        "description": "Width of the image in pixels.  Must be in increments of 64 and pass the following validation:\n- For 512 engines: 262,144 \u2264 `height * width` \u2264 1,048,576\n- For 768 engines: 589,824 \u2264 `height * width` \u2264 1,048,576\n- For SDXL Beta: can be as low as 128 and as high as 896 as long as `height` is not greater than 512. If `height` is greater than 512 then this can be _at most_ 512.\n- For SDXL v0.9: valid dimensions are 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152\n- For SDXL v1.0: valid dimensions are the same as SDXL v0.9",
+        "description": "Width of the image to generate, in pixels, in an increment divible by 64.\n\nEngine-specific dimension validation:\n- SDXL Beta: must be between 128x128 and 512x896 (or 896x512); only one dimension can be greater than 512.  \n- SDXL v0.9: must be one of 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640, 640x1536, 768x1344, 832x1216, or 896x1152\n- SDXL v1.0: same as SDXL v0.9\n- SD   v1.6: must be between 320x320 and 1536x1536",
         "example": 512,
         "minimum": 128,
         "multipleOf": 64,
@@ -312,13 +354,13 @@
           },
           "id": {
             "description": "Unique identifier for the engine",
-            "example": "stable-diffusion-v1-5",
+            "example": "stable-diffusion-v1-6",
             "type": "string",
             "x-go-name": "ID"
           },
           "name": {
             "description": "Name of the engine",
-            "example": "Stable Diffusion v1.5",
+            "example": "Stable Diffusion XL v1.0",
             "type": "string"
           },
           "type": {
@@ -430,8 +472,8 @@
         "properties": {
           "base64": {
             "description": "Image encoded in base64",
-            "example": "Sed corporis modi et.",
-            "type": "string"
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
           },
           "finishReason": {
             "enum": [
@@ -440,12 +482,14 @@
               "CONTENT_FILTERED"
             ],
             "example": "CONTENT_FILTERED",
-            "type": "string"
+            "type": "string",
+            "x-go-type-skip-optional-pointer": true
           },
           "seed": {
             "description": "The seed associated with this image",
             "example": 1229191277,
-            "type": "number"
+            "type": "number",
+            "x-go-type-skip-optional-pointer": true
           }
         },
         "type": "object"
@@ -631,39 +675,15 @@
         "description": "The engines available to your user/organization",
         "example": [
           {
+            "description": "Stability-AI Stable Diffusion v1.6",
+            "id": "stable-diffusion-v1-6",
+            "name": "Stable Diffusion v1.6",
+            "type": "PICTURE"
+          },
+          {
             "description": "Stability-AI Stable Diffusion XL v1.0",
             "id": "stable-diffusion-xl-1024-v1-0",
             "name": "Stable Diffusion XL v1.0",
-            "type": "PICTURE"
-          },
-          {
-            "description": "Stability-AI Stable Diffusion XL v0.9",
-            "id": "stable-diffusion-xl-1024-v0-9",
-            "name": "Stable Diffusion XL v0.9",
-            "type": "PICTURE"
-          },
-          {
-            "description": "Stability-AI Stable Diffusion XL Beta v2.2.2",
-            "id": "stable-diffusion-xl-beta-v2-2-2",
-            "name": "Stable Diffusion v2.2.2-XL Beta",
-            "type": "PICTURE"
-          },
-          {
-            "description": "Stability-AI Stable Diffusion v2.1",
-            "id": "stable-diffusion-512-v2-1",
-            "name": "Stable Diffusion v2.1",
-            "type": "PICTURE"
-          },
-          {
-            "description": "Stability-AI Stable Diffusion 768 v2.1",
-            "id": "stable-diffusion-768-v2-1",
-            "name": "Stable Diffusion v2.1-768",
-            "type": "PICTURE"
-          },
-          {
-            "description": "Stability-AI Stable Diffusion v1.5",
-            "id": "stable-diffusion-v1-5",
-            "name": "Stable Diffusion v1.5",
             "type": "PICTURE"
           }
         ],
@@ -889,10 +909,10 @@
         "type": "number"
       },
       "Steps": {
-        "default": 50,
-        "description": "Number of diffusion steps to run",
-        "example": 75,
-        "maximum": 150,
+        "default": 30,
+        "description": "Number of diffusion steps to run.",
+        "example": 50,
+        "maximum": 50,
         "minimum": 10,
         "type": "integer",
         "x-go-type": "uint64"
@@ -988,7 +1008,7 @@
           "sampler": "K_DPM_2_ANCESTRAL",
           "samples": 1,
           "seed": 0,
-          "steps": 75,
+          "steps": 30,
           "text_prompts": [
             {
               "text": "A lighthouse on a cliff",
@@ -1024,7 +1044,7 @@
     }
   },
   "info": {
-    "description": "Welcome to the Stability.ai REST API!\n\nYour DreamStudio API key will be required for authentication: [How to find your API key](https://platform.stability.ai/docs/getting-started/authentication)\n\nAPI operations use the following versioning scheme:\n- `/v*` interface is stable and ready for production workloads\n- `/v*beta*`: interface is stable, preparing for production release\n- `/v*alpha*`: under development and the interface is subject to change\n\nNOTE: The v1alpha and v1beta endpoints from the developer preview are still available, but they\nwill disabled on May 1st, 2023.  Please migrate to the v1 endpoints as soon as possible.\n\nIf you have feedback or encounter any issues with the API, please reach out:\n  - [https://github.com/Stability-AI/REST-API](https://github.com/Stability-AI/REST-API)\n  - [https://discord.gg/stablediffusion #API channel](https://discord.com/channels/1002292111942635562/1042896447311454361)\n",
+    "description": "Welcome to the official Stability AI REST API!\n\n#### Authentication\n\nYou will need your [Stability API key](https://platform.stability.ai/account/keys) in order to make requests to this API.\nMake sure you never share your API key with anyone, and you never commit it to a public repository. Include this key in \nthe `Authorization` header of your requests.\n\n#### Rate limiting\n\nThis API is rate-limited to 150 requests every 10 seconds. If you exceed this limit, you will receive a `429` response.\nIf you find this limit too restrictive, please reach out to us via email at [platform@stability.ai](mailto:platform@stability.ai).\n\n#### Support\n\nCheck our [Status Page](https://stabilityai.instatus.com/) to view the current health of our REST/gRPC APIs.\n\nIf you run into issues, please reach out to us:\n  - [Support Form](https://platform.stability.ai/support)\n  - [platform@stability.ai](mailto:platform@stability.ai) \n  - [Discord](https://discord.com/channels/1002292111942635562/1042896447311454361)\n",
     "termsOfService": "https://platform.stability.ai/docs/terms-of-service",
     "title": "Stability.ai REST API",
     "version": "v1",
@@ -1134,7 +1154,7 @@
                     "init_image_mode": "IMAGE_STRENGTH",
                     "sampler": "K_DPM_2_ANCESTRAL",
                     "samples": 3,
-                    "steps": 20,
+                    "steps": 30,
                     "text_prompts[0][text]": "A dog space commander",
                     "text_prompts[0][weight]": 1
                   }
@@ -1150,7 +1170,7 @@
                     "sampler": "K_DPM_2_ANCESTRAL",
                     "samples": 3,
                     "step_schedule_start": 0.65,
-                    "steps": 20,
+                    "steps": 30,
                     "text_prompts[0][text]": "A dog space commander",
                     "text_prompts[0][weight]": 1
                   }
@@ -1165,40 +1185,7 @@
         },
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "The result of the generation request, containing one or more images as base64 encoded strings.",
-                  "items": {
-                    "$ref": "#/components/schemas/Image"
-                  },
-                  "type": "array"
-                }
-              },
-              "image/png": {
-                "example": "PNG bytes, what did you expect?",
-                "schema": {
-                  "description": "The bytes of the generated image",
-                  "format": "binary",
-                  "type": "string"
-                }
-              }
-            },
-            "description": "OK response.",
-            "headers": {
-              "Content-Length": {
-                "$ref": "#/components/headers/Content-Length"
-              },
-              "Content-Type": {
-                "$ref": "#/components/headers/Content-Type"
-              },
-              "Finish-Reason": {
-                "$ref": "#/components/headers/Finish-Reason"
-              },
-              "Seed": {
-                "$ref": "#/components/headers/Seed"
-              }
-            }
+            "$ref": "#/components/responses/GenerationResponse"
           },
           "400": {
             "$ref": "#/components/responses/400FromGeneration"
@@ -1252,7 +1239,7 @@
         "operationId": "masking",
         "parameters": [
           {
-            "example": "stable-inpainting-512-v2-0",
+            "example": "stable-diffusion-xl-1024-v1-0",
             "in": "path",
             "name": "engine_id",
             "required": true,
@@ -1285,7 +1272,7 @@
                     "mask_source": "INIT_IMAGE_ALPHA",
                     "sampler": "K_DPM_2_ANCESTRAL",
                     "samples": 3,
-                    "steps": 20,
+                    "steps": 30,
                     "text_prompts[0][text]": "A dog space commander",
                     "text_prompts[0][weight]": 1
                   }
@@ -1299,7 +1286,7 @@
                     "mask_source": "MASK_IMAGE_BLACK",
                     "sampler": "K_DPM_2_ANCESTRAL",
                     "samples": 3,
-                    "steps": 20,
+                    "steps": 30,
                     "text_prompts[0][text]": "A dog space commander",
                     "text_prompts[0][weight]": 1
                   }
@@ -1313,7 +1300,7 @@
                     "mask_source": "MASK_IMAGE_WHITE",
                     "sampler": "K_DPM_2_ANCESTRAL",
                     "samples": 3,
-                    "steps": 20,
+                    "steps": 30,
                     "text_prompts[0][text]": "A dog space commander",
                     "text_prompts[0][weight]": 1
                   }
@@ -1328,40 +1315,7 @@
         },
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "The result of the generation request, containing one or more images as base64 encoded strings.",
-                  "items": {
-                    "$ref": "#/components/schemas/Image"
-                  },
-                  "type": "array"
-                }
-              },
-              "image/png": {
-                "example": "PNG bytes, what did you expect?",
-                "schema": {
-                  "description": "The bytes of the generated image",
-                  "format": "binary",
-                  "type": "string"
-                }
-              }
-            },
-            "description": "OK response.",
-            "headers": {
-              "Content-Length": {
-                "$ref": "#/components/headers/Content-Length"
-              },
-              "Content-Type": {
-                "$ref": "#/components/headers/Content-Type"
-              },
-              "Finish-Reason": {
-                "$ref": "#/components/headers/Finish-Reason"
-              },
-              "Seed": {
-                "$ref": "#/components/headers/Seed"
-              }
-            }
+            "$ref": "#/components/responses/GenerationResponse"
           },
           "400": {
             "$ref": "#/components/responses/400FromGeneration"
@@ -1391,20 +1345,20 @@
         "x-codeSamples": [
           {
             "lang": "Python",
-            "source": "import base64\nimport os\nimport requests\n\nengine_id = \"stable-inpainting-512-v2-0\"\napi_host = os.getenv('API_HOST', 'https://api.stability.ai')\napi_key = os.getenv(\"STABILITY_API_KEY\")\n\nif api_key is None:\n    raise Exception(\"Missing Stability API key.\")\n\nresponse = requests.post(\n    f\"{api_host}/v1/generation/{engine_id}/image-to-image/masking\",\n    headers={\n        \"Accept\": 'application/json',\n        \"Authorization\": f\"Bearer {api_key}\"\n    },\n    files={\n        'init_image': open(\"../init_image.png\", 'rb'),\n        'mask_image': open(\"../mask_image_white.png\", 'rb'),\n    },\n    data={\n        \"mask_source\": \"MASK_IMAGE_WHITE\",\n        \"text_prompts[0][text]\": \"A large spiral galaxy with a bright central bulge and a ring of stars around it\",\n        \"cfg_scale\": 7,\n        \"clip_guidance_preset\": \"FAST_BLUE\",\n        \"samples\": 1,\n        \"steps\": 30,\n    }\n)\n\nif response.status_code != 200:\n    raise Exception(\"Non-200 response: \" + str(response.text))\n\ndata = response.json()\n\nfor i, image in enumerate(data[\"artifacts\"]):\n    with open(f\"./out/v1_img2img_masking_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(image[\"base64\"]))\n"
+            "source": "import base64\nimport os\nimport requests\n\nengine_id = \"stable-diffusion-xl-1024-v1-0\"\napi_host = os.getenv('API_HOST', 'https://api.stability.ai')\napi_key = os.getenv(\"STABILITY_API_KEY\")\n\nif api_key is None:\n    raise Exception(\"Missing Stability API key.\")\n\nresponse = requests.post(\n    f\"{api_host}/v1/generation/{engine_id}/image-to-image/masking\",\n    headers={\n        \"Accept\": 'application/json',\n        \"Authorization\": f\"Bearer {api_key}\"\n    },\n    files={\n        'init_image': open(\"../init_image_1024.png\", 'rb'),\n        'mask_image': open(\"../mask_image_black_1024.png\", 'rb'),\n    },\n    data={\n        \"mask_source\": \"MASK_IMAGE_BLACK\",\n        \"text_prompts[0][text]\": \"A large spiral galaxy with a bright central bulge and a ring of stars around it\",\n        \"cfg_scale\": 7,\n        \"clip_guidance_preset\": \"FAST_BLUE\",\n        \"samples\": 1,\n        \"steps\": 30,\n    }\n)\n\nif response.status_code != 200:\n    raise Exception(\"Non-200 response: \" + str(response.text))\n\ndata = response.json()\n\nfor i, image in enumerate(data[\"artifacts\"]):\n    with open(f\"./out/v1_img2img_masking_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(image[\"base64\"]))\n"
           },
           {
             "label": "TypeScript",
             "lang": "Javascript",
-            "source": "import fetch from 'node-fetch'\nimport FormData from 'form-data'\nimport fs from 'node:fs'\n\nconst engineId = 'stable-inpainting-512-v2-0'\nconst apiHost = process.env.API_HOST ?? 'https://api.stability.ai'\nconst apiKey = process.env.STABILITY_API_KEY\n\nif (!apiKey) throw new Error('Missing Stability API key.')\n\n// NOTE: This example is using a NodeJS FormData library. Browser\n// implementations should use their native FormData class. React Native\n// implementations should also use their native FormData class.\nconst formData = new FormData()\nformData.append('init_image', fs.readFileSync('../init_image.png'))\nformData.append('mask_image', fs.readFileSync('../mask_image_white.png'))\nformData.append('mask_source', 'MASK_IMAGE_WHITE')\nformData.append(\n  'text_prompts[0][text]',\n  'A large spiral galaxy with a bright central bulge and a ring of stars around it'\n)\nformData.append('cfg_scale', '7')\nformData.append('clip_guidance_preset', 'FAST_BLUE')\nformData.append('samples', 1)\nformData.append('steps', 30)\n\nconst response = await fetch(\n  `${apiHost}/v1/generation/${engineId}/image-to-image/masking`,\n  {\n    method: 'POST',\n    headers: {\n      ...formData.getHeaders(),\n      Accept: 'application/json',\n      Authorization: `Bearer ${apiKey}`,\n    },\n    body: formData,\n  }\n)\n\nif (!response.ok) {\n  throw new Error(`Non-200 response: ${await response.text()}`)\n}\n\ninterface GenerationResponse {\n  artifacts: Array<{\n    base64: string\n    seed: number\n    finishReason: string\n  }>\n}\n\nconst responseJSON = (await response.json()) as GenerationResponse\n\nresponseJSON.artifacts.forEach((image, index) => {\n  fs.writeFileSync(\n    `out/v1_img2img_masking_${index}.png`,\n    Buffer.from(image.base64, 'base64')\n  )\n})\n"
+            "source": "import fetch from 'node-fetch'\nimport FormData from 'form-data'\nimport fs from 'node:fs'\n\nconst engineId = 'stable-diffusion-xl-1024-v1-0'\nconst apiHost = process.env.API_HOST ?? 'https://api.stability.ai'\nconst apiKey = process.env.STABILITY_API_KEY\n\nif (!apiKey) throw new Error('Missing Stability API key.')\n\n// NOTE: This example is using a NodeJS FormData library. Browser\n// implementations should use their native FormData class. React Native\n// implementations should also use their native FormData class.\nconst formData = new FormData()\nformData.append('init_image', fs.readFileSync('../init_image_1024.png'))\nformData.append('mask_image', fs.readFileSync('../mask_image_black_1024.png'))\nformData.append('mask_source', 'MASK_IMAGE_BLACK')\nformData.append(\n  'text_prompts[0][text]',\n  'A large spiral galaxy with a bright central bulge and a ring of stars around it'\n)\nformData.append('cfg_scale', '7')\nformData.append('clip_guidance_preset', 'FAST_BLUE')\nformData.append('samples', 1)\nformData.append('steps', 30)\n\nconst response = await fetch(\n  `${apiHost}/v1/generation/${engineId}/image-to-image/masking`,\n  {\n    method: 'POST',\n    headers: {\n      ...formData.getHeaders(),\n      Accept: 'application/json',\n      Authorization: `Bearer ${apiKey}`,\n    },\n    body: formData,\n  }\n)\n\nif (!response.ok) {\n  throw new Error(`Non-200 response: ${await response.text()}`)\n}\n\ninterface GenerationResponse {\n  artifacts: Array<{\n    base64: string\n    seed: number\n    finishReason: string\n  }>\n}\n\nconst responseJSON = (await response.json()) as GenerationResponse\n\nresponseJSON.artifacts.forEach((image, index) => {\n  fs.writeFileSync(\n    `out/v1_img2img_masking_${index}.png`,\n    Buffer.from(image.base64, 'base64')\n  )\n})\n"
           },
           {
             "lang": "Go",
-            "source": "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/base64\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io\"\n\t\"mime/multipart\"\n\t\"net/http\"\n\t\"os\"\n)\n\ntype MaskingImage struct {\n\tBase64       string `json:\"base64\"`\n\tSeed         uint32 `json:\"seed\"`\n\tFinishReason string `json:\"finishReason\"`\n}\n\ntype MaskingResponse struct {\n\tImages []MaskingImage `json:\"artifacts\"`\n}\n\nfunc main() {\n\tengineId := \"stable-inpainting-512-v2-0\"\n\n\t// Build REST endpoint URL\n\tapiHost, hasApiHost := os.LookupEnv(\"API_HOST\")\n\tif !hasApiHost {\n\t\tapiHost = \"https://api.stability.ai\"\n\t}\n\treqUrl := apiHost + \"/v1/generation/\" + engineId + \"/image-to-image/masking\"\n\n\t// Acquire an API key from the environment\n\tapiKey, hasAPIKey := os.LookupEnv(\"STABILITY_API_KEY\")\n\tif !hasAPIKey {\n\t\tpanic(\"Missing STABILITY_API_KEY environment variable\")\n\t}\n\n\tdata := &bytes.Buffer{}\n\twriter := multipart.NewWriter(data)\n\n\t// Write the init image to the request\n\tinitImageWriter, _ := writer.CreateFormField(\"init_image\")\n\tinitImageFile, initImageErr := os.Open(\"../init_image.png\")\n\tif initImageErr != nil {\n\t\tpanic(\"Could not open init_image.png\")\n\t}\n\t_, _ = io.Copy(initImageWriter, initImageFile)\n\n\t// Write the mask image to the request\n\tmaskImageWriter, _ := writer.CreateFormField(\"mask_image\")\n\tmaskImageFile, maskImageErr := os.Open(\"../mask_image_white.png\")\n\tif maskImageErr != nil {\n\t\tpanic(\"Could not open mask_image_white.png\")\n\t}\n\t_, _ = io.Copy(maskImageWriter, maskImageFile)\n\n\t// Write the options to the request\n\t_ = writer.WriteField(\"mask_source\", \"MASK_IMAGE_WHITE\")\n\t_ = writer.WriteField(\"text_prompts[0][text]\", \"A large spiral galaxy with a bright central bulge and a ring of stars around it\")\n\t_ = writer.WriteField(\"cfg_scale\", \"7\")\n\t_ = writer.WriteField(\"clip_guidance_preset\", \"FAST_BLUE\")\n\t_ = writer.WriteField(\"samples\", \"1\")\n\t_ = writer.WriteField(\"steps\", \"30\")\n\twriter.Close()\n\n\t// Execute the request & read all the bytes of the response\n\tpayload := bytes.NewReader(data.Bytes())\n\treq, _ := http.NewRequest(\"POST\", reqUrl, payload)\n\treq.Header.Add(\"Content-Type\", writer.FormDataContentType())\n\treq.Header.Add(\"Accept\", \"application/json\")\n\treq.Header.Add(\"Authorization\", \"Bearer \"+apiKey)\n\tres, _ := http.DefaultClient.Do(req)\n\tdefer res.Body.Close()\n\n\tif res.StatusCode != 200 {\n\t\tvar body map[string]interface{}\n\t\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t\tpanic(fmt.Sprintf(\"Non-200 response: %s\", body))\n\t}\n\n\t// Decode the JSON body\n\tvar body MaskingResponse\n\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\tpanic(err)\n\t}\n\n\t// Write the images to disk\n\tfor i, image := range body.Images {\n\t\toutFile := fmt.Sprintf(\"./out/v1_img2img_masking_%d.png\", i)\n\t\tfile, err := os.Create(outFile)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\timageBytes, err := base64.StdEncoding.DecodeString(image.Base64)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif _, err := file.Write(imageBytes); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif err := file.Close(); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t}\n}\n"
+            "source": "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/base64\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"io\"\n\t\"mime/multipart\"\n\t\"net/http\"\n\t\"os\"\n)\n\ntype MaskingImage struct {\n\tBase64       string `json:\"base64\"`\n\tSeed         uint32 `json:\"seed\"`\n\tFinishReason string `json:\"finishReason\"`\n}\n\ntype MaskingResponse struct {\n\tImages []MaskingImage `json:\"artifacts\"`\n}\n\nfunc main() {\n\tengineId := \"stable-diffusion-xl-1024-v1-0\"\n\n\t// Build REST endpoint URL\n\tapiHost, hasApiHost := os.LookupEnv(\"API_HOST\")\n\tif !hasApiHost {\n\t\tapiHost = \"https://api.stability.ai\"\n\t}\n\treqUrl := apiHost + \"/v1/generation/\" + engineId + \"/image-to-image/masking\"\n\n\t// Acquire an API key from the environment\n\tapiKey, hasAPIKey := os.LookupEnv(\"STABILITY_API_KEY\")\n\tif !hasAPIKey {\n\t\tpanic(\"Missing STABILITY_API_KEY environment variable\")\n\t}\n\n\tdata := &bytes.Buffer{}\n\twriter := multipart.NewWriter(data)\n\n\t// Write the init image to the request\n\tinitImageWriter, _ := writer.CreateFormField(\"init_image\")\n\tinitImageFile, initImageErr := os.Open(\"../init_image_1024.png\")\n\tif initImageErr != nil {\n\t\tpanic(\"Could not open init_image.png\")\n\t}\n\t_, _ = io.Copy(initImageWriter, initImageFile)\n\n\t// Write the mask image to the request\n\tmaskImageWriter, _ := writer.CreateFormField(\"mask_image\")\n\tmaskImageFile, maskImageErr := os.Open(\"../mask_image_black_1024.png\")\n\tif maskImageErr != nil {\n\t\tpanic(\"Could not open mask_image_white.png\")\n\t}\n\t_, _ = io.Copy(maskImageWriter, maskImageFile)\n\n\t// Write the options to the request\n\t_ = writer.WriteField(\"mask_source\", \"MASK_IMAGE_BLACK\")\n\t_ = writer.WriteField(\"text_prompts[0][text]\", \"A large spiral galaxy with a bright central bulge and a ring of stars around it\")\n\t_ = writer.WriteField(\"cfg_scale\", \"7\")\n\t_ = writer.WriteField(\"clip_guidance_preset\", \"FAST_BLUE\")\n\t_ = writer.WriteField(\"samples\", \"1\")\n\t_ = writer.WriteField(\"steps\", \"30\")\n\twriter.Close()\n\n\t// Execute the request & read all the bytes of the response\n\tpayload := bytes.NewReader(data.Bytes())\n\treq, _ := http.NewRequest(\"POST\", reqUrl, payload)\n\treq.Header.Add(\"Content-Type\", writer.FormDataContentType())\n\treq.Header.Add(\"Accept\", \"application/json\")\n\treq.Header.Add(\"Authorization\", \"Bearer \"+apiKey)\n\tres, _ := http.DefaultClient.Do(req)\n\tdefer res.Body.Close()\n\n\tif res.StatusCode != 200 {\n\t\tvar body map[string]interface{}\n\t\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t\tpanic(fmt.Sprintf(\"Non-200 response: %s\", body))\n\t}\n\n\t// Decode the JSON body\n\tvar body MaskingResponse\n\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\tpanic(err)\n\t}\n\n\t// Write the images to disk\n\tfor i, image := range body.Images {\n\t\toutFile := fmt.Sprintf(\"./out/v1_img2img_masking_%d.png\", i)\n\t\tfile, err := os.Create(outFile)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\timageBytes, err := base64.StdEncoding.DecodeString(image.Base64)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif _, err := file.Write(imageBytes); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif err := file.Close(); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t}\n}\n"
           },
           {
             "lang": "cURL",
-            "source": "#!/bin/sh\n\nset -e\n\nif [ -z \"$STABILITY_API_KEY\" ]; then\n    echo \"STABILITY_API_KEY environment variable is not set\"\n    exit 1\nfi\n\nOUTPUT_FILE=./out/v1_img2img_masking.png\nBASE_URL=${API_HOST:-https://api.stability.ai}\nURL=\"$BASE_URL/v1/generation/stable-inpainting-512-v2-0/image-to-image/masking\"\n\ncurl -f -sS -X POST \"$URL\" \\\n  -H 'Content-Type: multipart/form-data' \\\n  -H 'Accept: image/png' \\\n  -H \"Authorization: Bearer $STABILITY_API_KEY\" \\\n  -F 'init_image=@\"../init_image.png\"' \\\n  -F 'mask_image=@\"../mask_image_white.png\"' \\\n  -F 'mask_source=MASK_IMAGE_WHITE' \\\n  -F 'text_prompts[0][text]=A large spiral galaxy with a bright central bulge and a ring of stars around it' \\\n  -F 'cfg_scale=7' \\\n  -F 'clip_guidance_preset=FAST_BLUE' \\\n  -F 'samples=1' \\\n  -F 'steps=30' \\\n  -o \"$OUTPUT_FILE\"\n"
+            "source": "#!/bin/sh\n\nset -e\n\nif [ -z \"$STABILITY_API_KEY\" ]; then\n    echo \"STABILITY_API_KEY environment variable is not set\"\n    exit 1\nfi\n\nOUTPUT_FILE=./out/v1_img2img_masking.png\nBASE_URL=${API_HOST:-https://api.stability.ai}\nURL=\"$BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/image-to-image/masking\"\n\ncurl -f -sS -X POST \"$URL\" \\\n  -H 'Content-Type: multipart/form-data' \\\n  -H 'Accept: image/png' \\\n  -H \"Authorization: Bearer $STABILITY_API_KEY\" \\\n  -F 'init_image=@\"../init_image_1024.png\"' \\\n  -F 'mask_image=@\"../mask_image_black_1024.png\"' \\\n  -F 'mask_source=MASK_IMAGE_BLACK' \\\n  -F 'text_prompts[0][text]=A large spiral galaxy with a bright central bulge and a ring of stars around it' \\\n  -F 'cfg_scale=7' \\\n  -F 'clip_guidance_preset=FAST_BLUE' \\\n  -F 'samples=1' \\\n  -F 'steps=30' \\\n  -o \"$OUTPUT_FILE\"\n"
           }
         ]
       }
@@ -1460,7 +1414,7 @@
                     "cfg_scale": 7,
                     "image": "<image binary>",
                     "seed": 5555,
-                    "steps": 20,
+                    "steps": 30,
                     "text_prompts[0][text]": "A dog space commander",
                     "text_prompts[0][weight]": 1
                   }
@@ -1482,40 +1436,7 @@
         },
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "The result of the generation request, containing one or more images as base64 encoded strings.",
-                  "items": {
-                    "$ref": "#/components/schemas/Image"
-                  },
-                  "type": "array"
-                }
-              },
-              "image/png": {
-                "example": "PNG bytes, what did you expect?",
-                "schema": {
-                  "description": "The bytes of the generated image",
-                  "format": "binary",
-                  "type": "string"
-                }
-              }
-            },
-            "description": "OK response.",
-            "headers": {
-              "Content-Length": {
-                "$ref": "#/components/headers/Content-Length"
-              },
-              "Content-Type": {
-                "$ref": "#/components/headers/Content-Type"
-              },
-              "Finish-Reason": {
-                "$ref": "#/components/headers/Finish-Reason"
-              },
-              "Seed": {
-                "$ref": "#/components/headers/Seed"
-              }
-            }
+            "$ref": "#/components/responses/GenerationResponse"
           },
           "400": {
             "$ref": "#/components/responses/400FromUpscale"
@@ -1593,7 +1514,7 @@
                 "height": 512,
                 "sampler": "K_DPM_2_ANCESTRAL",
                 "samples": 1,
-                "steps": 75,
+                "steps": 30,
                 "text_prompts": [
                   {
                     "text": "A lighthouse on a cliff",
@@ -1611,40 +1532,7 @@
         },
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "The result of the generation request, containing one or more images as base64 encoded strings.",
-                  "items": {
-                    "$ref": "#/components/schemas/Image"
-                  },
-                  "type": "array"
-                }
-              },
-              "image/png": {
-                "example": "PNG bytes, what did you expect?",
-                "schema": {
-                  "description": "The bytes of the generated image",
-                  "format": "binary",
-                  "type": "string"
-                }
-              }
-            },
-            "description": "OK response.",
-            "headers": {
-              "Content-Length": {
-                "$ref": "#/components/headers/Content-Length"
-              },
-              "Content-Type": {
-                "$ref": "#/components/headers/Content-Type"
-              },
-              "Finish-Reason": {
-                "$ref": "#/components/headers/Finish-Reason"
-              },
-              "Seed": {
-                "$ref": "#/components/headers/Seed"
-              }
-            }
+            "$ref": "#/components/responses/GenerationResponse"
           },
           "400": {
             "$ref": "#/components/responses/400FromGeneration"
@@ -1674,20 +1562,20 @@
         "x-codeSamples": [
           {
             "lang": "Python",
-            "source": "import base64\nimport os\nimport requests\n\nengine_id = \"stable-diffusion-xl-1024-v1-0\"\napi_host = os.getenv('API_HOST', 'https://api.stability.ai')\napi_key = os.getenv(\"STABILITY_API_KEY\")\n\nif api_key is None:\n    raise Exception(\"Missing Stability API key.\")\n\nresponse = requests.post(\n    f\"{api_host}/v1/generation/{engine_id}/text-to-image\",\n    headers={\n        \"Content-Type\": \"application/json\",\n        \"Accept\": \"application/json\",\n        \"Authorization\": f\"Bearer {api_key}\"\n    },\n    json={\n        \"text_prompts\": [\n            {\n                \"text\": \"A lighthouse on a cliff\"\n            }\n        ],\n        \"cfg_scale\": 7,\n        \"height\": 1024,\n        \"width\": 1024,\n        \"samples\": 1,\n        \"steps\": 30,\n    },\n)\n\nif response.status_code != 200:\n    raise Exception(\"Non-200 response: \" + str(response.text))\n\ndata = response.json()\n\nfor i, image in enumerate(data[\"artifacts\"]):\n    with open(f\"./out/v1_txt2img_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(image[\"base64\"]))\n"
+            "source": "import base64\nimport os\nimport requests\n\nengine_id = \"stable-diffusion-v1-6\"\napi_host = os.getenv('API_HOST', 'https://api.stability.ai')\napi_key = os.getenv(\"STABILITY_API_KEY\")\n\nif api_key is None:\n    raise Exception(\"Missing Stability API key.\")\n\nresponse = requests.post(\n    f\"{api_host}/v1/generation/{engine_id}/text-to-image\",\n    headers={\n        \"Content-Type\": \"application/json\",\n        \"Accept\": \"application/json\",\n        \"Authorization\": f\"Bearer {api_key}\"\n    },\n    json={\n        \"text_prompts\": [\n            {\n                \"text\": \"A lighthouse on a cliff\"\n            }\n        ],\n        \"cfg_scale\": 7,\n        \"height\": 1024,\n        \"width\": 1024,\n        \"samples\": 1,\n        \"steps\": 30,\n    },\n)\n\nif response.status_code != 200:\n    raise Exception(\"Non-200 response: \" + str(response.text))\n\ndata = response.json()\n\nfor i, image in enumerate(data[\"artifacts\"]):\n    with open(f\"./out/v1_txt2img_{i}.png\", \"wb\") as f:\n        f.write(base64.b64decode(image[\"base64\"]))\n"
           },
           {
             "label": "TypeScript",
             "lang": "Javascript",
-            "source": "import fetch from 'node-fetch'\nimport fs from 'node:fs'\n\nconst engineId = 'stable-diffusion-xl-1024-v1-0'\nconst apiHost = process.env.API_HOST ?? 'https://api.stability.ai'\nconst apiKey = process.env.STABILITY_API_KEY\n\nif (!apiKey) throw new Error('Missing Stability API key.')\n\nconst response = await fetch(\n  `${apiHost}/v1/generation/${engineId}/text-to-image`,\n  {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json',\n      Accept: 'application/json',\n      Authorization: `Bearer ${apiKey}`,\n    },\n    body: JSON.stringify({\n      text_prompts: [\n        {\n          text: 'A lighthouse on a cliff',\n        },\n      ],\n      cfg_scale: 7,\n      height: 1024,\n      width: 1024,\n      steps: 30,\n      samples: 1,\n    }),\n  }\n)\n\nif (!response.ok) {\n  throw new Error(`Non-200 response: ${await response.text()}`)\n}\n\ninterface GenerationResponse {\n  artifacts: Array<{\n    base64: string\n    seed: number\n    finishReason: string\n  }>\n}\n\nconst responseJSON = (await response.json()) as GenerationResponse\n\nresponseJSON.artifacts.forEach((image, index) => {\n  fs.writeFileSync(\n    `./out/v1_txt2img_${index}.png`,\n    Buffer.from(image.base64, 'base64')\n  )\n})\n"
+            "source": "import fetch from 'node-fetch'\nimport fs from 'node:fs'\n\nconst engineId = 'stable-diffusion-v1-6'\nconst apiHost = process.env.API_HOST ?? 'https://api.stability.ai'\nconst apiKey = process.env.STABILITY_API_KEY\n\nif (!apiKey) throw new Error('Missing Stability API key.')\n\nconst response = await fetch(\n  `${apiHost}/v1/generation/${engineId}/text-to-image`,\n  {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json',\n      Accept: 'application/json',\n      Authorization: `Bearer ${apiKey}`,\n    },\n    body: JSON.stringify({\n      text_prompts: [\n        {\n          text: 'A lighthouse on a cliff',\n        },\n      ],\n      cfg_scale: 7,\n      height: 1024,\n      width: 1024,\n      steps: 30,\n      samples: 1,\n    }),\n  }\n)\n\nif (!response.ok) {\n  throw new Error(`Non-200 response: ${await response.text()}`)\n}\n\ninterface GenerationResponse {\n  artifacts: Array<{\n    base64: string\n    seed: number\n    finishReason: string\n  }>\n}\n\nconst responseJSON = (await response.json()) as GenerationResponse\n\nresponseJSON.artifacts.forEach((image, index) => {\n  fs.writeFileSync(\n    `./out/v1_txt2img_${index}.png`,\n    Buffer.from(image.base64, 'base64')\n  )\n})\n"
           },
           {
             "lang": "Go",
-            "source": "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/base64\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"os\"\n)\n\ntype TextToImageImage struct {\n\tBase64       string `json:\"base64\"`\n\tSeed         uint32 `json:\"seed\"`\n\tFinishReason string `json:\"finishReason\"`\n}\n\ntype TextToImageResponse struct {\n\tImages []TextToImageImage `json:\"artifacts\"`\n}\n\nfunc main() {\n\t// Build REST endpoint URL w/ specified engine\n\tengineId := \"stable-diffusion-xl-1024-v1-0\"\n\tapiHost, hasApiHost := os.LookupEnv(\"API_HOST\")\n\tif !hasApiHost {\n\t\tapiHost = \"https://api.stability.ai\"\n\t}\n\treqUrl := apiHost + \"/v1/generation/\" + engineId + \"/text-to-image\"\n\n\t// Acquire an API key from the environment\n\tapiKey, hasAPIKey := os.LookupEnv(\"STABILITY_API_KEY\")\n\tif !hasAPIKey {\n\t\tpanic(\"Missing STABILITY_API_KEY environment variable\")\n\t}\n\n\tvar data = []byte(`{\n\t\t\"text_prompts\": [\n\t\t  {\n\t\t\t\"text\": \"A lighthouse on a cliff\"\n\t\t  }\n\t\t],\n\t\t\"cfg_scale\": 7,\n\t\t\"height\": 1024,\n\t\t\"width\": 1024,\n\t\t\"samples\": 1,\n\t\t\"steps\": 30\n  \t}`)\n\n\treq, _ := http.NewRequest(\"POST\", reqUrl, bytes.NewBuffer(data))\n\treq.Header.Add(\"Content-Type\", \"application/json\")\n\treq.Header.Add(\"Accept\", \"application/json\")\n\treq.Header.Add(\"Authorization\", \"Bearer \"+apiKey)\n\n\t// Execute the request & read all the bytes of the body\n\tres, _ := http.DefaultClient.Do(req)\n\tdefer res.Body.Close()\n\n\tif res.StatusCode != 200 {\n\t\tvar body map[string]interface{}\n\t\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t\tpanic(fmt.Sprintf(\"Non-200 response: %s\", body))\n\t}\n\n\t// Decode the JSON body\n\tvar body TextToImageResponse\n\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\tpanic(err)\n\t}\n\n\t// Write the images to disk\n\tfor i, image := range body.Images {\n\t\toutFile := fmt.Sprintf(\"./out/v1_txt2img_%d.png\", i)\n\t\tfile, err := os.Create(outFile)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\timageBytes, err := base64.StdEncoding.DecodeString(image.Base64)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif _, err := file.Write(imageBytes); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif err := file.Close(); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t}\n}\n"
+            "source": "package main\n\nimport (\n\t\"bytes\"\n\t\"encoding/base64\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"net/http\"\n\t\"os\"\n)\n\ntype TextToImageImage struct {\n\tBase64       string `json:\"base64\"`\n\tSeed         uint32 `json:\"seed\"`\n\tFinishReason string `json:\"finishReason\"`\n}\n\ntype TextToImageResponse struct {\n\tImages []TextToImageImage `json:\"artifacts\"`\n}\n\nfunc main() {\n\t// Build REST endpoint URL w/ specified engine\n\tengineId := \"stable-diffusion-v1-6\"\n\tapiHost, hasApiHost := os.LookupEnv(\"API_HOST\")\n\tif !hasApiHost {\n\t\tapiHost = \"https://api.stability.ai\"\n\t}\n\treqUrl := apiHost + \"/v1/generation/\" + engineId + \"/text-to-image\"\n\n\t// Acquire an API key from the environment\n\tapiKey, hasAPIKey := os.LookupEnv(\"STABILITY_API_KEY\")\n\tif !hasAPIKey {\n\t\tpanic(\"Missing STABILITY_API_KEY environment variable\")\n\t}\n\n\tvar data = []byte(`{\n\t\t\"text_prompts\": [\n\t\t  {\n\t\t\t\"text\": \"A lighthouse on a cliff\"\n\t\t  }\n\t\t],\n\t\t\"cfg_scale\": 7,\n\t\t\"height\": 1024,\n\t\t\"width\": 1024,\n\t\t\"samples\": 1,\n\t\t\"steps\": 30\n  \t}`)\n\n\treq, _ := http.NewRequest(\"POST\", reqUrl, bytes.NewBuffer(data))\n\treq.Header.Add(\"Content-Type\", \"application/json\")\n\treq.Header.Add(\"Accept\", \"application/json\")\n\treq.Header.Add(\"Authorization\", \"Bearer \"+apiKey)\n\n\t// Execute the request & read all the bytes of the body\n\tres, _ := http.DefaultClient.Do(req)\n\tdefer res.Body.Close()\n\n\tif res.StatusCode != 200 {\n\t\tvar body map[string]interface{}\n\t\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t\tpanic(fmt.Sprintf(\"Non-200 response: %s\", body))\n\t}\n\n\t// Decode the JSON body\n\tvar body TextToImageResponse\n\tif err := json.NewDecoder(res.Body).Decode(&body); err != nil {\n\t\tpanic(err)\n\t}\n\n\t// Write the images to disk\n\tfor i, image := range body.Images {\n\t\toutFile := fmt.Sprintf(\"./out/v1_txt2img_%d.png\", i)\n\t\tfile, err := os.Create(outFile)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\timageBytes, err := base64.StdEncoding.DecodeString(image.Base64)\n\t\tif err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif _, err := file.Write(imageBytes); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\n\t\tif err := file.Close(); err != nil {\n\t\t\tpanic(err)\n\t\t}\n\t}\n}\n"
           },
           {
             "lang": "cURL",
-            "source": "if [ -z \"$STABILITY_API_KEY\" ]; then\n    echo \"STABILITY_API_KEY environment variable is not set\"\n    exit 1\nfi\n\nOUTPUT_FILE=./out/v1_txt2img.png\nBASE_URL=${API_HOST:-https://api.stability.ai}\nURL=\"$BASE_URL/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image\"\n\ncurl -f -sS -X POST \"$URL\" \\\n  -H 'Content-Type: application/json' \\\n  -H 'Accept: image/png' \\\n  -H \"Authorization: Bearer $STABILITY_API_KEY\" \\\n  --data-raw '{\n    \"text_prompts\": [\n      {\n        \"text\": \"A lighthouse on a cliff\"\n      }\n    ],\n    \"cfg_scale\": 7,\n    \"height\": 1024,\n    \"width\": 1024,\n    \"samples\": 1,\n    \"steps\": 30\n  }' \\\n  -o \"$OUTPUT_FILE\"\n"
+            "source": "if [ -z \"$STABILITY_API_KEY\" ]; then\n    echo \"STABILITY_API_KEY environment variable is not set\"\n    exit 1\nfi\n\nOUTPUT_FILE=./out/v1_txt2img.png\nBASE_URL=${API_HOST:-https://api.stability.ai}\nURL=\"$BASE_URL/v1/generation/stable-diffusion-v1-6/text-to-image\"\n\ncurl -f -sS -X POST \"$URL\" \\\n  -H 'Content-Type: application/json' \\\n  -H 'Accept: image/png' \\\n  -H \"Authorization: Bearer $STABILITY_API_KEY\" \\\n  --data-raw '{\n    \"text_prompts\": [\n      {\n        \"text\": \"A lighthouse on a cliff\"\n      }\n    ],\n    \"cfg_scale\": 7,\n    \"height\": 1024,\n    \"width\": 1024,\n    \"samples\": 1,\n    \"steps\": 30\n  }' \\\n  -o \"$OUTPUT_FILE\"\n"
           }
         ]
       }
