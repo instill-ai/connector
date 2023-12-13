@@ -43,6 +43,8 @@ const (
 	imageToTextTask            = "TASK_IMAGE_TO_TEXT"
 	speechRecognitionTask      = "TASK_SPEECH_RECOGNITION"
 	audioClassificationTask    = "TASK_AUDIO_CLASSIFICATION"
+
+	applicationJson = "application/json"
 )
 
 var (
@@ -128,7 +130,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -147,7 +149,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -169,7 +171,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -203,7 +205,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -222,7 +224,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -258,7 +260,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -293,7 +295,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -312,7 +314,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -363,7 +365,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -380,7 +382,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -397,7 +399,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -422,7 +424,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model)
+			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
 			if err != nil {
 				return nil, err
 			}
@@ -442,7 +444,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model)
+			resp, err := client.MakeHFAPIRequest(b, model, "")
 			if err != nil {
 				return nil, err
 			}
@@ -476,7 +478,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model)
+			resp, err := client.MakeHFAPIRequest(b, model, "")
 			if err != nil {
 				return nil, err
 			}
@@ -511,7 +513,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model)
+			resp, err := client.MakeHFAPIRequest(b, model, "")
 			if err != nil {
 				return nil, err
 			}
@@ -553,7 +555,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model)
+			resp, err := client.MakeHFAPIRequest(b, model, "")
 			if err != nil {
 				return nil, err
 			}
@@ -581,7 +583,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model)
+			resp, err := client.MakeHFAPIRequest(b, model, "")
 			if err != nil {
 				return nil, err
 			}
@@ -601,7 +603,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model)
+			resp, err := client.MakeHFAPIRequest(b, model, "")
 			if err != nil {
 				return nil, err
 			}

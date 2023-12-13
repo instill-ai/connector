@@ -21,7 +21,7 @@ const (
 // using the provided JSON body. If the request is successful, returns the
 // response JSON and a nil error. If the request fails, returns an empty slice
 // and an error describing the failure.
-func (c *Client) MakeHFAPIRequest(body []byte, model string) ([]byte, error) {
+func (c *Client) MakeHFAPIRequest(body []byte, model string, contentType string) ([]byte, error) {
 	url := c.BaseURL
 	if !c.IsCustomEndpoint {
 		url += modelsPath + model
@@ -33,7 +33,12 @@ func (c *Client) MakeHFAPIRequest(body []byte, model string) ([]byte, error) {
 	if req == nil {
 		return nil, errors.New("nil request created")
 	}
-	req.Header.Set(ContentTypeHeader, http.DetectContentType(body))
+	if contentType != "" {
+		req.Header.Set(ContentTypeHeader, contentType)
+	} else {
+		req.Header.Set(ContentTypeHeader, http.DetectContentType(body))
+	}
+
 	req.Header.Set(AuthHeaderKey, AuthHeaderPrefix+c.APIKey)
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
