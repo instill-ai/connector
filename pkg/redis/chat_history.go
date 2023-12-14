@@ -11,7 +11,7 @@ import (
 
 var (
 	// DefaultLatestK is the default number of latest conversation turns to retrieve
-	DefaultLatestK = 10
+	DefaultLatestK = 5
 )
 
 type Message struct {
