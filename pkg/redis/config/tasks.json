@@ -38,9 +38,23 @@
     "input": {
       "instillUIOrder": 0,
       "properties": {
+        "include_system_message": {
+          "default": true,
+          "description": "Include system message in the retrieved conversation turns if exists",
+          "instillAcceptFormats": [
+            "boolean"
+          ],
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Include System Message If Exists",
+          "type": "boolean"
+        },
         "latest_k": {
-          "default": 10,
-          "description": "The number of latest messages to retrieve",
+          "default": 5,
+          "description": "The number of latest conversation turns to retrieve. A conversation turn typically includes one participant speaking or sending a message, and the other participant(s) responding to it.",
           "instillAcceptFormats": [
             "integer"
           ],
