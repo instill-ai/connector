@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.8.0-beta](https://github.com/instill-ai/connector/compare/v0.7.0-alpha...v0.8.0-beta) (2023-12-15)
+
+
+### Features
+
+* **instill:** add new tasks ([#81](https://github.com/instill-ai/connector/issues/81)) ([c0a3725](https://github.com/instill-ai/connector/commit/c0a3725a8bfc5d0ed1cf063fa502ba9c1b8c869a))
+
+
+### Bug Fixes
+
+* **instill:** add mime prefix to image output ([959a69d](https://github.com/instill-ai/connector/commit/959a69d167d556792555ac1400198b4a3117748f))
+* **redis:** fix message retrieval and improve system message support ([#83](https://github.com/instill-ai/connector/issues/83)) ([0c19492](https://github.com/instill-ai/connector/commit/0c19492e7fa67335a32ae556140b8db8c6ffd047))
+* **website:** correct the field json mappings ([#72](https://github.com/instill-ai/connector/issues/72)) ([ed45f6f](https://github.com/instill-ai/connector/commit/ed45f6f6169f4117e564c79685ed828938f542d9))
+
+
+### Miscellaneous Chores
+
+* release v0.8.0-beta ([0548a63](https://github.com/instill-ai/connector/commit/0548a63ebc4d8c65322e121774346b8e126f9f67))
+
 ## [0.7.0-alpha](https://github.com/instill-ai/connector/compare/v0.6.0-alpha...v0.7.0-alpha) (2023-11-28)
 
 
