@@ -139,8 +139,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.2 h1:I/pwhnUln5wbMnTyRbzswA0/JxpK
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.2/go.mod h1:lsuH8kb4GlMdSlI4alNIBBSAt5CHJtg3i+0WuN9J5YM=
 github.com/h2non/filetype v1.1.3 h1:FKkx9QbD7HR/zjK1Ia5XiBsq9zdLi5Kf3zGyFTAFkGg=
 github.com/h2non/filetype v1.1.3/go.mod h1:319b3zT68BvV+WRj7cwy856M2ehB3HqNOt6sy1HndBY=
-github.com/instill-ai/component v0.7.1-alpha.0.20231206035822-12eee341c80e h1:nhjzSXK71aB5WQEoSW3sR9OLCkKU1YlGal9lhdQJ9ao=
-github.com/instill-ai/component v0.7.1-alpha.0.20231206035822-12eee341c80e/go.mod h1:fWyVPJVJ4WyFSQMgWCc7KvcS7m9QpdS3VXCL2CZE8OY=
+github.com/instill-ai/component v0.8.0-beta h1:xXePzuaKhh9RjSnmo6mZE4QD8OkaAuWVxxero6b4Kyo=
+github.com/instill-ai/component v0.8.0-beta/go.mod h1:fWyVPJVJ4WyFSQMgWCc7KvcS7m9QpdS3VXCL2CZE8OY=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231212091117-ca798a0535d1 h1:3UyjuBjas7U7aTtuEWdSB/xp8E2ec2FHH2WNwzD/chE=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231212091117-ca798a0535d1/go.mod h1:q/YL5TZXD9nvmJ7Rih4gY3/B2HT2+GiFdxeZp9D+yE4=
 github.com/jawher/mow.cli v1.1.0/go.mod h1:aNaQlc7ozF3vw6IJ2dHjp2ZFiA4ozMIYY6PyuRJwlUg=
