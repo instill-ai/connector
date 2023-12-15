@@ -147,6 +147,8 @@ github.com/instill-ai/component v0.8.0-beta h1:xXePzuaKhh9RjSnmo6mZE4QD8OkaAuWVx
 github.com/instill-ai/component v0.8.0-beta/go.mod h1:fWyVPJVJ4WyFSQMgWCc7KvcS7m9QpdS3VXCL2CZE8OY=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231212091117-ca798a0535d1 h1:3UyjuBjas7U7aTtuEWdSB/xp8E2ec2FHH2WNwzD/chE=
 github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231212091117-ca798a0535d1/go.mod h1:q/YL5TZXD9nvmJ7Rih4gY3/B2HT2+GiFdxeZp9D+yE4=
+github.com/instill-ai/x v0.3.0-alpha.0.20231219052200-6230a89e386c h1:a2RVkpIV2QcrGnSHAou+t/L+vBsaIfFvk5inVg5Uh4s=
+github.com/instill-ai/x v0.3.0-alpha.0.20231219052200-6230a89e386c/go.mod h1:L6jmDPrUou6XskaLXZuK/gDeitdoPa9yE8ONKt1ZwCw=
 github.com/jawher/mow.cli v1.1.0/go.mod h1:aNaQlc7ozF3vw6IJ2dHjp2ZFiA4ozMIYY6PyuRJwlUg=
 github.com/kennygrant/sanitize v1.2.4 h1:gN25/otpP5vAsO2djbMhF/LQX6R7+O1TB4yv8NzpJ3o=
 github.com/kennygrant/sanitize v1.2.4/go.mod h1:LGsjYYtgxbetdg5owWB2mpgUL6e2nfw2eObZ0u0qvak=

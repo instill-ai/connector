@@ -12,6 +12,7 @@ import (
 	"go.uber.org/zap/zaptest/observer"
 
 	"github.com/instill-ai/connector/pkg/util/mock"
+	"github.com/instill-ai/x/errmsg"
 )
 
 func TestClient_GenerateTextCompletion(t *testing.T) {
@@ -25,23 +26,27 @@ func TestClient_GenerateTextCompletion(t *testing.T) {
 		name          string
 		gotStatus     int
 		gotBody       string
+		wantIssue     string
 		wantLogFields []string
 	}{
 		{
 			name:          "nok - 401 (unexpected response body)",
 			gotStatus:     http.StatusUnauthorized,
+			wantIssue:     "OpenAI responded with a 401 status code. Please refer to OpenAI's API reference for more information.",
 			wantLogFields: []string{"url", "body", "status"},
 		},
 		{
 			name:          "nok - 401",
 			gotStatus:     http.StatusUnauthorized,
 			gotBody:       `{ "error": { "message": "Incorrect API key provided." } }`,
+			wantIssue:     "OpenAI responded with a 401 status code. Incorrect API key provided.",
 			wantLogFields: []string{"url", "body", "status"},
 		},
 		{
 			name:          "nok - JSON error",
 			gotStatus:     http.StatusOK,
 			gotBody:       "{",
+			wantIssue:     "Failed to decode response from OpenAI's API.",
 			wantLogFields: []string{"url", "body"},
 		},
 	}
@@ -68,6 +73,9 @@ func TestClient_GenerateTextCompletion(t *testing.T) {
 			}
 			_, err := openAIClient.GenerateTextCompletion(req)
 			c.Check(err, qt.IsNotNil)
+
+			// Error should contain an end-user message
+			c.Check(errmsg.Message(err), qt.Equals, tc.wantIssue)
 
 			// Check relevant information is logged.
 			logs := zLogs.All()
@@ -101,6 +109,7 @@ func TestClient_GenerateTextCompletion(t *testing.T) {
 
 		_, err := openAIClient.GenerateTextCompletion(req)
 		c.Check(err, qt.ErrorMatches, ".*failed to call OpenAI.*boom.*")
+		c.Check(errmsg.Message(err), qt.Equals, "Failed to call OpenAI's API.")
 
 		// Check relevant information is logged.
 		logs := zLogs.All()

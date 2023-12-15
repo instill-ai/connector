@@ -18,6 +18,7 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/x/errmsg"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
@@ -115,8 +116,10 @@ func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]
 	}
 	if err != nil || res == nil {
 		logger.Warn("Failed to call OpenAI", zap.Error(err))
-		return nil, fmt.Errorf("failed to call OpenAI: %w", err)
-
+		return nil, errmsg.AddMessage(
+			fmt.Errorf("failed to call OpenAI: %w", err),
+			"Failed to call OpenAI's API.",
+		)
 	}
 
 	respBody, err := io.ReadAll(res.Body)
@@ -125,11 +128,32 @@ func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]
 	}
 
 	if res.StatusCode < 200 || res.StatusCode >= 300 {
-		logger.Warn("Unsuccessful response from OpenAI",
+		err := fmt.Errorf("unsuccessful response from openAI")
+		logger = logger.With(
 			zap.Int("status", res.StatusCode),
 			zap.ByteString("body", respBody),
 		)
-		return nil, fmt.Errorf("unsuccessful response from openAI: status code %d", res.StatusCode)
+
+		var errBody struct {
+			Error struct {
+				Message string `json:"message"`
+			} `json:"error"`
+		}
+
+		// We want to provide a useful error message so we don't return an
+		// error here.
+		if jsonErr := json.Unmarshal(respBody, &errBody); jsonErr != nil {
+			logger = logger.With(zap.NamedError("json_error", jsonErr))
+		}
+
+		msg := errBody.Error.Message
+		if msg == "" {
+			msg = "Please refer to OpenAI's API reference for more information."
+		}
+		issue := fmt.Sprintf("OpenAI responded with a %d status code. %s", res.StatusCode, msg)
+
+		logger.Warn("Unsuccessful response from OpenAI")
+		return nil, errmsg.AddMessage(err, issue)
 	}
 
 	return respBody, nil
@@ -148,8 +172,10 @@ func (c *Client) sendReqAndUnmarshal(reqURL, method, contentType string, data io
 			zap.String("url", reqURL),
 			zap.ByteString("body", respBody),
 		)
-
-		return fmt.Errorf("failed to decode response from OpenAI: %w", err)
+		return errmsg.AddMessage(
+			fmt.Errorf("failed to decode response from openAI: %w", err),
+			"Failed to decode response from OpenAI's API.",
+		)
 	}
 
 	return nil
