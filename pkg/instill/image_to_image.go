@@ -85,6 +85,10 @@ func (c *Execution) executeImageToImage(grpcClient modelPB.ModelPublicServiceCli
 		if imageToImageOutput == nil {
 			return nil, fmt.Errorf("invalid output: %v for model: %s", imageToImageOutput, modelName)
 		}
+		for imageIdx := range imageToImageOutput.Images {
+			imageToImageOutput.Images[imageIdx] = fmt.Sprintf("data:image/jpeg;base64,%s", imageToImageOutput.Images[imageIdx])
+		}
+
 		outputJson, err := protojson.MarshalOptions{
 			UseProtoNames:   true,
 			EmitUnpopulated: true,
