@@ -17,6 +17,8 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
+	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/x/errmsg"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
@@ -57,12 +59,8 @@ type Execution struct {
 type Client struct {
 	APIKey     string
 	Org        string
-	HTTPClient HTTPClient
-}
-
-// HTTPClient interface
-type HTTPClient interface {
-	Do(req *http.Request) (*http.Response, error)
+	HTTPClient util.HTTPClient
+	Logger     *zap.Logger
 }
 
 func Init(logger *zap.Logger) base.IConnector {
@@ -87,15 +85,22 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 }
 
 // NewClient initializes a new OpenAI client
-func NewClient(apiKey, org string) Client {
+func NewClient(apiKey, org string, logger *zap.Logger) Client {
 	tr := &http.Transport{
 		DisableKeepAlives: true,
 	}
-	return Client{APIKey: apiKey, Org: org, HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}
+	return Client{
+		APIKey:     apiKey,
+		Org:        org,
+		HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr},
+		Logger:     logger,
+	}
 }
 
 // sendReq is responsible for making the http request with to given URL, method, and params
 func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]byte, error) {
+	logger := c.Logger.With(zap.String("url", reqURL))
+
 	req, _ := http.NewRequest(method, reqURL, data)
 	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("Accept", jsonMimeType)
@@ -104,22 +109,53 @@ func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]
 		req.Header.Add("OpenAI-Organization", c.Org)
 	}
 	http.DefaultClient.Timeout = reqTimeout
+
 	res, err := c.HTTPClient.Do(req)
 	if res != nil && res.Body != nil {
 		defer res.Body.Close()
 	}
 	if err != nil || res == nil {
-		err = fmt.Errorf("error occurred: %v, while calling URL: %s", err, reqURL)
-		return nil, err
+		logger.Warn("Failed to call OpenAI", zap.Error(err))
+		return nil, errmsg.AddMessage(
+			fmt.Errorf("failed to call OpenAI: %w", err),
+			"Failed to call OpenAI's API.",
+		)
 	}
+
 	respBody, err := io.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
-	if res.StatusCode != http.StatusOK {
-		err = fmt.Errorf("non-200 status code: %d, while calling URL: %s, response body: %s", res.StatusCode, reqURL, respBody)
-		return nil, err
+
+	if res.StatusCode < 200 || res.StatusCode >= 300 {
+		err := fmt.Errorf("unsuccessful response from openAI")
+		logger = logger.With(
+			zap.Int("status", res.StatusCode),
+			zap.ByteString("body", respBody),
+		)
+
+		var errBody struct {
+			Error struct {
+				Message string `json:"message"`
+			} `json:"error"`
+		}
+
+		// We want to provide a useful error message so we don't return an
+		// error here.
+		if jsonErr := json.Unmarshal(respBody, &errBody); jsonErr != nil {
+			logger = logger.With(zap.NamedError("json_error", jsonErr))
+		}
+
+		msg := errBody.Error.Message
+		if msg == "" {
+			msg = "Please refer to OpenAI's API reference for more information."
+		}
+		issue := fmt.Sprintf("OpenAI responded with a %d status code. %s", res.StatusCode, msg)
+
+		logger.Warn("Unsuccessful response from OpenAI")
+		return nil, errmsg.AddMessage(err, issue)
 	}
+
 	return respBody, nil
 }
 
@@ -129,10 +165,19 @@ func (c *Client) sendReqAndUnmarshal(reqURL, method, contentType string, data io
 	if err != nil {
 		return err
 	}
+
 	err = json.Unmarshal(respBody, &respObj)
 	if err != nil {
-		return fmt.Errorf("error in json decode: %s, while calling URL: %s, response body: %s", err, reqURL, respBody)
+		c.Logger.Warn("Failed to decode response from OpenAI",
+			zap.String("url", reqURL),
+			zap.ByteString("body", respBody),
+		)
+		return errmsg.AddMessage(
+			fmt.Errorf("failed to decode response from openAI: %w", err),
+			"Failed to decode response from OpenAI's API.",
+		)
 	}
+
 	return nil
 }
 
@@ -149,8 +194,7 @@ func getOrg(config *structpb.Struct) string {
 }
 
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
-
-	client := NewClient(getAPIKey(e.Config), getOrg(e.Config))
+	client := NewClient(getAPIKey(e.Config), getOrg(e.Config), e.Logger)
 
 	outputs := []*structpb.Struct{}
 
@@ -363,7 +407,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 }
 
 func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	client := NewClient(getAPIKey(config), getOrg(config))
+	client := NewClient(getAPIKey(config), getOrg(config), c.Logger)
 	models, err := client.ListModels()
 	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
