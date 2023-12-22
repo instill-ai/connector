@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.1-beta](https://github.com/instill-ai/connector/compare/v0.8.0-beta...v0.8.1-beta) (2023-12-22)
+
+
+### Features
+
+* Improve error messages in connector execution [#311](https://github.com/instill-ai/connector/issues/311)  ([#76](https://github.com/instill-ai/connector/issues/76)) ([d0dea69](https://github.com/instill-ai/connector/commit/d0dea69b3d0ccbfdfbcdef54a1e8fdbbefe264e4))
+
+
+### Miscellaneous Chores
+
+* release v0.8.1-beta ([692c72a](https://github.com/instill-ai/connector/commit/692c72a8070e3b97601e57bb414080c9ce9ad9b3))
+
 ## [0.8.0-beta](https://github.com/instill-ai/connector/compare/v0.7.0-alpha...v0.8.0-beta) (2023-12-15)
 
 
