@@ -18,8 +18,8 @@ const (
 )
 
 type TaskInput struct {
-	EndpointPath *string `json:"endpoint_path,omitempty"`
-	Body         Body    `json:"body,omitempty"`
+	EndpointPath *string                `json:"endpoint_path,omitempty"`
+	Body         map[string]interface{} `json:"body,omitempty"`
 }
 
 type TaskOutput struct {
@@ -76,14 +76,14 @@ func (c *Client) sendRequest(method string, input TaskInput) (TaskOutput, error)
 			return resp, err
 		}
 	case http.MethodPost, http.MethodPut, http.MethodPatch, http.MethodDelete:
-		if input.Body == nil || input.Body.GetBodyType() == NoneBodyType || input.Body.GetBody() == nil || len(input.Body.GetBody()) == 0 {
+		if input.Body == nil {
 			req, err = http.NewRequest(method, reqURL, nil)
 			if err != nil {
 				return resp, err
 			}
 		} else {
 			// Convert body to JSON
-			jsonBody, err := json.Marshal(input.Body.GetBody())
+			jsonBody, err := json.Marshal(input.Body)
 			if err != nil {
 				return resp, err
 			}
