@@ -1,67 +1,24 @@
 {
   "$defs": {
     "inputWithBody": {
+      "instillEditOnNodeFields": [
+        "body",
+        "endpoint_path"
+      ],
       "instillUIOrder": 0,
       "properties": {
         "body": {
           "description": "The request body",
+          "instillAcceptFormats": [
+            "semi-structured/object"
+          ],
           "instillShortDescription": "The request body",
           "instillUIOrder": 1,
-          "oneOf": [
-            {
-              "properties": {
-                "body_type": {
-                  "const": "NONE",
-                  "description": "No request body",
-                  "instillUIOrder": 0,
-                  "order": 0,
-                  "type": "string"
-                }
-              },
-              "required": [
-                "body_type"
-              ],
-              "title": "None",
-              "type": "object"
-            },
-            {
-              "properties": {
-                "body_data": {
-                  "description": "The request body data",
-                  "instillAcceptFormats": [
-                    "*/*"
-                  ],
-                  "instillShortDescription": "The request body data",
-                  "instillUIOrder": 1,
-                  "instillUpstreamTypes": [
-                    "value",
-                    "reference"
-                  ],
-                  "order": 1,
-                  "required": [],
-                  "title": "Body Data",
-                  "type": "object"
-                },
-                "body_type": {
-                  "const": "RAW_JSON",
-                  "description": "Raw JSON Request body",
-                  "instillUIOrder": 0,
-                  "order": 0,
-                  "type": "string"
-                }
-              },
-              "required": [
-                "body_type",
-                "body_data"
-              ],
-              "title": "Raw JSON",
-              "type": "object"
-            }
+          "instillUpstreamTypes": [
+            "reference"
           ],
           "order": 1,
-          "required": [
-            "body_type"
-          ],
+          "required": [],
           "title": "Body",
           "type": "object"
         },
