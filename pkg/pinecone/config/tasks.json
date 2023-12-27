@@ -18,7 +18,7 @@
         },
         "include_metadata": {
           "default": false,
-          "description": "Indicates whether metadata is included in the response as well as the ids",
+          "description": "Indicates whether metadata is included in the response as well as the IDs",
           "instillAcceptFormats": [
             "boolean"
           ],
@@ -107,7 +107,7 @@
           "items": {
             "properties": {
               "id": {
-                "description": "The id of the matched vector",
+                "description": "The ID of the matched vector",
                 "instillFormat": "string",
                 "instillUIOrder": 0,
                 "title": "ID",
@@ -116,12 +116,13 @@
               "metadata": {
                 "description": "Metadata",
                 "instillUIOrder": 3,
+                "instillFormat": "semi-structured/object",
                 "required": [],
                 "title": "Metadata",
                 "type": "object"
               },
               "score": {
-                "description": "A measure of similarity between this vector and the query vector. The higher the score, the more they are similar.",
+                "description": "A measure of similarity between this vector and the query vector. The higher the score, the more similar they are.",
                 "instillFormat": "number",
                 "instillUIOrder": 1,
                 "title": "Score",

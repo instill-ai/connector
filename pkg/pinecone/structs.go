@@ -34,7 +34,7 @@ type UpsertReq struct {
 
 type Vector struct {
 	ID       string      `json:"id"`
-	Values   []float64   `json:"values"`
+	Values   []float64   `json:"values,omitempty"`
 	Metadata interface{} `json:"metadata,omitempty"`
 }
 
