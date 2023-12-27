@@ -200,6 +200,21 @@
           "minItems": 1,
           "title": "Values",
           "type": "array"
+        },
+        "metadata": {
+          "description": "The vector metadata",
+          "instillAcceptFormats": [
+            "semi-structured/object"
+          ],
+          "instillShortDescription": "The vector metadata",
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "order": 1,
+          "required": [],
+          "title": "Metadata",
+          "type": "object"
         }
       },
       "required": [
