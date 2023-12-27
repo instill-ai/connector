@@ -207,7 +207,7 @@
             "semi-structured/object"
           ],
           "instillShortDescription": "The vector metadata",
-          "instillUIOrder": 1,
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "reference"
           ],
