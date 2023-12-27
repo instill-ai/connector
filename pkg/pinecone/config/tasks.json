@@ -4,7 +4,8 @@
       "instillUIOrder": 0,
       "properties": {
         "id": {
-          "description": "The unique ID of the vector to be used as a query vector",
+          "description": "The unique ID of the vector to be used as a query vector. If present, the vector parameter will be ignored.",
+          "instillShortDescription": "Query by vector ID instead of by vector",
           "instillAcceptFormats": [
             "string"
           ],

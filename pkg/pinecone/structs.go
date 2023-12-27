@@ -13,10 +13,10 @@ type QueryInput struct {
 type QueryReq struct {
 	Namespace       string      `json:"namespace"`
 	TopK            int64       `json:"topK"`
-	Vector          []float64   `json:"vector"`
+	Vector          []float64   `json:"vector,omitempty"`
 	IncludeValues   bool        `json:"includeValues"`
 	IncludeMetadata bool        `json:"includeMetadata"`
-	ID              string      `json:"id"`
+	ID              string      `json:"id,omitempty"`
 	Filter          interface{} `json:"filter,omitempty"`
 }
 

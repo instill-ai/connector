@@ -55,6 +55,14 @@ var (
 			},
 		},
 	}
+	queryByID = QueryInput{
+		Namespace:       "color-schemes",
+		TopK:            1,
+		Vector:          vectorA.Values,
+		ID:              vectorA.ID,
+		IncludeValues:   true,
+		IncludeMetadata: true,
+	}
 )
 
 func TestConnector_Execute(t *testing.T) {
@@ -83,7 +91,7 @@ func TestConnector_Execute(t *testing.T) {
 			clientResp:     upsertResp,
 		},
 		{
-			name: "ok - query",
+			name: "ok - query by vector",
 
 			task:   taskQuery,
 			execIn: queryByVector,
@@ -100,6 +108,32 @@ func TestConnector_Execute(t *testing.T) {
 			wantClientPath: queryPath,
 			wantClientReq:  QueryReq(queryByVector),
 			clientResp:     queryResp,
+		},
+		{
+			name: "ok - query by ID",
+
+			task:   taskQuery,
+			execIn: queryByID,
+			wantExec: QueryResp{
+				Namespace: "color-schemes",
+				Matches: []Match{
+					{
+						Vector: vectorA,
+						Score:  0.99,
+					},
+				},
+			},
+
+			wantClientPath: queryPath,
+			wantClientReq: QueryReq{
+				// Vector is wiped from the request.
+				Namespace:       "color-schemes",
+				TopK:            1,
+				ID:              vectorA.ID,
+				IncludeValues:   true,
+				IncludeMetadata: true,
+			},
+			clientResp: queryResp,
 		},
 	}
 
