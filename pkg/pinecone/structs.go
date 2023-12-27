@@ -1,21 +1,23 @@
 package pinecone
 
 type QueryInput struct {
-	Namespace       string    `json:"namespace"`
-	TopK            int64     `json:"top_k"`
-	Vector          []float64 `json:"vector"`
-	IncludeValues   bool      `json:"include_values"`
-	IncludeMetadata bool      `json:"include_metadata"`
-	ID              string    `json:"id"`
+	Namespace       string      `json:"namespace"`
+	TopK            int64       `json:"top_k"`
+	Vector          []float64   `json:"vector"`
+	IncludeValues   bool        `json:"include_values"`
+	IncludeMetadata bool        `json:"include_metadata"`
+	ID              string      `json:"id"`
+	Filter          interface{} `json:"filter"`
 }
 
 type QueryReq struct {
-	Namespace       string    `json:"namespace"`
-	TopK            int64     `json:"topK"`
-	Vector          []float64 `json:"vector"`
-	IncludeValues   bool      `json:"includeValues"`
-	IncludeMetadata bool      `json:"includeMetadata"`
-	ID              string    `json:"id"`
+	Namespace       string      `json:"namespace"`
+	TopK            int64       `json:"topK"`
+	Vector          []float64   `json:"vector"`
+	IncludeValues   bool        `json:"includeValues"`
+	IncludeMetadata bool        `json:"includeMetadata"`
+	ID              string      `json:"id"`
+	Filter          interface{} `json:"filter,omitempty"`
 }
 
 type QueryResp struct {

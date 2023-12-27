@@ -49,6 +49,11 @@ var (
 		Vector:          vectorA.Values,
 		IncludeValues:   true,
 		IncludeMetadata: true,
+		Filter: map[string]any{
+			"color": map[string]any{
+				"$in": []string{"green", "cerulean", "pumpkin"},
+			},
+		},
 	}
 )
 
