@@ -132,6 +132,14 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
+
+			// Each query request can contain only one of the parameters
+			// vector, or id.
+			// Ref: https://docs.pinecone.io/reference/query
+			if inputStruct.ID != "" {
+				inputStruct.Vector = nil
+			}
+
 			url := getURL(e.Config) + "/query"
 			resp := QueryResp{}
 			err = client.sendReq(url, http.MethodPost, QueryReq(inputStruct), &resp)
