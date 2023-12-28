@@ -14,6 +14,7 @@ import (
 	_ "embed"
 	b64 "encoding/base64"
 
+	"github.com/gabriel-vasile/mimetype"
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/structpb"
@@ -23,7 +24,7 @@ import (
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
-const ApiUrlPin = "https://eoqctv92ahgrcif.m.pipedream.net"
+const ApiUrlPin = "https://api.numbersprotocol.io/api/v3/assets/"
 const ApiUrlCommit = "https://eo883tj75azolos.m.pipedream.net"
 const ApiUrlMe = "https://api.numbersprotocol.io/api/v3/auth/users/me"
 
@@ -72,6 +73,7 @@ type Commit struct {
 	AssetTimestampCreated int64         `json:"assetTimestampCreated"`
 	AssetCreator          *string       `json:"assetCreator,omitempty"`
 	Abstract              *string       `json:"abstract,omitempty"`
+	Headline              *string       `json:"headline,omitempty"`
 	Custom                *CommitCustom `json:"custom,omitempty"`
 	Testnet               bool          `json:"testnet"`
 }
@@ -80,12 +82,11 @@ type Input struct {
 	Images       []string `json:"images"`
 	AssetCreator *string  `json:"asset_creator,omitempty"`
 	Abstract     *string  `json:"abstract,omitempty"`
+	Headline     *string  `json:"headline,omitempty"`
 	Custom       *struct {
 		DigitalSourceType *string `json:"digital_source_type,omitempty"`
 		MiningPreference  *string `json:"mining_preference,omitempty"`
-		GeneratedThrough  *string `json:"generated_through,omitempty"`
 		GeneratedBy       *string `json:"generated_by,omitempty"`
-		CreatorWallet     *string `json:"creator_wallet,omitempty"`
 		License           *struct {
 			Name     *string `json:"name,omitempty"`
 			Document *string `json:"document,omitempty"`
@@ -135,7 +136,8 @@ func (con *Execution) pinFile(data []byte) (string, string, error) {
 	var fw io.Writer
 	var err error
 
-	if fw, err = w.CreateFormFile("file", "file.jpg"); err != nil {
+	fileName, _ := uuid.NewV4()
+	if fw, err = w.CreateFormFile("asset_file", fileName.String()+mimetype.Detect(data).Extension()); err != nil {
 		return "", "", err
 	}
 
@@ -171,7 +173,7 @@ func (con *Execution) pinFile(data []byte) (string, string, error) {
 		return "", "", err
 	}
 
-	if res.StatusCode == http.StatusOK {
+	if res.StatusCode == http.StatusCreated {
 		bodyBytes, err := io.ReadAll(res.Body)
 		if err != nil {
 			return "", "", err
@@ -288,9 +290,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				commitCustom = &CommitCustom{
 					DigitalSourceType: inputStruct.Custom.DigitalSourceType,
 					MiningPreference:  inputStruct.Custom.MiningPreference,
-					GeneratedThrough:  "https://console.instill.tech",
+					GeneratedThrough:  "https://console.instill.tech", //TODO: support Core Host
 					GeneratedBy:       inputStruct.Custom.GeneratedBy,
-					CreatorWallet:     inputStruct.Custom.CreatorWallet,
 					License:           commitCustomLicense,
 					Metadata:          inputStruct.Custom.Metadata,
 				}
@@ -309,6 +310,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				AssetTimestampCreated: time.Now().Unix(),
 				AssetCreator:          inputStruct.AssetCreator,
 				Abstract:              inputStruct.Abstract,
+				Headline:              inputStruct.Headline,
 				Custom:                commitCustom,
 				Testnet:               false,
 			})
@@ -316,7 +318,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			assetUrls = append(assetUrls, fmt.Sprintf("https://nftsearch.site/asset-profile?cid=%s", assetCid))
+			assetUrls = append(assetUrls, fmt.Sprintf("https://verify.numbersprotocol.io/asset-profile?nid=%s", assetCid))
 		}
 
 		outputStruct := Output{
