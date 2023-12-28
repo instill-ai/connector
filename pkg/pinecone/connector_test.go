@@ -15,6 +15,7 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/x/errmsg"
 )
 
 const (
@@ -35,6 +36,13 @@ const (
 			"score": 0.99
 		}
 	]
+}`
+
+	errResp = `
+{
+  "code": 3,
+  "message": "Cannot provide both ID and vector at the same time",
+  "details": []
 }`
 )
 
@@ -143,7 +151,7 @@ func TestConnector_Execute(t *testing.T) {
 
 	for _, tc := range testcases {
 		c.Run(tc.name, func(c *qt.C) {
-			pineconeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				// For now only POST methods are considered. When this changes,
 				// this will need to be asserted per-path.
 				c.Check(r.Method, qt.Equals, http.MethodPost)
@@ -164,7 +172,9 @@ func TestConnector_Execute(t *testing.T) {
 				w.WriteHeader(http.StatusOK)
 
 				fmt.Fprintln(w, tc.clientResp)
-			}))
+			})
+
+			pineconeServer := httptest.NewServer(h)
 			c.Cleanup(pineconeServer.Close)
 
 			config, err := structpb.NewStruct(map[string]any{
@@ -188,4 +198,31 @@ func TestConnector_Execute(t *testing.T) {
 			c.Check(wantJSON, qt.JSONEquals, got[0].AsMap())
 		})
 	}
+
+	c.Run("nok - 400", func(c *qt.C) {
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+
+			fmt.Fprintln(w, errResp)
+		})
+
+		pineconeServer := httptest.NewServer(h)
+		c.Cleanup(pineconeServer.Close)
+
+		config, err := structpb.NewStruct(map[string]any{
+			"url": pineconeServer.URL,
+		})
+
+		defID := uuid.Must(uuid.NewV4())
+		exec, err := connector.CreateExecution(defID, taskUpsert, config, logger)
+		c.Assert(err, qt.IsNil)
+
+		pbIn := new(structpb.Struct)
+		_, err = exec.Execute([]*structpb.Struct{pbIn})
+		c.Check(err, qt.IsNotNil)
+
+		want := "Pinecone responded with a 400 status code. Cannot provide both ID and vector at the same time"
+		c.Check(errmsg.Message(err), qt.Equals, want)
+	})
 }
