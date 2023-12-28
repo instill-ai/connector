@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/instill-ai/connector/pkg/util"
 )
 
 const (
@@ -73,7 +75,7 @@ func (c *Client) GenerateImageFromText(params TextToImageReq, engine string) (re
 	}
 	textToImageURL := host + "/v1/generation/" + engine + "/text-to-image"
 	data, _ := json.Marshal(params)
-	err = c.sendReq(textToImageURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &resp)
+	err = c.sendReq(textToImageURL, http.MethodPost, util.MIMETypeJSON, bytes.NewBuffer(data), &resp)
 	for _, i := range resp.Images {
 		if i.FinishReason == successFinishReason {
 			results = append(results, i)

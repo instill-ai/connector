@@ -21,10 +21,9 @@ import (
 )
 
 const (
-	reqTimeout   = time.Second * 60 * 5
-	taskQuery    = "TASK_QUERY"
-	taskUpsert   = "TASK_UPSERT"
-	jsonMimeType = "application/json"
+	reqTimeout = time.Second * 60 * 5
+	taskQuery  = "TASK_QUERY"
+	taskUpsert = "TASK_UPSERT"
 )
 
 //go:embed config/definitions.json
@@ -97,8 +96,8 @@ func (c *Client) sendReq(reqURL, method string, params interface{}, respObj inte
 	if err != nil {
 		return err
 	}
-	req.Header.Add("Content-Type", jsonMimeType)
-	req.Header.Add("Accept", jsonMimeType)
+	req.Header.Add("Content-Type", util.MIMETypeJSON)
+	req.Header.Add("Accept", util.MIMETypeJSON)
 	req.Header.Add("Api-Key", c.APIKey)
 	http.DefaultClient.Timeout = reqTimeout
 	res, err := c.HTTPClient.Do(req)

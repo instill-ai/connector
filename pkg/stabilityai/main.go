@@ -22,7 +22,6 @@ import (
 
 const (
 	host             = "https://api.stability.ai"
-	jsonMimeType     = "application/json"
 	reqTimeout       = time.Second * 60 * 5
 	textToImageTask  = "TASK_TEXT_TO_IMAGE"
 	imageToImageTask = "TASK_IMAGE_TO_IMAGE"
@@ -86,7 +85,7 @@ func NewClient(apiKey string) Client {
 func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader, respObj interface{}) (err error) {
 	req, _ := http.NewRequest(method, reqURL, data)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Accept", jsonMimeType)
+	req.Header.Add("Accept", util.MIMETypeJSON)
 	req.Header.Add("Authorization", "Bearer "+c.APIKey)
 	http.DefaultClient.Timeout = reqTimeout
 	res, err := c.HTTPClient.Do(req)

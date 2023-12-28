@@ -26,7 +26,6 @@ import (
 const (
 	venderName            = "openAI"
 	host                  = "https://api.openai.com"
-	jsonMimeType          = "application/json"
 	reqTimeout            = time.Second * 60 * 5
 	textGenerationTask    = "TASK_TEXT_GENERATION"
 	textEmbeddingsTask    = "TASK_TEXT_EMBEDDINGS"
@@ -103,7 +102,7 @@ func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]
 
 	req, _ := http.NewRequest(method, reqURL, data)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Accept", jsonMimeType)
+	req.Header.Add("Accept", util.MIMETypeJSON)
 	req.Header.Add("Authorization", "Bearer "+c.APIKey)
 	if c.Org != "" {
 		req.Header.Add("OpenAI-Organization", c.Org)

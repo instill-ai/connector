@@ -1,6 +1,10 @@
 package openai
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/instill-ai/connector/pkg/util"
+)
 
 const (
 	listModelsURL = host + "/v1/models"
@@ -38,6 +42,6 @@ type ListModelsResponse struct {
 // ListModels calls the list models endpoint and returns the available models.
 // https://platform.openai.com/docs/api-reference/models/list
 func (c *Client) ListModels() (resp ListModelsResponse, err error) {
-	err = c.sendReqAndUnmarshal(listModelsURL, http.MethodGet, jsonMimeType, nil, &resp)
+	err = c.sendReqAndUnmarshal(listModelsURL, http.MethodGet, util.MIMETypeJSON, nil, &resp)
 	return resp, err
 }

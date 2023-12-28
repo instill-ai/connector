@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+
+	"github.com/instill-ai/connector/pkg/util"
 )
 
 const (
@@ -41,6 +43,6 @@ type Data struct {
 // https://platform.openai.com/docs/api-reference/embeddings
 func (c *Client) GenerateTextEmbeddings(req TextEmbeddingsReq) (result TextEmbeddingsResp, err error) {
 	data, _ := json.Marshal(req)
-	err = c.sendReqAndUnmarshal(embeddingsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
+	err = c.sendReqAndUnmarshal(embeddingsURL, http.MethodPost, util.MIMETypeJSON, bytes.NewBuffer(data), &result)
 	return result, err
 }

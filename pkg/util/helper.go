@@ -10,6 +10,11 @@ import (
 	"github.com/h2non/filetype"
 )
 
+const (
+	// MIMETypeJSON defines the MIME type for JSON documents.
+	MIMETypeJSON = "application/json"
+)
+
 func GetFileExt(fileData []byte) string {
 	kind, _ := filetype.Match(fileData)
 	if kind != filetype.Unknown && kind.Extension != "" {

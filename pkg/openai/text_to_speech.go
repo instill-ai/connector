@@ -5,6 +5,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"net/http"
+
+	"github.com/instill-ai/connector/pkg/util"
 )
 
 const (
@@ -33,7 +35,7 @@ type TextToSpeechReq struct {
 
 func (c *Client) CreateSpeech(req TextToSpeechReq) (TextToSpeechOutput, error) {
 	data, _ := json.Marshal(req)
-	body, err := c.sendReq(createSpeechURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data))
+	body, err := c.sendReq(createSpeechURL, http.MethodPost, util.MIMETypeJSON, bytes.NewBuffer(data))
 	if err != nil {
 		return TextToSpeechOutput{}, err
 	}

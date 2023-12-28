@@ -14,6 +14,7 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
+	"github.com/instill-ai/connector/pkg/util"
 )
 
 const (
@@ -145,11 +146,11 @@ func TestConnector_Execute(t *testing.T) {
 			pineconeServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				// For now only POST methods are considered. When this changes,
 				// this will need to be asserted per-path.
-				c.Check(r.Method, qt.Equals, "POST")
+				c.Check(r.Method, qt.Equals, http.MethodPost)
 				c.Check(r.URL.Path, qt.Equals, tc.wantClientPath)
 
-				c.Check(r.Header.Get("Content-Type"), qt.Equals, jsonMimeType)
-				c.Check(r.Header.Get("Accept"), qt.Equals, jsonMimeType)
+				c.Check(r.Header.Get("Content-Type"), qt.Equals, util.MIMETypeJSON)
+				c.Check(r.Header.Get("Accept"), qt.Equals, util.MIMETypeJSON)
 				c.Check(r.Header.Get("Api-Key"), qt.Equals, pineconeKey)
 
 				c.Assert(r.Body, qt.IsNotNil)
