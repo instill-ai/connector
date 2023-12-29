@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/connector/pkg/util/httpclient"
 )
 
 const (
@@ -96,6 +96,6 @@ type Usage struct {
 // https://platform.openai.com/docs/api-reference/completions
 func (c *Client) GenerateTextCompletion(req TextCompletionReq) (result TextCompletionResp, err error) {
 	data, _ := json.Marshal(req)
-	err = c.sendReqAndUnmarshal(completionsURL, http.MethodPost, util.MIMETypeJSON, bytes.NewBuffer(data), &result)
+	err = c.sendReqAndUnmarshal(completionsURL, http.MethodPost, httpclient.MIMETypeJSON, bytes.NewBuffer(data), &result)
 	return result, err
 }

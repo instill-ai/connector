@@ -53,7 +53,7 @@ func TestClient_GenerateTextCompletion(t *testing.T) {
 
 	for _, tc := range testcases {
 		c.Run(tc.name, func(c *qt.C) {
-			httpClient := &mock.HTTPClient{
+			httpClient := &mock.HTTPDoer{
 				Output: func() (*http.Response, error) {
 					return &http.Response{
 						StatusCode: tc.gotStatus,
@@ -91,7 +91,7 @@ func TestClient_GenerateTextCompletion(t *testing.T) {
 
 	c.Run("nok - client error", func(c *qt.C) {
 		httpErr := fmt.Errorf("boom")
-		httpClient := &mock.HTTPClient{
+		httpClient := &mock.HTTPDoer{
 			Output: func() (*http.Response, error) {
 				return nil, httpErr
 			},

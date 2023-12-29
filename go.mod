@@ -12,6 +12,7 @@ require (
 	github.com/docker/docker v24.0.7+incompatible
 	github.com/frankban/quicktest v1.14.6
 	github.com/gabriel-vasile/mimetype v1.4.3
+	github.com/go-resty/resty/v2 v2.11.0
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3

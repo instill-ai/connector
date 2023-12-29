@@ -17,10 +17,9 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util"
-	"github.com/instill-ai/x/errmsg"
-
+	"github.com/instill-ai/connector/pkg/util/httpclient"
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
+	"github.com/instill-ai/x/errmsg"
 )
 
 const (
@@ -58,7 +57,7 @@ type Execution struct {
 type Client struct {
 	APIKey     string
 	Org        string
-	HTTPClient util.HTTPClient
+	HTTPClient httpclient.Doer
 	Logger     *zap.Logger
 }
 
@@ -102,7 +101,7 @@ func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]
 
 	req, _ := http.NewRequest(method, reqURL, data)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Accept", util.MIMETypeJSON)
+	req.Header.Add("Accept", httpclient.MIMETypeJSON)
 	req.Header.Add("Authorization", "Bearer "+c.APIKey)
 	if c.Org != "" {
 		req.Header.Add("OpenAI-Organization", c.Org)

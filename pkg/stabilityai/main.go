@@ -15,7 +15,7 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/connector/pkg/util/httpclient"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
@@ -49,7 +49,7 @@ type Execution struct {
 // Client represents a Stability AI client
 type Client struct {
 	APIKey     string
-	HTTPClient util.HTTPClient
+	HTTPClient httpclient.Doer
 }
 
 func Init(logger *zap.Logger) base.IConnector {
@@ -85,7 +85,7 @@ func NewClient(apiKey string) Client {
 func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader, respObj interface{}) (err error) {
 	req, _ := http.NewRequest(method, reqURL, data)
 	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Accept", util.MIMETypeJSON)
+	req.Header.Add("Accept", httpclient.MIMETypeJSON)
 	req.Header.Add("Authorization", "Bearer "+c.APIKey)
 	http.DefaultClient.Timeout = reqTimeout
 	res, err := c.HTTPClient.Do(req)

@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/connector/pkg/util/httpclient"
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
@@ -31,7 +31,7 @@ type TaskOutput struct {
 type Client struct {
 	BaseURL        string         `json:"base_url"`
 	Authentication Authentication `json:"authentication"`
-	HTTPClient     util.HTTPClient
+	HTTPClient     httpclient.Doer
 }
 
 func NewClient(config *structpb.Struct) (Client, error) {

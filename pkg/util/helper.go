@@ -10,11 +10,6 @@ import (
 	"github.com/h2non/filetype"
 )
 
-const (
-	// MIMETypeJSON defines the MIME type for JSON documents.
-	MIMETypeJSON = "application/json"
-)
-
 func GetFileExt(fileData []byte) string {
 	kind, _ := filetype.Match(fileData)
 	if kind != filetype.Unknown && kind.Extension != "" {
@@ -66,9 +61,4 @@ func ScrapeWebpageHTMLToMarkdown(html string) (string, error) {
 	}
 
 	return markdown, nil
-}
-
-// HTTPClient implements the Do method for HTTP requests.
-type HTTPClient interface {
-	Do(req *http.Request) (*http.Response, error)
 }

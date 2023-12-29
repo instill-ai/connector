@@ -1,6 +1,6 @@
 package stabilityai
 
-import "github.com/instill-ai/connector/pkg/util"
+import "github.com/instill-ai/connector/pkg/util/httpclient"
 
 const (
 	listEnginesURL = host + "/v1/engines/list"
@@ -18,6 +18,6 @@ type Engine struct {
 // https://platform.stability.ai/rest-api#tag/v1engines/operation/listEngines
 func (c *Client) ListEngines() ([]Engine, error) {
 	var engines []Engine
-	err := c.sendReq(listEnginesURL, "GET", util.MIMETypeJSON, nil, &engines)
+	err := c.sendReq(listEnginesURL, "GET", httpclient.MIMETypeJSON, nil, &engines)
 	return engines, err
 }

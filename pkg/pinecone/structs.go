@@ -47,3 +47,11 @@ type UpsertResp struct {
 type UpsertOutput struct {
 	RecordsUpserted int64 `json:"upserted_count"`
 }
+
+type errBody struct {
+	Msg string `json:"message"`
+}
+
+func (e errBody) Message() string {
+	return e.Msg
+}
