@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.9.0-beta](https://github.com/instill-ai/connector/compare/v0.8.1-beta...v0.9.0-beta) (2024-01-01)
+
+
+### Features
+
+* **airbyte:** wrap all Airbyte connectors into one ([#79](https://github.com/instill-ai/connector/issues/79)) ([30fe290](https://github.com/instill-ai/connector/commit/30fe2900bd9a74273e235ab5f6ab60b10e3376c3))
+* **numbers:** migrate to Capture API ([#89](https://github.com/instill-ai/connector/issues/89)) ([e976854](https://github.com/instill-ai/connector/commit/e9768548d817ecc77cdfa5572e7663fb55fbfa7b))
+* support metadata in Pinecone connector ([#87](https://github.com/instill-ai/connector/issues/87)) ([3734773](https://github.com/instill-ai/connector/commit/37347730cdd8dc25c34b7753cf8b6eb653b9e327))
+
+
+### Bug Fixes
+
+* **instill:** fix wrong Airbyte image_name ([#91](https://github.com/instill-ai/connector/issues/91)) ([52e8409](https://github.com/instill-ai/connector/commit/52e8409522437e0064627ddc7067a07615e9fe5f))
+
 ## [0.8.1-beta](https://github.com/instill-ai/connector/compare/v0.8.0-beta...v0.8.1-beta) (2023-12-22)
 
 
