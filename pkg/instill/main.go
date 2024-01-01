@@ -48,9 +48,9 @@ type Execution struct {
 
 // Client represents an Instill Model client
 type Client struct {
-	APIKey     string
-	JwtSub     string
-	HTTPClient util.HTTPClient
+	APIKey         string
+	InstillUserUid string
+	HTTPClient     util.HTTPClient
 }
 
 func Init(logger *zap.Logger) base.IConnector {
@@ -80,7 +80,7 @@ func NewClient(config *structpb.Struct) (*Client, error) {
 		TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
 		DisableKeepAlives: true,
 	}
-	return &Client{APIKey: getAPIKey(config), JwtSub: getJwtSub(config), HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}, nil
+	return &Client{APIKey: getAPIKey(config), InstillUserUid: getInstillUserUid(config), HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}, nil
 }
 
 func getMode(config *structpb.Struct) string {
@@ -90,8 +90,8 @@ func getMode(config *structpb.Struct) string {
 func getAPIKey(config *structpb.Struct) string {
 	return config.GetFields()["api_token"].GetStringValue()
 }
-func getJwtSub(config *structpb.Struct) string {
-	return config.GetFields()["instill_jwt_sub"].GetStringValue()
+func getInstillUserUid(config *structpb.Struct) string {
+	return config.GetFields()["instill_user_uid"].GetStringValue()
 }
 
 func getServerURL(config *structpb.Struct) string {
@@ -128,8 +128,8 @@ func (c *Client) sendReq(reqURL, method string, params interface{}) (err error) 
 	if c.APIKey != "" {
 		req.Header.Add("Authorization", "Bearer "+c.APIKey)
 	}
-	if c.JwtSub != "" {
-		req.Header.Add("Jwt-Sub", c.JwtSub)
+	if c.InstillUserUid != "" {
+		req.Header.Add("Instill-User-Uid", c.InstillUserUid)
 	}
 
 	http.DefaultClient.Timeout = reqTimeout
