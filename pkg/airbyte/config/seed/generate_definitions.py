@@ -10,11 +10,13 @@ response = urlopen(url)
 data_json = json.loads(response.read())
 definitions = data_json['destinations']
 oneOfs = []
+vendor_attribute = {}
 for idx, _ in enumerate(definitions):
     definitions[idx]['uid'] = definitions[idx]['destinationDefinitionId']
     definitions[idx][
         'id'] = f"airbyte-{definitions[idx]['dockerRepository'].split('/')[1]}"
     definitions[idx]['title'] = "Airbyte " + definitions[idx]['name']
+    vendor_attribute[f"airbyte-{definitions[idx]['dockerRepository'].split('/')[1]}"] = definitions[idx]['dockerRepository']+":"+definitions[idx]['dockerImageTag']
 
     definitions[idx]['spec']['connectionSpecification']['properties']["destination"] = {
         "type": "string",
@@ -56,7 +58,8 @@ new_def = [{
     "tombstone": False,
     "type": "CONNECTOR_TYPE_DATA",
     "uid": "975678a2-5117-48a4-a135-019619dee18e",
-    "vendor": "Airbyte"
+    "vendor": "Airbyte",
+    "vendor_attributes": vendor_attribute
 }]
 
 new_def = json.dumps(new_def, indent=2, sort_keys=True)
