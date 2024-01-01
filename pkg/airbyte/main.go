@@ -105,29 +105,6 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 	return connector
 }
 
-func (c *Connector) PreDownloadImage(logger *zap.Logger, uids []uuid.UUID) error {
-	for _, uid := range uids {
-		connDef, err := c.GetConnectorDefinitionByUID(uid)
-		if err != nil {
-			logger.Warn(err.Error())
-		}
-
-		imageName := fmt.Sprintf("%s:%s",
-			connDef.VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
-			connDef.VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
-		logger.Info(fmt.Sprintf("download %s", imageName))
-		out, err := c.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
-		if err != nil {
-			return err
-		}
-		defer out.Close()
-		if _, err := io.Copy(os.Stdout, out); err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
 func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *structpb.Struct, logger *zap.Logger) (base.IExecution, error) {
 	e := &Execution{}
 	e.Execution = base.CreateExecutionHelper(e, c, defUID, task, config, logger)
@@ -186,9 +163,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	if err != nil {
 		return nil, err
 	}
-	imageName := fmt.Sprintf("%s:%s",
-		connDef.VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
-		connDef.VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
+	imageName := connDef.VendorAttributes.GetFields()[e.Config.GetFields()["destination"].GetStringValue()].GetStringValue()
 	containerName := fmt.Sprintf("%s.%d.write", e.UID, time.Now().UnixNano())
 	configFileName := fmt.Sprintf("%s.%d.write", e.UID, time.Now().UnixNano())
 	catalogFileName := fmt.Sprintf("%s.%d.write", e.UID, time.Now().UnixNano())
@@ -359,9 +334,7 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
-	imageName := fmt.Sprintf("%s:%s",
-		def.VendorAttributes.GetFields()["dockerRepository"].GetStringValue(),
-		def.VendorAttributes.GetFields()["dockerImageTag"].GetStringValue())
+	imageName := def.VendorAttributes.GetFields()[config.GetFields()["destination"].GetStringValue()].GetStringValue()
 	containerName := fmt.Sprintf("%s.%d.check", defUid, time.Now().UnixNano())
 	configFilePath := fmt.Sprintf("%s/connector-data/config/%s.json", con.options.MountTargetVDP, containerName)
 
