@@ -79,3 +79,10 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 	return c.connectorUIDMap[defUid].Test(defUid, config, logger)
 }
+
+func (c *Connector) GetOpenapiSpecificationsByUID(defUID uuid.UUID, config *structpb.Struct) *structpb.Struct {
+	if uid := uuid.FromStringOrNil("5ee55a5c-6e30-4c7a-80e8-90165a729e0a"); defUID == uid {
+		return c.connectorUIDMap[uid].(*restapi.Connector).GetOpenapiSpecificationsByUID(defUID, config)
+	}
+	return c.Connector.GetOpenapiSpecificationsByUID(defUID, config)
+}

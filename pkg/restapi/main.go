@@ -2,6 +2,7 @@ package restapi
 
 import (
 	_ "embed"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -163,4 +164,21 @@ func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.
 	}
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 
+}
+
+func (c *Connector) GetOpenapiSpecificationsByUID(defUID uuid.UUID, config *structpb.Struct) *structpb.Struct {
+
+	task := config.Fields["task"].GetStringValue()
+	schStr := config.Fields["input"].GetStructValue().Fields["output_body_schema"].GetStringValue()
+	sch := &structpb.Struct{}
+	_ = json.Unmarshal([]byte(schStr), sch)
+	spec := c.Connector.GetOpenapiSpecificationsByUID(defUID, config)
+	walk := spec.Fields[task]
+	for _, key := range []string{"paths", "/execute", "post", "responses", "200", "content", "application/json", "schema", "properties", "outputs", "items", "properties", "body"} {
+		walk = walk.GetStructValue().Fields[key]
+	}
+
+	*walk = *structpb.NewStructValue(sch)
+
+	return spec
 }
