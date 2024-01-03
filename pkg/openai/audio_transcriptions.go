@@ -4,13 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"mime/multipart"
-	"net/http"
 
 	"github.com/instill-ai/connector/pkg/util"
 )
 
 const (
-	transcriptionsURL = host + "/v1/audio/transcriptions"
+	transcriptionsPath = "/v1/audio/transcriptions"
 )
 
 type AudioTranscriptionInput struct {
@@ -31,17 +30,6 @@ type AudioTranscriptionReq struct {
 
 type AudioTranscriptionResp struct {
 	Text string `json:"text"`
-}
-
-// GenerateAudioTranscriptions makes a call to the audio transcriptions API from OpenAI.
-// https://platform.openai.com/docs/api-reference/audio/create-transcription
-func (c *Client) GenerateAudioTranscriptions(req AudioTranscriptionReq) (result AudioTranscriptionResp, err error) {
-	formData, contentType, err := getBytes(req)
-	if err != nil {
-		return result, err
-	}
-	err = c.sendReqAndUnmarshal(transcriptionsURL, http.MethodPost, contentType, formData, &result)
-	return result, err
 }
 
 func getBytes(req AudioTranscriptionReq) (*bytes.Reader, string, error) {

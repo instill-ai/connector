@@ -1,15 +1,7 @@
 package openai
 
-import (
-	"bytes"
-	"encoding/json"
-	"net/http"
-
-	"github.com/instill-ai/connector/pkg/util/httpclient"
-)
-
 const (
-	embeddingsURL = host + "/v1/embeddings"
+	embeddingsPath = "/v1/embeddings"
 )
 
 type TextEmbeddingsInput struct {
@@ -37,12 +29,4 @@ type Data struct {
 	Object    string    `json:"object"`
 	Embedding []float64 `json:"embedding"`
 	Index     int       `json:"index"`
-}
-
-// GenerateTextEmbeddings makes a call to the embeddings API from OpenAI.
-// https://platform.openai.com/docs/api-reference/embeddings
-func (c *Client) GenerateTextEmbeddings(req TextEmbeddingsReq) (result TextEmbeddingsResp, err error) {
-	data, _ := json.Marshal(req)
-	err = c.sendReqAndUnmarshal(embeddingsURL, http.MethodPost, httpclient.MIMETypeJSON, bytes.NewBuffer(data), &result)
-	return result, err
 }
