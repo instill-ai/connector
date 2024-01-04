@@ -3,26 +3,21 @@ package stabilityai
 import (
 	_ "embed"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"sync"
-	"time"
 
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util/httpclient"
+	"github.com/instill-ai/x/errmsg"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 const (
 	host             = "https://api.stability.ai"
-	reqTimeout       = time.Second * 60 * 5
 	textToImageTask  = "TASK_TEXT_TO_IMAGE"
 	imageToImageTask = "TASK_IMAGE_TO_IMAGE"
 )
@@ -46,12 +41,6 @@ type Execution struct {
 	base.Execution
 }
 
-// Client represents a Stability AI client
-type Client struct {
-	APIKey     string
-	HTTPClient httpclient.Doer
-}
-
 func Init(logger *zap.Logger) base.IConnector {
 	once.Do(func() {
 		connector = &Connector{
@@ -73,179 +62,97 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return e, nil
 }
 
-// NewClient initializes a new Stability AI client
-func NewClient(apiKey string) Client {
-	tr := &http.Transport{
-		DisableKeepAlives: true,
-	}
-	return Client{APIKey: apiKey, HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}
-}
-
-// sendReq is responsible for making the http request with to given URL, method, and params and unmarshalling the response into given object.
-func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader, respObj interface{}) (err error) {
-	req, _ := http.NewRequest(method, reqURL, data)
-	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Accept", httpclient.MIMETypeJSON)
-	req.Header.Add("Authorization", "Bearer "+c.APIKey)
-	http.DefaultClient.Timeout = reqTimeout
-	res, err := c.HTTPClient.Do(req)
-	if res != nil && res.Body != nil {
-		defer res.Body.Close()
-	}
-	if err != nil || res == nil {
-		err = fmt.Errorf("error occurred: %v, while calling URL: %s, request body: %s", err, reqURL, data)
-		return
-	}
-	bytes, _ := io.ReadAll(res.Body)
-	if res.StatusCode != http.StatusOK {
-		err = fmt.Errorf("non-200 status code: %d, while calling URL: %s, response body: %s", res.StatusCode, reqURL, bytes)
-		return
-	}
-	if err = json.Unmarshal(bytes, &respObj); err != nil {
-		err = fmt.Errorf("error in json decode: %s, while calling URL: %s, response body: %s", err, reqURL, bytes)
-	}
-	return
-}
-
 func getAPIKey(config *structpb.Struct) string {
 	return config.GetFields()["api_key"].GetStringValue()
 }
 
+// getBasePath returns Stability AI's API URL. This configuration param allows
+// us to override the API the connector will point to. It isn't meant to be
+// exposed to users. Rather, it can serve to test the logic against a fake
+// server.
+// TODO instead of having the API value hardcoded in the codebase, it should be
+// read from a config file or environment variable.
+func getBasePath(config *structpb.Struct) string {
+	v, ok := config.GetFields()["base_path"]
+	if !ok {
+		return host
+	}
+	return v.GetStringValue()
+}
+
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
-
-	client := NewClient(getAPIKey(e.Config))
-
+	client := newClient(e.Config, e.Logger)
 	outputs := []*structpb.Struct{}
 
 	for _, input := range inputs {
 		switch e.Task {
 		case textToImageTask:
-
-			inputStruct := TextToImageInput{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
-				return nil, err
-			}
-
-			noOfPrompts := len(inputStruct.Prompts)
-			if noOfPrompts <= 0 {
-				return inputs, fmt.Errorf("no text promts given")
-			}
-			req := TextToImageReq{
-				CFGScale:           inputStruct.CfgScale,
-				ClipGuidancePreset: inputStruct.ClipGuidancePreset,
-				Sampler:            inputStruct.Sampler,
-				Samples:            inputStruct.Samples,
-				Seed:               inputStruct.Seed,
-				Steps:              inputStruct.Steps,
-				StylePreset:        inputStruct.StylePreset,
-				Height:             inputStruct.Height,
-				Width:              inputStruct.Width,
-			}
-
-			req.TextPrompts = make([]TextPrompt, 0, noOfPrompts)
-			var w float64
-			for index, t := range inputStruct.Prompts {
-				if inputStruct.Weights != nil && len(*inputStruct.Weights) > index {
-					w = (*inputStruct.Weights)[index]
-				} else {
-					// If weights are not provided, set all weights to 1.0
-					w = 1.0
-				}
-				req.TextPrompts = append(req.TextPrompts, TextPrompt{Text: t, Weight: &w})
-			}
-			images, err := client.GenerateImageFromText(req, inputStruct.Engine)
+			params, err := parseTextToImageReq(input)
 			if err != nil {
 				return inputs, err
 			}
 
-			outputStruct := TextToImageOutput{
-				Images: []string{},
-				Seeds:  []uint32{},
+			resp := ImageTaskRes{}
+			req := client.R().SetResult(&resp).SetBody(params)
+
+			if _, err := req.Post(params.path); err != nil {
+				return inputs, err
 			}
 
-			for _, image := range images {
-				outputStruct.Images = append(outputStruct.Images, fmt.Sprintf("data:image/png;base64,%s", image.Base64))
-				outputStruct.Seeds = append(outputStruct.Seeds, image.Seed)
-			}
-			output, err := base.ConvertToStructpb(outputStruct)
+			output, err := textToImageOutput(resp)
 			if err != nil {
 				return nil, err
 			}
 
 			outputs = append(outputs, output)
-
 		case imageToImageTask:
-
-			inputStruct := ImageToImageInput{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
-				return nil, err
-			}
-
-			noOfPrompts := len(inputStruct.Prompts)
-			if noOfPrompts <= 0 {
-				return inputs, fmt.Errorf("no text promts given")
-			}
-
-			req := ImageToImageReq{
-				InitImage:          inputStruct.InitImage,
-				InitImageMode:      inputStruct.InitImageMode,
-				ImageStrength:      inputStruct.ImageStrength,
-				StepScheduleStart:  inputStruct.StepScheduleStart,
-				StepScheduleEnd:    inputStruct.StepScheduleEnd,
-				CFGScale:           inputStruct.CfgScale,
-				ClipGuidancePreset: inputStruct.ClipGuidancePreset,
-				Sampler:            inputStruct.Sampler,
-				Samples:            inputStruct.Samples,
-				Seed:               inputStruct.Seed,
-				Steps:              inputStruct.Steps,
-				StylePreset:        inputStruct.StylePreset,
-			}
-
-			req.TextPrompts = make([]TextPrompt, 0, noOfPrompts)
-			var w float64
-			for index, t := range inputStruct.Prompts {
-				if inputStruct.Weights != nil && len(*inputStruct.Weights) > index {
-					w = (*inputStruct.Weights)[index]
-				}
-				req.TextPrompts = append(req.TextPrompts, TextPrompt{Text: t, Weight: &w})
-			}
-			images, err := client.GenerateImageFromImage(req, inputStruct.Engine)
+			params, err := parseImageToImageReq(input)
 			if err != nil {
 				return inputs, err
 			}
-			outputStruct := TextToImageOutput{
-				Images: []string{},
-				Seeds:  []uint32{},
+
+			data, ct, err := params.getBytes()
+			if err != nil {
+				return inputs, err
 			}
 
-			for _, image := range images {
-				outputStruct.Images = append(outputStruct.Images, image.Base64)
-				outputStruct.Seeds = append(outputStruct.Seeds, image.Seed)
+			resp := ImageTaskRes{}
+			req := client.R().SetBody(data).SetResult(&resp).SetHeader("Content-Type", ct)
+
+			if _, err := req.Post(params.path); err != nil {
+				return inputs, err
 			}
-			output, err := base.ConvertToStructpb(outputStruct)
+
+			output, err := imageToImageOutput(resp)
 			if err != nil {
 				return nil, err
 			}
+
 			outputs = append(outputs, output)
 
 		default:
-			return nil, fmt.Errorf("not supported task: %s", e.Task)
+			return nil, errmsg.AddMessage(
+				fmt.Errorf("not supported task: %s", e.Task),
+				fmt.Sprintf("%s task is not supported.", e.Task),
+			)
 		}
 	}
 	return outputs, nil
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	client := NewClient(getAPIKey(config))
-	engines, err := client.ListEngines()
-	if err != nil {
+// Test checks the connector state.
+func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+	var engines []Engine
+	req := newClient(config, logger).R().SetResult(&engines)
+
+	if _, err := req.Get(listEnginesPath); err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
+
 	if len(engines) == 0 {
 		return pipelinePB.Connector_STATE_DISCONNECTED, nil
 	}
+
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 }
 

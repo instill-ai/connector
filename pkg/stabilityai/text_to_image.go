@@ -1,17 +1,20 @@
 package stabilityai
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
-	"net/http"
 
-	"github.com/instill-ai/connector/pkg/util/httpclient"
+	"github.com/instill-ai/component/pkg/base"
+	"google.golang.org/protobuf/types/known/structpb"
 )
 
 const (
-	successFinishReason = "SUCCESS"
+	successFinishReason     = "SUCCESS"
+	textToImagePathTemplate = "/v1/generation/%s/text-to-image"
 )
+
+func textToImagePath(engine string) string {
+	return fmt.Sprintf(textToImagePathTemplate, engine)
+}
 
 type TextToImageInput struct {
 	Task               string     `json:"task"`
@@ -46,6 +49,8 @@ type TextToImageReq struct {
 	StylePreset        *string      `json:"style_preset,omitempty" om:"metadata.style_preset"`
 	Height             *uint32      `json:"height,omitempty" om:"metadata.height"`
 	Width              *uint32      `json:"width,omitempty" om:"metadata.width"`
+
+	path string
 }
 
 // TextPrompt holds a prompt's text and its weight.
@@ -54,32 +59,81 @@ type TextPrompt struct {
 	Weight *float64 `json:"weight"`
 }
 
-// Image represents a single image
+// Image represents a single image.
 type Image struct {
 	Base64       string `json:"base64"`
 	Seed         uint32 `json:"seed"`
 	FinishReason string `json:"finishReason"`
 }
 
-// ImageTaskRes represents the response body for text-to-image API
+// ImageTaskRes represents the response body for text-to-image API.
 type ImageTaskRes struct {
 	Images []Image `json:"artifacts"`
 }
 
-// GenerateImageFromText makes a call to the text-to-image API from Stability AI.
-// https://platform.stability.ai/rest-api#tag/v1generation/operation/textToImage
-func (c *Client) GenerateImageFromText(params TextToImageReq, engine string) (results []Image, err error) {
-	var resp ImageTaskRes
-	if engine == "" {
-		return nil, fmt.Errorf("no engine selected")
+func parseTextToImageReq(from *structpb.Struct) (TextToImageReq, error) {
+	// Parse from pb.
+	input := TextToImageInput{}
+	if err := base.ConvertFromStructpb(from, &input); err != nil {
+		return TextToImageReq{}, err
 	}
-	textToImageURL := host + "/v1/generation/" + engine + "/text-to-image"
-	data, _ := json.Marshal(params)
-	err = c.sendReq(textToImageURL, http.MethodPost, httpclient.MIMETypeJSON, bytes.NewBuffer(data), &resp)
-	for _, i := range resp.Images {
-		if i.FinishReason == successFinishReason {
-			results = append(results, i)
+
+	// Validate input.
+	nPrompts := len(input.Prompts)
+	if nPrompts <= 0 {
+		return TextToImageReq{}, fmt.Errorf("no text prompts given")
+	}
+
+	if input.Engine == "" {
+		return TextToImageReq{}, fmt.Errorf("no engine selected")
+	}
+
+	// Convert to req.
+	req := TextToImageReq{
+		CFGScale:           input.CfgScale,
+		ClipGuidancePreset: input.ClipGuidancePreset,
+		Sampler:            input.Sampler,
+		Samples:            input.Samples,
+		Seed:               input.Seed,
+		Steps:              input.Steps,
+		StylePreset:        input.StylePreset,
+		Height:             input.Height,
+		Width:              input.Width,
+
+		path: textToImagePath(input.Engine),
+	}
+
+	req.TextPrompts = make([]TextPrompt, 0, nPrompts)
+	for index, t := range input.Prompts {
+		// If weight isn't provided, set to 1.
+		w := 1.0
+		if input.Weights != nil && len(*input.Weights) > index {
+			w = (*input.Weights)[index]
 		}
+
+		req.TextPrompts = append(req.TextPrompts, TextPrompt{
+			Text:   t,
+			Weight: &w,
+		})
 	}
-	return
+
+	return req, nil
+}
+
+func textToImageOutput(from ImageTaskRes) (*structpb.Struct, error) {
+	output := TextToImageOutput{
+		Images: []string{},
+		Seeds:  []uint32{},
+	}
+
+	for _, image := range from.Images {
+		if image.FinishReason != successFinishReason {
+			continue
+		}
+
+		output.Images = append(output.Images, fmt.Sprintf("data:image/png;base64,%s", image.Base64))
+		output.Seeds = append(output.Seeds, image.Seed)
+	}
+
+	return base.ConvertToStructpb(output)
 }
