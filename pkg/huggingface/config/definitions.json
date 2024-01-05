@@ -21,7 +21,7 @@
     ],
     "custom": false,
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/ai-connectors/hugging-face",
-    "icon": "huggingface.svg",
+    "icon": "Hugging Face/huggingface.svg",
     "icon_url": "",
     "id": "hugging-face",
     "public": true,

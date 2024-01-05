@@ -42,7 +42,7 @@ new_def = [{
     ],
     "custom": False,
     "documentation_url": "https://docs.airbyte.com/integrations/destinations",
-    "icon": "airbyte.svg",
+    "icon": "Airbyte/airbyte.svg",
     "icon_url": "",
     "id": "airbyte-destination",
     "public": True,
