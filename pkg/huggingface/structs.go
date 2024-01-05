@@ -8,11 +8,6 @@ type TextToImageRequest struct {
 	Parameters TextToImageRequestParameters `json:"parameters,omitempty"`
 }
 
-// Request structure for text-to-image model
-type TextToImageResponse struct {
-	Image string `json:"image"`
-}
-
 type Options struct {
 	// (Default: false). Boolean to use GPU instead of CPU for inference.
 	// Requires Startup plan at least.
@@ -51,21 +46,6 @@ type FillMaskRequest struct {
 	// (Required) a string to be filled from, must contain the [MASK] token (check model card for exact name of the mask)
 	Inputs  string  `json:"inputs,omitempty"`
 	Options Options `json:"options,omitempty"`
-}
-
-// Used in the FillMaskResponse struct
-type FillMaskResponseEntry struct {
-	// The actual sequence of tokens that ran against the model (may contain special tokens)
-	Sequence string `json:"sequence,omitempty"`
-
-	// The probability for this token.
-	Score float64 `json:"score,omitempty"`
-
-	// The id of the token
-	Token int `json:"token,omitempty"`
-
-	// The string representation of the token
-	TokenStr string `json:"token_str,omitempty"`
 }
 
 // Request structure for the summarization endpoint
@@ -117,14 +97,6 @@ type TextClassificationRequest struct {
 	//String to be classified
 	Inputs  string  `json:"inputs"`
 	Options Options `json:"options,omitempty"`
-}
-
-type ClassificationResponse struct {
-	// The label for the class (model specific)
-	Label string `json:"label,omitempty"`
-
-	// A float that represents how likely is that the text belongs in this class.
-	Score float64 `json:"score,omitempty"`
 }
 
 type TextGenerationRequest struct {
@@ -184,23 +156,6 @@ type TokenClassificationRequest struct {
 type TokenClassificationParameters struct {
 	// (Default: simple)
 	AggregationStrategy string `json:"aggregation_strategy,omitempty"`
-}
-
-type TokenClassificationResponseEntity struct {
-	// The type for the entity being recognized (model specific).
-	EntityGroup string `json:"entity_group,omitempty"`
-
-	// How likely the entity was recognized.
-	Score float64 `json:"score,omitempty"`
-
-	// The string that was captured
-	Word string `json:"word,omitempty"`
-
-	// The offset stringwise where the answer is located. Useful to disambiguate if Entity occurs multiple times.
-	Start int `json:"start,omitempty"`
-
-	// The offset stringwise where the answer is located. Useful to disambiguate if Entity occurs multiple times.
-	End int `json:"end,omitempty"`
 }
 
 // Request structure for the Translation endpoint
@@ -340,14 +295,14 @@ type SentenceSimilarityInputs struct {
 // Request structure for the conversational endpoint
 type ConversationalRequest struct {
 	// (Required)
-	Inputs ConverstationalInputs `json:"inputs"`
+	Inputs ConversationalInputs `json:"inputs"`
 
 	Parameters ConversationalParameters `json:"parameters,omitempty"`
 	Options    Options                  `json:"options,omitempty"`
 }
 
 // Used with ConversationalRequest
-type ConverstationalInputs struct {
+type ConversationalInputs struct {
 	// (Required) The last input from the user in the conversation.
 	Text string `json:"text"`
 
@@ -389,24 +344,6 @@ type ConversationalParameters struct {
 	MaxTime *float64 `json:"maxtime,omitempty"`
 }
 
-// Response structure for the conversational endpoint
-type ConversationalResponse struct {
-	// The answer of the model
-	GeneratedText string `json:"generated_text,omitempty"`
-
-	// A facility dictionary to send back for the next input (with the new user input addition).
-	Conversation Conversation `json:"conversation,omitempty"`
-}
-
-// Used with ConversationalResponse
-type Conversation struct {
-	// The last outputs from the model in the conversation, after the model has run.
-	GeneratedResponses []string `json:"generated_responses,omitempty"`
-
-	// The last inputs from the user in the conversation, after the model has run.
-	PastUserInputs []string `json:"past_user_inputs,omitempty"`
-}
-
 type ImageRequest struct {
 	Image string `json:"image"`
 }
@@ -420,17 +357,6 @@ type ImageSegmentationResponse struct {
 
 	// A str (base64 str of a single channel black-and-white img) representing the mask of a segment.
 	Mask string `json:"mask,omitempty"`
-}
-
-type ObjectDetectionResponse struct {
-	// The label for the class (model specific) of a detected object.
-	Label string `json:"label,omitempty"`
-
-	// A float that represents how likely it is that the detected object belongs to the given class.
-	Score float64 `json:"score,omitempty"`
-
-	// Bounding box of the detected object
-	Box ObjectBox
 }
 
 type ObjectBox struct {

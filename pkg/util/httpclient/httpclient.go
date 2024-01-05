@@ -1,8 +1,10 @@
 package httpclient
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -113,4 +115,25 @@ func New(name, host string, options ...Option) *Client {
 	}
 
 	return c
+}
+
+// WrapURLError is a helper to add an end-user message to trasnport errros.
+//
+// Resty doesn't provide a hook for errors in `http.Client.Do`, e.g. if the
+// connector configuration contains an invalid URL. This wrapper offers
+// clients a way to handle such cases:
+//
+//	if _, err := httpclient.New(name, host).R().Post(url); err != nil {
+//	    return nil, httpclient.WrapURLError(err)
+//	}
+func WrapURLError(err error) error {
+	uerr := new(url.Error)
+	if errors.As(err, &uerr) {
+		err = errmsg.AddMessage(
+			err,
+			fmt.Sprintf("Failed to call %s. Please check that the connector configuration is correct.", uerr.URL),
+		)
+	}
+
+	return err
 }

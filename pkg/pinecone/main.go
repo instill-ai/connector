@@ -2,9 +2,6 @@ package pinecone
 
 import (
 	_ "embed"
-	"errors"
-	"fmt"
-	"net/url"
 	"sync"
 
 	"github.com/gofrs/uuid"
@@ -13,7 +10,6 @@ import (
 
 	"github.com/instill-ai/component/pkg/base"
 	"github.com/instill-ai/connector/pkg/util/httpclient"
-	"github.com/instill-ai/x/errmsg"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
@@ -83,21 +79,6 @@ func getURL(config *structpb.Struct) string {
 	return config.GetFields()["url"].GetStringValue()
 }
 
-// The HTTP client doesn't provide a hook for errors in `http.Client.Do`, e.g.
-// if the connector configuration contains an invalid URL. This wrapper adds an
-// end-user error in such cases.
-func wrapURLError(err error) error {
-	uerr := new(url.Error)
-	if errors.As(err, &uerr) {
-		err = errmsg.AddMessage(
-			err,
-			fmt.Sprintf("Failed to call %s. Please check that the connector configuration is correct.", uerr.URL),
-		)
-	}
-
-	return err
-}
-
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	req := newClient(e.Config, e.Logger).R()
 	outputs := []*structpb.Struct{}
@@ -123,7 +104,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			req.SetResult(&resp).SetBody(QueryReq(inputStruct))
 
 			if _, err := req.Post(queryPath); err != nil {
-				return nil, wrapURLError(err)
+				return nil, httpclient.WrapURLError(err)
 			}
 
 			output, err = base.ConvertToStructpb(resp)
@@ -143,7 +124,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			})
 
 			if _, err := req.Post(upsertPath); err != nil {
-				return nil, wrapURLError(err)
+				return nil, httpclient.WrapURLError(err)
 			}
 
 			output, err = base.ConvertToStructpb(UpsertOutput(resp))
