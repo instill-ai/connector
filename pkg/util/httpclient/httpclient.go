@@ -18,11 +18,6 @@ const (
 	MIMETypeJSON = "application/json"
 )
 
-// Doer implements the Do method for HTTP requests.
-type Doer interface {
-	Do(req *http.Request) (*http.Response, error)
-}
-
 // Client performs HTTP requests for connectors, implementing error handling
 // and logging in a consistent way.
 type Client struct {

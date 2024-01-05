@@ -17,6 +17,10 @@ func (c *Execution) executeObjectDetection(grpcClient modelPB.ModelPublicService
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
 	}
 
+	if grpcClient == nil {
+		return nil, fmt.Errorf("uninitialized client")
+	}
+
 	taskInputs := []*modelPB.TaskInput{}
 	for _, input := range inputs {
 		inputJson, err := protojson.Marshal(input)
@@ -42,9 +46,6 @@ func (c *Execution) executeObjectDetection(grpcClient modelPB.ModelPublicService
 	req := modelPB.TriggerUserModelRequest{
 		Name:       modelName,
 		TaskInputs: taskInputs,
-	}
-	if c.client == nil || grpcClient == nil {
-		return nil, fmt.Errorf("client not setup: %v", c.client)
 	}
 
 	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
