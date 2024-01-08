@@ -62,8 +62,3 @@ func ScrapeWebpageHTMLToMarkdown(html string) (string, error) {
 
 	return markdown, nil
 }
-
-// HTTPClient implements the Do method for HTTP requests.
-type HTTPClient interface {
-	Do(req *http.Request) (*http.Response, error)
-}

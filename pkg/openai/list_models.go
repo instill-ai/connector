@@ -1,9 +1,7 @@
 package openai
 
-import "net/http"
-
 const (
-	listModelsURL = host + "/v1/models"
+	listModelsPath = "/v1/models"
 )
 
 // Model represents a OpenAI Model
@@ -33,11 +31,4 @@ type ModelPermission struct {
 type ListModelsResponse struct {
 	Object string  `json:"object"`
 	Data   []Model `json:"data"`
-}
-
-// ListModels calls the list models endpoint and returns the available models.
-// https://platform.openai.com/docs/api-reference/models/list
-func (c *Client) ListModels() (resp ListModelsResponse, err error) {
-	err = c.sendReqAndUnmarshal(listModelsURL, http.MethodGet, jsonMimeType, nil, &resp)
-	return resp, err
 }

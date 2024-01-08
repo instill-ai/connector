@@ -1,13 +1,7 @@
 package openai
 
-import (
-	"bytes"
-	"encoding/json"
-	"net/http"
-)
-
 const (
-	completionsURL = host + "/v1/chat/completions"
+	completionsPath = "/v1/chat/completions"
 )
 
 type TextMessage struct {
@@ -88,12 +82,4 @@ type Usage struct {
 	PromptTokens     int `json:"prompt_tokens"`
 	CompletionTokens int `json:"completion_tokens"`
 	TotalTokens      int `json:"total_tokens"`
-}
-
-// GenerateTextCompletion makes a call to the completions API from OpenAI.
-// https://platform.openai.com/docs/api-reference/completions
-func (c *Client) GenerateTextCompletion(req TextCompletionReq) (result TextCompletionResp, err error) {
-	data, _ := json.Marshal(req)
-	err = c.sendReqAndUnmarshal(completionsURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
-	return result, err
 }

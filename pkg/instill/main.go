@@ -4,28 +4,24 @@ import (
 	"crypto/tls"
 	_ "embed"
 	"fmt"
-	"io"
 	"net/http"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/connector/pkg/util/httpclient"
 
 	commonPB "github.com/instill-ai/protogen-go/common/task/v1alpha"
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 const (
-	venderName   = "instillModel"
 	getModelPath = "/v1alpha/models"
 	internalMode = "Internal Mode"
-	reqTimeout   = time.Second * 60
 )
 
 var (
@@ -43,14 +39,6 @@ type Connector struct {
 
 type Execution struct {
 	base.Execution
-	client *Client
-}
-
-// Client represents an Instill Model client
-type Client struct {
-	APIKey         string
-	InstillUserUid string
-	HTTPClient     util.HTTPClient
 }
 
 func Init(logger *zap.Logger) base.IConnector {
@@ -72,15 +60,6 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	e := &Execution{}
 	e.Execution = base.CreateExecutionHelper(e, c, defUID, task, config, logger)
 	return e, nil
-}
-
-// NewClient initializes a new Instill model client
-func NewClient(config *structpb.Struct) (*Client, error) {
-	tr := &http.Transport{
-		TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
-		DisableKeepAlives: true,
-	}
-	return &Client{APIKey: getAPIKey(config), InstillUserUid: getInstillUserUid(config), HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}, nil
 }
 
 func getMode(config *structpb.Struct) string {
@@ -111,50 +90,8 @@ func getServerURL(config *structpb.Struct) string {
 	return serverUrl
 }
 
-func getModels(config *structpb.Struct) (err error) {
-	serverURL := getServerURL(config) + "/model"
-	client, err := NewClient(config)
-	if err != nil {
-		return err
-	}
-	reqURL := serverURL + getModelPath
-	err = client.sendReq(reqURL, http.MethodGet, nil)
-	return err
-}
-
-// sendReq is responsible for making the http request with to given URL, method, and params and unmarshalling the response into given object.
-func (c *Client) sendReq(reqURL, method string, params interface{}) (err error) {
-	req, _ := http.NewRequest(method, reqURL, nil)
-	if c.APIKey != "" {
-		req.Header.Add("Authorization", "Bearer "+c.APIKey)
-	}
-	if c.InstillUserUid != "" {
-		req.Header.Add("Instill-User-Uid", c.InstillUserUid)
-	}
-
-	http.DefaultClient.Timeout = reqTimeout
-	res, err := c.HTTPClient.Do(req)
-
-	if err != nil || res == nil {
-		err = fmt.Errorf("error occurred: %v, while calling URL: %s", err, reqURL)
-		return
-	}
-	defer res.Body.Close()
-	bytes, _ := io.ReadAll(res.Body)
-	if res.StatusCode != http.StatusOK {
-		err = fmt.Errorf("non-200 status code: %d, while calling URL: %s, response body: %s", res.StatusCode, reqURL, bytes)
-		return
-	}
-	return
-}
-
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
-
 	var err error
-	e.client, err = NewClient(e.Config)
-	if err != nil {
-		return nil, err
-	}
 
 	if len(inputs) <= 0 || inputs[0] == nil {
 		return inputs, fmt.Errorf("invalid input")
@@ -202,10 +139,43 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return result, err
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	err := getModels(config)
-	if err != nil {
+func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+	req := newHTTPClient(config, logger).R()
+
+	path := "/model" + getModelPath
+	if resp, err := req.Get(path); err != nil || resp.IsError() {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
+
 	return pipelinePB.Connector_STATE_CONNECTED, nil
+}
+
+type errBody struct {
+	Msg string `json:"message"`
+}
+
+func (e errBody) Message() string {
+	return e.Msg
+}
+
+func newHTTPClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Client {
+	c := httpclient.New("Instill AI", getServerURL(config),
+		httpclient.WithLogger(logger),
+		httpclient.WithEndUserError(new(errBody)),
+	)
+
+	c.SetTransport(&http.Transport{
+		TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
+		DisableKeepAlives: true,
+	})
+
+	if token := getAPIKey(config); token != "" {
+		c.SetAuthToken(token)
+	}
+
+	if userID := getInstillUserUid(config); userID != "" {
+		c.SetHeader("Instill-User-Uid", userID)
+	}
+
+	return c
 }

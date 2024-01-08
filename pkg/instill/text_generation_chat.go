@@ -17,6 +17,10 @@ func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServ
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
 	}
 
+	if grpcClient == nil {
+		return nil, fmt.Errorf("uninitialized client")
+	}
+
 	outputs := []*structpb.Struct{}
 
 	for _, input := range inputs {
@@ -67,9 +71,6 @@ func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServ
 		req := modelPB.TriggerUserModelRequest{
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
-		}
-		if c.client == nil || grpcClient == nil {
-			return nil, fmt.Errorf("client not setup: %v", c.client)
 		}
 		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
 		ctx := metadata.NewOutgoingContext(context.Background(), md)

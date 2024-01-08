@@ -41,9 +41,6 @@ func (c *Execution) executeKeyPointDetection(grpcClient modelPB.ModelPublicServi
 		Name:       modelName,
 		TaskInputs: taskInputs,
 	}
-	if c.client == nil || grpcClient == nil {
-		return nil, fmt.Errorf("client not setup: %v", c.client)
-	}
 	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
 	res, err := grpcClient.TriggerUserModel(ctx, &req)

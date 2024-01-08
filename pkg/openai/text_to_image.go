@@ -1,13 +1,7 @@
 package openai
 
-import (
-	"bytes"
-	"encoding/json"
-	"net/http"
-)
-
 const (
-	generationURL = host + "/v1/images/generations"
+	imgGenerationPath = "/v1/images/generations"
 )
 
 type ImagesGenerationInput struct {
@@ -43,10 +37,4 @@ type ImageGenerationsRespData struct {
 }
 type ImageGenerationsResp struct {
 	Data []ImageGenerationsRespData `json:"data"`
-}
-
-func (c *Client) GenerateImagesGenerations(req ImageGenerationsReq) (result ImageGenerationsResp, err error) {
-	data, _ := json.Marshal(req)
-	err = c.sendReqAndUnmarshal(generationURL, http.MethodPost, jsonMimeType, bytes.NewBuffer(data), &result)
-	return result, err
 }

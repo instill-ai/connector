@@ -57,7 +57,7 @@ func TestOpenAITextGeneration(t *testing.T) {
 	// should check for valid behaviour in integration tests, although
 	// validating the format of error messages can also be useful to detect
 	// breaking changes in the API.
-	c.Check(err, qt.ErrorMatches, "unsuccessful response from openAI")
+	c.Check(err, qt.ErrorMatches, "unsuccessful HTTP response")
 	c.Check(errmsg.Message(err), qt.Matches, ".*Incorrect API key provided.*")
 
 	c.Logf("op: %v", op)

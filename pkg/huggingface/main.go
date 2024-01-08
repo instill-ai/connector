@@ -4,11 +4,8 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"net/http"
 	"sync"
-	"time"
 
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
@@ -16,15 +13,12 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util"
+	"github.com/instill-ai/x/errmsg"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
 const (
-	venderName = "huggingface"
-	reqTimeout = time.Second * 60 * 5
-	//tasks
 	textGenerationTask         = "TASK_TEXT_GENERATION"
 	textToImageTask            = "TASK_TEXT_TO_IMAGE"
 	fillMaskTask               = "TASK_FILL_MASK"
@@ -44,8 +38,6 @@ const (
 	imageToTextTask            = "TASK_IMAGE_TO_TEXT"
 	speechRecognitionTask      = "TASK_SPEECH_RECOGNITION"
 	audioClassificationTask    = "TASK_AUDIO_CLASSIFICATION"
-
-	applicationJson = "application/json"
 )
 
 var (
@@ -63,14 +55,6 @@ type Connector struct {
 
 type Execution struct {
 	base.Execution
-}
-
-// Client represents a OpenAI client
-type Client struct {
-	APIKey           string
-	BaseURL          string
-	IsCustomEndpoint bool
-	HTTPClient       util.HTTPClient
 }
 
 func Init(logger *zap.Logger) base.IConnector {
@@ -94,12 +78,6 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return e, nil
 }
 
-// NewClient initializes a new Hugging Face client
-func NewClient(apiKey, baseURL string, isCustomEndpoint bool) Client {
-	tr := &http.Transport{DisableKeepAlives: true}
-	return Client{APIKey: apiKey, BaseURL: baseURL, IsCustomEndpoint: isCustomEndpoint, HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr}}
-}
-
 func getAPIKey(config *structpb.Struct) string {
 	return config.GetFields()["api_key"].GetStringValue()
 }
@@ -112,223 +90,216 @@ func isCustomEndpoint(config *structpb.Struct) bool {
 	return config.GetFields()["is_custom_endpoint"].GetBoolValue()
 }
 
+func wrapSliceInStruct(data []byte, key string) (*structpb.Struct, error) {
+	var list []any
+	if err := json.Unmarshal(data, &list); err != nil {
+		return nil, err
+	}
+
+	results, err := structpb.NewList(list)
+	if err != nil {
+		return nil, err
+	}
+
+	return &structpb.Struct{
+		Fields: map[string]*structpb.Value{
+			key: structpb.NewListValue(results),
+		},
+	}, nil
+}
+
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
-	client := NewClient(getAPIKey(e.Config), getBaseURL(e.Config), isCustomEndpoint(e.Config))
+	client := newClient(e.Config, e.Logger)
 	outputs := []*structpb.Struct{}
-	model := inputs[0].GetFields()["model"].GetStringValue()
+
+	path := "/"
+	if !isCustomEndpoint(e.Config) {
+		path = modelsPath + inputs[0].GetFields()["model"].GetStringValue()
+	}
 
 	for _, input := range inputs {
 		switch e.Task {
 		case textGenerationTask:
 			inputStruct := TextGenerationRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			resp := []TextGenerationResponse{}
+			req := client.R().SetBody(inputStruct).SetResult(&resp)
+			if _, err := post(req, path); err != nil {
+				return nil, err
+			}
+
+			if len(resp) < 1 {
+				err := fmt.Errorf("invalid response")
+				return nil, errmsg.AddMessage(err, "Hugging Face didn't return any result")
+			}
+
+			output, err := structpb.NewStruct(map[string]any{"generated_text": resp[0].GeneratedText})
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
-				return nil, err
-			}
-			outputArr := []TextGenerationResponse{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			output := structpb.Struct{Fields: make(map[string]*structpb.Value)}
-			output.Fields["generated_text"] = structpb.NewStringValue(outputArr[0].GeneratedText)
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case textToImageTask:
 			inputStruct := TextToImageRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
+
+			rawImg := base64.StdEncoding.EncodeToString(resp.Body())
+			output, err := structpb.NewStruct(map[string]any{
+				"image": fmt.Sprintf("data:image/jpeg;base64,%s", rawImg),
+			})
 			if err != nil {
 				return nil, err
 			}
-			outputStruct := TextToImageResponse{Image: fmt.Sprintf("data:image/jpeg;base64,%s", base64.StdEncoding.EncodeToString(resp))}
-			outputJson, err := json.Marshal(outputStruct)
-			if err != nil {
-				return nil, err
-			}
-			output := structpb.Struct{}
-			err = protojson.Unmarshal(outputJson, &output)
-			if err != nil {
-				return nil, err
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case fillMaskTask:
 			inputStruct := FillMaskRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
+
+			output, err := wrapSliceInStruct(resp.Body(), "results")
 			if err != nil {
 				return nil, err
 			}
-			outputArr := []FillMaskResponseEntry{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			results := structpb.ListValue{}
-			results.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				results.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{
-						Fields: map[string]*structpb.Value{
-							"sequence":  {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Sequence}},
-							"score":     {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-							"token":     {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].Token)}},
-							"token_str": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].TokenStr}},
-						},
-					},
-				}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"results": {Kind: &structpb.Value_ListValue{ListValue: &results}}},
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case summarizationTask:
 			inputStruct := SummarizationRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			resp := []SummarizationResponse{}
+			req := client.R().SetBody(inputStruct).SetResult(&resp)
+			if _, err := post(req, path); err != nil {
+				return nil, err
+			}
+
+			if len(resp) < 1 {
+				err := fmt.Errorf("invalid response")
+				return nil, errmsg.AddMessage(err, "Hugging Face didn't return any result")
+			}
+
+			output, err := structpb.NewStruct(map[string]any{"summary_text": resp[0].SummaryText})
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
-				return nil, err
-			}
-			outputArr := []SummarizationResponse{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			output := structpb.Struct{Fields: make(map[string]*structpb.Value)}
-			output.Fields["summary_text"] = structpb.NewStringValue(outputArr[0].SummaryText)
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case textClassificationTask:
 			inputStruct := TextClassificationRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			var resp [][]any
+			req := client.R().SetBody(inputStruct).SetResult(&resp)
+			if _, err := post(req, path); err != nil {
+				return nil, err
+			}
+
+			if len(resp) < 1 {
+				err := fmt.Errorf("invalid response")
+				return nil, errmsg.AddMessage(err, "Hugging Face didn't return any result")
+			}
+
+			results, err := structpb.NewList(resp[0])
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
-				return nil, err
+
+			output := &structpb.Struct{
+				Fields: map[string]*structpb.Value{
+					"results": structpb.NewListValue(results),
+				},
 			}
-			nestedArr := [][]ClassificationResponse{}
-			err = json.Unmarshal(resp, &nestedArr)
-			if err != nil {
-				return nil, err
-			}
-			if len(nestedArr) <= 0 {
-				return nil, errors.New("invalid response")
-			}
-			outputArr := nestedArr[0]
-			results := structpb.ListValue{}
-			results.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				results.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{
-						Fields: map[string]*structpb.Value{
-							"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
-							"score": {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-						},
-					},
-				}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"results": {Kind: &structpb.Value_ListValue{ListValue: &results}}},
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case tokenClassificationTask:
 			inputStruct := TokenClassificationRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
+
+			output, err := wrapSliceInStruct(resp.Body(), "results")
 			if err != nil {
 				return nil, err
 			}
-			outputArr := []TokenClassificationResponseEntity{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			classes := structpb.ListValue{}
-			classes.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				classes.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{
-						Fields: map[string]*structpb.Value{
-							"entity_group": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].EntityGroup}},
-							"score":        {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-							"word":         {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Word}},
-							"start":        {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].Start)}},
-							"end":          {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].End)}},
-						},
-					},
-				}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"results": {Kind: &structpb.Value_ListValue{ListValue: &classes}}},
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case translationTask:
 			inputStruct := TranslationRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			resp := []TranslationResponse{}
+			req := client.R().SetBody(inputStruct).SetResult(&resp)
+			if _, err := post(req, path); err != nil {
+				return nil, err
+			}
+
+			if len(resp) < 1 {
+				err := fmt.Errorf("invalid response")
+				return nil, errmsg.AddMessage(err, "Hugging Face didn't return any result")
+			}
+
+			output, err := structpb.NewStruct(map[string]any{"translation_text": resp[0].TranslationText})
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
-				return nil, err
-			}
-			outputArr := []TranslationResponse{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			output := structpb.Struct{Fields: make(map[string]*structpb.Value)}
-			output.Fields["translation_text"] = structpb.NewStringValue(outputArr[0].TranslationText)
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case zeroShotClassificationTask:
 			inputStruct := ZeroShotRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
+
+			var output structpb.Struct
+			if err = protojson.Unmarshal(resp.Body(), &output); err != nil {
 				return nil, err
 			}
-			output := structpb.Struct{}
-			err = protojson.Unmarshal(resp, &output)
-			if err != nil {
-				return nil, err
-			}
+
 			outputs = append(outputs, &output)
-		// TODO: fix this task
 		// case featureExtractionTask:
+		// TODO: fix this task
 		// 	inputStruct := FeatureExtractionRequest{}
 		// 	err := base.ConvertFromStructpb(input, &inputStruct)
 		// 	if err != nil {
 		// 		return nil, err
 		// 	}
 		// 	jsonBody, _ := json.Marshal(inputStruct)
-		// 	resp, err := client.MakeHFAPIRequest(jsonBody, model)
+		// 	resp, err := doer.MakeHFAPIRequest(jsonBody, model)
 		// 	if err != nil {
 		// 		return nil, err
 		// 	}
@@ -356,282 +327,258 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 		// 	outputs = append(outputs, &output)
 		case questionAnsweringTask:
 			inputStruct := QuestionAnsweringRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
+
+			var output structpb.Struct
+			if err = protojson.Unmarshal(resp.Body(), &output); err != nil {
 				return nil, err
 			}
-			output := structpb.Struct{}
-			err = protojson.Unmarshal(resp, &output)
-			if err != nil {
-				return nil, err
-			}
+
 			outputs = append(outputs, &output)
 		case tableQuestionAnsweringTask:
 			inputStruct := TableQuestionAnsweringRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
+
+			var output structpb.Struct
+			if err = protojson.Unmarshal(resp.Body(), &output); err != nil {
 				return nil, err
 			}
-			output := structpb.Struct{}
-			err = protojson.Unmarshal(resp, &output)
-			if err != nil {
-				return nil, err
-			}
+
 			outputs = append(outputs, &output)
 		case sentenceSimilarityTask:
 			inputStruct := SentenceSimilarityRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
+
+			output, err := wrapSliceInStruct(resp.Body(), "scores")
 			if err != nil {
 				return nil, err
 			}
-			outputArr := []float64{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			scores := structpb.ListValue{}
-			scores.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				scores.Values[i] = &structpb.Value{Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i]}}
-			}
-			output := structpb.Struct{
-				Fields: map[string]*structpb.Value{"scores": {Kind: &structpb.Value_ListValue{ListValue: &scores}}},
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case conversationalTask:
 			inputStruct := ConversationalRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(inputStruct)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			jsonBody, _ := json.Marshal(inputStruct)
-			resp, err := client.MakeHFAPIRequest(jsonBody, model, applicationJson)
-			if err != nil {
+
+			var output structpb.Struct
+			if err = protojson.Unmarshal(resp.Body(), &output); err != nil {
 				return nil, err
 			}
-			output := structpb.Struct{}
-			err = protojson.Unmarshal(resp, &output)
-			if err != nil {
-				return nil, err
-			}
+
 			outputs = append(outputs, &output)
 		case imageClassificationTask:
 			inputStruct := ImageRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
 				return nil, err
 			}
+
 			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model, "")
+
+			req := client.R().SetBody(b)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			outputArr := []ClassificationResponse{}
-			err = json.Unmarshal(resp, &outputArr)
+
+			output, err := wrapSliceInStruct(resp.Body(), "classes")
 			if err != nil {
 				return nil, err
 			}
-			classes := structpb.ListValue{}
-			classes.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				classes.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{Fields: map[string]*structpb.Value{
-						"score": {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-						"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
-					}}},
-				}
-			}
-			output := structpb.Struct{}
-			output.Fields = map[string]*structpb.Value{
-				"classes": {Kind: &structpb.Value_ListValue{ListValue: &classes}},
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case imageSegmentationTask:
 			inputStruct := ImageRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
 				return nil, err
 			}
+
 			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model, "")
-			if err != nil {
+
+			resp := []ImageSegmentationResponse{}
+			req := client.R().SetBody(b).SetResult(&resp)
+			if _, err := post(req, path); err != nil {
 				return nil, err
 			}
-			outputArr := []ImageSegmentationResponse{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
+
+			segments := &structpb.ListValue{
+				Values: make([]*structpb.Value, len(resp)),
 			}
-			segments := structpb.ListValue{}
-			segments.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				segments.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{Fields: map[string]*structpb.Value{
-						"score": {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-						"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
-						"mask":  {Kind: &structpb.Value_StringValue{StringValue: fmt.Sprintf("data:image/png;base64,%s", outputArr[i].Mask)}},
-					}}},
+
+			for i := range resp {
+				segment, err := structpb.NewStruct(map[string]any{
+					"score": resp[i].Score,
+					"label": resp[i].Label,
+					"mask":  fmt.Sprintf("data:image/png;base64,%s", resp[i].Mask),
+				})
+
+				if err != nil {
+					return nil, err
 				}
+
+				segments.Values[i] = structpb.NewStructValue(segment)
 			}
-			output := structpb.Struct{}
-			output.Fields = map[string]*structpb.Value{
-				"segments": {Kind: &structpb.Value_ListValue{ListValue: &segments}},
-			}
-			outputs = append(outputs, &output)
-		case objectDetectionTask:
-			inputStruct := ImageRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
-				return nil, err
-			}
-			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
-			if err != nil {
-				return nil, err
-			}
-			resp, err := client.MakeHFAPIRequest(b, model, "")
-			if err != nil {
-				return nil, err
-			}
-			outputArr := []ObjectDetectionResponse{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			objects := structpb.ListValue{}
-			objects.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				objects.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{Fields: map[string]*structpb.Value{
-						"score": {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-						"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
-						"box": {Kind: &structpb.Value_StructValue{StructValue: &structpb.Struct{
-							Fields: map[string]*structpb.Value{
-								"xmin": {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].Box.XMin)}},
-								"ymin": {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].Box.YMin)}},
-								"xmax": {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].Box.XMax)}},
-								"ymax": {Kind: &structpb.Value_NumberValue{NumberValue: float64(outputArr[i].Box.YMax)}},
-							},
-						}}},
-					}},
-				}}
-			}
-			output := structpb.Struct{}
-			output.Fields = map[string]*structpb.Value{
-				"objects": {Kind: &structpb.Value_ListValue{ListValue: &objects}},
-			}
-			outputs = append(outputs, &output)
-		case imageToTextTask:
-			inputStruct := ImageRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
-				return nil, err
-			}
-			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
-			if err != nil {
-				return nil, err
-			}
-			resp, err := client.MakeHFAPIRequest(b, model, "")
-			if err != nil {
-				return nil, err
-			}
-			outputArr := []ImageToTextResponse{}
-			err = json.Unmarshal(resp, &outputArr)
-			if err != nil {
-				return nil, err
-			}
-			if len(outputArr) <= 0 {
-				return nil, errors.New("invalid response")
-			}
-			output := structpb.Struct{
+
+			output := &structpb.Struct{
 				Fields: map[string]*structpb.Value{
-					"text": {Kind: &structpb.Value_StringValue{StringValue: outputArr[0].GeneratedText}},
+					"segments": structpb.NewListValue(segments),
 				},
 			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
+		case objectDetectionTask:
+			inputStruct := ImageRequest{}
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
+			if err != nil {
+				return nil, err
+			}
+
+			req := client.R().SetBody(b)
+			resp, err := post(req, path)
+			if err != nil {
+				return nil, err
+			}
+
+			output, err := wrapSliceInStruct(resp.Body(), "objects")
+			if err != nil {
+				return nil, err
+			}
+
+			outputs = append(outputs, output)
+		case imageToTextTask:
+			inputStruct := ImageRequest{}
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
+				return nil, err
+			}
+
+			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Image))
+			if err != nil {
+				return nil, err
+			}
+
+			resp := []ImageToTextResponse{}
+			req := client.R().SetBody(b).SetResult(&resp)
+			if _, err := post(req, path); err != nil {
+				return nil, err
+			}
+
+			if len(resp) < 1 {
+				err := fmt.Errorf("invalid response")
+				return nil, errmsg.AddMessage(err, "Hugging Face didn't return any result")
+			}
+
+			output, err := structpb.NewStruct(map[string]any{"text": resp[0].GeneratedText})
+			if err != nil {
+				return nil, err
+			}
+
+			outputs = append(outputs, output)
 		case speechRecognitionTask:
 			inputStruct := AudioRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
 				return nil, err
 			}
+
 			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Audio))
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model, "")
+
+			req := client.R().SetBody(b)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			output := structpb.Struct{}
-			err = protojson.Unmarshal(resp, &output)
-			if err != nil {
+
+			output := new(structpb.Struct)
+			if err := protojson.Unmarshal(resp.Body(), output); err != nil {
 				return nil, err
 			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		case audioClassificationTask:
 			inputStruct := AudioRequest{}
-			err := base.ConvertFromStructpb(input, &inputStruct)
-			if err != nil {
+			if err := base.ConvertFromStructpb(input, &inputStruct); err != nil {
 				return nil, err
 			}
+
 			b, err := base64.StdEncoding.DecodeString(base.TrimBase64Mime(inputStruct.Audio))
 			if err != nil {
 				return nil, err
 			}
-			resp, err := client.MakeHFAPIRequest(b, model, "")
+
+			req := client.R().SetBody(b)
+			resp, err := post(req, path)
 			if err != nil {
 				return nil, err
 			}
-			outputArr := []ClassificationResponse{}
-			err = json.Unmarshal(resp, &outputArr)
+
+			output, err := wrapSliceInStruct(resp.Body(), "classes")
 			if err != nil {
 				return nil, err
 			}
-			classes := structpb.ListValue{}
-			classes.Values = make([]*structpb.Value, len(outputArr))
-			for i := range outputArr {
-				classes.Values[i] = &structpb.Value{Kind: &structpb.Value_StructValue{
-					StructValue: &structpb.Struct{Fields: map[string]*structpb.Value{
-						"score": {Kind: &structpb.Value_NumberValue{NumberValue: outputArr[i].Score}},
-						"label": {Kind: &structpb.Value_StringValue{StringValue: outputArr[i].Label}},
-					}}},
-				}
-			}
-			output := structpb.Struct{}
-			output.Fields = map[string]*structpb.Value{
-				"classes": {Kind: &structpb.Value_ListValue{ListValue: &classes}},
-			}
-			outputs = append(outputs, &output)
+
+			outputs = append(outputs, output)
 		default:
-			return nil, fmt.Errorf("not supported task: %s", e.Task)
+			return nil, errmsg.AddMessage(
+				fmt.Errorf("not supported task: %s", e.Task),
+				fmt.Sprintf("%s task is not supported.", e.Task),
+			)
 		}
 	}
 
 	return outputs, nil
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	client := NewClient(getAPIKey(config), getBaseURL(config), isCustomEndpoint(config))
-	return client.GetConnectionState()
+func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+	req := newClient(config, logger).R()
+	resp, err := req.Get("")
+	if err != nil {
+		return pipelinePB.Connector_STATE_ERROR, err
+	}
+
+	if resp.IsError() {
+		return pipelinePB.Connector_STATE_DISCONNECTED, nil
+	}
+
+	return pipelinePB.Connector_STATE_CONNECTED, nil
 }

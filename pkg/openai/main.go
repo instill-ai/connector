@@ -5,10 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"sync"
-	"time"
 
 	"github.com/gabriel-vasile/mimetype"
 	"github.com/gofrs/uuid"
@@ -17,17 +14,12 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util"
-	"github.com/instill-ai/x/errmsg"
-
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
+	"github.com/instill-ai/x/errmsg"
 )
 
 const (
-	venderName            = "openAI"
 	host                  = "https://api.openai.com"
-	jsonMimeType          = "application/json"
-	reqTimeout            = time.Second * 60 * 5
 	textGenerationTask    = "TASK_TEXT_GENERATION"
 	textEmbeddingsTask    = "TASK_TEXT_EMBEDDINGS"
 	speechRecognitionTask = "TASK_SPEECH_RECOGNITION"
@@ -55,14 +47,6 @@ type Execution struct {
 	base.Execution
 }
 
-// Client represents a OpenAI client
-type Client struct {
-	APIKey     string
-	Org        string
-	HTTPClient util.HTTPClient
-	Logger     *zap.Logger
-}
-
 func Init(logger *zap.Logger) base.IConnector {
 	once.Do(func() {
 		connector = &Connector{
@@ -84,101 +68,17 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return e, nil
 }
 
-// NewClient initializes a new OpenAI client
-func NewClient(apiKey, org string, logger *zap.Logger) Client {
-	tr := &http.Transport{
-		DisableKeepAlives: true,
+// getBasePath returns OpenAI's API URL. This configuration param allows us to
+// override the API the connector will point to. It isn't meant to be exposed
+// to users. Rather, it can serve to test the logic against a fake server.
+// TODO instead of having the API value hardcoded in the codebase, it should be
+// read from a config file or environment variable.
+func getBasePath(config *structpb.Struct) string {
+	v, ok := config.GetFields()["base_path"]
+	if !ok {
+		return host
 	}
-	return Client{
-		APIKey:     apiKey,
-		Org:        org,
-		HTTPClient: &http.Client{Timeout: reqTimeout, Transport: tr},
-		Logger:     logger,
-	}
-}
-
-// sendReq is responsible for making the http request with to given URL, method, and params
-func (c *Client) sendReq(reqURL, method, contentType string, data io.Reader) ([]byte, error) {
-	logger := c.Logger.With(zap.String("url", reqURL))
-
-	req, _ := http.NewRequest(method, reqURL, data)
-	req.Header.Add("Content-Type", contentType)
-	req.Header.Add("Accept", jsonMimeType)
-	req.Header.Add("Authorization", "Bearer "+c.APIKey)
-	if c.Org != "" {
-		req.Header.Add("OpenAI-Organization", c.Org)
-	}
-	http.DefaultClient.Timeout = reqTimeout
-
-	res, err := c.HTTPClient.Do(req)
-	if res != nil && res.Body != nil {
-		defer res.Body.Close()
-	}
-	if err != nil || res == nil {
-		logger.Warn("Failed to call OpenAI", zap.Error(err))
-		return nil, errmsg.AddMessage(
-			fmt.Errorf("failed to call OpenAI: %w", err),
-			"Failed to call OpenAI's API.",
-		)
-	}
-
-	respBody, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	if res.StatusCode < 200 || res.StatusCode >= 300 {
-		err := fmt.Errorf("unsuccessful response from openAI")
-		logger = logger.With(
-			zap.Int("status", res.StatusCode),
-			zap.ByteString("body", respBody),
-		)
-
-		var errBody struct {
-			Error struct {
-				Message string `json:"message"`
-			} `json:"error"`
-		}
-
-		// We want to provide a useful error message so we don't return an
-		// error here.
-		if jsonErr := json.Unmarshal(respBody, &errBody); jsonErr != nil {
-			logger = logger.With(zap.NamedError("json_error", jsonErr))
-		}
-
-		msg := errBody.Error.Message
-		if msg == "" {
-			msg = "Please refer to OpenAI's API reference for more information."
-		}
-		issue := fmt.Sprintf("OpenAI responded with a %d status code. %s", res.StatusCode, msg)
-
-		logger.Warn("Unsuccessful response from OpenAI")
-		return nil, errmsg.AddMessage(err, issue)
-	}
-
-	return respBody, nil
-}
-
-// sendReqAndUnmarshal is responsible for making the http request with to given URL, method, and params and unmarshalling the response into given object.
-func (c *Client) sendReqAndUnmarshal(reqURL, method, contentType string, data io.Reader, respObj interface{}) error {
-	respBody, err := c.sendReq(reqURL, method, contentType, data)
-	if err != nil {
-		return err
-	}
-
-	err = json.Unmarshal(respBody, &respObj)
-	if err != nil {
-		c.Logger.Warn("Failed to decode response from OpenAI",
-			zap.String("url", reqURL),
-			zap.ByteString("body", respBody),
-		)
-		return errmsg.AddMessage(
-			fmt.Errorf("failed to decode response from openAI: %w", err),
-			"Failed to decode response from OpenAI's API.",
-		)
-	}
-
-	return nil
+	return v.GetStringValue()
 }
 
 func getAPIKey(config *structpb.Struct) string {
@@ -194,14 +94,12 @@ func getOrg(config *structpb.Struct) string {
 }
 
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
-	client := NewClient(getAPIKey(e.Config), getOrg(e.Config), e.Logger)
-
+	client := newClient(e.Config, e.Logger)
 	outputs := []*structpb.Struct{}
 
 	for _, input := range inputs {
 		switch e.Task {
 		case textGenerationTask:
-
 			inputStruct := TextCompletionInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
@@ -233,7 +131,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 			messages = append(messages, Message{Role: "user", Content: userContents})
 
-			req := TextCompletionReq{
+			body := TextCompletionReq{
 				Messages:         messages,
 				Model:            inputStruct.Model,
 				MaxTokens:        inputStruct.MaxTokens,
@@ -246,13 +144,15 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			// workaround, the OpenAI service can not accept this param
 			if inputStruct.Model != "gpt-4-vision-preview" {
-				req.ResponseFormat = inputStruct.ResponseFormat
+				body.ResponseFormat = inputStruct.ResponseFormat
 			}
 
-			resp, err := client.GenerateTextCompletion(req)
-			if err != nil {
+			resp := TextCompletionResp{}
+			req := client.R().SetResult(&resp).SetBody(body)
+			if _, err := req.Post(completionsPath); err != nil {
 				return inputs, err
 			}
+
 			outputStruct := TextCompletionOutput{
 				Texts: []string{},
 			}
@@ -260,31 +160,31 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				outputStruct.Texts = append(outputStruct.Texts, c.Message.Content)
 			}
 
-			outputJson, err := json.Marshal(outputStruct)
+			outputJSON, err := json.Marshal(outputStruct)
 			if err != nil {
 				return nil, err
 			}
 			output := structpb.Struct{}
-			err = protojson.Unmarshal(outputJson, &output)
+			err = protojson.Unmarshal(outputJSON, &output)
 			if err != nil {
 				return nil, err
 			}
 			outputs = append(outputs, &output)
 
 		case textEmbeddingsTask:
-
 			inputStruct := TextEmbeddingsInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
 				return nil, err
 			}
 
-			req := TextEmbeddingsReq{
+			resp := TextEmbeddingsResp{}
+			req := client.R().SetBody(TextEmbeddingsReq{
 				Model: inputStruct.Model,
 				Input: []string{inputStruct.Text},
-			}
-			resp, err := client.GenerateTextEmbeddings(req)
-			if err != nil {
+			}).SetResult(&resp)
+
+			if _, err := req.Post(embeddingsPath); err != nil {
 				return inputs, err
 			}
 
@@ -299,7 +199,6 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			outputs = append(outputs, output)
 
 		case speechRecognitionTask:
-
 			inputStruct := AudioTranscriptionInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
@@ -310,16 +209,21 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-			req := AudioTranscriptionReq{
+
+			data, ct, err := getBytes(AudioTranscriptionReq{
 				File:        audioBytes,
 				Model:       inputStruct.Model,
 				Prompt:      inputStruct.Prompt,
 				Language:    inputStruct.Prompt,
 				Temperature: inputStruct.Temperature,
+			})
+			if err != nil {
+				return inputs, err
 			}
 
-			resp, err := client.GenerateAudioTranscriptions(req)
-			if err != nil {
+			resp := AudioTranscriptionResp{}
+			req := client.R().SetBody(data).SetResult(&resp).SetHeader("Content-Type", ct)
+			if _, err := req.Post(transcriptionsPath); err != nil {
 				return inputs, err
 			}
 
@@ -330,27 +234,29 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			outputs = append(outputs, output)
 
 		case textToSpeechTask:
-
 			inputStruct := TextToSpeechInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
 				return nil, err
 			}
 
-			req := TextToSpeechReq{
+			req := client.R().SetBody(TextToSpeechReq{
 				Input:          inputStruct.Text,
 				Model:          inputStruct.Model,
 				Voice:          inputStruct.Voice,
 				ResponseFormat: inputStruct.ResponseFormat,
 				Speed:          inputStruct.Speed,
-			}
+			})
 
-			outputStruct, err := client.CreateSpeech(req)
+			resp, err := req.Post(createSpeechPath)
 			if err != nil {
 				return inputs, err
 			}
 
-			outputStruct.Audio = fmt.Sprintf("data:audio/wav;base64,%s", outputStruct.Audio)
+			audio := base64.StdEncoding.EncodeToString(resp.Body())
+			outputStruct := TextToSpeechOutput{
+				Audio: fmt.Sprintf("data:audio/wav;base64,%s", audio),
+			}
 
 			output, err := base.ConvertToStructpb(outputStruct)
 			if err != nil {
@@ -366,7 +272,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 
-			req := ImageGenerationsReq{
+			resp := ImageGenerationsResp{}
+			req := client.R().SetBody(ImageGenerationsReq{
 				Model:          inputStruct.Model,
 				Prompt:         inputStruct.Prompt,
 				Quality:        inputStruct.Quality,
@@ -374,10 +281,9 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				Style:          inputStruct.Style,
 				N:              inputStruct.N,
 				ResponseFormat: "b64_json",
-			}
+			}).SetResult(&resp)
 
-			resp, err := client.GenerateImagesGenerations(req)
-			if err != nil {
+			if _, err := req.Post(imgGenerationPath); err != nil {
 				return inputs, err
 			}
 
@@ -399,21 +305,28 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			outputs = append(outputs, output)
 
 		default:
-			return nil, fmt.Errorf("not supported task: %s", e.Task)
+			return nil, errmsg.AddMessage(
+				fmt.Errorf("not supported task: %s", e.Task),
+				fmt.Sprintf("%s task is not supported.", e.Task),
+			)
 		}
 	}
 
 	return outputs, nil
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	client := NewClient(getAPIKey(config), getOrg(config), c.Logger)
-	models, err := client.ListModels()
-	if err != nil {
+// Test checks the connector state.
+func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+	models := ListModelsResponse{}
+	req := newClient(config, logger).R().SetResult(&models)
+
+	if _, err := req.Get(listModelsPath); err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
+
 	if len(models.Data) == 0 {
 		return pipelinePB.Connector_STATE_DISCONNECTED, nil
 	}
+
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 }
