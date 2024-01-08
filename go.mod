@@ -17,7 +17,7 @@ require (
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
 	github.com/instill-ai/component v0.8.0-beta
-	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20231212091117-ca798a0535d1
+	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20240105094938-3a71d8f7a812
 	github.com/instill-ai/x v0.3.0-alpha.0.20231219052200-6230a89e386c
 	github.com/redis/go-redis/v9 v9.3.0
 	github.com/stretchr/testify v1.8.4
