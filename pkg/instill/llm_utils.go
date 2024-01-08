@@ -1,13 +1,9 @@
 package instill
 
 import (
-	"context"
-	"fmt"
-
-	"google.golang.org/grpc/metadata"
-	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
+	"github.com/instill-ai/component/pkg/base"
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
@@ -33,69 +29,83 @@ type LLMInput struct {
 	ExtraParams *structpb.Struct
 }
 
-func ExtractChatHistory(input *structpb.Struct) []*modelPB.Message {
+func (c *Execution) convertLLMInput(input *structpb.Struct) *LLMInput {
+	llmInput := &LLMInput{
+		Prompt: input.GetFields()["prompt"].GetStringValue(),
+	}
 
-	history := []*modelPB.Message{}
-	for _, item := range input.GetFields()["chat_history"].GetListValue().GetValues() {
-		contents := []*modelPB.MessageContent{}
-		for _, contentItem := range item.GetStructValue().Fields["content"].GetListValue().GetValues() {
-			t := contentItem.GetStructValue().Fields["type"].GetStringValue()
-			content := &modelPB.MessageContent{
-				Type: t,
+	if _, ok := input.GetFields()["system_message"]; ok {
+		v := input.GetFields()["system_message"].GetStringValue()
+		llmInput.SystemMessage = &v
+	}
+
+	if _, ok := input.GetFields()["prompt_images"]; ok {
+		promptImages := []*modelPB.PromptImage{}
+		for _, item := range input.GetFields()["prompt_images"].GetListValue().GetValues() {
+			image := &modelPB.PromptImage{}
+			image.Type = &modelPB.PromptImage_PromptImageBase64{
+				PromptImageBase64: base.TrimBase64Mime(item.GetStringValue()),
 			}
-			if t == "text" {
-				content.Content = &modelPB.MessageContent_Text{
-					Text: contentItem.GetStructValue().Fields["text"].GetStringValue(),
-				}
-			} else {
-				image := &modelPB.PromptImage{}
-				image.Type = &modelPB.PromptImage_PromptImageBase64{
-					PromptImageBase64: contentItem.GetStructValue().Fields["image_url"].GetStructValue().Fields["url"].GetStringValue(),
-				}
-				content.Content = &modelPB.MessageContent_ImageUrl{
-					ImageUrl: &modelPB.ImageContent{
-						ImageUrl: image,
-					},
-				}
-			}
-			contents = append(contents, content)
+			promptImages = append(promptImages, image)
 		}
-		history = append(history, &modelPB.Message{
-			Role:    item.GetStructValue().Fields["role"].GetStringValue(),
-			Content: contents,
-		})
-	}
-	return history
-}
-
-func (c *Execution) SendLLMRequest(grpcClient modelPB.ModelPublicServiceClient, req *modelPB.TriggerUserModelRequest, modelName string) (*structpb.Struct, error) {
-
-	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
-	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	res, err := grpcClient.TriggerUserModel(ctx, req)
-	if err != nil || res == nil {
-		return nil, err
-	}
-	taskOutputs := res.GetTaskOutputs()
-	if len(taskOutputs) <= 0 {
-		return nil, fmt.Errorf("invalid output: %v for model: %s", taskOutputs, modelName)
+		llmInput.PromptImages = promptImages
 	}
 
-	textGenChatOutput := taskOutputs[0].GetTextGenerationChat()
-	if textGenChatOutput == nil {
-		return nil, fmt.Errorf("invalid output: %v for model: %s", textGenChatOutput, modelName)
+	if _, ok := input.GetFields()["chat_history"]; ok {
+		history := []*modelPB.Message{}
+		for _, item := range input.GetFields()["chat_history"].GetListValue().GetValues() {
+			contents := []*modelPB.MessageContent{}
+			for _, contentItem := range item.GetStructValue().Fields["content"].GetListValue().GetValues() {
+				t := contentItem.GetStructValue().Fields["type"].GetStringValue()
+				content := &modelPB.MessageContent{
+					Type: t,
+				}
+				if t == "text" {
+					content.Content = &modelPB.MessageContent_Text{
+						Text: contentItem.GetStructValue().Fields["text"].GetStringValue(),
+					}
+				} else {
+					image := &modelPB.PromptImage{}
+					image.Type = &modelPB.PromptImage_PromptImageBase64{
+						PromptImageBase64: contentItem.GetStructValue().Fields["image_url"].GetStructValue().Fields["url"].GetStringValue(),
+					}
+					content.Content = &modelPB.MessageContent_ImageUrl{
+						ImageUrl: &modelPB.ImageContent{
+							ImageUrl: image,
+						},
+					}
+				}
+				contents = append(contents, content)
+			}
+			history = append(history, &modelPB.Message{
+				Role:    item.GetStructValue().Fields["role"].GetStringValue(),
+				Content: contents,
+			})
+
+		}
+		llmInput.ChatHistory = history
 	}
-	outputJson, err := protojson.MarshalOptions{
-		UseProtoNames:   true,
-		EmitUnpopulated: true,
-	}.Marshal(textGenChatOutput)
-	if err != nil {
-		return nil, err
+
+	if _, ok := input.GetFields()["max_new_tokens"]; ok {
+		v := int32(input.GetFields()["max_new_tokens"].GetNumberValue())
+		llmInput.MaxNewTokens = &v
 	}
-	output := &structpb.Struct{}
-	err = protojson.Unmarshal(outputJson, output)
-	if err != nil {
-		return nil, err
+	if _, ok := input.GetFields()["temperature"]; ok {
+		v := float32(input.GetFields()["temperature"].GetNumberValue())
+		llmInput.Temperature = &v
 	}
-	return output, nil
+	if _, ok := input.GetFields()["top_k"]; ok {
+		v := int32(input.GetFields()["top_k"].GetNumberValue())
+		llmInput.TopK = &v
+	}
+	if _, ok := input.GetFields()["seed"]; ok {
+		v := int32(input.GetFields()["seed"].GetNumberValue())
+		llmInput.Seed = &v
+	}
+	if _, ok := input.GetFields()["extra_params"]; ok {
+		v := input.GetFields()["extra_params"].GetStructValue()
+		llmInput.ExtraParams = v
+	}
+	return llmInput
+
 }

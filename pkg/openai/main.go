@@ -106,17 +106,29 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 
-			messages := []Message{}
+			messages := []interface{}{}
 
 			// If chat history is provided, add it to the messages, and ignore the system message
 			if inputStruct.ChatHistory != nil {
-				for _, textMessage := range inputStruct.ChatHistory {
-					messages = append(messages, Message{Role: textMessage.Role, Content: []Content{{Type: "text", Text: &textMessage.Content}}})
+				for _, chat := range inputStruct.ChatHistory {
+					if chat.Role == "user" {
+						messages = append(messages, MultiModalMessage{Role: chat.Role, Content: chat.Content})
+					} else {
+						content := ""
+						for _, c := range chat.Content {
+							// OpenAI doesn't support MultiModal Content for non-user role
+							if c.Type == "text" {
+								content = *c.Text
+							}
+						}
+						messages = append(messages, Message{Role: chat.Role, Content: content})
+					}
+
 				}
 			} else {
 				// If chat history is not provided, add the system message to the messages
 				if inputStruct.SystemMessage != nil {
-					messages = append(messages, Message{Role: "system", Content: []Content{{Type: "text", Text: inputStruct.SystemMessage}}})
+					messages = append(messages, Message{Role: "system", Content: *inputStruct.SystemMessage})
 				}
 			}
 			userContents := []Content{}
@@ -129,7 +141,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				url := fmt.Sprintf("data:%s;base64,%s", mimetype.Detect(b).String(), base.TrimBase64Mime(image))
 				userContents = append(userContents, Content{Type: "image_url", ImageUrl: &ImageUrl{Url: url}})
 			}
-			messages = append(messages, Message{Role: "user", Content: userContents})
+			messages = append(messages, MultiModalMessage{Role: "user", Content: userContents})
 
 			body := TextCompletionReq{
 				Messages:         messages,

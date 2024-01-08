@@ -1,8 +1,11 @@
 package instill
 
 import (
+	"context"
 	"fmt"
 
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
@@ -21,7 +24,7 @@ func (c *Execution) executeVisualQuestionAnswering(grpcClient modelPB.ModelPubli
 
 	for _, input := range inputs {
 
-		llmInput := ConvertLLMInput(input)
+		llmInput := c.convertLLMInput(input)
 		taskInput := &modelPB.TaskInput_VisualQuestionAnswering{
 			VisualQuestionAnswering: &modelPB.VisualQuestionAnsweringInput{
 				Prompt:        llmInput.Prompt,
@@ -37,10 +40,34 @@ func (c *Execution) executeVisualQuestionAnswering(grpcClient modelPB.ModelPubli
 		}
 
 		// only support batch 1
-		output, err := c.SendLLMRequest(grpcClient, &modelPB.TriggerUserModelRequest{
+		req := modelPB.TriggerUserModelRequest{
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
-		}, modelName)
+		}
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
+		ctx := metadata.NewOutgoingContext(context.Background(), md)
+		res, err := grpcClient.TriggerUserModel(ctx, &req)
+		if err != nil || res == nil {
+			return nil, err
+		}
+		taskOutputs := res.GetTaskOutputs()
+		if len(taskOutputs) <= 0 {
+			return nil, fmt.Errorf("invalid output: %v for model: %s", taskOutputs, modelName)
+		}
+
+		visualQuestionAnsweringOutput := taskOutputs[0].GetVisualQuestionAnswering()
+		if visualQuestionAnsweringOutput == nil {
+			return nil, fmt.Errorf("invalid output: %v for model: %s", visualQuestionAnsweringOutput, modelName)
+		}
+		outputJson, err := protojson.MarshalOptions{
+			UseProtoNames:   true,
+			EmitUnpopulated: true,
+		}.Marshal(visualQuestionAnsweringOutput)
+		if err != nil {
+			return nil, err
+		}
+		output := &structpb.Struct{}
+		err = protojson.Unmarshal(outputJson, output)
 		if err != nil {
 			return nil, err
 		}

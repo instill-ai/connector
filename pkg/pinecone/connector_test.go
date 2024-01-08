@@ -174,7 +174,7 @@ func TestConnector_Execute(t *testing.T) {
 			pineconeServer := httptest.NewServer(h)
 			c.Cleanup(pineconeServer.Close)
 
-			config, err := structpb.NewStruct(map[string]any{
+			config, _ := structpb.NewStruct(map[string]any{
 				"api_key": pineconeKey,
 				"url":     pineconeServer.URL,
 			})
@@ -205,7 +205,7 @@ func TestConnector_Execute(t *testing.T) {
 		pineconeServer := httptest.NewServer(h)
 		c.Cleanup(pineconeServer.Close)
 
-		config, err := structpb.NewStruct(map[string]any{
+		config, _ := structpb.NewStruct(map[string]any{
 			"url": pineconeServer.URL,
 		})
 
@@ -221,7 +221,7 @@ func TestConnector_Execute(t *testing.T) {
 	})
 
 	c.Run("nok - URL misconfiguration", func(c *qt.C) {
-		config, err := structpb.NewStruct(map[string]any{
+		config, _ := structpb.NewStruct(map[string]any{
 			"url": "http://no-such.host",
 		})
 

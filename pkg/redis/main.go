@@ -16,8 +16,9 @@ import (
 )
 
 const (
-	taskChatMessageWrite    = "TASK_CHAT_MESSAGE_WRITE"
-	taskChatHistoryRetrieve = "TASK_CHAT_HISTORY_RETRIEVE"
+	taskChatMessageWrite           = "TASK_CHAT_MESSAGE_WRITE"
+	taskChatMessageWriteMultiModal = "TASK_CHAT_MESSAGE_WRITE_MULTI_MODAL"
+	taskChatHistoryRetrieve        = "TASK_CHAT_HISTORY_RETRIEVE"
 )
 
 var (
@@ -78,6 +79,17 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 			outputStruct := WriteMessage(client, inputStruct)
+			output, err = base.ConvertToStructpb(outputStruct)
+			if err != nil {
+				return nil, err
+			}
+		case taskChatMessageWriteMultiModal:
+			inputStruct := ChatMultiModalMessageWriteInput{}
+			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err != nil {
+				return nil, err
+			}
+			outputStruct := WriteMultiModelMessage(client, inputStruct)
 			output, err = base.ConvertToStructpb(outputStruct)
 			if err != nil {
 				return nil, err

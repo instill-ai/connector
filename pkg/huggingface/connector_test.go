@@ -315,7 +315,7 @@ func testTask(c *qt.C, p taskParams) {
 			srv := httptest.NewServer(h)
 			c.Cleanup(srv.Close)
 
-			config, err := structpb.NewStruct(map[string]any{
+			config, _ := structpb.NewStruct(map[string]any{
 				"api_key":            apiKey,
 				"base_url":           srv.URL,
 				"is_custom_endpoint": tc.customEndpoint,
