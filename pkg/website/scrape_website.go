@@ -176,6 +176,9 @@ func Scrape(input ScrapeWebsiteInput) (ScrapeWebsiteOutput, error) {
 	})
 
 	// Start scraping
+	if !strings.HasPrefix(input.TargetURL, "http://") && !strings.HasPrefix(input.TargetURL, "https://") {
+		input.TargetURL = "https://" + input.TargetURL
+	}
 	_ = c.Visit(input.TargetURL)
 
 	return output, nil
