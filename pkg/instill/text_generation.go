@@ -1,93 +1,15 @@
 package instill
 
 import (
+	"context"
 	"fmt"
 
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
-
-func ConvertLLMInput(input *structpb.Struct) *LLMInput {
-	llmInput := &LLMInput{
-		Prompt: input.GetFields()["prompt"].GetStringValue(),
-	}
-
-	if _, ok := input.GetFields()["system_message"]; ok {
-		v := input.GetFields()["system_message"].GetStringValue()
-		llmInput.SystemMessage = &v
-	}
-
-	if _, ok := input.GetFields()["prompt_images"]; ok {
-		promptImages := []*modelPB.PromptImage{}
-		for _, item := range input.GetFields()["prompt_images"].GetListValue().GetValues() {
-			image := &modelPB.PromptImage{}
-			image.Type = &modelPB.PromptImage_PromptImageBase64{
-				PromptImageBase64: item.GetStringValue(),
-			}
-			promptImages = append(promptImages, image)
-		}
-		llmInput.PromptImages = promptImages
-	}
-
-	if _, ok := input.GetFields()["chat_history"]; ok {
-		history := []*modelPB.Message{}
-		for _, item := range input.GetFields()["chat_history"].GetListValue().GetValues() {
-			contents := []*modelPB.MessageContent{}
-			for _, contentItem := range item.GetStructValue().Fields["content"].GetListValue().GetValues() {
-				t := contentItem.GetStructValue().Fields["type"].GetStringValue()
-				content := &modelPB.MessageContent{
-					Type: t,
-				}
-				if t == "text" {
-					content.Content = &modelPB.MessageContent_Text{
-						Text: contentItem.GetStructValue().Fields["text"].GetStringValue(),
-					}
-				} else {
-					image := &modelPB.PromptImage{}
-					image.Type = &modelPB.PromptImage_PromptImageBase64{
-						PromptImageBase64: contentItem.GetStructValue().Fields["image_url"].GetStructValue().Fields["url"].GetStringValue(),
-					}
-					content.Content = &modelPB.MessageContent_ImageUrl{
-						ImageUrl: &modelPB.ImageContent{
-							ImageUrl: image,
-						},
-					}
-				}
-				contents = append(contents, content)
-			}
-			history = append(history, &modelPB.Message{
-				Role:    item.GetStructValue().Fields["role"].GetStringValue(),
-				Content: contents,
-			})
-
-		}
-		llmInput.ChatHistory = history
-	}
-
-	if _, ok := input.GetFields()["max_new_tokens"]; ok {
-		v := int32(input.GetFields()["max_new_tokens"].GetNumberValue())
-		llmInput.MaxNewTokens = &v
-	}
-	if _, ok := input.GetFields()["temperature"]; ok {
-		v := float32(input.GetFields()["temperature"].GetNumberValue())
-		llmInput.Temperature = &v
-	}
-	if _, ok := input.GetFields()["top_k"]; ok {
-		v := int32(input.GetFields()["top_k"].GetNumberValue())
-		llmInput.TopK = &v
-	}
-	if _, ok := input.GetFields()["seed"]; ok {
-		v := int32(input.GetFields()["seed"].GetNumberValue())
-		llmInput.Seed = &v
-	}
-	if _, ok := input.GetFields()["extra_params"]; ok {
-		v := input.GetFields()["extra_params"].GetStructValue()
-		llmInput.ExtraParams = v
-	}
-	return llmInput
-
-}
 
 func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	if len(inputs) <= 0 {
@@ -102,7 +24,7 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 
 	for _, input := range inputs {
 
-		llmInput := ConvertLLMInput(input)
+		llmInput := c.convertLLMInput(input)
 		taskInput := &modelPB.TaskInput_TextGeneration{
 			TextGeneration: &modelPB.TextGenerationInput{
 				Prompt:        llmInput.Prompt,
@@ -118,10 +40,34 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 		}
 
 		// only support batch 1
-		output, err := c.SendLLMRequest(grpcClient, &modelPB.TriggerUserModelRequest{
+		req := modelPB.TriggerUserModelRequest{
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
-		}, modelName)
+		}
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
+		ctx := metadata.NewOutgoingContext(context.Background(), md)
+		res, err := grpcClient.TriggerUserModel(ctx, &req)
+		if err != nil || res == nil {
+			return nil, err
+		}
+		taskOutputs := res.GetTaskOutputs()
+		if len(taskOutputs) <= 0 {
+			return nil, fmt.Errorf("invalid output: %v for model: %s", taskOutputs, modelName)
+		}
+
+		textGenOutput := taskOutputs[0].GetTextGeneration()
+		if textGenOutput == nil {
+			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenOutput, modelName)
+		}
+		outputJson, err := protojson.MarshalOptions{
+			UseProtoNames:   true,
+			EmitUnpopulated: true,
+		}.Marshal(textGenOutput)
+		if err != nil {
+			return nil, err
+		}
+		output := &structpb.Struct{}
+		err = protojson.Unmarshal(outputJson, output)
 		if err != nil {
 			return nil, err
 		}

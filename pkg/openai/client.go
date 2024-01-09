@@ -6,10 +6,6 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-type oaClient struct {
-	*httpclient.Client
-}
-
 func newClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Client {
 	c := httpclient.New("OpenAI", getBasePath(config),
 		httpclient.WithLogger(logger),

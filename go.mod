@@ -16,11 +16,10 @@ require (
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
-	github.com/instill-ai/component v0.8.0-beta
+	github.com/instill-ai/component v0.8.0-beta.0.20240109061804-abed794dc3a1
 	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20240105094938-3a71d8f7a812
 	github.com/instill-ai/x v0.3.0-alpha.0.20231219052200-6230a89e386c
 	github.com/redis/go-redis/v9 v9.3.0
-	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.26.0
 	google.golang.org/api v0.150.0
 	google.golang.org/grpc v1.59.0
@@ -79,10 +78,10 @@ require (
 	github.com/opencontainers/image-spec v1.0.2 // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 // indirect
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/temoto/robotstxt v1.1.1 // indirect
 	github.com/zeebo/xxh3 v1.0.2 // indirect
 	go.opencensus.io v0.24.0 // indirect
@@ -101,6 +100,5 @@ require (
 	google.golang.org/genproto v0.0.0-20231016165738-49dd2c1f3d0b // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20231016165738-49dd2c1f3d0b // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20231030173426-d783a09b4405 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gotest.tools/v3 v3.5.1 // indirect
 )

@@ -5,8 +5,8 @@ const (
 )
 
 type TextMessage struct {
-	Role    string `json:"role"`
-	Content string `json:"content"`
+	Role    string    `json:"role"`
+	Content []Content `json:"content"`
 }
 type TextCompletionInput struct {
 	Prompt           string                `json:"prompt"`
@@ -34,7 +34,7 @@ type TextCompletionOutput struct {
 
 type TextCompletionReq struct {
 	Model            string                `json:"model"`
-	Messages         []Message             `json:"messages"`
+	Messages         []interface{}         `json:"messages"`
 	Temperature      *float32              `json:"temperature,omitempty"`
 	TopP             *float32              `json:"top_p,omitempty"`
 	N                *int                  `json:"n,omitempty"`
@@ -45,9 +45,14 @@ type TextCompletionReq struct {
 	ResponseFormat   *ResponseFormatStruct `json:"response_format,omitempty"`
 }
 
-type Message struct {
+type MultiModalMessage struct {
 	Role    string    `json:"role"`
 	Content []Content `json:"content"`
+}
+
+type Message struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
 }
 
 type ImageUrl struct {
