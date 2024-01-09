@@ -50,12 +50,12 @@
                 "title": "Server URL",
                 "type": "string"
               }
-            }
+            },
+            "required": [
+              "api_token",
+              "server_url"
+            ]
           }
-        ],
-        "required": [
-          "api_token",
-          "server_url"
         ],
         "title": "Instill Model Connector",
         "type": "object"

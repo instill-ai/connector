@@ -90,7 +90,7 @@
       "instillUpstreamTypes": [
         "reference"
       ],
-      "required":[],
+      "required": [],
       "title": "Extra Parameters",
       "type": "object"
     }
@@ -357,23 +357,6 @@
           "title": "Chat history",
           "type": "array"
         },
-        "system_message": {
-          "default": "You are a helpful assistant.",
-          "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model\u2019s behavior is using a generic message as \"You are a helpful assistant.\"",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillShortDescription": "The system message helps set the behavior of the assistant",
-          "instillUIMultiline": true,
-          "instillUIOrder": 2,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "System message",
-          "type": "string"
-        },
         "extra_params": {
           "$ref": "#/$defs/extra_params"
         },
@@ -461,6 +444,23 @@
           ],
           "title": "Seed",
           "type": "integer"
+        },
+        "system_message": {
+          "default": "You are a helpful assistant.",
+          "description": "The system message helps set the behavior of the assistant. For example, you can modify the personality of the assistant or provide specific instructions about how it should behave throughout the conversation. By default, the model\u2019s behavior is using a generic message as \"You are a helpful assistant.\"",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillShortDescription": "The system message helps set the behavior of the assistant",
+          "instillUIMultiline": true,
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "System message",
+          "type": "string"
         },
         "temperature": {
           "default": 0.7,
