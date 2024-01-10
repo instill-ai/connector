@@ -77,11 +77,31 @@ func (c *Execution) convertLLMInput(input *structpb.Struct) *LLMInput {
 				}
 				contents = append(contents, content)
 			}
-			history = append(history, &modelPB.Message{
-				Role:    item.GetStructValue().Fields["role"].GetStringValue(),
-				Content: contents,
-			})
+			// Note: Instill Model require the order of chat_history be [user, assistant, user, assistant...]
+			if len(history) == 0 && item.GetStructValue().Fields["role"].GetStringValue() != "user" {
+				continue
+			}
+			if len(history) > 0 && history[len(history)-1].Role == item.GetStructValue().Fields["role"].GetStringValue() {
+				for _, content := range contents {
+					if content.Type == "text" {
+						for cIdx := range history[len(history)-1].Content {
+							if history[len(history)-1].Content[cIdx].Type == "text" {
+								history[len(history)-1].Content[cIdx].Content = &modelPB.MessageContent_Text{
+									Text: history[len(history)-1].Content[cIdx].GetText() + "\n" + content.GetText(),
+								}
+							}
+						}
+					} else {
+						history[len(history)-1].Content = append(history[len(history)-1].Content, content)
+					}
+				}
 
+			} else {
+				history = append(history, &modelPB.Message{
+					Role:    item.GetStructValue().Fields["role"].GetStringValue(),
+					Content: contents,
+				})
+			}
 		}
 		llmInput.ChatHistory = history
 	}
