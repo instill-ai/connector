@@ -30,8 +30,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Endpoint Path",
           "type": "string"
@@ -54,8 +53,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Endpoint Path",
           "type": "string"

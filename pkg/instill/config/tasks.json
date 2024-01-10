@@ -52,8 +52,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model ID",
           "type": "string"
@@ -66,8 +65,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model Namespace",
           "type": "string"
@@ -169,8 +167,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model ID",
           "type": "string"
@@ -183,8 +180,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model Namespace",
           "type": "string"
@@ -198,8 +194,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Prompt",
           "type": "string"
@@ -382,8 +377,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model ID",
           "type": "string"
@@ -396,8 +390,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model Namespace",
           "type": "string"
@@ -411,8 +404,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Prompt",
           "type": "string"
@@ -456,8 +448,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "System message",
           "type": "string"
@@ -560,8 +551,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model ID",
           "type": "string"
@@ -574,8 +564,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model Namespace",
           "type": "string"
@@ -589,8 +578,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Prompt",
           "type": "string"

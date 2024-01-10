@@ -31,8 +31,7 @@
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Clip Guidance Preset"
         },
@@ -53,8 +52,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Engine",
           "type": "string"
@@ -92,8 +90,7 @@
           "instillUIOrder": 7,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Init Image Mode"
         },
@@ -122,8 +119,7 @@
           "instillUIOrder": 8,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Sampler"
         },
@@ -200,8 +196,7 @@
           "instillUIOrder": 14,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Style Preset"
         },
@@ -266,8 +261,7 @@
           "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Clip Guidance Preset"
         },
@@ -288,8 +282,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Engine",
           "type": "string"
@@ -331,8 +324,7 @@
           "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Sampler"
         },
@@ -381,8 +373,7 @@
           "instillUIOrder": 10,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Style Preset"
         },

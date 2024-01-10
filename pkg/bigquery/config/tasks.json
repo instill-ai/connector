@@ -14,8 +14,7 @@
               ],
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
-                "reference",
-                "template"
+                "reference"
               ],
               "title": "Data"
             }

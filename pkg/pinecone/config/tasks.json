@@ -26,8 +26,7 @@
           "instillShortDescription": "Query by vector ID instead of by vector",
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "ID",
           "type": "string"
@@ -68,8 +67,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Namespace",
           "type": "string"
@@ -193,8 +191,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "ID",
           "type": "string"

@@ -24,8 +24,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Object Name",
           "type": "string"

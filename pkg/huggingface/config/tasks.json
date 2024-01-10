@@ -7,8 +7,7 @@
       ],
       "instillUpstreamTypes": [
         "value",
-        "reference",
-        "template"
+        "reference"
       ],
       "title": "Model",
       "type": "string"
@@ -56,8 +55,7 @@
       "instillUIOrder": 0,
       "instillUpstreamTypes": [
         "value",
-        "reference",
-        "template"
+        "reference"
       ],
       "title": "String Input",
       "type": "string"
@@ -180,8 +178,7 @@
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
                 "value",
-                "reference",
-                "template"
+                "reference"
               ],
               "title": "Text",
               "type": "string"
@@ -755,8 +752,7 @@
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
-                "reference",
-                "template"
+                "reference"
               ],
               "title": "Context",
               "type": "string"
@@ -770,8 +766,7 @@
               "instillUIOrder": 1,
               "instillUpstreamTypes": [
                 "value",
-                "reference",
-                "template"
+                "reference"
               ],
               "title": "Question",
               "type": "string"
@@ -1521,8 +1516,7 @@
               "instillUIOrder": 2,
               "instillUpstreamTypes": [
                 "value",
-                "reference",
-                "template"
+                "reference"
               ],
               "title": "Negative Prompt",
               "type": "string"
@@ -1610,8 +1604,7 @@
               "instillUIOrder": 0,
               "instillUpstreamTypes": [
                 "value",
-                "reference",
-                "template"
+                "reference"
               ],
               "title": "Aggregation Strategy",
               "type": "string"

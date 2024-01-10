@@ -48,8 +48,7 @@
           "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Language"
         },
@@ -62,8 +61,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model"
         },
@@ -76,8 +74,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Prompt"
         },
@@ -133,8 +130,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model"
         },
@@ -147,8 +143,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Text",
           "type": "string"
@@ -208,8 +203,7 @@
           "instillUIOrder": 11,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Frequency Penalty"
         },
@@ -250,8 +244,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model"
         },
@@ -277,8 +270,7 @@
           "instillUIOrder": 10,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Presence Penalty"
         },
@@ -291,8 +283,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Prompt",
           "type": "string"
@@ -331,8 +322,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "System message",
           "type": "string"
@@ -408,8 +398,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model"
         },
@@ -434,8 +423,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Prompt"
         },
@@ -542,8 +530,7 @@
           "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Model",
           "type": "string"
@@ -583,8 +570,7 @@
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Text"
         },
@@ -597,8 +583,7 @@
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
-            "reference",
-            "template"
+            "reference"
           ],
           "title": "Voice"
         }
