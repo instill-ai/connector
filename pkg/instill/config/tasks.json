@@ -27,8 +27,7 @@
       "description": "Input",
       "instillEditOnNodeFields": [
         "image_base64",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -44,22 +43,8 @@
           "title": "Image",
           "type": "string"
         },
-        "model_id": {
-          "description": "ID of the Instill Model model to be used.",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model ID",
-          "type": "string"
-        },
-        "model_namespace": {
-          "description": "Namespace of the Instill Model model to be used.",
+        "model_name": {
+          "description": "The Instill Model model to be used.",
           "instillAcceptFormats": [
             "string"
           ],
@@ -69,14 +54,13 @@
             "reference",
             "template"
           ],
-          "title": "Model Namespace",
+          "title": "Model Name",
           "type": "string"
         }
       },
       "required": [
         "image_base64",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "title": "Input",
       "type": "object"
@@ -127,8 +111,7 @@
       "instillEditOnNodeFields": [
         "prompt",
         "image_base64",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -161,22 +144,8 @@
           "title": "Prompt Image",
           "type": "string"
         },
-        "model_id": {
-          "description": "ID of the Instill Model model to be used.",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model ID",
-          "type": "string"
-        },
-        "model_namespace": {
-          "description": "Namespace of the Instill Model model to be used.",
+        "model_name": {
+          "description": "The Instill Model model to be used.",
           "instillAcceptFormats": [
             "string"
           ],
@@ -186,7 +155,7 @@
             "reference",
             "template"
           ],
-          "title": "Model Namespace",
+          "title": "Model Name",
           "type": "string"
         },
         "prompt": {
@@ -248,8 +217,7 @@
       "required": [
         "prompt",
         "image_base64",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "title": "Input",
       "type": "object"
@@ -336,8 +304,7 @@
       "description": "Input",
       "instillEditOnNodeFields": [
         "prompt",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -374,22 +341,8 @@
           "title": "Max new tokens",
           "type": "integer"
         },
-        "model_id": {
-          "description": "ID of the Instill Model model to be used.",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model ID",
-          "type": "string"
-        },
-        "model_namespace": {
-          "description": "Namespace of the Instill Model model to be used.",
+        "model_name": {
+          "description": "The Instill Model model to be used.",
           "instillAcceptFormats": [
             "string"
           ],
@@ -399,7 +352,7 @@
             "reference",
             "template"
           ],
-          "title": "Model Namespace",
+          "title": "Model Name",
           "type": "string"
         },
         "prompt": {
@@ -493,8 +446,7 @@
       },
       "required": [
         "prompt",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "title": "Input",
       "type": "object"
@@ -530,8 +482,7 @@
       "description": "Input",
       "instillEditOnNodeFields": [
         "prompt",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -552,22 +503,8 @@
         "extra_params": {
           "$ref": "#/$defs/extra_params"
         },
-        "model_id": {
-          "description": "ID of the Instill Model model to be used.",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 1,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "title": "Model ID",
-          "type": "string"
-        },
-        "model_namespace": {
-          "description": "Namespace of the Instill Model model to be used.",
+        "model_name": {
+          "description": "The Instill Model model to be used.",
           "instillAcceptFormats": [
             "string"
           ],
@@ -577,7 +514,7 @@
             "reference",
             "template"
           ],
-          "title": "Model Namespace",
+          "title": "Model Name",
           "type": "string"
         },
         "prompt": {
@@ -637,8 +574,7 @@
       },
       "required": [
         "prompt",
-        "model_namespace",
-        "model_id"
+        "model_name"
       ],
       "title": "Input",
       "type": "object"

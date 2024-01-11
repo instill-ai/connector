@@ -31,6 +31,7 @@ var connector base.IConnector
 type Connector struct {
 	base.Connector
 	connectorUIDMap map[uuid.UUID]base.IConnector
+	connectorIDMap  map[string]base.IConnector
 }
 
 type ConnectorOptions struct {
@@ -43,6 +44,7 @@ func Init(logger *zap.Logger, options ConnectorOptions) base.IConnector {
 		connector = &Connector{
 			Connector:       base.Connector{Component: base.Component{Logger: logger}},
 			connectorUIDMap: map[uuid.UUID]base.IConnector{},
+			connectorIDMap:  map[string]base.IConnector{},
 		}
 
 		connector.(*Connector).ImportDefinitions(stabilityai.Init(logger))
@@ -69,6 +71,7 @@ func (c *Connector) ImportDefinitions(con base.IConnector) {
 			panic(err)
 		}
 		c.connectorUIDMap[uuid.FromStringOrNil(v.Uid)] = con
+		c.connectorIDMap[v.Id] = con
 	}
 }
 
@@ -78,4 +81,12 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 
 func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 	return c.connectorUIDMap[defUid].Test(defUid, config, logger)
+}
+
+func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	return c.connectorIDMap[defID].GetConnectorDefinitionByID(defID, resourceConfig, componentConfig)
+}
+
+func (c *Connector) GetConnectorDefinitionByUID(defUid uuid.UUID, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	return c.connectorUIDMap[defUid].GetConnectorDefinitionByUID(defUid, resourceConfig, componentConfig)
 }

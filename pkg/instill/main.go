@@ -1,8 +1,10 @@
 package instill
 
 import (
+	"context"
 	"crypto/tls"
 	_ "embed"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
@@ -10,12 +12,14 @@ import (
 
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
 	"github.com/instill-ai/connector/pkg/util/httpclient"
 
 	commonPB "github.com/instill-ai/protogen-go/common/task/v1alpha"
+	mgmtv1beta "github.com/instill-ai/protogen-go/core/mgmt/v1beta"
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
@@ -102,9 +106,26 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 		defer gRPCCLientConn.Close()
 	}
 
-	modelNamespace := inputs[0].GetFields()["model_namespace"].GetStringValue()
-	modelId := inputs[0].GetFields()["model_id"].GetStringValue()
-	modelName := fmt.Sprintf("users/%s/models/%s", modelNamespace, modelId)
+	mgmtGRPCCLient, mgmtGRPCCLientConn := initMgmtPublicServiceClient(getServerURL(e.Config))
+	if mgmtGRPCCLientConn != nil {
+		defer mgmtGRPCCLientConn.Close()
+	}
+
+	modelNameSplits := strings.Split(inputs[0].GetFields()["model_name"].GetStringValue(), "/")
+	nsResp, err := mgmtGRPCCLient.CheckNamespace(context.Background(), &mgmtv1beta.CheckNamespaceRequest{
+		Id: modelNameSplits[0],
+	})
+	if err != nil {
+		return nil, err
+	}
+	nsType := ""
+	if nsResp.Type == mgmtv1beta.CheckNamespaceResponse_NAMESPACE_ORGANIZATION {
+		nsType = "organizations"
+	} else {
+		nsType = "users"
+	}
+
+	modelName := fmt.Sprintf("%s/%s/models/%s", nsType, modelNameSplits[0], modelNameSplits[1])
 
 	var result []*structpb.Struct
 	switch e.Task {
@@ -178,4 +199,80 @@ func newHTTPClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Clie
 	}
 
 	return c
+}
+func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	def, err := c.Connector.GetConnectorDefinitionByID(defID, resourceConfig, componentConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	return c.GetConnectorDefinitionByUID(uuid.FromStringOrNil(def.Uid), resourceConfig, componentConfig)
+}
+
+type ModelsResp struct {
+	Models []struct {
+		Name string `json:"name"`
+		Task string `json:"task"`
+	} `json:"models"`
+}
+
+// Generate the model_name enum based on the task
+func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	oriDef, err := c.Connector.GetConnectorDefinitionByUID(defUID, resourceConfig, componentConfig)
+	if err != nil {
+		return nil, err
+	}
+	def := proto.Clone(oriDef).(*pipelinePB.ConnectorDefinition)
+
+	if resourceConfig != nil {
+		req := newHTTPClient(resourceConfig, c.Logger).R()
+		var modelsResp ModelsResp
+		path := "/model" + getModelPath
+
+		modelNameMap := map[string]*structpb.ListValue{}
+		if resp, err := req.Get(path); err == nil && !resp.IsError() {
+			_ = json.Unmarshal(resp.Body(), &modelsResp)
+
+			modelName := &structpb.ListValue{}
+			for _, model := range modelsResp.Models {
+				if _, ok := modelNameMap[model.Task]; !ok {
+					modelNameMap[model.Task] = &structpb.ListValue{}
+				}
+				namePaths := strings.Split(model.Name, "/")
+				modelName.Values = append(modelName.Values, structpb.NewStringValue(fmt.Sprintf("%s/%s", namePaths[1], namePaths[3])))
+				modelNameMap[model.Task].Values = append(modelNameMap[model.Task].Values, structpb.NewStringValue(fmt.Sprintf("%s/%s", namePaths[1], namePaths[3])))
+			}
+
+		}
+		for _, sch := range def.Spec.ComponentSpecification.Fields["oneOf"].GetListValue().Values {
+			task := sch.GetStructValue().Fields["properties"].GetStructValue().Fields["task"].GetStructValue().Fields["const"].GetStringValue()
+			if _, ok := modelNameMap[task]; ok {
+				addModelEnum(sch.GetStructValue().Fields, modelNameMap[task])
+			}
+
+		}
+	}
+	return def, nil
+}
+
+func addModelEnum(compSpec map[string]*structpb.Value, modelName *structpb.ListValue) {
+	if compSpec == nil {
+		return
+	}
+	for key, sch := range compSpec {
+		if key == "model_name" {
+			sch.GetStructValue().Fields["enum"] = structpb.NewListValue(modelName)
+		}
+
+		if sch.GetStructValue() != nil {
+			addModelEnum(sch.GetStructValue().Fields, modelName)
+		}
+		if sch.GetListValue() != nil {
+			for _, v := range sch.GetListValue().Values {
+				if v.GetStructValue() != nil {
+					addModelEnum(v.GetStructValue().Fields, modelName)
+				}
+			}
+		}
+	}
 }
