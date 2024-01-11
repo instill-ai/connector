@@ -87,7 +87,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 		var output *structpb.Struct
 		switch e.Task {
 		case taskQuery:
-			inputStruct := QueryInput{}
+			inputStruct := queryInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
 				return nil, err
@@ -100,8 +100,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				inputStruct.Vector = nil
 			}
 
-			resp := QueryResp{}
-			req.SetResult(&resp).SetBody(QueryReq(inputStruct))
+			resp := queryResp{}
+			req.SetResult(&resp).SetBody(queryReq(inputStruct))
 
 			if _, err := req.Post(queryPath); err != nil {
 				return nil, httpclient.WrapURLError(err)
@@ -112,22 +112,22 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 		case taskUpsert:
-			vector := Vector{}
-			err := base.ConvertFromStructpb(input, &vector)
+			v := vector{}
+			err := base.ConvertFromStructpb(input, &v)
 			if err != nil {
 				return nil, err
 			}
 
-			resp := UpsertResp{}
-			req.SetResult(&resp).SetBody(UpsertReq{
-				Vectors: []Vector{vector},
+			resp := upsertResp{}
+			req.SetResult(&resp).SetBody(upsertReq{
+				Vectors: []vector{v},
 			})
 
 			if _, err := req.Post(upsertPath); err != nil {
 				return nil, httpclient.WrapURLError(err)
 			}
 
-			output, err = base.ConvertToStructpb(UpsertOutput(resp))
+			output, err = base.ConvertToStructpb(upsertOutput(resp))
 			if err != nil {
 				return nil, err
 			}

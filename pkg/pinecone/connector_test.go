@@ -21,9 +21,9 @@ import (
 const (
 	pineconeKey = "secret-key"
 
-	upsertResp = `{"upsertedCount": 1}`
+	upsertOK = `{"upsertedCount": 1}`
 
-	queryResp = `
+	queryOK = `
 {
 	"namespace": "color-schemes",
 	"matches": [
@@ -45,12 +45,12 @@ const (
 )
 
 var (
-	vectorA = Vector{
+	vectorA = vector{
 		ID:       "A",
 		Values:   []float64{2.23},
 		Metadata: map[string]any{"color": "pumpkin"},
 	}
-	queryByVector = QueryInput{
+	queryByVector = queryInput{
 		Namespace:       "color-schemes",
 		TopK:            1,
 		Vector:          vectorA.Values,
@@ -62,7 +62,7 @@ var (
 			},
 		},
 	}
-	queryByID = QueryInput{
+	queryByID = queryInput{
 		Namespace:       "color-schemes",
 		TopK:            1,
 		Vector:          vectorA.Values,
@@ -91,48 +91,48 @@ func TestConnector_Execute(t *testing.T) {
 
 			task:     taskUpsert,
 			execIn:   vectorA,
-			wantExec: UpsertOutput{RecordsUpserted: 1},
+			wantExec: upsertOutput{RecordsUpserted: 1},
 
 			wantClientPath: upsertPath,
-			wantClientReq:  UpsertReq{Vectors: []Vector{vectorA}},
-			clientResp:     upsertResp,
+			wantClientReq:  upsertReq{Vectors: []vector{vectorA}},
+			clientResp:     upsertOK,
 		},
 		{
 			name: "ok - query by vector",
 
 			task:   taskQuery,
 			execIn: queryByVector,
-			wantExec: QueryResp{
+			wantExec: queryResp{
 				Namespace: "color-schemes",
-				Matches: []Match{
+				Matches: []match{
 					{
-						Vector: vectorA,
+						vector: vectorA,
 						Score:  0.99,
 					},
 				},
 			},
 
 			wantClientPath: queryPath,
-			wantClientReq:  QueryReq(queryByVector),
-			clientResp:     queryResp,
+			wantClientReq:  queryReq(queryByVector),
+			clientResp:     queryOK,
 		},
 		{
 			name: "ok - query by ID",
 
 			task:   taskQuery,
 			execIn: queryByID,
-			wantExec: QueryResp{
+			wantExec: queryResp{
 				Namespace: "color-schemes",
-				Matches: []Match{
+				Matches: []match{
 					{
-						Vector: vectorA,
+						vector: vectorA,
 						Score:  0.99,
 					},
 				},
 			},
 
 			wantClientPath: queryPath,
-			wantClientReq: QueryReq{
+			wantClientReq: queryReq{
 				// Vector is wiped from the request.
 				Namespace:       "color-schemes",
 				TopK:            1,
@@ -140,7 +140,7 @@ func TestConnector_Execute(t *testing.T) {
 				IncludeValues:   true,
 				IncludeMetadata: true,
 			},
-			clientResp: queryResp,
+			clientResp: queryOK,
 		},
 	}
 
