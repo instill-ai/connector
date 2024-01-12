@@ -195,7 +195,7 @@ func newHTTPClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Clie
 	}
 
 	if userID := getInstillUserUID(config); userID != "" {
-		c.SetHeader("Instill-User-UID", userID)
+		c.SetHeader("Instill-User-Uid", userID)
 	}
 
 	return c
