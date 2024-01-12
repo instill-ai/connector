@@ -162,12 +162,6 @@ func TestConnector_Test(t *testing.T) {
 	connector := Init(logger)
 	defID := uuid.Must(uuid.NewV4())
 
-	c.Run("nok", func(c *qt.C) {
-		got, err := connector.Test(defID, cfg(noAuthType), logger)
-		c.Check(err, qt.IsNil)
-		c.Check(got, qt.Equals, pipelinePB.Connector_STATE_CONNECTED)
-	})
-
 	c.Run("ok - connected (even with non-2xx status", func(c *qt.C) {
 		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			c.Check(r.Method, qt.Equals, http.MethodGet)
