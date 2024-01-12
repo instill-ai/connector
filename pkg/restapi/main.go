@@ -2,6 +2,7 @@ package restapi
 
 import (
 	_ "embed"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"github.com/instill-ai/component/pkg/base"
 	"github.com/instill-ai/x/errmsg"
 	"go.uber.org/zap"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
@@ -181,4 +183,50 @@ func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.
 	}
 
 	return pipelinePB.Connector_STATE_CONNECTED, nil
+}
+
+func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	def, err := c.Connector.GetConnectorDefinitionByID(defID, resourceConfig, componentConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	return c.GetConnectorDefinitionByUID(uuid.FromStringOrNil(def.Uid), resourceConfig, componentConfig)
+}
+
+// Generate the model_name enum based on the task
+func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	oriDef, err := c.Connector.GetConnectorDefinitionByUID(defUID, resourceConfig, componentConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	def := proto.Clone(oriDef).(*pipelinePB.ConnectorDefinition)
+	if componentConfig == nil {
+		return def, nil
+	}
+	if _, ok := componentConfig.Fields["task"]; !ok {
+		return def, nil
+	}
+	if _, ok := componentConfig.Fields["input"]; !ok {
+		return def, nil
+	}
+	if _, ok := componentConfig.Fields["input"].GetStructValue().Fields["output_body_schema"]; !ok {
+		return def, nil
+	}
+
+	task := componentConfig.Fields["task"].GetStringValue()
+	schStr := componentConfig.Fields["input"].GetStructValue().Fields["output_body_schema"].GetStringValue()
+	sch := &structpb.Struct{}
+	_ = json.Unmarshal([]byte(schStr), sch)
+	spec := def.Spec.OpenapiSpecifications
+	walk := spec.Fields[task]
+	for _, key := range []string{"paths", "/execute", "post", "responses", "200", "content", "application/json", "schema", "properties", "outputs", "items", "properties", "body"} {
+		if _, ok := walk.GetStructValue().Fields[key]; !ok {
+			return def, nil
+		}
+		walk = walk.GetStructValue().Fields[key]
+	}
+	*walk = *structpb.NewStructValue(sch)
+	return def, nil
 }

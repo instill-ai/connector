@@ -35,6 +35,24 @@
           ],
           "title": "Endpoint Path",
           "type": "string"
+        },
+        "output_body_schema": {
+          "description": "The request body",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIMultiline": true,
+          "instillMultiline": true,
+          "instillShortDescription": "The request body",
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "reference",
+            "value"
+          ],
+          "order": 2,
+          "required": [],
+          "title": "Body",
+          "type": "string"
         }
       },
       "required": [
@@ -58,6 +76,24 @@
             "template"
           ],
           "title": "Endpoint Path",
+          "type": "string"
+        },
+        "output_body_schema": {
+          "description": "The request body",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillShortDescription": "The request body",
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "reference",
+            "value"
+          ],
+          "instillUIMultiline": true,
+          "instillMultiline": true,
+          "order": 1,
+          "required": [],
+          "title": "Body",
           "type": "string"
         }
       },

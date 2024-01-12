@@ -148,9 +148,6 @@
           },
           "base_url": {
             "description": "Base URL of the REST API",
-            "examples": [
-              "https://api.example.com/v1"
-            ],
             "instillUIOrder": 0,
             "order": 0,
             "title": "Base URL",
@@ -158,7 +155,6 @@
           }
         },
         "required": [
-          "base_url",
           "authentication"
         ],
         "title": "REST API Connector Spec",
