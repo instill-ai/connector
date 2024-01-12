@@ -8,6 +8,7 @@ type queryInput struct {
 	IncludeMetadata bool        `json:"include_metadata"`
 	ID              string      `json:"id"`
 	Filter          interface{} `json:"filter"`
+	MinScore        float64     `json:"min_score"`
 }
 
 type queryReq struct {
@@ -20,9 +21,37 @@ type queryReq struct {
 	Filter          interface{} `json:"filter,omitempty"`
 }
 
+func (q queryInput) asRequest() queryReq {
+	return queryReq{
+		Namespace:       q.Namespace,
+		TopK:            q.TopK,
+		Vector:          q.Vector,
+		IncludeValues:   q.IncludeValues,
+		IncludeMetadata: q.IncludeMetadata,
+		ID:              q.ID,
+		Filter:          q.Filter,
+	}
+}
+
 type queryResp struct {
 	Namespace string  `json:"namespace"`
 	Matches   []match `json:"matches"`
+}
+
+func (r queryResp) filterOutBelowThreshold(th float64) queryResp {
+	if th <= 0 {
+		return r
+	}
+
+	matches := make([]match, 0, len(r.Matches))
+	for _, match := range r.Matches {
+		if match.Score >= th {
+			matches = append(matches, match)
+		}
+	}
+	r.Matches = matches
+
+	return r
 }
 
 type match struct {
@@ -32,7 +61,7 @@ type match struct {
 
 type upsertReq struct {
 	Vectors   []vector `json:"vectors"`
-	Namespace string   `json:"namespace"`
+	Namespace string   `json:"namespace,omitempty"`
 }
 
 type upsertInput struct {

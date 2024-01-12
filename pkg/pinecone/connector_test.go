@@ -21,6 +21,7 @@ import (
 const (
 	pineconeKey = "secret-key"
 	namespace   = "pantone"
+	threshold   = 0.9
 
 	upsertOK = `{"upsertedCount": 1}`
 
@@ -33,6 +34,12 @@ const (
 			"values": [ 2.23 ],
 			"metadata": { "color": "pumpkin" },
 			"score": 0.99
+		},
+		{
+			"id": "B",
+			"values": [ 3.32 ],
+			"metadata": { "color": "cerulean" },
+			"score": 0.87
 		}
 	]
 }`
@@ -51,6 +58,11 @@ var (
 		Values:   []float64{2.23},
 		Metadata: map[string]any{"color": "pumpkin"},
 	}
+	vectorB = vector{
+		ID:       "B",
+		Values:   []float64{3.32},
+		Metadata: map[string]any{"color": "cerulean"},
+	}
 	queryByVector = queryInput{
 		Namespace:       "color-schemes",
 		TopK:            1,
@@ -62,6 +74,10 @@ var (
 				"$in": []string{"green", "cerulean", "pumpkin"},
 			},
 		},
+	}
+	queryWithThreshold = func(q queryInput, th float64) queryInput {
+		q.MinScore = th
+		return q
 	}
 	queryByID = queryInput{
 		Namespace:       "color-schemes",
@@ -113,11 +129,34 @@ func TestConnector_Execute(t *testing.T) {
 						vector: vectorA,
 						Score:  0.99,
 					},
+					{
+						vector: vectorB,
+						Score:  0.87,
+					},
 				},
 			},
 
 			wantClientPath: queryPath,
-			wantClientReq:  queryReq(queryByVector),
+			wantClientReq:  queryByVector.asRequest(),
+			clientResp:     queryOK,
+		},
+		{
+			name: "ok - filter out below threshold score",
+
+			task:   taskQuery,
+			execIn: queryWithThreshold(queryByVector, threshold),
+			wantExec: queryResp{
+				Namespace: "color-schemes",
+				Matches: []match{
+					{
+						vector: vectorA,
+						Score:  0.99,
+					},
+				},
+			},
+
+			wantClientPath: queryPath,
+			wantClientReq:  queryByVector.asRequest(),
 			clientResp:     queryOK,
 		},
 		{
@@ -131,6 +170,10 @@ func TestConnector_Execute(t *testing.T) {
 					{
 						vector: vectorA,
 						Score:  0.99,
+					},
+					{
+						vector: vectorB,
+						Score:  0.87,
 					},
 				},
 			},

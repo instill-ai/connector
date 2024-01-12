@@ -101,11 +101,13 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			resp := queryResp{}
-			req.SetResult(&resp).SetBody(queryReq(inputStruct))
+			req.SetResult(&resp).SetBody(inputStruct.asRequest())
 
 			if _, err := req.Post(queryPath); err != nil {
 				return nil, httpclient.WrapURLError(err)
 			}
+
+			resp = resp.filterOutBelowThreshold(inputStruct.MinScore)
 
 			output, err = base.ConvertToStructpb(resp)
 			if err != nil {
