@@ -205,7 +205,7 @@
             "semi-structured/object"
           ],
           "instillShortDescription": "The vector metadata",
-          "instillUIOrder": 2,
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -232,6 +232,20 @@
           "minItems": 1,
           "title": "Values",
           "type": "array"
+        },
+        "namespace": {
+          "description": "The namespace to query",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Namespace",
+          "type": "string"
         }
       },
       "required": [

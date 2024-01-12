@@ -112,7 +112,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 		case taskUpsert:
-			v := vector{}
+			v := upsertInput{}
 			err := base.ConvertFromStructpb(input, &v)
 			if err != nil {
 				return nil, err
@@ -120,7 +120,8 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 			resp := upsertResp{}
 			req.SetResult(&resp).SetBody(upsertReq{
-				Vectors: []vector{v},
+				Vectors:   []vector{v.vector},
+				Namespace: v.Namespace,
 			})
 
 			if _, err := req.Post(upsertPath); err != nil {

@@ -20,6 +20,7 @@ import (
 
 const (
 	pineconeKey = "secret-key"
+	namespace   = "pantone"
 
 	upsertOK = `{"upsertedCount": 1}`
 
@@ -89,12 +90,15 @@ func TestConnector_Execute(t *testing.T) {
 		{
 			name: "ok - upsert",
 
-			task:     taskUpsert,
-			execIn:   vectorA,
+			task: taskUpsert,
+			execIn: upsertInput{
+				vector:    vectorA,
+				Namespace: namespace,
+			},
 			wantExec: upsertOutput{RecordsUpserted: 1},
 
 			wantClientPath: upsertPath,
-			wantClientReq:  upsertReq{Vectors: []vector{vectorA}},
+			wantClientReq:  upsertReq{Vectors: []vector{vectorA}, Namespace: namespace},
 			clientResp:     upsertOK,
 		},
 		{

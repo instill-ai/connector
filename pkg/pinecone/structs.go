@@ -31,7 +31,13 @@ type match struct {
 }
 
 type upsertReq struct {
-	Vectors []vector `json:"vectors"`
+	Vectors   []vector `json:"vectors"`
+	Namespace string   `json:"namespace"`
+}
+
+type upsertInput struct {
+	vector
+	Namespace string `json:"namespace"`
 }
 
 type vector struct {
