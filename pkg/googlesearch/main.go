@@ -100,12 +100,12 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 
-			outputJson, err := json.Marshal(outputStruct)
+			outputJSON, err := json.Marshal(outputStruct)
 			if err != nil {
 				return nil, err
 			}
 			output := structpb.Struct{}
-			err = json.Unmarshal(outputJson, &output)
+			err = json.Unmarshal(outputJSON, &output)
 			if err != nil {
 				return nil, err
 			}
@@ -119,7 +119,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return outputs, nil
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+func (c *Connector) Test(defUID uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 
 	service, err := NewService(getAPIKey(config))
 	if err != nil || service == nil {

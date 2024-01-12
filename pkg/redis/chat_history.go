@@ -29,8 +29,8 @@ type MultiModalMessage struct {
 type MultiModalContent struct {
 	Type     string  `json:"type"`
 	Text     *string `json:"text,omitempty"`
-	ImageUrl *struct {
-		Url string `json:"url"`
+	ImageURL *struct {
+		URL string `json:"url"`
 	} `json:"image_url,omitempty"`
 }
 

@@ -328,15 +328,15 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return outputs, nil
 }
 
-func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+func (c *Connector) Test(defUID uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 
-	def, err := con.GetConnectorDefinitionByUID(defUid, nil, nil)
+	def, err := c.GetConnectorDefinitionByUID(defUID, nil, nil)
 	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 	imageName := def.VendorAttributes.GetFields()[config.GetFields()["destination"].GetStringValue()].GetStringValue()
-	containerName := fmt.Sprintf("%s.%d.check", defUid, time.Now().UnixNano())
-	configFilePath := fmt.Sprintf("%s/connector-data/config/%s.json", con.options.MountTargetVDP, containerName)
+	containerName := fmt.Sprintf("%s.%d.check", defUID, time.Now().UnixNano())
+	configFilePath := fmt.Sprintf("%s/connector-data/config/%s.json", c.options.MountTargetVDP, containerName)
 
 	// Write config into a container local file
 	if err := os.MkdirAll(filepath.Dir(configFilePath), os.ModePerm); err != nil {
@@ -347,7 +347,7 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		if config != nil {
 			b, err := config.MarshalJSON()
 			if err != nil {
-				con.Logger.Error(err.Error())
+				c.Logger.Error(err.Error())
 			}
 			return b
 		}
@@ -362,12 +362,12 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		// Delete config local file
 		if _, err := os.Stat(configFilePath); err == nil {
 			if err := os.Remove(configFilePath); err != nil {
-				con.Logger.Error(fmt.Sprintf("ImageName: %s, ContainerName: %s, Error: %v", imageName, containerName, err))
+				c.Logger.Error(fmt.Sprintf("ImageName: %s, ContainerName: %s, Error: %v", imageName, containerName, err))
 			}
 		}
 	}()
 
-	out, err := con.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
+	out, err := c.dockerClient.ImagePull(context.Background(), imageName, types.ImagePullOptions{})
 	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
@@ -377,7 +377,7 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 
-	resp, err := con.dockerClient.ContainerCreate(context.Background(),
+	resp, err := c.dockerClient.ContainerCreate(context.Background(),
 		&container.Config{
 			Image: imageName,
 			Tty:   false,
@@ -391,13 +391,13 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 			Mounts: []mount.Mount{
 				{
 					Type: func() mount.Type {
-						if string(con.options.MountSourceVDP[0]) == "/" {
+						if string(c.options.MountSourceVDP[0]) == "/" {
 							return mount.TypeBind
 						}
 						return mount.TypeVolume
 					}(),
-					Source: con.options.MountSourceVDP,
-					Target: con.options.MountTargetVDP,
+					Source: c.options.MountSourceVDP,
+					Target: c.options.MountTargetVDP,
 				},
 			},
 		},
@@ -406,11 +406,11 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 
-	if err := con.dockerClient.ContainerStart(context.Background(), resp.ID, types.ContainerStartOptions{}); err != nil {
+	if err := c.dockerClient.ContainerStart(context.Background(), resp.ID, types.ContainerStartOptions{}); err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 
-	statusCh, errCh := con.dockerClient.ContainerWait(context.Background(), resp.ID, container.WaitConditionNotRunning)
+	statusCh, errCh := c.dockerClient.ContainerWait(context.Background(), resp.ID, container.WaitConditionNotRunning)
 	select {
 	case err := <-errCh:
 		if err != nil {
@@ -419,7 +419,7 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 	case <-statusCh:
 	}
 
-	if out, err = con.dockerClient.ContainerLogs(context.Background(),
+	if out, err = c.dockerClient.ContainerLogs(context.Background(),
 		resp.ID,
 		types.ContainerLogsOptions{
 			ShowStdout: true,
@@ -428,7 +428,7 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 
-	if err := con.dockerClient.ContainerRemove(context.Background(), containerName,
+	if err := c.dockerClient.ContainerRemove(context.Background(), containerName,
 		types.ContainerRemoveOptions{
 			RemoveVolumes: true,
 			Force:         true,
@@ -454,7 +454,7 @@ func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *za
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 
-	con.Logger.Info(fmt.Sprintf("ImageName, %s, ContainerName, %s, STDOUT, %v, STDERR, %v", imageName, containerName, byteStdOut, byteStdErr))
+	c.Logger.Info(fmt.Sprintf("ImageName, %s, ContainerName, %s, STDOUT, %v, STDERR, %v", imageName, containerName, byteStdOut, byteStdErr))
 
 	scanner := bufio.NewScanner(&bufStdOut)
 	for scanner.Scan() {

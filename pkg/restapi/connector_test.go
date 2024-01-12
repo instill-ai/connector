@@ -79,7 +79,7 @@ func TestConnector_Execute(t *testing.T) {
 		c.Assert(err, qt.IsNil)
 
 		pbIn, err := base.ConvertToStructpb(TaskInput{
-			EndpointUrl: srv.URL + path,
+			EndpointURL: srv.URL + path,
 			Body:        reqBody,
 		})
 		c.Assert(err, qt.IsNil)
@@ -109,7 +109,7 @@ func TestConnector_Execute(t *testing.T) {
 		c.Assert(err, qt.IsNil)
 
 		pbIn, err := base.ConvertToStructpb(TaskInput{
-			EndpointUrl: srv.URL + path,
+			EndpointURL: srv.URL + path,
 			Body:        reqBody,
 		})
 
@@ -141,7 +141,7 @@ func TestConnector_Execute(t *testing.T) {
 		c.Assert(err, qt.IsNil)
 
 		pbIn, err := base.ConvertToStructpb(TaskInput{
-			EndpointUrl: srv.URL + path,
+			EndpointURL: srv.URL + path,
 			Body:        reqBody,
 		})
 		c.Assert(err, qt.IsNil)

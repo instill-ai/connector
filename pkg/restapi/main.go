@@ -147,7 +147,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			req.SetBody(taskIn.Body)
 		}
 
-		resp, err := req.Execute(method, taskIn.EndpointUrl)
+		resp, err := req.Execute(method, taskIn.EndpointURL)
 		if err != nil {
 			return nil, err
 		}
@@ -165,7 +165,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return outputs, nil
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+func (c *Connector) Test(defUID uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 	// we don't need to validate the connection since no url setting here
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 }

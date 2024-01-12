@@ -11,7 +11,7 @@ import (
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
-func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
+func (e *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 
 	if len(inputs) <= 0 {
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
@@ -24,7 +24,7 @@ func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServ
 	outputs := []*structpb.Struct{}
 
 	for _, input := range inputs {
-		llmInput := c.convertLLMInput(input)
+		llmInput := e.convertLLMInput(input)
 		taskInput := &modelPB.TaskInput_TextGenerationChat{
 			TextGenerationChat: &modelPB.TextGenerationChatInput{
 				Prompt:        llmInput.Prompt,
@@ -44,7 +44,7 @@ func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServ
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
 		}
-		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(e.Config)), "Instill-User-Uid", getInstillUserUID(e.Config))
 		ctx := metadata.NewOutgoingContext(context.Background(), md)
 		res, err := grpcClient.TriggerUserModel(ctx, &req)
 		if err != nil || res == nil {
@@ -59,7 +59,7 @@ func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServ
 		if textGenChatOutput == nil {
 			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenChatOutput, modelName)
 		}
-		outputJson, err := protojson.MarshalOptions{
+		outputJSON, err := protojson.MarshalOptions{
 			UseProtoNames:   true,
 			EmitUnpopulated: true,
 		}.Marshal(textGenChatOutput)
@@ -67,7 +67,7 @@ func (c *Execution) executeTextGenerationChat(grpcClient modelPB.ModelPublicServ
 			return nil, err
 		}
 		output := &structpb.Struct{}
-		err = protojson.Unmarshal(outputJson, output)
+		err = protojson.Unmarshal(outputJSON, output)
 		if err != nil {
 			return nil, err
 		}
