@@ -72,7 +72,10 @@ func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, in
 		linkText, linkHtml := "", ""
 		if includeLinkText || includeLinkHtml {
 			// Make an HTTP GET request to the web page
-			response, err := http.Get(item.Link)
+			client := &http.Client{Transport: &http.Transport{
+				DisableKeepAlives: true,
+			}}
+			response, err := client.Get(item.Link)
 			if err != nil {
 				log.Printf("Error making HTTP GET request to %s: %v", item.Link, err)
 				continue
