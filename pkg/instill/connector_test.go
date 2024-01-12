@@ -32,7 +32,7 @@ func TestConnector_Test(t *testing.T) {
 			c.Check(r.URL.Path, qt.Equals, wantPath)
 
 			c.Check(r.Header.Get("Authorization"), qt.Equals, "Bearer "+apiKey)
-			c.Check(r.Header.Get("Instill-User-Uid"), qt.Equals, userID.String())
+			c.Check(r.Header.Get("Instill-User-UID"), qt.Equals, userID.String())
 
 			w.WriteHeader(http.StatusBadRequest)
 		})
@@ -62,7 +62,7 @@ func TestConnector_Test(t *testing.T) {
 			c.Check(r.URL.Path, qt.Equals, wantPath)
 
 			c.Check(r.Header.Get("Authorization"), qt.Equals, "Bearer "+apiKey)
-			c.Check(r.Header.Get("Instill-User-Uid"), qt.Equals, userID.String())
+			c.Check(r.Header.Get("Instill-User-UID"), qt.Equals, userID.String())
 		})
 
 		srv := httptest.NewServer(h)

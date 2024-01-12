@@ -50,7 +50,7 @@ func (e *VerifyFullSSL) GetConfig() (*tls.Config, error) {
 	// Load client's certificate and private key
 	clientCert, err := tls.X509KeyPair([]byte(e.ClientCert), []byte(e.ClientKey))
 	if err != nil {
-		return nil, fmt.Errorf("Failed to load client certificate and key: %v", err)
+		return nil, fmt.Errorf("failed to load client certificate and key: %v", err)
 	}
 
 	// Setup TLS config
@@ -105,7 +105,7 @@ func getSSLMode(config *structpb.Struct) (SSLModeConfig, error) {
 	case string(VerifyFullSSLMode):
 		sslModeConfig = &VerifyFullSSL{}
 	default:
-		return nil, fmt.Errorf("Invalid SSL mode: %s", mode)
+		return nil, fmt.Errorf("invalid SSL mode: %s", mode)
 	}
 
 	err := base.ConvertFromStructpb(sslMode, sslModeConfig)

@@ -37,8 +37,8 @@ type SearchInput struct {
 	// IncludeLinkText: Whether to include the scraped text of the search web page result.
 	IncludeLinkText *bool `json:"include_link_text,omitempty"`
 
-	// IncludeLinkHtml: Whether to include the scraped HTML of the search web page result.
-	IncludeLinkHtml *bool `json:"include_link_html,omitempty"`
+	// IncludeLinkHTML: Whether to include the scraped HTML of the search web page result.
+	IncludeLinkHTML *bool `json:"include_link_html,omitempty"`
 }
 
 type Result struct {
@@ -55,8 +55,8 @@ type Result struct {
 	// LinkText: The scraped text of the search web page result, in plain text.
 	LinkText string `json:"link_text"`
 
-	// LinkHtml: The full raw HTML of the search web page result.
-	LinkHtml string `json:"link_html"`
+	// LinkHTML: The full raw HTML of the search web page result.
+	LinkHTML string `json:"link_html"`
 }
 
 // SearchOutput defines the output of the search task
@@ -66,11 +66,11 @@ type SearchOutput struct {
 }
 
 // Scrape the search results if needed
-func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, includeLinkHtml bool) ([]*Result, error) {
+func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, includeLinkHTML bool) ([]*Result, error) {
 	results := []*Result{}
 	for _, item := range searchResults.Items {
-		linkText, linkHtml := "", ""
-		if includeLinkText || includeLinkHtml {
+		linkText, linkHTML := "", ""
+		if includeLinkText || includeLinkHTML {
 			// Make an HTTP GET request to the web page
 			client := &http.Client{Transport: &http.Transport{
 				DisableKeepAlives: true,
@@ -88,19 +88,19 @@ func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, in
 				fmt.Printf("Error parsing %s: %v", item.Link, err)
 			}
 
-			if includeLinkHtml {
-				linkHtml, err = util.ScrapeWebpageHTML(doc)
+			if includeLinkHTML {
+				linkHTML, err = util.ScrapeWebpageHTML(doc)
 				if err != nil {
 					log.Printf("Error scraping HTML from %s: %v", item.Link, err)
 				}
 			}
 
 			if includeLinkText {
-				linkHtml, err = util.ScrapeWebpageHTML(doc)
+				linkHTML, err = util.ScrapeWebpageHTML(doc)
 				if err != nil {
 					log.Printf("Error scraping HTML from %s: %v", item.Link, err)
 				}
-				linkText, err = util.ScrapeWebpageHTMLToMarkdown(linkHtml)
+				linkText, err = util.ScrapeWebpageHTMLToMarkdown(linkHTML)
 				if err != nil {
 					log.Printf("Error scraping text from %s: %v", item.Link, err)
 				}
@@ -113,7 +113,7 @@ func scrapeSearchResults(searchResults *customsearch.Search, includeLinkText, in
 			Link:     item.Link,
 			Snippet:  item.Snippet,
 			LinkText: linkText,
-			LinkHtml: linkHtml,
+			LinkHTML: linkHTML,
 		})
 	}
 	return results, nil
@@ -131,9 +131,9 @@ func search(cseListCall *customsearch.CseListCall, input SearchInput) (SearchOut
 		return output, fmt.Errorf("top_k must be between 1 and %d", MaxResults)
 	}
 
-	if input.IncludeLinkHtml == nil {
+	if input.IncludeLinkHTML == nil {
 		defaultValue := false
-		input.IncludeLinkHtml = &defaultValue
+		input.IncludeLinkHTML = &defaultValue
 	}
 	if input.IncludeLinkText == nil {
 		defaultValue := false
@@ -149,7 +149,7 @@ func search(cseListCall *customsearch.CseListCall, input SearchInput) (SearchOut
 		if err != nil {
 			return output, err
 		}
-		rs, err := scrapeSearchResults(searchResults, *input.IncludeLinkText, *input.IncludeLinkHtml)
+		rs, err := scrapeSearchResults(searchResults, *input.IncludeLinkText, *input.IncludeLinkHTML)
 		if err != nil {
 			return output, err
 		}

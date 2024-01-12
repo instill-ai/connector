@@ -24,9 +24,9 @@ import (
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
-const ApiUrlPin = "https://api.numbersprotocol.io/api/v3/assets/"
-const ApiUrlCommit = "https://eo883tj75azolos.m.pipedream.net"
-const ApiUrlMe = "https://api.numbersprotocol.io/api/v3/auth/users/me"
+const urlPin = "https://api.numbersprotocol.io/api/v3/assets/"
+const urlCommit = "https://eo883tj75azolos.m.pipedream.net"
+const urlUserMe = "https://api.numbersprotocol.io/api/v3/auth/users/me"
 
 var once sync.Once
 var connector base.IConnector
@@ -58,11 +58,11 @@ type CommitCustom struct {
 	License           *CommitCustomLicense `json:"license,omitempty"`
 	Metadata          *struct {
 		Pipeline *struct {
-			Uid    *string     `json:"uid,omitempty"`
+			UID    *string     `json:"uid,omitempty"`
 			Recipe interface{} `json:"recipe,omitempty"`
 		} `json:"pipeline,omitempty"`
 		Owner *struct {
-			Uid *string `json:"uid,omitempty"`
+			UID *string `json:"uid,omitempty"`
 		} `json:"owner,omitempty"`
 	} `json:"instillMetadata,omitempty"`
 }
@@ -93,11 +93,11 @@ type Input struct {
 		} `json:"license,omitempty"`
 		Metadata *struct {
 			Pipeline *struct {
-				Uid    *string     `json:"uid,omitempty"`
+				UID    *string     `json:"uid,omitempty"`
 				Recipe interface{} `json:"recipe,omitempty"`
 			} `json:"pipeline,omitempty"`
 			Owner *struct {
-				Uid *string `json:"uid,omitempty"`
+				UID *string `json:"uid,omitempty"`
 			} `json:"owner,omitempty"`
 		} `json:"metadata,omitempty"`
 	} `json:"custom,omitempty"`
@@ -128,7 +128,7 @@ func getToken(config *structpb.Struct) string {
 	return fmt.Sprintf("token %s", config.GetFields()["capture_token"].GetStringValue())
 }
 
-func (con *Execution) pinFile(data []byte) (string, string, error) {
+func (e *Execution) pinFile(data []byte) (string, string, error) {
 
 	var b bytes.Buffer
 
@@ -154,12 +154,12 @@ func (con *Execution) pinFile(data []byte) (string, string, error) {
 	w.Close()
 	sha256hash := fmt.Sprintf("%x", h.Sum(nil))
 
-	req, err := http.NewRequest("POST", ApiUrlPin, &b)
+	req, err := http.NewRequest("POST", urlPin, &b)
 	if err != nil {
 		return "", "", err
 	}
 	req.Header.Set("Content-Type", w.FormDataContentType())
-	req.Header.Set("Authorization", getToken(con.Config))
+	req.Header.Set("Authorization", getToken(e.Config))
 
 	tr := &http.Transport{
 		DisableKeepAlives: true,
@@ -195,19 +195,19 @@ func (con *Execution) pinFile(data []byte) (string, string, error) {
 	}
 }
 
-func (con *Execution) commit(commit Commit) (string, string, error) {
+func (e *Execution) commit(commit Commit) (string, string, error) {
 
 	marshalled, err := json.Marshal(commit)
 	if err != nil {
 		return "", "", err
 	}
 
-	req, err := http.NewRequest("POST", ApiUrlCommit, bytes.NewReader(marshalled))
+	req, err := http.NewRequest("POST", urlCommit, bytes.NewReader(marshalled))
 	if err != nil {
 		return "", "", err
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", getToken(con.Config))
+	req.Header.Set("Authorization", getToken(e.Config))
 
 	tr := &http.Transport{
 		DisableKeepAlives: true,
@@ -337,9 +337,9 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 
 }
 
-func (con *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+func (c *Connector) Test(defUID uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
 
-	req, err := http.NewRequest("GET", ApiUrlMe, nil)
+	req, err := http.NewRequest("GET", urlUserMe, nil)
 	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, nil
 	}

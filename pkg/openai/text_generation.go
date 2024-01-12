@@ -55,13 +55,13 @@ type Message struct {
 	Content string `json:"content"`
 }
 
-type ImageUrl struct {
-	Url string `json:"url"`
+type ImageURL struct {
+	URL string `json:"url"`
 }
 type Content struct {
 	Type     string    `json:"type"`
 	Text     *string   `json:"text,omitempty"`
-	ImageUrl *ImageUrl `json:"image_url,omitempty"`
+	ImageURL *ImageURL `json:"image_url,omitempty"`
 }
 
 type TextCompletionResp struct {

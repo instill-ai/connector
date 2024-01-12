@@ -11,7 +11,7 @@ import (
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
-func (c *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
+func (e *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	if len(inputs) <= 0 {
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
 	}
@@ -22,12 +22,12 @@ func (c *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, mode
 
 	outputs := []*structpb.Struct{}
 	for _, input := range inputs {
-		inputJson, err := protojson.Marshal(input)
+		inputJSON, err := protojson.Marshal(input)
 		if err != nil {
 			return nil, err
 		}
 		ocrInput := &modelPB.OcrInput{}
-		err = protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(inputJson, ocrInput)
+		err = protojson.UnmarshalOptions{DiscardUnknown: true}.Unmarshal(inputJSON, ocrInput)
 		if err != nil {
 			return nil, err
 		}
@@ -41,7 +41,7 @@ func (c *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, mode
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
 		}
-		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(e.Config)), "Instill-User-UID", getInstillUserUID(e.Config))
 		ctx := metadata.NewOutgoingContext(context.Background(), md)
 		res, err := grpcClient.TriggerUserModel(ctx, &req)
 		if err != nil || res == nil {
@@ -56,7 +56,7 @@ func (c *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, mode
 		if ocrOutput == nil {
 			return nil, fmt.Errorf("invalid output: %v for model: %s", ocrOutput, modelName)
 		}
-		outputJson, err := protojson.MarshalOptions{
+		outputJSON, err := protojson.MarshalOptions{
 			UseProtoNames:   true,
 			EmitUnpopulated: true,
 		}.Marshal(ocrOutput)
@@ -64,7 +64,7 @@ func (c *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, mode
 			return nil, err
 		}
 		output := &structpb.Struct{}
-		err = protojson.Unmarshal(outputJson, output)
+		err = protojson.Unmarshal(outputJSON, output)
 		if err != nil {
 			return nil, err
 		}

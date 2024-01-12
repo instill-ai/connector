@@ -11,7 +11,7 @@ import (
 	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 )
 
-func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
+func (e *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceClient, modelName string, inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	if len(inputs) <= 0 {
 		return nil, fmt.Errorf("invalid input: %v for model: %s", inputs, modelName)
 	}
@@ -24,7 +24,7 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 
 	for _, input := range inputs {
 
-		llmInput := c.convertLLMInput(input)
+		llmInput := e.convertLLMInput(input)
 		taskInput := &modelPB.TaskInput_TextGeneration{
 			TextGeneration: &modelPB.TextGenerationInput{
 				Prompt:        llmInput.Prompt,
@@ -44,7 +44,7 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
 		}
-		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(c.Config)), "Instill-User-Uid", getInstillUserUid(c.Config))
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(e.Config)), "Instill-User-UID", getInstillUserUID(e.Config))
 		ctx := metadata.NewOutgoingContext(context.Background(), md)
 		res, err := grpcClient.TriggerUserModel(ctx, &req)
 		if err != nil || res == nil {
@@ -59,7 +59,7 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 		if textGenOutput == nil {
 			return nil, fmt.Errorf("invalid output: %v for model: %s", textGenOutput, modelName)
 		}
-		outputJson, err := protojson.MarshalOptions{
+		outputJSON, err := protojson.MarshalOptions{
 			UseProtoNames:   true,
 			EmitUnpopulated: true,
 		}.Marshal(textGenOutput)
@@ -67,7 +67,7 @@ func (c *Execution) executeTextGeneration(grpcClient modelPB.ModelPublicServiceC
 			return nil, err
 		}
 		output := &structpb.Struct{}
-		err = protojson.Unmarshal(outputJson, output)
+		err = protojson.Unmarshal(outputJSON, output)
 		if err != nil {
 			return nil, err
 		}

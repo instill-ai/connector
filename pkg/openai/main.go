@@ -139,7 +139,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 					return nil, err
 				}
 				url := fmt.Sprintf("data:%s;base64,%s", mimetype.Detect(b).String(), base.TrimBase64Mime(image))
-				userContents = append(userContents, Content{Type: "image_url", ImageUrl: &ImageUrl{Url: url}})
+				userContents = append(userContents, Content{Type: "image_url", ImageURL: &ImageURL{URL: url}})
 			}
 			messages = append(messages, MultiModalMessage{Role: "user", Content: userContents})
 

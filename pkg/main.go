@@ -79,14 +79,14 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return c.connectorUIDMap[defUID].CreateExecution(defUID, task, config, logger)
 }
 
-func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	return c.connectorUIDMap[defUid].Test(defUid, config, logger)
+func (c *Connector) Test(defUID uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
+	return c.connectorUIDMap[defUID].Test(defUID, config, logger)
 }
 
 func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
 	return c.connectorIDMap[defID].GetConnectorDefinitionByID(defID, resourceConfig, componentConfig)
 }
 
-func (c *Connector) GetConnectorDefinitionByUID(defUid uuid.UUID, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
-	return c.connectorUIDMap[defUid].GetConnectorDefinitionByUID(defUid, resourceConfig, componentConfig)
+func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
+	return c.connectorUIDMap[defUID].GetConnectorDefinitionByUID(defUID, resourceConfig, componentConfig)
 }

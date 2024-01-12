@@ -7,7 +7,7 @@ import (
 )
 
 type TaskInput struct {
-	EndpointUrl string                 `json:"endpoint_url"`
+	EndpointURL string                 `json:"endpoint_url"`
 	Body        map[string]interface{} `json:"body,omitempty"`
 }
 

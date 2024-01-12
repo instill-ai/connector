@@ -16,7 +16,7 @@ type PageInfo struct {
 	Link     string `json:"link"`
 	Title    string `json:"title"`
 	LinkText string `json:"link_text"`
-	LinkHtml string `json:"link_html"`
+	LinkHTML string `json:"link_html"`
 }
 
 // ScrapeWebsiteInput defines the input of the scrape website task
@@ -29,8 +29,8 @@ type ScrapeWebsiteInput struct {
 	MaxK int `json:"max_k"`
 	// IncludeLinkText: Whether to include the scraped text of the scraped web page.
 	IncludeLinkText *bool `json:"include_link_text"`
-	// IncludeLinkHtml: Whether to include the scraped HTML of the scraped web page.
-	IncludeLinkHtml *bool `json:"include_link_html"`
+	// IncludeLinkHTML: Whether to include the scraped HTML of the scraped web page.
+	IncludeLinkHTML *bool `json:"include_link_html"`
 }
 
 // ScrapeWebsiteOutput defines the output of the scrape website task
@@ -96,9 +96,9 @@ func getHTMLPageDoc(url string) (*goquery.Document, error) {
 func Scrape(input ScrapeWebsiteInput) (ScrapeWebsiteOutput, error) {
 	output := ScrapeWebsiteOutput{}
 
-	if input.IncludeLinkHtml == nil {
+	if input.IncludeLinkHTML == nil {
 		b := false
-		input.IncludeLinkHtml = &b
+		input.IncludeLinkHTML = &b
 	}
 	if input.IncludeLinkText == nil {
 		b := false
@@ -154,15 +154,15 @@ func Scrape(input ScrapeWebsiteInput) (ScrapeWebsiteOutput, error) {
 			page.Title = title
 			page.Link = strippedURL.String()
 
-			if *input.IncludeLinkHtml || *input.IncludeLinkText {
+			if *input.IncludeLinkHTML || *input.IncludeLinkText {
 				html, err := util.ScrapeWebpageHTML(doc)
 				if err != nil {
 					fmt.Printf("Error scraping HTML from %s: %v", strippedURL.String(), err)
 					return
 				}
 
-				if *input.IncludeLinkHtml {
-					page.LinkHtml = html
+				if *input.IncludeLinkHTML {
+					page.LinkHTML = html
 				}
 
 				if *input.IncludeLinkText {

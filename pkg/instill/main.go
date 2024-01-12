@@ -73,7 +73,7 @@ func getMode(config *structpb.Struct) string {
 func getAPIKey(config *structpb.Struct) string {
 	return config.GetFields()["api_token"].GetStringValue()
 }
-func getInstillUserUid(config *structpb.Struct) string {
+func getInstillUserUID(config *structpb.Struct) string {
 	return config.GetFields()["instill_user_uid"].GetStringValue()
 }
 
@@ -81,17 +81,17 @@ func getServerURL(config *structpb.Struct) string {
 	if getMode(config) == internalMode {
 		return config.GetFields()["instill_model_backend"].GetStringValue()
 	}
-	serverUrl := config.GetFields()["server_url"].GetStringValue()
-	if strings.HasPrefix(serverUrl, "https://") {
-		if len(strings.Split(serverUrl, ":")) == 2 {
-			serverUrl = serverUrl + ":443"
+	serverURL := config.GetFields()["server_url"].GetStringValue()
+	if strings.HasPrefix(serverURL, "https://") {
+		if len(strings.Split(serverURL, ":")) == 2 {
+			serverURL = serverURL + ":443"
 		}
-	} else if strings.HasPrefix(serverUrl, "http://") {
-		if len(strings.Split(serverUrl, ":")) == 2 {
-			serverUrl = serverUrl + ":80"
+	} else if strings.HasPrefix(serverURL, "http://") {
+		if len(strings.Split(serverURL, ":")) == 2 {
+			serverURL = serverURL + ":80"
 		}
 	}
-	return serverUrl
+	return serverURL
 }
 
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
@@ -194,8 +194,8 @@ func newHTTPClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Clie
 		c.SetAuthToken(token)
 	}
 
-	if userID := getInstillUserUid(config); userID != "" {
-		c.SetHeader("Instill-User-Uid", userID)
+	if userID := getInstillUserUID(config); userID != "" {
+		c.SetHeader("Instill-User-UID", userID)
 	}
 
 	return c
