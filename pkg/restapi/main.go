@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"net/url"
 	"sync"
 
 	"github.com/gofrs/uuid"
@@ -135,15 +134,9 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 		if err := base.ConvertFromStructpb(input, &taskIn); err != nil {
 			return nil, err
 		}
-		url, err := url.Parse(taskIn.EndpointUrl)
-		if err != nil {
-			return nil, err
-		}
-		baseUrl := fmt.Sprintf("%s://%s", url.Scheme, url.Host)
-		path := url.Path
 
 		// We may have different url in batch.
-		client, err := newClient(baseUrl, e.Config, e.Logger)
+		client, err := newClient(e.Config, e.Logger)
 		if err != nil {
 			return nil, err
 		}
@@ -154,7 +147,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			req.SetBody(taskIn.Body)
 		}
 
-		resp, err := req.Execute(method, path)
+		resp, err := req.Execute(method, taskIn.EndpointUrl)
 		if err != nil {
 			return nil, err
 		}

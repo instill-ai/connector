@@ -17,8 +17,8 @@ type TaskOutput struct {
 	Header     map[string][]string    `json:"header"`
 }
 
-func newClient(baseUrl string, config *structpb.Struct, logger *zap.Logger) (*httpclient.Client, error) {
-	c := httpclient.New("REST API", baseUrl,
+func newClient(config *structpb.Struct, logger *zap.Logger) (*httpclient.Client, error) {
+	c := httpclient.New("REST API", "",
 		httpclient.WithLogger(logger),
 	)
 
