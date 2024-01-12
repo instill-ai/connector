@@ -145,13 +145,6 @@
             "order": 1,
             "title": "Authentication",
             "type": "object"
-          },
-          "base_url": {
-            "description": "Base URL of the REST API",
-            "instillUIOrder": 0,
-            "order": 0,
-            "title": "Base URL",
-            "type": "string"
           }
         },
         "required": [
