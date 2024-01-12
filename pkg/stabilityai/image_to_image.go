@@ -175,7 +175,7 @@ func imageToImageOutput(from ImageTaskRes) (*structpb.Struct, error) {
 			continue
 		}
 
-		output.Images = append(output.Images, image.Base64)
+		output.Images = append(output.Images, fmt.Sprintf("data:image/png;base64,%s", image.Base64))
 		output.Seeds = append(output.Seeds, image.Seed)
 
 	}
