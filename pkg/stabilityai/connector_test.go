@@ -158,7 +158,7 @@ func TestConnector_ExecuteImageFromImage(t *testing.T) {
 			gotStatus: http.StatusOK,
 			gotResp:   okResp,
 			wantResp: ImageToImageOutput{
-				Images: []string{"a"},
+				Images: []string{"data:image/png;base64,a"},
 				Seeds:  []uint32{1234},
 			},
 		},
