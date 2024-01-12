@@ -73,6 +73,7 @@
             "string"
           ],
           "instillShortDescription": "An optional text to guide the model's style or continue a previous audio segment.",
+          "instillUIMultiline": true,
           "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
@@ -431,6 +432,7 @@
             "string"
           ],
           "instillShortDescription": "A text description of the desired image(s).",
+          "instillUIMultiline": true,
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
