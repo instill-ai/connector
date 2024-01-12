@@ -34,18 +34,14 @@ func TestConnector_Execute(t *testing.T) {
 	logger := zap.NewNop()
 	connector := Init(logger)
 	defID := uuid.Must(uuid.NewV4())
-
-	req := TaskInput{
-		EndpointPath: &path,
-		Body: map[string]any{
-			"title": "Be the wheel",
-		},
+	reqBody := map[string]any{
+		"title": "Be the wheel",
 	}
 
 	c.Run("nok - unsupported task", func(c *qt.C) {
 		task := "FOOBAR"
 
-		exec, err := connector.CreateExecution(defID, task, cfg("", noAuthType), logger)
+		exec, err := connector.CreateExecution(defID, task, cfg(noAuthType), logger)
 		c.Assert(err, qt.IsNil)
 
 		pbIn := new(structpb.Struct)
@@ -69,7 +65,7 @@ func TestConnector_Execute(t *testing.T) {
 
 			body, err := io.ReadAll(r.Body)
 			c.Assert(err, qt.IsNil)
-			c.Check(body, qt.JSONEquals, req.Body)
+			c.Check(body, qt.JSONEquals, reqBody)
 
 			w.Header().Set("Content-Type", httpclient.MIMETypeJSON)
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,10 +75,13 @@ func TestConnector_Execute(t *testing.T) {
 		srv := httptest.NewServer(h)
 		c.Cleanup(srv.Close)
 
-		exec, err := connector.CreateExecution(defID, taskPost, cfg(srv.URL, basicAuthType), logger)
+		exec, err := connector.CreateExecution(defID, taskPost, cfg(basicAuthType), logger)
 		c.Assert(err, qt.IsNil)
 
-		pbIn, err := base.ConvertToStructpb(req)
+		pbIn, err := base.ConvertToStructpb(TaskInput{
+			EndpointUrl: srv.URL + path,
+			Body:        reqBody,
+		})
 		c.Assert(err, qt.IsNil)
 
 		got, err := exec.Execute([]*structpb.Struct{pbIn})
@@ -106,10 +105,14 @@ func TestConnector_Execute(t *testing.T) {
 		srv := httptest.NewServer(h)
 		c.Cleanup(srv.Close)
 
-		exec, err := connector.CreateExecution(defID, taskPut, cfg(srv.URL, apiKeyType), logger)
+		exec, err := connector.CreateExecution(defID, taskPut, cfg(apiKeyType), logger)
 		c.Assert(err, qt.IsNil)
 
-		pbIn, err := base.ConvertToStructpb(req)
+		pbIn, err := base.ConvertToStructpb(TaskInput{
+			EndpointUrl: srv.URL + path,
+			Body:        reqBody,
+		})
+
 		c.Assert(err, qt.IsNil)
 
 		got, err := exec.Execute([]*structpb.Struct{pbIn})
@@ -134,10 +137,13 @@ func TestConnector_Execute(t *testing.T) {
 		srv := httptest.NewServer(h)
 		c.Cleanup(srv.Close)
 
-		exec, err := connector.CreateExecution(defID, taskGet, cfg(srv.URL, bearerTokenType), logger)
+		exec, err := connector.CreateExecution(defID, taskGet, cfg(bearerTokenType), logger)
 		c.Assert(err, qt.IsNil)
 
-		pbIn, err := base.ConvertToStructpb(req)
+		pbIn, err := base.ConvertToStructpb(TaskInput{
+			EndpointUrl: srv.URL + path,
+			Body:        reqBody,
+		})
 		c.Assert(err, qt.IsNil)
 
 		got, err := exec.Execute([]*structpb.Struct{pbIn})
@@ -157,9 +163,9 @@ func TestConnector_Test(t *testing.T) {
 	defID := uuid.Must(uuid.NewV4())
 
 	c.Run("nok", func(c *qt.C) {
-		got, err := connector.Test(defID, cfg("http://no-such.host", noAuthType), logger)
-		c.Check(err, qt.IsNotNil)
-		c.Check(got, qt.Equals, pipelinePB.Connector_STATE_ERROR)
+		got, err := connector.Test(defID, cfg(noAuthType), logger)
+		c.Check(err, qt.IsNil)
+		c.Check(got, qt.Equals, pipelinePB.Connector_STATE_CONNECTED)
 	})
 
 	c.Run("ok - connected (even with non-2xx status", func(c *qt.C) {
@@ -174,7 +180,7 @@ func TestConnector_Test(t *testing.T) {
 		srv := httptest.NewServer(h)
 		c.Cleanup(srv.Close)
 
-		got, err := connector.Test(defID, cfg(srv.URL, noAuthType), logger)
+		got, err := connector.Test(defID, cfg(noAuthType), logger)
 		c.Check(err, qt.IsNil)
 		c.Check(got, qt.Equals, pipelinePB.Connector_STATE_CONNECTED)
 	})
@@ -202,11 +208,10 @@ var testAuth = map[authType]map[string]any{
 	},
 }
 
-func cfg(basePath string, atype authType) *structpb.Struct {
+func cfg(atype authType) *structpb.Struct {
 	auth := testAuth[atype]
 	auth["auth_type"] = string(atype)
 	config, _ := structpb.NewStruct(map[string]any{
-		"base_url":       basePath,
 		"authentication": auth,
 	})
 

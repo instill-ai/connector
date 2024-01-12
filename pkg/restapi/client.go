@@ -7,8 +7,8 @@ import (
 )
 
 type TaskInput struct {
-	EndpointPath *string                `json:"endpoint_path,omitempty"`
-	Body         map[string]interface{} `json:"body,omitempty"`
+	EndpointUrl string                 `json:"endpoint_url"`
+	Body        map[string]interface{} `json:"body,omitempty"`
 }
 
 type TaskOutput struct {
@@ -17,8 +17,8 @@ type TaskOutput struct {
 	Header     map[string][]string    `json:"header"`
 }
 
-func newClient(config *structpb.Struct, logger *zap.Logger) (*httpclient.Client, error) {
-	c := httpclient.New("REST API", getBaseURL(config),
+func newClient(baseUrl string, config *structpb.Struct, logger *zap.Logger) (*httpclient.Client, error) {
+	c := httpclient.New("REST API", baseUrl,
 		httpclient.WithLogger(logger),
 	)
 

@@ -3,7 +3,7 @@
     "inputWithBody": {
       "instillEditOnNodeFields": [
         "body",
-        "endpoint_path"
+        "endpoint_url"
       ],
       "instillUIOrder": 0,
       "properties": {
@@ -22,8 +22,8 @@
           "title": "Body",
           "type": "object"
         },
-        "endpoint_path": {
-          "description": "The API endpoint path relative to the base URL",
+        "endpoint_url": {
+          "description": "The API endpoint url",
           "instillAcceptFormats": [
             "string"
           ],
@@ -33,7 +33,7 @@
             "reference",
             "template"
           ],
-          "title": "Endpoint Path",
+          "title": "Endpoint Url",
           "type": "string"
         },
         "output_body_schema": {
@@ -56,7 +56,7 @@
         }
       },
       "required": [
-        "endpoint_path"
+        "endpoint_url"
       ],
       "title": "Input",
       "type": "object"
@@ -64,8 +64,8 @@
     "inputWithoutBody": {
       "instillUIOrder": 0,
       "properties": {
-        "endpoint_path": {
-          "description": "The API endpoint path relative to the base URL",
+        "endpoint_url": {
+          "description": "The API endpoint url",
           "instillAcceptFormats": [
             "string"
           ],
@@ -75,7 +75,7 @@
             "reference",
             "template"
           ],
-          "title": "Endpoint Path",
+          "title": "Endpoint Url",
           "type": "string"
         },
         "output_body_schema": {
@@ -98,7 +98,7 @@
         }
       },
       "required": [
-        "endpoint_path"
+        "endpoint_url"
       ],
       "title": "Input",
       "type": "object"

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"sync"
 
 	"github.com/gofrs/uuid"
@@ -78,10 +79,6 @@ func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	return e, nil
 }
 
-func getBaseURL(config *structpb.Struct) string {
-	return config.GetFields()["base_url"].GetStringValue()
-}
-
 func getAuthentication(config *structpb.Struct) (authentication, error) {
 	auth := config.GetFields()["authentication"].GetStructValue()
 	authType := auth.GetFields()["auth_type"].GetStringValue()
@@ -121,10 +118,6 @@ func getAuthentication(config *structpb.Struct) (authentication, error) {
 }
 
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
-	client, err := newClient(e.Config, e.Logger)
-	if err != nil {
-		return nil, err
-	}
 
 	method, ok := taskMethod[e.Task]
 	if !ok {
@@ -138,14 +131,21 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	for _, input := range inputs {
 		taskIn := TaskInput{}
 		taskOut := TaskOutput{}
-		path := ""
 
 		if err := base.ConvertFromStructpb(input, &taskIn); err != nil {
 			return nil, err
 		}
+		url, err := url.Parse(taskIn.EndpointUrl)
+		if err != nil {
+			return nil, err
+		}
+		baseUrl := fmt.Sprintf("%s://%s", url.Scheme, url.Host)
+		path := url.Path
 
-		if taskIn.EndpointPath != nil {
-			path = *taskIn.EndpointPath
+		// We may have different url in batch.
+		client, err := newClient(baseUrl, e.Config, e.Logger)
+		if err != nil {
+			return nil, err
 		}
 
 		// An API error is a valid output in this connector.
@@ -173,15 +173,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 }
 
 func (c *Connector) Test(defUid uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	client, err := newClient(config, logger)
-	if err != nil {
-		return pipelinePB.Connector_STATE_ERROR, err
-	}
-
-	if _, err := client.R().Get(""); err != nil {
-		return pipelinePB.Connector_STATE_ERROR, err
-	}
-
+	// we don't need to validate the connection since no url setting here
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 }
 
