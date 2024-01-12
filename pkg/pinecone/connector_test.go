@@ -20,10 +20,12 @@ import (
 
 const (
 	pineconeKey = "secret-key"
+	namespace   = "pantone"
+	threshold   = 0.9
 
-	upsertResp = `{"upsertedCount": 1}`
+	upsertOK = `{"upsertedCount": 1}`
 
-	queryResp = `
+	queryOK = `
 {
 	"namespace": "color-schemes",
 	"matches": [
@@ -32,6 +34,12 @@ const (
 			"values": [ 2.23 ],
 			"metadata": { "color": "pumpkin" },
 			"score": 0.99
+		},
+		{
+			"id": "B",
+			"values": [ 3.32 ],
+			"metadata": { "color": "cerulean" },
+			"score": 0.87
 		}
 	]
 }`
@@ -45,12 +53,17 @@ const (
 )
 
 var (
-	vectorA = Vector{
+	vectorA = vector{
 		ID:       "A",
 		Values:   []float64{2.23},
 		Metadata: map[string]any{"color": "pumpkin"},
 	}
-	queryByVector = QueryInput{
+	vectorB = vector{
+		ID:       "B",
+		Values:   []float64{3.32},
+		Metadata: map[string]any{"color": "cerulean"},
+	}
+	queryByVector = queryInput{
 		Namespace:       "color-schemes",
 		TopK:            1,
 		Vector:          vectorA.Values,
@@ -62,7 +75,11 @@ var (
 			},
 		},
 	}
-	queryByID = QueryInput{
+	queryWithThreshold = func(q queryInput, th float64) queryInput {
+		q.MinScore = th
+		return q
+	}
+	queryByID = queryInput{
 		Namespace:       "color-schemes",
 		TopK:            1,
 		Vector:          vectorA.Values,
@@ -89,50 +106,80 @@ func TestConnector_Execute(t *testing.T) {
 		{
 			name: "ok - upsert",
 
-			task:     taskUpsert,
-			execIn:   vectorA,
-			wantExec: UpsertOutput{RecordsUpserted: 1},
+			task: taskUpsert,
+			execIn: upsertInput{
+				vector:    vectorA,
+				Namespace: namespace,
+			},
+			wantExec: upsertOutput{RecordsUpserted: 1},
 
 			wantClientPath: upsertPath,
-			wantClientReq:  UpsertReq{Vectors: []Vector{vectorA}},
-			clientResp:     upsertResp,
+			wantClientReq:  upsertReq{Vectors: []vector{vectorA}, Namespace: namespace},
+			clientResp:     upsertOK,
 		},
 		{
 			name: "ok - query by vector",
 
 			task:   taskQuery,
 			execIn: queryByVector,
-			wantExec: QueryResp{
+			wantExec: queryResp{
 				Namespace: "color-schemes",
-				Matches: []Match{
+				Matches: []match{
 					{
-						Vector: vectorA,
+						vector: vectorA,
+						Score:  0.99,
+					},
+					{
+						vector: vectorB,
+						Score:  0.87,
+					},
+				},
+			},
+
+			wantClientPath: queryPath,
+			wantClientReq:  queryByVector.asRequest(),
+			clientResp:     queryOK,
+		},
+		{
+			name: "ok - filter out below threshold score",
+
+			task:   taskQuery,
+			execIn: queryWithThreshold(queryByVector, threshold),
+			wantExec: queryResp{
+				Namespace: "color-schemes",
+				Matches: []match{
+					{
+						vector: vectorA,
 						Score:  0.99,
 					},
 				},
 			},
 
 			wantClientPath: queryPath,
-			wantClientReq:  QueryReq(queryByVector),
-			clientResp:     queryResp,
+			wantClientReq:  queryByVector.asRequest(),
+			clientResp:     queryOK,
 		},
 		{
 			name: "ok - query by ID",
 
 			task:   taskQuery,
 			execIn: queryByID,
-			wantExec: QueryResp{
+			wantExec: queryResp{
 				Namespace: "color-schemes",
-				Matches: []Match{
+				Matches: []match{
 					{
-						Vector: vectorA,
+						vector: vectorA,
 						Score:  0.99,
+					},
+					{
+						vector: vectorB,
+						Score:  0.87,
 					},
 				},
 			},
 
 			wantClientPath: queryPath,
-			wantClientReq: QueryReq{
+			wantClientReq: queryReq{
 				// Vector is wiped from the request.
 				Namespace:       "color-schemes",
 				TopK:            1,
@@ -140,7 +187,7 @@ func TestConnector_Execute(t *testing.T) {
 				IncludeValues:   true,
 				IncludeMetadata: true,
 			},
-			clientResp: queryResp,
+			clientResp: queryOK,
 		},
 	}
 

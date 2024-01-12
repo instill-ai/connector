@@ -1,6 +1,6 @@
 package pinecone
 
-type QueryInput struct {
+type queryInput struct {
 	Namespace       string      `json:"namespace"`
 	TopK            int64       `json:"top_k"`
 	Vector          []float64   `json:"vector"`
@@ -8,9 +8,10 @@ type QueryInput struct {
 	IncludeMetadata bool        `json:"include_metadata"`
 	ID              string      `json:"id"`
 	Filter          interface{} `json:"filter"`
+	MinScore        float64     `json:"min_score"`
 }
 
-type QueryReq struct {
+type queryReq struct {
 	Namespace       string      `json:"namespace"`
 	TopK            int64       `json:"topK"`
 	Vector          []float64   `json:"vector,omitempty"`
@@ -20,31 +21,65 @@ type QueryReq struct {
 	Filter          interface{} `json:"filter,omitempty"`
 }
 
-type QueryResp struct {
-	Namespace string  `json:"namespace"`
-	Matches   []Match `json:"matches"`
+func (q queryInput) asRequest() queryReq {
+	return queryReq{
+		Namespace:       q.Namespace,
+		TopK:            q.TopK,
+		Vector:          q.Vector,
+		IncludeValues:   q.IncludeValues,
+		IncludeMetadata: q.IncludeMetadata,
+		ID:              q.ID,
+		Filter:          q.Filter,
+	}
 }
 
-type Match struct {
-	Vector
+type queryResp struct {
+	Namespace string  `json:"namespace"`
+	Matches   []match `json:"matches"`
+}
+
+func (r queryResp) filterOutBelowThreshold(th float64) queryResp {
+	if th <= 0 {
+		return r
+	}
+
+	matches := make([]match, 0, len(r.Matches))
+	for _, match := range r.Matches {
+		if match.Score >= th {
+			matches = append(matches, match)
+		}
+	}
+	r.Matches = matches
+
+	return r
+}
+
+type match struct {
+	vector
 	Score float64 `json:"score"`
 }
 
-type UpsertReq struct {
-	Vectors []Vector `json:"vectors"`
+type upsertReq struct {
+	Vectors   []vector `json:"vectors"`
+	Namespace string   `json:"namespace,omitempty"`
 }
 
-type Vector struct {
+type upsertInput struct {
+	vector
+	Namespace string `json:"namespace"`
+}
+
+type vector struct {
 	ID       string      `json:"id"`
 	Values   []float64   `json:"values,omitempty"`
 	Metadata interface{} `json:"metadata,omitempty"`
 }
 
-type UpsertResp struct {
+type upsertResp struct {
 	RecordsUpserted int64 `json:"upsertedCount"`
 }
 
-type UpsertOutput struct {
+type upsertOutput struct {
 	RecordsUpserted int64 `json:"upserted_count"`
 }
 
