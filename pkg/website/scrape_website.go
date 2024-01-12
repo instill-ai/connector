@@ -74,7 +74,10 @@ func existsInSlice(slice []string, item string) bool {
 // getHTMLPageDoc returns the *goquery.Document of a webpage
 func getHTMLPageDoc(url string) (*goquery.Document, error) {
 	// Request the HTML page.
-	res, err := http.Get(url)
+	client := &http.Client{Transport: &http.Transport{
+		DisableKeepAlives: true,
+	}}
+	res, err := client.Get(url)
 	if err != nil {
 		return nil, err
 	}
