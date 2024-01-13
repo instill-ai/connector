@@ -2,24 +2,22 @@ package instill
 
 import (
 	"context"
-	"crypto/tls"
 	_ "embed"
-	"encoding/json"
 	"fmt"
-	"net/http"
 	"strings"
 	"sync"
 
 	"github.com/gofrs/uuid"
 	"go.uber.org/zap"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/util/httpclient"
 
 	commonPB "github.com/instill-ai/protogen-go/common/task/v1alpha"
-	mgmtv1beta "github.com/instill-ai/protogen-go/core/mgmt/v1beta"
+	mgmtPB "github.com/instill-ai/protogen-go/core/mgmt/v1beta"
+	modelPB "github.com/instill-ai/protogen-go/model/model/v1alpha"
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
@@ -112,14 +110,16 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	}
 
 	modelNameSplits := strings.Split(inputs[0].GetFields()["model_name"].GetStringValue(), "/")
-	nsResp, err := mgmtGRPCCLient.CheckNamespace(context.Background(), &mgmtv1beta.CheckNamespaceRequest{
+	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(e.Config)), "Instill-User-Uid", getInstillUserUID(e.Config))
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	nsResp, err := mgmtGRPCCLient.CheckNamespace(ctx, &mgmtPB.CheckNamespaceRequest{
 		Id: modelNameSplits[0],
 	})
 	if err != nil {
 		return nil, err
 	}
 	nsType := ""
-	if nsResp.Type == mgmtv1beta.CheckNamespaceResponse_NAMESPACE_ORGANIZATION {
+	if nsResp.Type == mgmtPB.CheckNamespaceResponse_NAMESPACE_ORGANIZATION {
 		nsType = "organizations"
 	} else {
 		nsType = "users"
@@ -161,45 +161,20 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 }
 
 func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logger) (pipelinePB.Connector_State, error) {
-	req := newHTTPClient(config, logger).R()
-
-	path := "/model" + getModelPath
-	if resp, err := req.Get(path); err != nil || resp.IsError() {
+	gRPCCLient, gRPCCLientConn := initModelPublicServiceClient(getServerURL(config))
+	if gRPCCLientConn != nil {
+		defer gRPCCLientConn.Close()
+	}
+	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(config)), "Instill-User-Uid", getInstillUserUID(config))
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	_, err := gRPCCLient.ListModels(ctx, &modelPB.ListModelsRequest{})
+	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
 	}
 
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 }
 
-type errBody struct {
-	Msg string `json:"message"`
-}
-
-func (e errBody) Message() string {
-	return e.Msg
-}
-
-func newHTTPClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Client {
-	c := httpclient.New("Instill AI", getServerURL(config),
-		httpclient.WithLogger(logger),
-		httpclient.WithEndUserError(new(errBody)),
-	)
-
-	c.SetTransport(&http.Transport{
-		TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
-		DisableKeepAlives: true,
-	})
-
-	if token := getAPIKey(config); token != "" {
-		c.SetAuthToken(token)
-	}
-
-	if userID := getInstillUserUID(config); userID != "" {
-		c.SetHeader("Instill-User-Uid", userID)
-	}
-
-	return c
-}
 func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
 	def, err := c.Connector.GetConnectorDefinitionByID(defID, resourceConfig, componentConfig)
 	if err != nil {
@@ -225,24 +200,27 @@ func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig
 	def := proto.Clone(oriDef).(*pipelinePB.ConnectorDefinition)
 
 	if resourceConfig != nil {
-		req := newHTTPClient(resourceConfig, c.Logger).R()
-		var modelsResp ModelsResp
-		path := "/model" + getModelPath
+		gRPCCLient, gRPCCLientConn := initModelPublicServiceClient(getServerURL(resourceConfig))
+		if gRPCCLientConn != nil {
+			defer gRPCCLientConn.Close()
+		}
+		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(resourceConfig)), "Instill-User-Uid", getInstillUserUID(resourceConfig))
+		ctx := metadata.NewOutgoingContext(context.Background(), md)
+		resp, err := gRPCCLient.ListModels(ctx, &modelPB.ListModelsRequest{})
+		if err != nil {
+			return nil, err
+		}
 
 		modelNameMap := map[string]*structpb.ListValue{}
-		if resp, err := req.Get(path); err == nil && !resp.IsError() {
-			_ = json.Unmarshal(resp.Body(), &modelsResp)
 
-			modelName := &structpb.ListValue{}
-			for _, model := range modelsResp.Models {
-				if _, ok := modelNameMap[model.Task]; !ok {
-					modelNameMap[model.Task] = &structpb.ListValue{}
-				}
-				namePaths := strings.Split(model.Name, "/")
-				modelName.Values = append(modelName.Values, structpb.NewStringValue(fmt.Sprintf("%s/%s", namePaths[1], namePaths[3])))
-				modelNameMap[model.Task].Values = append(modelNameMap[model.Task].Values, structpb.NewStringValue(fmt.Sprintf("%s/%s", namePaths[1], namePaths[3])))
+		modelName := &structpb.ListValue{}
+		for _, model := range resp.Models {
+			if _, ok := modelNameMap[model.Task.String()]; !ok {
+				modelNameMap[model.Task.String()] = &structpb.ListValue{}
 			}
-
+			namePaths := strings.Split(model.Name, "/")
+			modelName.Values = append(modelName.Values, structpb.NewStringValue(fmt.Sprintf("%s/%s", namePaths[1], namePaths[3])))
+			modelNameMap[model.Task.String()].Values = append(modelNameMap[model.Task.String()].Values, structpb.NewStringValue(fmt.Sprintf("%s/%s", namePaths[1], namePaths[3])))
 		}
 		for _, sch := range def.Spec.ComponentSpecification.Fields["oneOf"].GetListValue().Values {
 			task := sch.GetStructValue().Fields["properties"].GetStructValue().Fields["task"].GetStructValue().Fields["const"].GetStringValue()
