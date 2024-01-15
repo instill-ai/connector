@@ -22,7 +22,6 @@ import (
 )
 
 const (
-	getModelPath = "/v1alpha/models"
 	internalMode = "Internal Mode"
 )
 
@@ -223,15 +222,27 @@ func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig
 		}
 		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(resourceConfig)), "Instill-User-Uid", getInstillUserUID(resourceConfig))
 		ctx := metadata.NewOutgoingContext(context.Background(), md)
-		resp, err := gRPCCLient.ListModels(ctx, &modelPB.ListModelsRequest{})
-		if err != nil {
-			return def, nil
+
+		// We should query by pages and accumulate them in the future
+
+		pageToken := ""
+		models := []*modelPB.Model{}
+		for {
+			resp, err := gRPCCLient.ListModels(ctx, &modelPB.ListModelsRequest{PageToken: &pageToken})
+			if err != nil {
+				return def, nil
+			}
+			models = append(models, resp.Models...)
+			pageToken = resp.NextPageToken
+			if pageToken == "" {
+				break
+			}
 		}
 
 		modelNameMap := map[string]*structpb.ListValue{}
 
 		modelName := &structpb.ListValue{}
-		for _, model := range resp.Models {
+		for _, model := range models {
 			if _, ok := modelNameMap[model.Task.String()]; !ok {
 				modelNameMap[model.Task.String()] = &structpb.ListValue{}
 			}
