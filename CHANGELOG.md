@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.10.0-beta](https://github.com/instill-ai/connector/compare/v0.9.0-beta...v0.10.0-beta) (2024-01-15)
+
+
+### Features
+
+* add end-user messages to HTTP errors ([#92](https://github.com/instill-ai/connector/issues/92)) ([d597648](https://github.com/instill-ai/connector/commit/d597648972b4eda8216948f24eaa4b09f490c7df))
+* Extend Pinecone tasks with namespace and threshold ([#106](https://github.com/instill-ai/connector/issues/106)) ([17c1fc8](https://github.com/instill-ai/connector/commit/17c1fc86cdab8b76fb973fb0c1e3e02d26908a7c))
+* **instill:** adopt latest Instill Model task format ([#95](https://github.com/instill-ai/connector/issues/95)) ([84778a7](https://github.com/instill-ai/connector/commit/84778a7c209383b897cd73fe3a4d67354dd04eb9))
+* **instill:** enforces chat_history order pattern ([#99](https://github.com/instill-ai/connector/issues/99)) ([9bc4048](https://github.com/instill-ai/connector/commit/9bc404800d3e60abcf0f7786146ad26014bb0d49))
+* **instill:** generate enumeration for `model_name` automatically ([#100](https://github.com/instill-ai/connector/issues/100)) ([dabfc19](https://github.com/instill-ai/connector/commit/dabfc199fa3f45f8ddb33d58146bf756a656ba61))
+* **instill:** mark `prompt_images` as required in TASK_VISUAL_QUESTION_ANSWERING ([#110](https://github.com/instill-ai/connector/issues/110)) ([b0c21bf](https://github.com/instill-ai/connector/commit/b0c21bf89b9c7188368152726bfa4d0b0f7fdb75))
+* **instill:** unify the chat_history format across different LLM tasks ([#96](https://github.com/instill-ai/connector/issues/96)) ([b09e7dd](https://github.com/instill-ai/connector/commit/b09e7ddab1d176006f27157ca6c9ec552fdb36fe))
+* **instill:** use grpc client for all request ([#108](https://github.com/instill-ai/connector/issues/108)) ([548a78d](https://github.com/instill-ai/connector/commit/548a78d9ac89312c2060f3a8fc285a991cd9dd5d))
+* **restapi:** inject the `output_body_schema` into component OpenAPI schema ([#101](https://github.com/instill-ai/connector/issues/101)) ([bd68d14](https://github.com/instill-ai/connector/commit/bd68d14da5ce613a66d9a75da0f52594abb73c75))
+* **restapi:** remove base_url in restapi connector ([#102](https://github.com/instill-ai/connector/issues/102)) ([34d1a20](https://github.com/instill-ai/connector/commit/34d1a20784b4069fbdf7681622426d3f5db57a07))
+* **website:** add `https` protocol to the url automatically ([#97](https://github.com/instill-ai/connector/issues/97)) ([62eb7e2](https://github.com/instill-ai/connector/commit/62eb7e216c20f95df111d3b69e58685286e05729))
+
+
+### Bug Fixes
+
+* **googlesearch,website:** fix potential memory leak by disabling http keep-alive ([#103](https://github.com/instill-ai/connector/issues/103)) ([7613561](https://github.com/instill-ai/connector/commit/76135615c56ec1b6d554cc1102b27d2f16a066bd))
+* **instill:** accumulate the pagination when getting models ([#112](https://github.com/instill-ai/connector/issues/112)) ([cd077b0](https://github.com/instill-ai/connector/commit/cd077b00fe0df8c27f1ea7ef9a33f9b5b8c92801))
+* **instill:** fix wrong required field in json-schema ([#98](https://github.com/instill-ai/connector/issues/98)) ([2d04474](https://github.com/instill-ai/connector/commit/2d0447433b17e9ab25e6a273398c18c72138259f))
+* **stabilityai:** add the missing datauri prefix in image-to-image task ([#105](https://github.com/instill-ai/connector/issues/105)) ([e89f7ec](https://github.com/instill-ai/connector/commit/e89f7ec3b5424eb30a00fd8e283437f4f056bc45))
+
 ## [0.9.0-beta](https://github.com/instill-ai/connector/compare/v0.8.1-beta...v0.9.0-beta) (2024-01-01)
 
 
