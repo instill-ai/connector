@@ -1,7 +1,8 @@
 [
   {
     "available_tasks": [
-      "TASK_QUERY",
+      "TASK_QUERY_BY_VECTOR",
+      "TASK_QUERY_BY_ID",
       "TASK_UPSERT"
     ],
     "custom": false,
