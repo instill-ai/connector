@@ -37,13 +37,13 @@
           "type": "string"
         },
         "output_body_schema": {
-          "description": "The request body",
+          "description": "The JSON schema of output body",
           "instillAcceptFormats": [
             "string"
           ],
           "instillUIMultiline": true,
           "instillMultiline": true,
-          "instillShortDescription": "The request body",
+          "instillShortDescription": "The JSON schema of output body",
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference",
