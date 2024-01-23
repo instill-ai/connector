@@ -42,7 +42,7 @@ func TestOpenAITextGeneration(t *testing.T) {
 	logger := zap.NewNop()
 	conn := Init(logger, emptyOptions)
 
-	def, err := conn.GetConnectorDefinitionByID("openai")
+	def, err := conn.GetConnectorDefinitionByID("openai", nil, nil)
 	c.Assert(err, qt.IsNil)
 
 	uid, err := uuid.FromString(def.GetUid())
