@@ -20,6 +20,7 @@ import (
 )
 
 const (
+	taskDescribe   = "TASK_DESCRIBE"
 	taskSummarize  = "TASK_SUMMARIZE"
 	taskUploadFile = "TASK_UPLOAD_FILE"
 )
@@ -68,6 +69,8 @@ func (c *connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	}
 
 	switch task {
+	case taskDescribe:
+		e.execute = e.describe
 	case taskSummarize:
 		e.execute = e.summarize
 	case taskUploadFile:
@@ -100,14 +103,52 @@ func (e *execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	return outputs, nil
 }
 
-func (e *execution) summarize(in *structpb.Struct) (*structpb.Struct, error) {
-	params := summarizeParams{}
+func (e *execution) describe(in *structpb.Struct) (*structpb.Struct, error) {
+	params := fileQueryParams{}
 	if err := base.ConvertFromStructpb(in, &params); err != nil {
 		return nil, err
 	}
 
+	// We have a 1-1 mapping between the VDP user input and the Archetype AI
+	// request. If this stops being the case in the future, we'll need a
+	// describeReq structure.
+	resp := describeResp{}
+	req := e.client.R().SetBody(params).SetResult(&resp)
+
+	if _, err := req.Post(describePath); err != nil {
+		return nil, err
+	}
+
+	// Archetype AI might return a 200 status even if the operation failed
+	// (e.g. if the file doesn't exist).
+	if resp.Status != statusCompleted {
+		return nil, errmsg.AddMessage(
+			fmt.Errorf("response with non-completed status"),
+			fmt.Sprintf(`Archetype AI didn't complete query %s: status is "%s".`, resp.QueryID, resp.Status),
+		)
+	}
+
+	out, err := base.ConvertToStructpb(describeOutput{
+		Descriptions: resp.Response,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (e *execution) summarize(in *structpb.Struct) (*structpb.Struct, error) {
+	params := fileQueryParams{}
+	if err := base.ConvertFromStructpb(in, &params); err != nil {
+		return nil, err
+	}
+
+	// We have a 1-1 mapping between the VDP user input and the Archetype AI
+	// request. If this stops being the case in the future, we'll need a
+	// summarizeReq structure.
 	resp := summarizeResp{}
-	req := e.client.R().SetBody(summarizeReq(params)).SetResult(&resp)
+	req := e.client.R().SetBody(params).SetResult(&resp)
 
 	if _, err := req.Post(summarizePath); err != nil {
 		return nil, err

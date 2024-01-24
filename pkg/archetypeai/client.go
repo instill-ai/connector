@@ -8,6 +8,7 @@ import (
 
 const (
 	host           = "https://api.archetypeai.dev"
+	describePath   = "/v0.3/describe"
 	summarizePath  = "/v0.3/summarize"
 	uploadFilePath = "/v0.3/files"
 )

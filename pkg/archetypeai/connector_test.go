@@ -23,6 +23,39 @@ const (
 )
 
 const errJSON = `{ "error": "Invalid access." }`
+const describeJSON = `
+{
+  "query_id": "2401242b4d59e48bbf6e0d",
+  "status": "completed",
+  "inference_time_sec": 1.6635565757751465,
+  "query_response_time_sec": 6.018876314163208,
+  "response": [
+	{
+	  "timestamp": 2.0,
+	  "frame_id": 60,
+	  "description": "The group of people is walking across a bridge."
+	},
+	{
+	  "timestamp": 6.0,
+	  "frame_id": 180,
+	  "description": "The man is walking across a bridge, and he is surrounded by people."
+	}
+  ]
+}`
+const describeErrJSON = `
+{
+  "query_id": "2401242b4d59e48bbf6e0d",
+  "status": "failed",
+  "inference_time_sec": 1.6635565757751465,
+  "query_response_time_sec": 6.018876314163208,
+  "response": [
+    {
+      "timestamp": 2.0,
+      "frame_id": 60,
+      "description": "The group of people is walking across a bridge."
+    }
+  ]
+}`
 const summarizeJSON = `
 {
   "query_id": "240123b93a83a79e9907a5",
@@ -41,7 +74,7 @@ const summarizeErrJSON = `
   "query_id": "2401233472bde249e60260",
   "status": "failed",
   "file_ids": [
-    "test_image.jp"
+    "test_image.jpg"
   ]
 }`
 const uploadFileJSON = `
@@ -59,9 +92,9 @@ const uploadErrJSON = `
 }`
 
 var (
-	summarizeIn = summarizeParams{
-		Query:   "Describe the image",
-		FileIDs: []string{"test_image.jpg"},
+	queryIn = fileQueryParams{
+		Query:   "Describe what's happening",
+		FileIDs: []string{"test.file"},
 	}
 	uploadFileIn = uploadFileParams{
 		ID:   "test_image.png",
@@ -88,16 +121,55 @@ func TestConnector_Execute(t *testing.T) {
 		gotResp         string
 	}{
 		{
+			name: "ok - describe",
+
+			task: taskDescribe,
+			in:   queryIn,
+			want: describeOutput{
+				Descriptions: []frameDescription{
+					{
+						Timestamp:   2.0,
+						FrameID:     60,
+						Description: "The group of people is walking across a bridge.",
+					},
+					{
+						Timestamp:   6.0,
+						FrameID:     180,
+						Description: "The man is walking across a bridge, and he is surrounded by people.",
+					},
+				},
+			},
+
+			wantPath:        describePath,
+			wantReq:         queryIn,
+			wantContentType: httpclient.MIMETypeJSON,
+			gotStatus:       http.StatusOK,
+			gotResp:         describeJSON,
+		},
+		{
+			name: "nok - describe error",
+
+			task:    taskDescribe,
+			in:      queryIn,
+			wantErr: `Archetype AI didn't complete query 2401242b4d59e48bbf6e0d: status is "failed".`,
+
+			wantPath:        describePath,
+			wantReq:         queryIn,
+			wantContentType: httpclient.MIMETypeJSON,
+			gotStatus:       http.StatusOK,
+			gotResp:         describeErrJSON,
+		},
+		{
 			name: "ok - summarize",
 
 			task: taskSummarize,
-			in:   summarizeIn,
+			in:   queryIn,
 			want: summarizeOutput{
 				Response: "A family of four is hiking together on a trail.",
 			},
 
 			wantPath:        summarizePath,
-			wantReq:         summarizeReq(summarizeIn),
+			wantReq:         queryIn,
 			wantContentType: httpclient.MIMETypeJSON,
 			gotStatus:       http.StatusOK,
 			gotResp:         summarizeJSON,
@@ -106,11 +178,11 @@ func TestConnector_Execute(t *testing.T) {
 			name: "nok - summarize wrong file",
 
 			task:    taskSummarize,
-			in:      summarizeIn,
+			in:      queryIn,
 			wantErr: `Archetype AI didn't complete query 2401233472bde249e60260: status is "failed".`,
 
 			wantPath:        summarizePath,
-			wantReq:         summarizeReq(summarizeIn),
+			wantReq:         queryIn,
 			wantContentType: httpclient.MIMETypeJSON,
 			gotStatus:       http.StatusOK,
 			gotResp:         summarizeErrJSON,
@@ -145,11 +217,11 @@ func TestConnector_Execute(t *testing.T) {
 			name: "nok - unauthorized",
 
 			task:    taskSummarize,
-			in:      summarizeIn,
+			in:      queryIn,
 			wantErr: "Archetype AI responded with a 401 status code. Invalid access.",
 
 			wantPath:        summarizePath,
-			wantReq:         summarizeReq(summarizeIn),
+			wantReq:         queryIn,
 			wantContentType: httpclient.MIMETypeJSON,
 			gotStatus:       http.StatusUnauthorized,
 			gotResp:         errJSON,
