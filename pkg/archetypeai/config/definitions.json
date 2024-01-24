@@ -1,7 +1,8 @@
 [
   {
     "available_tasks": [
-      "TASK_SUMMARIZE"
+      "TASK_SUMMARIZE",
+      "TASK_UPLOAD_FILE"
     ],
     "custom": false,
     "documentation_url": "",

@@ -30,3 +30,23 @@ type summarizeResp struct {
 		ProcessedText string `json:"processed_text"`
 	} `json:"response"`
 }
+
+// uploadFileParams holds the input of a file upload task.
+type uploadFileParams struct {
+	ID   string `json:"id"`
+	File string `json:"file"`
+}
+
+// uploadFileOutput is used to return the output of a file upload task
+// execution.
+type uploadFileOutput struct {
+	FileID string `json:"file_id"`
+}
+
+// uploadFileResp holds the response from the Archetype AI API call.
+type uploadFileResp struct {
+	uploadFileOutput
+
+	IsValid bool     `json:"is_valid"`
+	Errors  []string `json:"errors"`
+}

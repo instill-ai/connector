@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	host          = "https://api.archetypeai.dev"
-	summarizePath = "/v0.3/summarize"
+	host           = "https://api.archetypeai.dev"
+	summarizePath  = "/v0.3/summarize"
+	uploadFilePath = "/v0.3/files"
 )
 
 func newClient(config *structpb.Struct, logger *zap.Logger) *httpclient.Client {

@@ -44,11 +44,28 @@ const summarizeErrJSON = `
     "test_image.jp"
   ]
 }`
+const uploadFileJSON = `
+{
+  "is_valid": true,
+  "file_id": "test_image.png",
+  "file_uid": "2401242e3cb25122835a17"
+}`
+const uploadErrJSON = `
+{
+  "is_valid": false,
+  "errors": [
+    "Invalid file type: application/octet-stream. Supported file types are: ('image/jpeg', 'image/png', 'video/mp4')."
+  ]
+}`
 
 var (
 	summarizeIn = summarizeParams{
 		Query:   "Describe the image",
 		FileIDs: []string{"test_image.jpg"},
+	}
+	uploadFileIn = uploadFileParams{
+		ID:   "test_image.png",
+		File: "data:text/plain;base64,aG9sYQ==",
 	}
 )
 
@@ -64,10 +81,11 @@ func TestConnector_Execute(t *testing.T) {
 		wantErr string
 
 		// server expectations and response
-		wantPath  string
-		wantReq   any
-		gotStatus int
-		gotResp   string
+		wantPath        string
+		wantReq         any
+		wantContentType string
+		gotStatus       int
+		gotResp         string
 	}{
 		{
 			name: "ok - summarize",
@@ -78,10 +96,11 @@ func TestConnector_Execute(t *testing.T) {
 				Response: "A family of four is hiking together on a trail.",
 			},
 
-			wantPath:  summarizePath,
-			wantReq:   summarizeReq(summarizeIn),
-			gotStatus: http.StatusOK,
-			gotResp:   summarizeJSON,
+			wantPath:        summarizePath,
+			wantReq:         summarizeReq(summarizeIn),
+			wantContentType: httpclient.MIMETypeJSON,
+			gotStatus:       http.StatusOK,
+			gotResp:         summarizeJSON,
 		},
 		{
 			name: "nok - summarize wrong file",
@@ -90,10 +109,37 @@ func TestConnector_Execute(t *testing.T) {
 			in:      summarizeIn,
 			wantErr: `Archetype AI didn't complete query 2401233472bde249e60260: status is "failed".`,
 
-			wantPath:  summarizePath,
-			wantReq:   summarizeReq(summarizeIn),
-			gotStatus: http.StatusOK,
-			gotResp:   summarizeErrJSON,
+			wantPath:        summarizePath,
+			wantReq:         summarizeReq(summarizeIn),
+			wantContentType: httpclient.MIMETypeJSON,
+			gotStatus:       http.StatusOK,
+			gotResp:         summarizeErrJSON,
+		},
+		{
+			name: "ok - upload file",
+
+			task: taskUploadFile,
+			in:   uploadFileIn,
+			want: uploadFileOutput{FileID: uploadFileIn.ID},
+
+			wantPath:        uploadFilePath,
+			wantReq:         "hola",
+			wantContentType: "multipart/form-data.*",
+			gotStatus:       http.StatusOK,
+			gotResp:         uploadFileJSON,
+		},
+		{
+			name: "nok - upload invalid file",
+
+			task:    taskUploadFile,
+			in:      uploadFileIn,
+			wantErr: "Couldn't complete upload: Invalid file type.*",
+
+			wantPath:        uploadFilePath,
+			wantReq:         "hola",
+			wantContentType: "multipart/form-data.*",
+			gotStatus:       http.StatusOK,
+			gotResp:         uploadErrJSON,
 		},
 		{
 			name: "nok - unauthorized",
@@ -102,10 +148,11 @@ func TestConnector_Execute(t *testing.T) {
 			in:      summarizeIn,
 			wantErr: "Archetype AI responded with a 401 status code. Invalid access.",
 
-			wantPath:  summarizePath,
-			wantReq:   summarizeReq(summarizeIn),
-			gotStatus: http.StatusUnauthorized,
-			gotResp:   errJSON,
+			wantPath:        summarizePath,
+			wantReq:         summarizeReq(summarizeIn),
+			wantContentType: httpclient.MIMETypeJSON,
+			gotStatus:       http.StatusUnauthorized,
+			gotResp:         errJSON,
 		},
 	}
 
@@ -120,11 +167,17 @@ func TestConnector_Execute(t *testing.T) {
 				c.Check(r.URL.Path, qt.Matches, tc.wantPath)
 
 				c.Check(r.Header.Get("Authorization"), qt.Equals, "Bearer "+apiKey)
-				c.Check(r.Header.Get("Content-Type"), qt.Equals, httpclient.MIMETypeJSON)
+				c.Check(r.Header.Get("Content-Type"), qt.Matches, tc.wantContentType)
 
 				body, err := io.ReadAll(r.Body)
 				c.Assert(err, qt.IsNil)
-				c.Check(body, qt.JSONEquals, tc.wantReq)
+				if tc.wantContentType == httpclient.MIMETypeJSON {
+					c.Check(body, qt.JSONEquals, tc.wantReq)
+				} else {
+					// We just do partial match to avoid matching every field
+					// in multipart bodies.
+					c.Check(string(body), qt.Contains, tc.wantReq)
+				}
 
 				w.Header().Set("Content-Type", httpclient.MIMETypeJSON)
 				w.WriteHeader(tc.gotStatus)
@@ -147,7 +200,7 @@ func TestConnector_Execute(t *testing.T) {
 
 			got, err := exec.Execute([]*structpb.Struct{pbIn})
 			if tc.wantErr != "" {
-				c.Check(errmsg.Message(err), qt.Equals, tc.wantErr)
+				c.Check(errmsg.Message(err), qt.Matches, tc.wantErr)
 				return
 			}
 

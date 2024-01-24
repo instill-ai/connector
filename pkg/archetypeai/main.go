@@ -1,8 +1,10 @@
 package archetypeai
 
 import (
+	"bytes"
 	_ "embed"
 	"fmt"
+	"strings"
 	"sync"
 
 	"go.uber.org/zap"
@@ -10,6 +12,7 @@ import (
 
 	"github.com/gofrs/uuid"
 	"github.com/instill-ai/component/pkg/base"
+	"github.com/instill-ai/connector/pkg/util"
 	"github.com/instill-ai/connector/pkg/util/httpclient"
 	"github.com/instill-ai/x/errmsg"
 
@@ -17,7 +20,8 @@ import (
 )
 
 const (
-	taskSummarize = "TASK_SUMMARIZE"
+	taskSummarize  = "TASK_SUMMARIZE"
+	taskUploadFile = "TASK_UPLOAD_FILE"
 )
 
 var (
@@ -66,6 +70,8 @@ func (c *connector) CreateExecution(defUID uuid.UUID, task string, config *struc
 	switch task {
 	case taskSummarize:
 		e.execute = e.summarize
+	case taskUploadFile:
+		e.execute = e.uploadFile
 	default:
 		return nil, errmsg.AddMessage(
 			fmt.Errorf("not supported task: %s", task),
@@ -119,6 +125,44 @@ func (e *execution) summarize(in *structpb.Struct) (*structpb.Struct, error) {
 	out, err := base.ConvertToStructpb(summarizeOutput{
 		Response: resp.Response.ProcessedText,
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}
+
+func (e *execution) uploadFile(in *structpb.Struct) (*structpb.Struct, error) {
+	params := uploadFileParams{}
+	if err := base.ConvertFromStructpb(in, &params); err != nil {
+		return nil, err
+	}
+
+	resp := uploadFileResp{}
+	req := e.client.R().SetResult(&resp)
+
+	b, err := util.DecodeBase64(params.File)
+	if err != nil {
+		return nil, err
+	}
+	req.SetFileReader("file", params.ID, bytes.NewReader(b))
+	if _, err := req.Post(uploadFilePath); err != nil {
+		return nil, err
+	}
+
+	if !resp.IsValid {
+		errMsg := "invalid file."
+		if len(resp.Errors) > 0 {
+			errMsg = strings.Join(resp.Errors, " ")
+		}
+
+		return nil, errmsg.AddMessage(
+			fmt.Errorf("file upload failed"),
+			fmt.Sprintf(`Couldn't complete upload: %s`, errMsg),
+		)
+	}
+
+	out, err := base.ConvertToStructpb(resp.uploadFileOutput)
 	if err != nil {
 		return nil, err
 	}
