@@ -46,7 +46,6 @@ type describeOutput struct {
 
 // uploadFileParams holds the input of a file upload task.
 type uploadFileParams struct {
-	ID   string `json:"id"`
 	File string `json:"file"`
 }
 

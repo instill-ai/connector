@@ -161,20 +161,6 @@
     "input": {
       "instillUIOrder": 0,
       "properties": {
-        "id": {
-          "title": "ID",
-          "description": "The ID of the file at the destination. This value can be used to reference this file in other tasks.",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "value",
-            "reference",
-            "template"
-          ],
-          "type": "string"
-        },
         "file": {
           "title": "File",
           "description": "The file to upload. Accepted formats are JPEG and PNG for images or MP4 for videos",
@@ -182,14 +168,13 @@
           "instillAcceptFormats": [
             "image/*"
           ],
-          "instillUIOrder": 1,
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ]
         }
       },
       "required": [
-        "id",
         "file"
       ],
       "title": "Input",

@@ -1,7 +1,6 @@
 package archetypeai
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -80,7 +79,7 @@ const summarizeErrJSON = `
 const uploadFileJSON = `
 {
   "is_valid": true,
-  "file_id": "test_image.png",
+  "file_id": "2084fa42-8452-4fa6-bed9-6aac6d6153bb",
   "file_uid": "2401242e3cb25122835a17"
 }`
 const uploadErrJSON = `
@@ -97,7 +96,6 @@ var (
 		FileIDs: []string{"test.file"},
 	}
 	uploadFileIn = uploadFileParams{
-		ID:   "test_image.png",
 		File: "data:text/plain;base64,aG9sYQ==",
 	}
 )
@@ -192,7 +190,7 @@ func TestConnector_Execute(t *testing.T) {
 
 			task: taskUploadFile,
 			in:   uploadFileIn,
-			want: uploadFileOutput{FileID: uploadFileIn.ID},
+			want: uploadFileOutput{FileID: "2084fa42-8452-4fa6-bed9-6aac6d6153bb"},
 
 			wantPath:        uploadFilePath,
 			wantReq:         "hola",
@@ -279,9 +277,9 @@ func TestConnector_Execute(t *testing.T) {
 			c.Check(err, qt.IsNil)
 			c.Assert(got, qt.HasLen, 1)
 
-			wantJSON, err := json.Marshal(tc.want)
+			gotJSON, err := got[0].MarshalJSON()
 			c.Assert(err, qt.IsNil)
-			c.Check(wantJSON, qt.JSONEquals, got[0].AsMap())
+			c.Check(gotJSON, qt.JSONEquals, tc.want)
 		})
 	}
 }

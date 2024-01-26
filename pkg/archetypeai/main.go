@@ -186,7 +186,13 @@ func (e *execution) uploadFile(in *structpb.Struct) (*structpb.Struct, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.SetFileReader("file", params.ID, bytes.NewReader(b))
+
+	id, err := uuid.NewV4()
+	if err != nil {
+		return nil, err
+	}
+
+	req.SetFileReader("file", id.String(), bytes.NewReader(b))
 	if _, err := req.Post(uploadFilePath); err != nil {
 		return nil, err
 	}
