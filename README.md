@@ -7,8 +7,9 @@ Currently, we support these AI vendors:
 
 | Name               | Vendor                                                   | Supported Tasks |
 |--------------------|----------------------------------------------------------|-----------------|
+| ai-archetype-ai    | [Archetype AI](https://www.archetypeai.io/)              |  Image summarization, Video description |
 | ai-instill-model   | [Instill Model](https://instill.tech/)                   |  Classification, Instance-Segmentation, Keypoint, Detection, OCR, Semantic-Segmentation, Text-Generation, Text-to-Image|
-| ai-openai          | [OpenAI](https://openai.com)                             | Text-Generation, Speech-Recognition, Text-Embedding
+| ai-openai          | [OpenAI](https://openai.com)                             | Text-Generation, Speech-Recognition, Text-Embedding |
 | ai-stability-ai    | [Stability AI](https://stability.ai/)                    | Text-to-Image, Image-to-Image |
 | airbyte-*          | [Aiybyte](https://airbyte.com/)                          | WriteDestination    |
 | data-pinecone      | [Pinecone](https://www.pinecone.io/)                     | Upsert, Query       |

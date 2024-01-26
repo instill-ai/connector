@@ -112,7 +112,7 @@ func parseImageToImageReq(from *structpb.Struct) (ImageToImageReq, error) {
 
 func (req ImageToImageReq) getBytes() (b *bytes.Reader, contentType string, err error) {
 	data := &bytes.Buffer{}
-	initImage, err := DecodeBase64(req.InitImage)
+	initImage, err := util.DecodeBase64(req.InitImage)
 	if err != nil {
 		return nil, "", err
 	}

@@ -1,6 +1,7 @@
 package util
 
 import (
+	"encoding/base64"
 	"mime/multipart"
 	"net/http"
 	"strings"
@@ -8,6 +9,7 @@ import (
 	md "github.com/JohannesKaufmann/html-to-markdown"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/h2non/filetype"
+	"github.com/instill-ai/component/pkg/base"
 )
 
 func GetFileExt(fileData []byte) string {
@@ -61,4 +63,10 @@ func ScrapeWebpageHTMLToMarkdown(html string) (string, error) {
 	}
 
 	return markdown, nil
+}
+
+// DecodeBase64 takes a base64-encoded blob, trims the MIME type (if present)
+// and decodes the remaining bytes.
+func DecodeBase64(input string) ([]byte, error) {
+	return base64.StdEncoding.DecodeString(base.TrimBase64Mime(input))
 }

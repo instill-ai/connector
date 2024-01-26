@@ -2,7 +2,6 @@ package stabilityai
 
 import (
 	_ "embed"
-	"encoding/base64"
 	"fmt"
 	"sync"
 
@@ -154,9 +153,4 @@ func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logge
 	}
 
 	return pipelinePB.Connector_STATE_CONNECTED, nil
-}
-
-// decode if the string is base64 encoded
-func DecodeBase64(input string) ([]byte, error) {
-	return base64.StdEncoding.DecodeString(base.TrimBase64Mime(input))
 }
