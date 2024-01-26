@@ -166,6 +166,7 @@
           "description": "The file to upload. Accepted formats are JPEG and PNG for images or MP4 for videos",
           "type": "string",
           "instillAcceptFormats": [
+            "video/*",
             "image/*"
           ],
           "instillUIOrder": 0,
