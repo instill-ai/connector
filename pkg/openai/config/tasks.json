@@ -182,7 +182,7 @@
   },
   "TASK_TEXT_GENERATION": {
     "instillShortDescription": "Provide text outputs in response to their inputs.",
-    "description": "OpenAI's text generation models (often called generative pre-trained transformers or large language models) have been trained to understand natural language, code, and images. The models provide text outputs in response to their inputs. The inputs to these models are also referred to as \"prompts\". Designing a prompt is essentially how you “program” a large language model model, usually by providing instructions or some examples of how to successfully complete a task.",
+    "description": "OpenAI's text generation models (often called generative pre-trained transformers or large language models) have been trained to understand natural language, code, and images. The models provide text outputs in response to their inputs. The inputs to these models are also referred to as \"prompts\". Designing a prompt is essentially how you \u201cprogram\u201d a large language model model, usually by providing instructions or some examples of how to successfully complete a task.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -401,7 +401,7 @@
     }
   },
   "TASK_TEXT_TO_IMAGE": {
-    "instillShortDescription": "Generate or manipulate images with DALL·E.",
+    "instillShortDescription": "Generate or manipulate images with DALL\u00b7E.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
