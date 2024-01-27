@@ -1,5 +1,6 @@
 {
   "TASK_COMMIT": {
+    "instillShortDescription": "Commit a file into NumbersProtocol Chain.",
     "input": {
       "description": "Input",
       "instillUIOrder": 0,

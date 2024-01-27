@@ -80,6 +80,7 @@
     }
   },
   "TASK_CLASSIFICATION": {
+    "instillShortDescription": "Classify images into predefined categories.",
     "input": {
       "$ref": "#/$defs/common",
       "type": "object"
@@ -93,6 +94,7 @@
     }
   },
   "TASK_DETECTION": {
+    "instillShortDescription": "Detect and localize multiple objects in images.",
     "input": {
       "$ref": "#/$defs/common",
       "type": "object"
@@ -106,6 +108,7 @@
     }
   },
   "TASK_IMAGE_TO_IMAGE": {
+    "instillShortDescription": "Generate image from input text prompt and image.",
     "input": {
       "description": "Input",
       "instillEditOnNodeFields": [
@@ -248,6 +251,7 @@
     }
   },
   "TASK_INSTANCE_SEGMENTATION": {
+    "instillShortDescription": "Detect, localize and delineate multiple objects in images.",
     "input": {
       "$ref": "#/$defs/common",
       "type": "object"
@@ -261,6 +265,7 @@
     }
   },
   "TASK_KEYPOINT": {
+    "instillShortDescription": "Detect and localize multiple keypoints of objects in images.",
     "input": {
       "$ref": "#/$defs/common",
       "type": "object"
@@ -274,6 +279,7 @@
     }
   },
   "TASK_OCR": {
+    "instillShortDescription": "Detect and recognize text in images.",
     "input": {
       "$ref": "#/$defs/common",
       "type": "object"
@@ -287,6 +293,7 @@
     }
   },
   "TASK_SEMANTIC_SEGMENTATION": {
+    "instillShortDescription": "Classify image pixels into predefined categories.",
     "input": {
       "$ref": "#/$defs/common",
       "type": "object"
@@ -300,6 +307,7 @@
     }
   },
   "TASK_TEXT_GENERATION": {
+    "instillShortDescription": "Generate texts from input text prompts.",
     "input": {
       "description": "Input",
       "instillEditOnNodeFields": [
@@ -475,9 +483,11 @@
     }
   },
   "TASK_TEXT_GENERATION_CHAT": {
+    "instillShortDescription": "Generate texts from input text prompts and chat history.",
     "$ref": "#/TASK_TEXT_GENERATION"
   },
   "TASK_TEXT_TO_IMAGE": {
+    "instillShortDescription": "Generate images from input text prompts.",
     "input": {
       "description": "Input",
       "instillEditOnNodeFields": [
@@ -605,6 +615,7 @@
     }
   },
   "TASK_VISUAL_QUESTION_ANSWERING": {
+    "instillShortDescription": "Answer questions based on a prompt and an image.",
     "input": {
       "description": "Input",
       "instillEditOnNodeFields": [

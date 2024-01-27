@@ -1,5 +1,6 @@
 {
   "TASK_UPLOAD": {
+    "instillShortDescription": "Upload data to Google Cloud Storage.",
     "input": {
       "instillUIOrder": 0,
       "properties": {

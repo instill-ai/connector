@@ -141,6 +141,7 @@
     }
   },
   "TASK_DELETE": {
+    "instillShortDescription": "Send a HTTP DELETE request.",
     "input": {
       "$ref": "#/$defs/inputWithBody"
     },
@@ -149,6 +150,7 @@
     }
   },
   "TASK_GET": {
+    "instillShortDescription": "Send a HTTP GET request.",
     "input": {
       "$ref": "#/$defs/inputWithoutBody"
     },
@@ -157,6 +159,7 @@
     }
   },
   "TASK_HEAD": {
+    "instillShortDescription": "Send a HTTP HEAD request.",
     "input": {
       "$ref": "#/$defs/inputWithoutBody"
     },
@@ -165,6 +168,7 @@
     }
   },
   "TASK_OPTIONS": {
+    "instillShortDescription": "Send a HTTP OPTIONS request.",
     "input": {
       "$ref": "#/$defs/inputWithBody"
     },
@@ -173,6 +177,7 @@
     }
   },
   "TASK_PATCH": {
+    "instillShortDescription": "Send a HTTP PATCH request.",
     "input": {
       "$ref": "#/$defs/inputWithBody"
     },
@@ -181,6 +186,7 @@
     }
   },
   "TASK_POST": {
+    "instillShortDescription": "Send a HTTP POST request.",
     "input": {
       "$ref": "#/$defs/inputWithBody"
     },
@@ -189,6 +195,7 @@
     }
   },
   "TASK_PUT": {
+    "instillShortDescription": "Send a HTTP PUT request.",
     "input": {
       "$ref": "#/$defs/inputWithBody"
     },
