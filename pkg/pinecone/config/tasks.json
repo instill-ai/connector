@@ -1,5 +1,6 @@
 {
   "TASK_QUERY": {
+    "instillShortDescription": "Retrieve the ids of the most similar items in a namespace, along with their similarity scores.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -196,6 +197,7 @@
     }
   },
   "TASK_UPSERT": {
+    "instillShortDescription": "Writes vectors into a namespace. If a new value is upserted for an existing vector id, it will overwrite the previous value.",
     "input": {
       "instillUIOrder": 0,
       "properties": {

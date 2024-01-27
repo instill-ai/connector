@@ -1,5 +1,6 @@
 {
   "TASK_WRITE_DESTINATION": {
+    "instillShortDescription": "Write data to destination.",
     "input": {
       "instillUIOrder": 0,
       "properties": {

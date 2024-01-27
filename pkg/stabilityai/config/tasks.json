@@ -1,5 +1,6 @@
 {
   "TASK_IMAGE_TO_IMAGE": {
+    "instillShortDescription": "Modify an image based on a text prompt.",
     "input": {
       "additionalProperties": false,
       "description": "Input",
@@ -235,6 +236,7 @@
     }
   },
   "TASK_TEXT_TO_IMAGE": {
+    "instillShortDescription": "Generate a new image from a text prompt.",
     "input": {
       "additionalProperties": false,
       "description": "Input",

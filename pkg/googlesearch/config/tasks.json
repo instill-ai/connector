@@ -52,6 +52,7 @@
     }
   },
   "TASK_SEARCH": {
+    "instillShortDescription": "Search data via Google Search Engine.",
     "input": {
       "instillUIOrder": 0,
       "properties": {

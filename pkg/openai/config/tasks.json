@@ -25,6 +25,7 @@
     }
   },
   "TASK_SPEECH_RECOGNITION": {
+    "instillShortDescription": "Turn audio into text.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -122,6 +123,7 @@
     }
   },
   "TASK_TEXT_EMBEDDINGS": {
+    "instillShortDescription": "Turn text into numbers, unlocking use cases like search.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -179,6 +181,8 @@
     }
   },
   "TASK_TEXT_GENERATION": {
+    "instillShortDescription": "Provide text outputs in response to their inputs.",
+    "description": "OpenAI's text generation models (often called generative pre-trained transformers or large language models) have been trained to understand natural language, code, and images. The models provide text outputs in response to their inputs. The inputs to these models are also referred to as \"prompts\". Designing a prompt is essentially how you “program” a large language model model, usually by providing instructions or some examples of how to successfully complete a task.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -397,6 +401,7 @@
     }
   },
   "TASK_TEXT_TO_IMAGE": {
+    "instillShortDescription": "Generate or manipulate images with DALL·E.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -527,6 +532,7 @@
     }
   },
   "TASK_TEXT_TO_SPEECH": {
+    "instillShortDescription": "Turn text into lifelike spoken audio",
     "input": {
       "instillUIOrder": 0,
       "properties": {

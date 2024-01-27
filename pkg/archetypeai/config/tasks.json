@@ -1,5 +1,6 @@
 {
   "TASK_DESCRIBE": {
+    "instillShortDescription": "Describe a video.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -95,6 +96,7 @@
     }
   },
   "TASK_SUMMARIZE": {
+    "instillShortDescription": "Summarize the image.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -158,6 +160,7 @@
     }
   },
   "TASK_UPLOAD_FILE": {
+    "instillShortDescription": "Upload file.",
     "input": {
       "instillUIOrder": 0,
       "properties": {

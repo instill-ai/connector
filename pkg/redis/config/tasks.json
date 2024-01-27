@@ -1,5 +1,6 @@
 {
   "TASK_CHAT_HISTORY_RETRIEVE": {
+    "instillShortDescription": "Retrieve chat history from Redis.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -68,6 +69,7 @@
     }
   },
   "TASK_CHAT_MESSAGE_WRITE": {
+    "instillShortDescription": "Write chat message into Redis.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
@@ -150,6 +152,7 @@
     }
   },
   "TASK_CHAT_MESSAGE_WRITE_MULTI_MODAL": {
+    "instillShortDescription": "Write multi-modal chat message into Redis.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
