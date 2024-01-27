@@ -2,14 +2,12 @@ package numbers
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"sync"
-	"time"
 
 	_ "embed"
 	b64 "encoding/base64"
@@ -24,8 +22,7 @@ import (
 	pipelinePB "github.com/instill-ai/protogen-go/vdp/pipeline/v1beta"
 )
 
-const urlPin = "https://api.numbersprotocol.io/api/v3/assets/"
-const urlCommit = "https://eo883tj75azolos.m.pipedream.net"
+const urlRegisterAsset = "https://api.numbersprotocol.io/api/v3/assets/"
 const urlUserMe = "https://api.numbersprotocol.io/api/v3/auth/users/me"
 
 var once sync.Once
@@ -50,6 +47,7 @@ type CommitCustomLicense struct {
 	Document *string `json:"document,omitempty"`
 }
 type CommitCustom struct {
+	AssetCreator      *string              `json:"assetCreator,omitempty"`
 	DigitalSourceType *string              `json:"digitalSourceType,omitempty"`
 	MiningPreference  *string              `json:"miningPreference,omitempty"`
 	GeneratedThrough  string               `json:"generatedThrough"`
@@ -66,41 +64,43 @@ type CommitCustom struct {
 		} `json:"owner,omitempty"`
 	} `json:"instillMetadata,omitempty"`
 }
-type Commit struct {
-	AssetCid              string        `json:"assetCid"`
-	AssetSha256           string        `json:"assetSha256"`
-	EncodingFormat        string        `json:"encodingFormat"`
-	AssetTimestampCreated int64         `json:"assetTimestampCreated"`
-	AssetCreator          *string       `json:"assetCreator,omitempty"`
-	Abstract              *string       `json:"abstract,omitempty"`
-	Headline              *string       `json:"headline,omitempty"`
-	Custom                *CommitCustom `json:"custom,omitempty"`
-	Testnet               bool          `json:"testnet"`
+
+type Meta struct {
+	Proof struct {
+		Hash      string `json:"hash"`
+		MIMEType  string `json:"mimeType"`
+		Timestamp string `json:"timestamp"`
+	} `json:"proof"`
+}
+
+type Register struct {
+	Caption         *string       `json:"caption,omitempty"`
+	Headline        *string       `json:"headline,omitempty"`
+	NITCommitCustom *CommitCustom `json:"nit_commit_custom,omitempty"`
+	Meta
 }
 
 type Input struct {
-	Images       []string `json:"images"`
-	AssetCreator *string  `json:"asset_creator,omitempty"`
-	Abstract     *string  `json:"abstract,omitempty"`
-	Headline     *string  `json:"headline,omitempty"`
-	Custom       *struct {
-		DigitalSourceType *string `json:"digital_source_type,omitempty"`
-		MiningPreference  *string `json:"mining_preference,omitempty"`
-		GeneratedBy       *string `json:"generated_by,omitempty"`
-		License           *struct {
-			Name     *string `json:"name,omitempty"`
-			Document *string `json:"document,omitempty"`
-		} `json:"license,omitempty"`
-		Metadata *struct {
-			Pipeline *struct {
-				UID    *string     `json:"uid,omitempty"`
-				Recipe interface{} `json:"recipe,omitempty"`
-			} `json:"pipeline,omitempty"`
-			Owner *struct {
-				UID *string `json:"uid,omitempty"`
-			} `json:"owner,omitempty"`
-		} `json:"metadata,omitempty"`
-	} `json:"custom,omitempty"`
+	Images            []string `json:"images"`
+	AssetCreator      *string  `json:"asset_creator,omitempty"`
+	Caption           *string  `json:"caption,omitempty"`
+	Headline          *string  `json:"headline,omitempty"`
+	DigitalSourceType *string  `json:"digital_source_type,omitempty"`
+	MiningPreference  *string  `json:"mining_preference,omitempty"`
+	GeneratedBy       *string  `json:"generated_by,omitempty"`
+	License           *struct {
+		Name     *string `json:"name,omitempty"`
+		Document *string `json:"document,omitempty"`
+	} `json:"license,omitempty"`
+	Metadata *struct {
+		Pipeline *struct {
+			UID    *string     `json:"uid,omitempty"`
+			Recipe interface{} `json:"recipe,omitempty"`
+		} `json:"pipeline,omitempty"`
+		Owner *struct {
+			UID *string `json:"uid,omitempty"`
+		} `json:"owner,omitempty"`
+	} `json:"metadata,omitempty"`
 }
 
 type Output struct {
@@ -128,7 +128,7 @@ func getToken(config *structpb.Struct) string {
 	return fmt.Sprintf("token %s", config.GetFields()["capture_token"].GetStringValue())
 }
 
-func (e *Execution) pinFile(data []byte) (string, string, error) {
+func (e *Execution) registerAsset(data []byte, reg Register) (string, error) {
 
 	var b bytes.Buffer
 
@@ -138,25 +138,33 @@ func (e *Execution) pinFile(data []byte) (string, string, error) {
 
 	fileName, _ := uuid.NewV4()
 	if fw, err = w.CreateFormFile("asset_file", fileName.String()+mimetype.Detect(data).Extension()); err != nil {
-		return "", "", err
+		return "", err
 	}
 
 	if _, err := io.Copy(fw, bytes.NewReader(data)); err != nil {
-		return "", "", err
+		return "", err
 	}
 
-	h := sha256.New()
-
-	if _, err := io.Copy(h, bytes.NewReader(data)); err != nil {
-		return "", "", err
+	if reg.Caption != nil {
+		_ = w.WriteField("caption", *reg.Caption)
 	}
+
+	if reg.Headline != nil {
+		_ = w.WriteField("headline", *reg.Headline)
+	}
+
+	if reg.NITCommitCustom != nil {
+		commitBytes, _ := json.Marshal(*reg.NITCommitCustom)
+		_ = w.WriteField("nit_commit_custom", string(commitBytes))
+	}
+	metaBytes, _ := json.Marshal(Meta{})
+	_ = w.WriteField("meta", string(metaBytes))
 
 	w.Close()
-	sha256hash := fmt.Sprintf("%x", h.Sum(nil))
 
-	req, err := http.NewRequest("POST", urlPin, &b)
+	req, err := http.NewRequest("POST", urlRegisterAsset, &b)
 	if err != nil {
-		return "", "", err
+		return "", err
 	}
 	req.Header.Set("Content-Type", w.FormDataContentType())
 	req.Header.Set("Authorization", getToken(e.Config))
@@ -170,88 +178,31 @@ func (e *Execution) pinFile(data []byte) (string, string, error) {
 		defer res.Body.Close()
 	}
 	if err != nil {
-		return "", "", err
+		return "", err
 	}
 
 	if res.StatusCode == http.StatusCreated {
 		bodyBytes, err := io.ReadAll(res.Body)
 		if err != nil {
-			return "", "", err
+			return "", err
 		}
 		var jsonRes map[string]interface{}
 		_ = json.Unmarshal(bodyBytes, &jsonRes)
 		if cid, ok := jsonRes["cid"]; ok {
-			return cid.(string), sha256hash, nil
+			return cid.(string), nil
 		} else {
-			return "", "", fmt.Errorf("pinFile failed")
+			return "", fmt.Errorf("register file failed")
 		}
 
 	} else {
 		bodyBytes, err := io.ReadAll(res.Body)
 		if err != nil {
-			return "", "", err
+			return "", err
 		}
-		return "", "", fmt.Errorf(string(bodyBytes))
+		return "", fmt.Errorf(string(bodyBytes))
 	}
 }
 
-func (e *Execution) commit(commit Commit) (string, string, error) {
-
-	marshalled, err := json.Marshal(commit)
-	if err != nil {
-		return "", "", err
-	}
-
-	req, err := http.NewRequest("POST", urlCommit, bytes.NewReader(marshalled))
-	if err != nil {
-		return "", "", err
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", getToken(e.Config))
-
-	tr := &http.Transport{
-		DisableKeepAlives: true,
-	}
-	client := &http.Client{Transport: tr}
-	res, err := client.Do(req)
-	if res != nil && res.Body != nil {
-		defer res.Body.Close()
-	}
-	if err != nil {
-		return "", "", err
-	}
-
-	if res.StatusCode == http.StatusOK {
-		bodyBytes, err := io.ReadAll(res.Body)
-		if err != nil {
-			return "", "", err
-		}
-		var jsonRes map[string]interface{}
-		_ = json.Unmarshal(bodyBytes, &jsonRes)
-
-		var assetCid string
-		var assetTreeCid string
-		if val, ok := jsonRes["assetCid"]; ok {
-			assetCid = val.(string)
-		} else {
-			return "", "", fmt.Errorf("assetCid failed")
-		}
-		if val, ok := jsonRes["assetTreeCid"]; ok {
-			assetTreeCid = val.(string)
-		} else {
-			return "", "", fmt.Errorf("assetTreeCid failed")
-		}
-		return assetCid, assetTreeCid, nil
-
-	} else {
-		bodyBytes, err := io.ReadAll(res.Body)
-		if err != nil {
-			return "", "", err
-		}
-		return "", "", fmt.Errorf(string(bodyBytes))
-	}
-
-}
 func (c *Connector) CreateExecution(defUID uuid.UUID, task string, config *structpb.Struct, logger *zap.Logger) (base.IExecution, error) {
 	e := &Execution{}
 	e.Execution = base.CreateExecutionHelper(e, c, defUID, task, config, logger)
@@ -278,46 +229,34 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 				return nil, err
 			}
 
-			var commitCustom *CommitCustom
-			if inputStruct.Custom != nil {
-				var commitCustomLicense *CommitCustomLicense
-				if inputStruct.Custom.License != nil {
-					commitCustomLicense = &CommitCustomLicense{
-						Name:     inputStruct.Custom.License.Name,
-						Document: inputStruct.Custom.License.Document,
-					}
+			var commitLicense *CommitCustomLicense
+			if inputStruct.License != nil {
+				commitLicense = &CommitCustomLicense{
+					Name:     inputStruct.License.Name,
+					Document: inputStruct.License.Document,
 				}
-				commitCustom = &CommitCustom{
-					DigitalSourceType: inputStruct.Custom.DigitalSourceType,
-					MiningPreference:  inputStruct.Custom.MiningPreference,
-					GeneratedThrough:  "https://console.instill.tech", //TODO: support Core Host
-					GeneratedBy:       inputStruct.Custom.GeneratedBy,
-					License:           commitCustomLicense,
-					Metadata:          inputStruct.Custom.Metadata,
-				}
-
 			}
 
-			cid, sha256hash, err := e.pinFile(imageBytes)
+			commitCustom := CommitCustom{
+				AssetCreator:      inputStruct.AssetCreator,
+				DigitalSourceType: inputStruct.DigitalSourceType,
+				MiningPreference:  inputStruct.MiningPreference,
+				GeneratedThrough:  "https://instill.tech", //TODO: support Core Host
+				GeneratedBy:       inputStruct.GeneratedBy,
+				License:           commitLicense,
+				Metadata:          inputStruct.Metadata,
+			}
+
+			reg := Register{
+				Caption:         inputStruct.Caption,
+				Headline:        inputStruct.Headline,
+				NITCommitCustom: &commitCustom,
+			}
+			assetCid, err := e.registerAsset(imageBytes, reg)
 			if err != nil {
 				return nil, err
 			}
 
-			assetCid, _, err := e.commit(Commit{
-				AssetCid:              cid,
-				AssetSha256:           sha256hash,
-				EncodingFormat:        http.DetectContentType(imageBytes),
-				AssetTimestampCreated: time.Now().Unix(),
-				AssetCreator:          inputStruct.AssetCreator,
-				Abstract:              inputStruct.Abstract,
-				Headline:              inputStruct.Headline,
-				Custom:                commitCustom,
-				Testnet:               false,
-			})
-
-			if err != nil {
-				return nil, err
-			}
 			assetUrls = append(assetUrls, fmt.Sprintf("https://verify.numbersprotocol.io/asset-profile?nid=%s", assetCid))
 		}
 
