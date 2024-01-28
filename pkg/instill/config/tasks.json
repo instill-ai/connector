@@ -3,7 +3,7 @@
     "chat_message": {
       "properties": {
         "content": {
-          "$ref": "https://raw.githubusercontent.com/instill-ai/component/747ec5eaa8fe611c3be91354923afd544eb54b13/schema.json#/$defs/instill_types/multi_modal_content",
+          "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/multi_modal_content",
           "description": "The message content",
           "instillUIOrder": 1,
           "title": "Content"
@@ -86,7 +86,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/cdccadb78d0cd4551a43379924824c2b1b2bdfb9/schema.json#/$defs/instill_types/classification",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/classification",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -100,7 +100,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/cdccadb78d0cd4551a43379924824c2b1b2bdfb9/schema.json#/$defs/instill_types/detection",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/detection",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -257,7 +257,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/cdccadb78d0cd4551a43379924824c2b1b2bdfb9/schema.json#/$defs/instill_types/instance_segmentation",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/instance_segmentation",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -271,7 +271,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/cdccadb78d0cd4551a43379924824c2b1b2bdfb9/schema.json#/$defs/instill_types/keypoint",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/keypoint",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -285,7 +285,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/cdccadb78d0cd4551a43379924824c2b1b2bdfb9/schema.json#/$defs/instill_types/ocr",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/ocr",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
@@ -299,7 +299,7 @@
       "type": "object"
     },
     "output": {
-      "$ref": "https://raw.githubusercontent.com/instill-ai/component/cdccadb78d0cd4551a43379924824c2b1b2bdfb9/schema.json#/$defs/instill_types/semantic_segmentation",
+      "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/semantic_segmentation",
       "description": "Output",
       "instillUIOrder": 0,
       "title": "Output",
