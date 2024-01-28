@@ -25,6 +25,7 @@
         "additionalProperties": true,
         "oneOf": [
           {
+            "title": "Instill Model Connector Internal Mode",
             "properties": {
               "mode": {
                 "const": "Internal Mode"
@@ -32,6 +33,7 @@
             }
           },
           {
+            "title": "Instill Model Connector External Mode",
             "properties": {
               "api_token": {
                 "description": "To access models on Instill Core/Cloud, enter your Instill Core/Cloud API Token. You can find your tokens by visiting your Console's Settings > API Tokens page.",

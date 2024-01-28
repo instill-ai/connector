@@ -100,7 +100,7 @@
       "required": [
         "endpoint_url"
       ],
-      "title": "Input",
+      "title": "Input Without Body",
       "type": "object"
     },
     "output": {
