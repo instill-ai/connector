@@ -1,5 +1,5 @@
 {
-  "TASK_CHAT_HISTORY_RETRIEVE": {
+  "TASK_RETRIEVE_CHAT_HISTORY": {
     "instillShortDescription": "Retrieve chat history from Redis.",
     "input": {
       "instillUIOrder": 0,
@@ -68,7 +68,7 @@
       "type": "object"
     }
   },
-  "TASK_CHAT_MESSAGE_WRITE": {
+  "TASK_WRITE_CHAT_MESSAGE": {
     "instillShortDescription": "Write chat message into Redis.",
     "input": {
       "instillUIOrder": 0,
@@ -151,7 +151,7 @@
       "type": "object"
     }
   },
-  "TASK_CHAT_MESSAGE_WRITE_MULTI_MODAL": {
+  "TASK_WRITE_MULTI_MODAL_CHAT_MESSAGE": {
     "instillShortDescription": "Write multi-modal chat message into Redis.",
     "input": {
       "instillUIOrder": 0,

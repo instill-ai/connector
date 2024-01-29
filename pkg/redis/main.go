@@ -16,9 +16,9 @@ import (
 )
 
 const (
-	taskChatMessageWrite           = "TASK_CHAT_MESSAGE_WRITE"
-	taskChatMessageWriteMultiModal = "TASK_CHAT_MESSAGE_WRITE_MULTI_MODAL"
-	taskChatHistoryRetrieve        = "TASK_CHAT_HISTORY_RETRIEVE"
+	taskWriteChatMessage           = "TASK_WRITE_CHAT_MESSAGE"
+	taskWriteMultiModalChatMessage = "TASK_WRITE_MULTI_MODAL_CHAT_MESSAGE"
+	taskRetrieveChatHistory        = "TASK_RETRIEVE_CHAT_HISTORY"
 )
 
 var (
@@ -72,7 +72,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	for _, input := range inputs {
 		var output *structpb.Struct
 		switch e.Task {
-		case taskChatMessageWrite:
+		case taskWriteChatMessage:
 			inputStruct := ChatMessageWriteInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
@@ -83,7 +83,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-		case taskChatMessageWriteMultiModal:
+		case taskWriteMultiModalChatMessage:
 			inputStruct := ChatMultiModalMessageWriteInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
@@ -94,7 +94,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			if err != nil {
 				return nil, err
 			}
-		case taskChatHistoryRetrieve:
+		case taskRetrieveChatHistory:
 			inputStruct := ChatHistoryRetrieveInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
