@@ -42,7 +42,6 @@
             "string"
           ],
           "instillUIMultiline": true,
-          "instillMultiline": true,
           "instillShortDescription": "The JSON schema of output body",
           "instillUIOrder": 1,
           "instillUpstreamTypes": [
@@ -90,7 +89,6 @@
             "value"
           ],
           "instillUIMultiline": true,
-          "instillMultiline": true,
           "order": 1,
           "required": [],
           "title": "Body",

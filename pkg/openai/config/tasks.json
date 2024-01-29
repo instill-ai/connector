@@ -385,7 +385,6 @@
           "instillUIOrder": 0,
           "items": {
             "instillFormat": "string",
-            "instillMultiline": true,
             "instillUIMultiline": true,
             "type": "string"
           },
