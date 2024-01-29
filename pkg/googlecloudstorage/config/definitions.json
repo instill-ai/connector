@@ -25,6 +25,7 @@
             "description": "Contents of the JSON key file with access to the bucket.",
             "instillCredentialField": true,
             "instillUIOrder": 1,
+            "instillUIMultiline": true,
             "title": "JSON Key File contents",
             "type": "string"
           }
