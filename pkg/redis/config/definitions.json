@@ -1,9 +1,9 @@
 [
   {
     "available_tasks": [
-      "TASK_CHAT_HISTORY_RETRIEVE",
-      "TASK_CHAT_MESSAGE_WRITE",
-      "TASK_CHAT_MESSAGE_WRITE_MULTI_MODAL"
+      "TASK_RETRIEVE_CHAT_HISTORY",
+      "TASK_WRITE_CHAT_MESSAGE",
+      "TASK_WRITE_MULTI_MODAL_CHAT_MESSAGE"
     ],
     "custom": false,
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/data-connectors/redis",
