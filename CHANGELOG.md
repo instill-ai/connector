@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.11.0-beta](https://github.com/instill-ai/connector/compare/v0.10.0-beta...v0.11.0-beta) (2024-01-30)
+
+
+### Features
+
+* accept videos in Archetype upload task  ([#115](https://github.com/instill-ai/connector/issues/115)) ([9b6fdb7](https://github.com/instill-ai/connector/commit/9b6fdb7f9fee8b2eeacafad13855e75a79061c37))
+* Add Archetype AI connector  ([#113](https://github.com/instill-ai/connector/issues/113)) ([d12b6f8](https://github.com/instill-ai/connector/commit/d12b6f8af48f9b88a2bed827cac630b5628f6992))
+* add task title and description ([#116](https://github.com/instill-ai/connector/issues/116)) ([7688b0f](https://github.com/instill-ai/connector/commit/7688b0f3c8e5e65ae62fe61b21149db9bfb5d86b))
+* **numbers:** use only Capture registration API to streamline the process ([#117](https://github.com/instill-ai/connector/issues/117)) ([f6d6896](https://github.com/instill-ai/connector/commit/f6d68968f8d9fc5cfb6e102167b96250dd75e340))
+* **openai:** update OpenAI schema to support latest models ([#121](https://github.com/instill-ai/connector/issues/121)) ([7b64a70](https://github.com/instill-ai/connector/commit/7b64a702bd35bfa302b6a5c151f7455b49f1a967))
+* **redis:** update task name ([#120](https://github.com/instill-ai/connector/issues/120)) ([48fa414](https://github.com/instill-ai/connector/commit/48fa414e611228b3d7c073071f1d74a67fa1f92c))
+
 ## [0.10.0-beta](https://github.com/instill-ai/connector/compare/v0.9.0-beta...v0.10.0-beta) (2024-01-15)
 
 
