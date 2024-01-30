@@ -63,10 +63,9 @@ var (
 		Values:   []float64{3.32},
 		Metadata: map[string]any{"color": "cerulean"},
 	}
-	queryByVector = queryInput{
+	q = queryInput{
 		Namespace:       "color-schemes",
 		TopK:            1,
-		Vector:          vectorA.Values,
 		IncludeValues:   true,
 		IncludeMetadata: true,
 		Filter: map[string]any{
@@ -75,17 +74,20 @@ var (
 			},
 		},
 	}
-	queryWithThreshold = func(q queryInput, th float64) queryInput {
+
+	queryByVector = queryByVectorInput{
+		queryInput: q,
+		Vector:     vectorA.Values,
+	}
+
+	queryWithThreshold = func(q queryByVectorInput, th float64) queryByVectorInput {
 		q.MinScore = th
 		return q
 	}
-	queryByID = queryInput{
-		Namespace:       "color-schemes",
-		TopK:            1,
-		Vector:          vectorA.Values,
-		ID:              vectorA.ID,
-		IncludeValues:   true,
-		IncludeMetadata: true,
+
+	queryByID = queryByIDInput{
+		queryInput: q,
+		ID:         vectorA.ID,
 	}
 )
 
@@ -120,7 +122,7 @@ func TestConnector_Execute(t *testing.T) {
 		{
 			name: "ok - query by vector",
 
-			task:   taskQuery,
+			task:   taskQueryByVector,
 			execIn: queryByVector,
 			wantExec: queryResp{
 				Namespace: "color-schemes",
@@ -143,7 +145,7 @@ func TestConnector_Execute(t *testing.T) {
 		{
 			name: "ok - filter out below threshold score",
 
-			task:   taskQuery,
+			task:   taskQueryByVector,
 			execIn: queryWithThreshold(queryByVector, threshold),
 			wantExec: queryResp{
 				Namespace: "color-schemes",
@@ -162,7 +164,7 @@ func TestConnector_Execute(t *testing.T) {
 		{
 			name: "ok - query by ID",
 
-			task:   taskQuery,
+			task:   taskQueryByID,
 			execIn: queryByID,
 			wantExec: queryResp{
 				Namespace: "color-schemes",
@@ -179,15 +181,8 @@ func TestConnector_Execute(t *testing.T) {
 			},
 
 			wantClientPath: queryPath,
-			wantClientReq: queryReq{
-				// Vector is wiped from the request.
-				Namespace:       "color-schemes",
-				TopK:            1,
-				ID:              vectorA.ID,
-				IncludeValues:   true,
-				IncludeMetadata: true,
-			},
-			clientResp: queryOK,
+			wantClientReq:  queryByID.asRequest(),
+			clientResp:     queryOK,
 		},
 	}
 

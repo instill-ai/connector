@@ -15,8 +15,9 @@ import (
 )
 
 const (
-	taskQuery  = "TASK_QUERY"
-	taskUpsert = "TASK_UPSERT"
+	taskQueryByVector = "TASK_QUERY_BY_VECTOR"
+	taskQueryByID     = "TASK_QUERY_BY_ID"
+	taskUpsert        = "TASK_UPSERT"
 
 	upsertPath = "/vectors/upsert"
 	queryPath  = "/query"
@@ -86,18 +87,11 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	for _, input := range inputs {
 		var output *structpb.Struct
 		switch e.Task {
-		case taskQuery:
-			inputStruct := queryInput{}
+		case taskQueryByVector:
+			inputStruct := queryByVectorInput{}
 			err := base.ConvertFromStructpb(input, &inputStruct)
 			if err != nil {
 				return nil, err
-			}
-
-			// Each query request can contain only one of the parameters
-			// vector, or id.
-			// Ref: https://docs.pinecone.io/reference/query
-			if inputStruct.ID != "" {
-				inputStruct.Vector = nil
 			}
 
 			resp := queryResp{}
@@ -108,6 +102,24 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 			}
 
 			resp = resp.filterOutBelowThreshold(inputStruct.MinScore)
+
+			output, err = base.ConvertToStructpb(resp)
+			if err != nil {
+				return nil, err
+			}
+		case taskQueryByID:
+			inputStruct := queryByIDInput{}
+			err := base.ConvertFromStructpb(input, &inputStruct)
+			if err != nil {
+				return nil, err
+			}
+
+			resp := queryResp{}
+			req.SetResult(&resp).SetBody(inputStruct.asRequest())
+
+			if _, err := req.Post(queryPath); err != nil {
+				return nil, httpclient.WrapURLError(err)
+			}
 
 			output, err = base.ConvertToStructpb(resp)
 			if err != nil {

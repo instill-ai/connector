@@ -1,30 +1,16 @@
 {
-  "TASK_QUERY": {
-    "instillShortDescription": "Retrieve the ids of the most similar items in a namespace, along with their similarity scores.",
+  "TASK_QUERY_BY_VECTOR": {
+    "instillShortDescription": "Retrieve the most similar items within a namespace to a given vector, passed by value.",
     "input": {
       "instillUIOrder": 0,
       "properties": {
-        "id": {
-          "description": "The unique ID of the vector to be used as a query vector. If present, the vector parameter will be ignored.",
-          "instillAcceptFormats": [
-            "string"
-          ],
-          "instillShortDescription": "Query by vector ID instead of by vector",
-          "instillUIOrder": 0,
-          "instillUpstreamTypes": [
-            "reference",
-            "template"
-          ],
-          "title": "ID",
-          "type": "string"
-        },
         "vector": {
-          "description": "An array of dimensions for the query vector.",
+          "description": "An array of dimensions for the query vector",
           "instillAcceptFormats": [
             "array:number",
             "array:integer"
           ],
-          "instillUIOrder": 1,
+          "instillUIOrder": 0,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -42,7 +28,7 @@
           "instillAcceptFormats": [
             "integer"
           ],
-          "instillUIOrder": 2,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -55,7 +41,7 @@
           "instillAcceptFormats": [
             "string"
           ],
-          "instillUIOrder": 3,
+          "instillUIOrder": 2,
           "instillUpstreamTypes": [
             "value",
             "reference",
@@ -70,7 +56,7 @@
             "semi-structured/object"
           ],
           "instillShortDescription": "The filter to apply on vector metadata",
-          "instillUIOrder": 4,
+          "instillUIOrder": 3,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -85,7 +71,7 @@
             "number",
             "integer"
           ],
-          "instillUIOrder": 5,
+          "instillUIOrder": 4,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -99,7 +85,7 @@
           "instillAcceptFormats": [
             "boolean"
           ],
-          "instillUIOrder": 6,
+          "instillUIOrder": 5,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -113,7 +99,7 @@
           "instillAcceptFormats": [
             "boolean"
           ],
-          "instillUIOrder": 7,
+          "instillUIOrder": 6,
           "instillUpstreamTypes": [
             "value",
             "reference"
@@ -133,7 +119,170 @@
       "instillUIOrder": 0,
       "properties": {
         "matches": {
-          "description": "The matches returned for the query",
+          "description": "The closest items to the query vector",
+          "instillUIOrder": 1,
+          "items": {
+            "properties": {
+              "id": {
+                "description": "The ID of the matched vector",
+                "instillFormat": "string",
+                "instillUIOrder": 0,
+                "title": "ID",
+                "type": "string"
+              },
+              "metadata": {
+                "description": "Metadata",
+                "instillFormat": "semi-structured/object",
+                "instillUIOrder": 3,
+                "required": [],
+                "title": "Metadata",
+                "type": "object"
+              },
+              "score": {
+                "description": "A measure of similarity between this vector and the query vector. The higher the score, the more similar they are.",
+                "instillFormat": "number",
+                "instillUIOrder": 1,
+                "title": "Score",
+                "type": "number"
+              },
+              "values": {
+                "description": "Vector data values",
+                "instillUIOrder": 2,
+                "items": {
+                  "description": "Each float value represents one dimension",
+                  "type": "number"
+                },
+                "title": "Values",
+                "type": "array"
+              }
+            },
+            "required": [
+              "id",
+              "score"
+            ],
+            "title": "Match",
+            "type": "object"
+          },
+          "title": "Matches",
+          "type": "array"
+        },
+        "namespace": {
+          "description": "The namespace of the query",
+          "instillFormat": "string",
+          "instillUIOrder": 0,
+          "title": "Namespace",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "matches"
+      ],
+      "title": "Output",
+      "type": "object"
+    }
+  },
+  "TASK_QUERY_BY_ID": {
+    "instillShortDescription": "Retrieve the most similar items within a namespace to a vector referenced by ID.",
+    "input": {
+      "instillUIOrder": 0,
+      "properties": {
+        "id": {
+          "description": "The unique ID of the target vector",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 0,
+          "instillUpstreamTypes": [
+            "reference",
+            "template"
+          ],
+          "title": "ID",
+          "type": "string"
+        },
+        "top_k": {
+          "description": "The number of results to return for each query",
+          "instillAcceptFormats": [
+            "integer"
+          ],
+          "instillUIOrder": 1,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Top K",
+          "type": "integer"
+        },
+        "namespace": {
+          "description": "The namespace to query",
+          "instillAcceptFormats": [
+            "string"
+          ],
+          "instillUIOrder": 2,
+          "instillUpstreamTypes": [
+            "value",
+            "reference",
+            "template"
+          ],
+          "title": "Namespace",
+          "type": "string"
+        },
+        "filter": {
+          "description": "The filter to apply. You can use vector metadata to limit your search. See https://www.pinecone.io/docs/metadata-filtering/.",
+          "instillAcceptFormats": [
+            "semi-structured/object"
+          ],
+          "instillShortDescription": "The filter to apply on vector metadata",
+          "instillUIOrder": 3,
+          "instillUpstreamTypes": [
+            "reference"
+          ],
+          "order": 1,
+          "required": [],
+          "title": "Filter",
+          "type": "object"
+        },
+        "include_metadata": {
+          "default": false,
+          "description": "Indicates whether metadata is included in the response as well as the IDs",
+          "instillAcceptFormats": [
+            "boolean"
+          ],
+          "instillUIOrder": 4,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Include Metadata",
+          "type": "boolean"
+        },
+        "include_values": {
+          "default": false,
+          "description": "Indicates whether vector values are included in the response",
+          "instillAcceptFormats": [
+            "boolean"
+          ],
+          "instillUIOrder": 5,
+          "instillUpstreamTypes": [
+            "value",
+            "reference"
+          ],
+          "title": "Include Values",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "top_k",
+        "id"
+      ],
+      "title": "Input",
+      "type": "object"
+    },
+    "output": {
+      "instillUIOrder": 0,
+      "properties": {
+        "matches": {
+          "description": "The closest items to the referenced vector",
           "instillUIOrder": 1,
           "items": {
             "properties": {

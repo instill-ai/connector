@@ -3,12 +3,9 @@ package pinecone
 type queryInput struct {
 	Namespace       string      `json:"namespace"`
 	TopK            int64       `json:"top_k"`
-	Vector          []float64   `json:"vector"`
 	IncludeValues   bool        `json:"include_values"`
 	IncludeMetadata bool        `json:"include_metadata"`
-	ID              string      `json:"id"`
 	Filter          interface{} `json:"filter"`
-	MinScore        float64     `json:"min_score"`
 }
 
 type queryReq struct {
@@ -21,14 +18,35 @@ type queryReq struct {
 	Filter          interface{} `json:"filter,omitempty"`
 }
 
-func (q queryInput) asRequest() queryReq {
+type queryByVectorInput struct {
+	queryInput
+	Vector   []float64 `json:"vector"`
+	MinScore float64   `json:"min_score"`
+}
+
+func (q queryByVectorInput) asRequest() queryReq {
 	return queryReq{
+		Vector:          q.Vector,
 		Namespace:       q.Namespace,
 		TopK:            q.TopK,
-		Vector:          q.Vector,
 		IncludeValues:   q.IncludeValues,
 		IncludeMetadata: q.IncludeMetadata,
+		Filter:          q.Filter,
+	}
+}
+
+type queryByIDInput struct {
+	queryInput
+	ID string `json:"id"`
+}
+
+func (q queryByIDInput) asRequest() queryReq {
+	return queryReq{
 		ID:              q.ID,
+		Namespace:       q.Namespace,
+		TopK:            q.TopK,
+		IncludeValues:   q.IncludeValues,
+		IncludeMetadata: q.IncludeMetadata,
 		Filter:          q.Filter,
 	}
 }
