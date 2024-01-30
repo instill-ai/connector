@@ -1037,34 +1037,27 @@
             "type": "array"
           },
           "model": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "enum": [
-                  "gpt-4-0125-preview",
-                  "gpt-4-turbo-preview",
-                  "gpt-4-1106-preview",
-                  "gpt-4-vision-preview",
-                  "gpt-4",
-                  "gpt-4-0314",
-                  "gpt-4-0613",
-                  "gpt-4-32k",
-                  "gpt-4-32k-0314",
-                  "gpt-4-32k-0613",
-                  "gpt-3.5-turbo",
-                  "gpt-3.5-turbo-16k",
-                  "gpt-3.5-turbo-0301",
-                  "gpt-3.5-turbo-0613",
-                  "gpt-3.5-turbo-1106",
-                  "gpt-3.5-turbo-16k-0613"
-                ],
-                "type": "string"
-              }
-            ],
             "description": "ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.",
+            "enum": [
+              "gpt-4-0125-preview",
+              "gpt-4-turbo-preview",
+              "gpt-4-1106-preview",
+              "gpt-4-vision-preview",
+              "gpt-4",
+              "gpt-4-0314",
+              "gpt-4-0613",
+              "gpt-4-32k",
+              "gpt-4-32k-0314",
+              "gpt-4-32k-0613",
+              "gpt-3.5-turbo",
+              "gpt-3.5-turbo-16k",
+              "gpt-3.5-turbo-0301",
+              "gpt-3.5-turbo-0613",
+              "gpt-3.5-turbo-1106",
+              "gpt-3.5-turbo-16k-0613"
+            ],
             "example": "gpt-3.5-turbo",
+            "type": "string",
             "x-oaiTypeLabel": "string"
           },
           "n": {
@@ -1742,21 +1735,14 @@
             "x-oaiExpandable": true
           },
           "model": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "enum": [
-                  "text-embedding-ada-002",
-                  "text-embedding-3-small",
-                  "text-embedding-3-large"
-                ],
-                "type": "string"
-              }
-            ],
             "description": "ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.\n",
+            "enum": [
+              "text-embedding-ada-002",
+              "text-embedding-3-small",
+              "text-embedding-3-large"
+            ],
             "example": "text-embedding-3-small",
+            "type": "string",
             "x-oaiTypeLabel": "string"
           },
           "user": {
@@ -2026,22 +2012,15 @@
       "CreateImageRequest": {
         "properties": {
           "model": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "enum": [
-                  "dall-e-2",
-                  "dall-e-3"
-                ],
-                "type": "string"
-              }
-            ],
             "default": "dall-e-2",
             "description": "The model to use for image generation.",
+            "enum": [
+              "dall-e-2",
+              "dall-e-3"
+            ],
             "example": "dall-e-3",
             "nullable": true,
+            "type": "string",
             "x-oaiTypeLabel": "string"
           },
           "n": {
@@ -2637,19 +2616,12 @@
             "type": "string"
           },
           "model": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "enum": [
-                  "whisper-1"
-                ],
-                "type": "string"
-              }
-            ],
             "description": "ID of the model to use. Only `whisper-1` is currently available.\n",
+            "enum": [
+              "whisper-1"
+            ],
             "example": "whisper-1",
+            "type": "string",
             "x-oaiTypeLabel": "string"
           },
           "prompt": {
