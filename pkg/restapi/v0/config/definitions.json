@@ -11,7 +11,7 @@
     ],
     "custom": false,
     "documentation_url": "https://www.instill.tech/docs/latest/vdp/data-connectors/restapi",
-    "icon": "Instill AI/restapi.svg",
+    "icon": "assets/restapi.svg",
     "icon_url": "",
     "id": "restapi",
     "public": true,
