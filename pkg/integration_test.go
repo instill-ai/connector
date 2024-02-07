@@ -12,7 +12,7 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 
 	"github.com/instill-ai/component/pkg/base"
-	"github.com/instill-ai/connector/pkg/openai"
+	"github.com/instill-ai/connector/pkg/openai/v1"
 	"github.com/instill-ai/x/errmsg"
 )
 
