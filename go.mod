@@ -18,7 +18,7 @@ require (
 	github.com/h2non/filetype v1.1.3
 	github.com/instill-ai/component v0.10.0-beta.0.20240206082535-b067f9cbaa98
 	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20240206062817-a862071d8ece
-	github.com/instill-ai/x v0.3.0-alpha.0.20231219052200-6230a89e386c
+	github.com/instill-ai/x v0.4.0-alpha
 	github.com/redis/go-redis/v9 v9.3.0
 	go.uber.org/zap v1.26.0
 	google.golang.org/api v0.150.0
