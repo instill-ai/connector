@@ -10,7 +10,7 @@
         "body": {
           "description": "The request body",
           "instillAcceptFormats": [
-            "semi-structured/object"
+            "semi-structured/json"
           ],
           "instillShortDescription": "The request body",
           "instillUIOrder": 1,
@@ -19,8 +19,7 @@
           ],
           "order": 1,
           "required": [],
-          "title": "Body",
-          "type": "object"
+          "title": "Body"
         },
         "endpoint_url": {
           "description": "The API endpoint url",
@@ -107,11 +106,10 @@
       "properties": {
         "body": {
           "description": "The body of the response",
-          "instillFormat": "semi-structured/object",
+          "instillFormat": "semi-structured/json",
           "instillUIOrder": 1,
           "required": [],
-          "title": "Body",
-          "type": "object"
+          "title": "Body"
         },
         "header": {
           "description": "The HTTP header of the response",
