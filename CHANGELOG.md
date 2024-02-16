@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.12.0-beta](https://github.com/instill-ai/connector/compare/v0.11.0-beta...v0.12.0-beta) (2024-02-16)
+
+
+### Features
+
+* **restapi:** use `instillFormat: semi-structured/json` for request and response body ([#126](https://github.com/instill-ai/connector/issues/126)) ([53606c1](https://github.com/instill-ai/connector/commit/53606c1d02aa0d5df18da867024a61f9f25e039a))
+* set component versions to 0.1.0-alpha ([#123](https://github.com/instill-ai/connector/issues/123)) ([81af1d5](https://github.com/instill-ai/connector/commit/81af1d5942312c016028ad6b4c3054064a025db6))
+* store icons next to the component definition ([#122](https://github.com/instill-ai/connector/issues/122)) ([c67fc89](https://github.com/instill-ai/connector/commit/c67fc89b43bccaf928d75f8c1cfab541a3456f86))
+
+
+### Bug Fixes
+
+* **instill:** fix auth issue ([#128](https://github.com/instill-ai/connector/issues/128)) ([9908b3a](https://github.com/instill-ai/connector/commit/9908b3ac2880207126ff0ae2c57e1abb619ab882))
+* **pinecone:** fix issue that pinecone's icon padding is too big ([#127](https://github.com/instill-ai/connector/issues/127)) ([d27697e](https://github.com/instill-ai/connector/commit/d27697e4449c258bd3f7212cf1c551d0f3b01261))
+
 ## [0.11.0-beta](https://github.com/instill-ai/connector/compare/v0.10.0-beta...v0.11.0-beta) (2024-01-30)
 
 
