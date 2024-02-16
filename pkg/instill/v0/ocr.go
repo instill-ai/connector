@@ -41,8 +41,7 @@ func (e *Execution) executeOCR(grpcClient modelPB.ModelPublicServiceClient, mode
 			Name:       modelName,
 			TaskInputs: []*modelPB.TaskInput{{Input: taskInput}},
 		}
-		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(e.Config)), "Instill-User-Uid", getInstillUserUID(e.Config))
-		ctx := metadata.NewOutgoingContext(context.Background(), md)
+		ctx := metadata.NewOutgoingContext(context.Background(), getRequestMetadata(e.Config))
 		res, err := grpcClient.TriggerUserModel(ctx, &req)
 		if err != nil || res == nil {
 			return nil, err

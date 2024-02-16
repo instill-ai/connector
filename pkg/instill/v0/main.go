@@ -107,6 +107,13 @@ func getMgmtServerURL(config *structpb.Struct) string {
 	}
 	return serverURL
 }
+func getRequestMetadata(cfg *structpb.Struct) metadata.MD {
+	return metadata.Pairs(
+		"Authorization", fmt.Sprintf("Bearer %s", getAPIKey(cfg)),
+		"Instill-User-Uid", getInstillUserUID(cfg),
+		"Instill-Auth-Type", "user",
+	)
+}
 
 func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, error) {
 	var err error
@@ -126,8 +133,7 @@ func (e *Execution) Execute(inputs []*structpb.Struct) ([]*structpb.Struct, erro
 	}
 
 	modelNameSplits := strings.Split(inputs[0].GetFields()["model_name"].GetStringValue(), "/")
-	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(e.Config)), "Instill-User-Uid", getInstillUserUID(e.Config))
-	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	ctx := metadata.NewOutgoingContext(context.Background(), getRequestMetadata(e.Config))
 	nsResp, err := mgmtGRPCCLient.CheckNamespace(ctx, &mgmtPB.CheckNamespaceRequest{
 		Id: modelNameSplits[0],
 	})
@@ -181,8 +187,7 @@ func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logge
 	if gRPCCLientConn != nil {
 		defer gRPCCLientConn.Close()
 	}
-	md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(config)), "Instill-User-Uid", getInstillUserUID(config))
-	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	ctx := metadata.NewOutgoingContext(context.Background(), getRequestMetadata(config))
 	_, err := gRPCCLient.ListModels(ctx, &modelPB.ListModelsRequest{})
 	if err != nil {
 		return pipelinePB.Connector_STATE_ERROR, err
@@ -220,9 +225,7 @@ func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig
 		if gRPCCLientConn != nil {
 			defer gRPCCLientConn.Close()
 		}
-		md := metadata.Pairs("Authorization", fmt.Sprintf("Bearer %s", getAPIKey(resourceConfig)), "Instill-User-Uid", getInstillUserUID(resourceConfig))
-		ctx := metadata.NewOutgoingContext(context.Background(), md)
-
+		ctx := metadata.NewOutgoingContext(context.Background(), getRequestMetadata(resourceConfig))
 		// We should query by pages and accumulate them in the future
 
 		pageToken := ""
