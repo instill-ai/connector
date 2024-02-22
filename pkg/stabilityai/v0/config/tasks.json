@@ -438,6 +438,7 @@
         "images": {
           "description": "Generated images",
           "instillUIOrder": 0,
+          "instillFormat": "array:image/png",
           "items": {
             "instillFormat": "image/png",
             "type": "string"
@@ -448,6 +449,7 @@
         "seeds": {
           "description": "Seeds of generated images",
           "instillUIOrder": 1,
+          "instillFormat": "array:number",
           "items": {
             "$ref": "stabilityai.json#/components/schemas/Image/properties/seed",
             "instillFormat": "number"

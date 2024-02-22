@@ -235,6 +235,7 @@
         "images": {
           "description": "Images",
           "instillUIOrder": 0,
+          "instillFormat": "array:image/jpeg",
           "items": {
             "instillFormat": "image/jpeg",
             "type": "string"
@@ -599,6 +600,7 @@
         "images": {
           "description": "Images",
           "instillUIOrder": 0,
+          "instillFormat": "array:image/jpeg",
           "items": {
             "instillFormat": "image/jpeg",
             "type": "string"

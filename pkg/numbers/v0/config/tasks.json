@@ -178,6 +178,7 @@
           "description": "Asset Urls",
           "instillEnableCopyButton": true,
           "instillUIOrder": 0,
+          "instillFormat": "array:string",
           "items": {
             "instillEnableCopyButton": true,
             "instillFormat": "string",

@@ -335,6 +335,7 @@
             "generated_responses": {
               "description": "List of strings. The last outputs from the model in the conversation, after the model has run.",
               "instillUIOrder": 0,
+              "instillFormat": "array:string",
               "items": {
                 "instillFormat": "string",
                 "instillUIMultiline": true,
@@ -346,6 +347,7 @@
             "past_user_inputs": {
               "description": "List of strings. The last inputs from the user in the conversation, after the model has run.",
               "instillUIOrder": 1,
+              "instillFormat": "array:string",
               "items": {
                 "instillFormat": "string",
                 "instillUIMultiline": true,
@@ -925,6 +927,7 @@
         "scores": {
           "description": "The associated similarity score for each of the given strings",
           "instillUIOrder": 0,
+          "instillFormat": "array:number",
           "items": {
             "instillFormat": "number",
             "type": "number"
@@ -1223,6 +1226,7 @@
         "cells": {
           "description": "a list of coordinates of the cells contents",
           "instillUIOrder": 2,
+          "instillFormat": "array:string",
           "items": {
             "instillFormat": "string",
             "instillUIMultiline": true,
@@ -1239,6 +1243,7 @@
               "instillFormat": "integer",
               "type": "integer"
             },
+            "instillFormat": "array:integer",
             "type": "array"
           },
           "title": "Coordinates",
@@ -1829,6 +1834,7 @@
         "labels": {
           "description": "The list of strings for labels that you sent (in order)",
           "instillUIOrder": 1,
+          "instillFormat": "array:string",
           "items": {
             "instillFormat": "string",
             "type": "string"
@@ -1839,6 +1845,7 @@
         "scores": {
           "description": "a list of floats that correspond the the probability of label, in the same order as labels.",
           "instillUIOrder": 0,
+          "instillFormat": "array:number",
           "items": {
             "instillFormat": "number",
             "type": "number"
