@@ -383,6 +383,7 @@
       "properties": {
         "texts": {
           "instillUIOrder": 0,
+          "instillFormat": "array:string",
           "items": {
             "instillFormat": "string",
             "instillUIMultiline": true,

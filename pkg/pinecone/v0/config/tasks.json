@@ -162,9 +162,11 @@
               "values": {
                 "description": "Vector data values",
                 "instillUIOrder": 2,
+                "instillFormat": "array:number",
                 "items": {
                   "description": "Each float value represents one dimension",
-                  "type": "number"
+                  "type": "number",
+                  "instillFormat": "number"
                 },
                 "title": "Values",
                 "type": "array"
