@@ -22,7 +22,7 @@
         "properties": {
           "authentication": {
             "description": "Authentication method to use for the REST API",
-            "instillUIOrder": 1,
+            "instillUIOrder": 0,
             "oneOf": [
               {
                 "properties": {
