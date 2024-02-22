@@ -11928,6 +11928,6 @@
       "airbyte-devmate-cloud": "ghcr.io/devmate-cloud/streamr-airbyte-connectors:0.0.1"
     },
     "version": "0.1.0-alpha",
-    "source_url": "github.com/instill-ai/connector/blob/main/pkg/airbyte/v0"
+    "source_url": "https://github.com/instill-ai/connector/blob/main/pkg/airbyte/v0"
   }
 ]

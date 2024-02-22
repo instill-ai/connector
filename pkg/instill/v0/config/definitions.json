@@ -70,6 +70,6 @@
     "vendor": "Instill",
     "vendor_attributes": {},
     "version": "0.1.0-alpha",
-    "source_url": "github.com/instill-ai/connector/blob/main/pkg/instill/v0"
+    "source_url": "https://github.com/instill-ai/connector/blob/main/pkg/instill/v0"
   }
 ]
