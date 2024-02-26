@@ -31,7 +31,7 @@
     },
     "title": "Numbers Protocol",
     "tombstone": false,
-    "type": "CONNECTOR_TYPE_BLOCKCHAIN",
+    "type": "CONNECTOR_TYPE_APPLICATION",
     "uid": "70d8664a-d512-4517-a5e8-5d4da81756a7",
     "vendor": "Numbers Protocol",
     "vendor_attributes": {},
