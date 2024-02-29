@@ -16,7 +16,7 @@ require (
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/h2non/filetype v1.1.3
-	github.com/instill-ai/component v0.11.0-beta
+	github.com/instill-ai/component v0.12.0-beta
 	github.com/instill-ai/protogen-go v0.3.3-alpha.0.20240226101151-03ed57d8f5f7
 	github.com/instill-ai/x v0.4.0-alpha
 	github.com/redis/go-redis/v9 v9.3.0
