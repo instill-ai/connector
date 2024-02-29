@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.0-beta](https://github.com/instill-ai/connector/compare/v0.12.0-beta...v0.13.0-beta) (2024-02-29)
+
+
+### Features
+
+* **openai:** change default value for `response_format` ([#132](https://github.com/instill-ai/connector/issues/132)) ([ef305c9](https://github.com/instill-ai/connector/commit/ef305c9c9ee36fd0a661843d461cbe348adc2ebe))
+
+
+### Bug Fixes
+
+* add missing `array:` instillFormat in connector output ([#129](https://github.com/instill-ai/connector/issues/129)) ([7837a98](https://github.com/instill-ai/connector/commit/7837a987cb3d50c5c9d20f01bba9bc3dd5f41253))
+
 ## [0.12.0-beta](https://github.com/instill-ai/connector/compare/v0.11.0-beta...v0.12.0-beta) (2024-02-16)
 
 
