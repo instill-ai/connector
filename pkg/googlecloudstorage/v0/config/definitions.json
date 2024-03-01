@@ -39,6 +39,7 @@
       }
     },
     "title": "Google Cloud Storage",
+    "description": "Upload data to Google's Cloud Storage",
     "tombstone": false,
     "type": "CONNECTOR_TYPE_DATA",
     "uid": "205cbeff-6f45-4abe-b0a8-cec1a310137f",

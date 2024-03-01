@@ -155,6 +155,7 @@
       }
     },
     "title": "REST API",
+    "description": "Make requests to external REST APIs",
     "tombstone": false,
     "type": "CONNECTOR_TYPE_DATA",
     "uid": "5ee55a5c-6e30-4c7a-80e8-90165a729e0a",

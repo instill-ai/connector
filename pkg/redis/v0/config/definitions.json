@@ -151,6 +151,7 @@
       }
     },
     "title": "Redis",
+    "description": "Manage data in NoSQL Redis databases",
     "type": "CONNECTOR_TYPE_DATA",
     "uid": "fd0ad325-f2f7-41f3-b247-6c71d571b1b8",
     "vendor": "Redis Labs",
