@@ -40,6 +40,7 @@
       }
     },
     "title": "OpenAI",
+    "description": "Connect the AI models served on the OpenAI Platform",
     "type": "CONNECTOR_TYPE_AI",
     "uid": "9fb6a2cb-bff5-4c69-bc6d-4538dd8e3362",
     "vendor": "OpenAI",

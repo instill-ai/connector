@@ -38,6 +38,7 @@
       }
     },
     "title": "Google Search",
+    "description": "Leverage the Google Search engine",
     "tombstone": false,
     "type": "CONNECTOR_TYPE_DATA",
     "uid": "2b1da686-878a-462c-b2c6-a9690199939c",

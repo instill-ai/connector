@@ -11857,6 +11857,7 @@
       }
     },
     "title": "Airbyte Destination",
+    "description": "Leverage the power of Airbyte and its 30+ destination connectors to facilitate data movement and transformation",
     "tombstone": false,
     "type": "CONNECTOR_TYPE_DATA",
     "uid": "975678a2-5117-48a4-a135-019619dee18e",
