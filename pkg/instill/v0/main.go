@@ -196,13 +196,13 @@ func (c *Connector) Test(_ uuid.UUID, config *structpb.Struct, logger *zap.Logge
 	return pipelinePB.Connector_STATE_CONNECTED, nil
 }
 
-func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
-	def, err := c.Connector.GetConnectorDefinitionByID(defID, resourceConfig, componentConfig)
+func (c *Connector) GetConnectorDefinitionByID(defID string, resourceConfig *structpb.Struct, component *pipelinePB.ConnectorComponent) (*pipelinePB.ConnectorDefinition, error) {
+	def, err := c.Connector.GetConnectorDefinitionByID(defID, resourceConfig, component)
 	if err != nil {
 		return nil, err
 	}
 
-	return c.GetConnectorDefinitionByUID(uuid.FromStringOrNil(def.Uid), resourceConfig, componentConfig)
+	return c.GetConnectorDefinitionByUID(uuid.FromStringOrNil(def.Uid), resourceConfig, component)
 }
 
 type ModelsResp struct {
@@ -213,8 +213,8 @@ type ModelsResp struct {
 }
 
 // Generate the model_name enum based on the task
-func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig *structpb.Struct, componentConfig *structpb.Struct) (*pipelinePB.ConnectorDefinition, error) {
-	oriDef, err := c.Connector.GetConnectorDefinitionByUID(defUID, resourceConfig, componentConfig)
+func (c *Connector) GetConnectorDefinitionByUID(defUID uuid.UUID, resourceConfig *structpb.Struct, component *pipelinePB.ConnectorComponent) (*pipelinePB.ConnectorDefinition, error) {
+	oriDef, err := c.Connector.GetConnectorDefinitionByUID(defUID, resourceConfig, component)
 	if err != nil {
 		return nil, err
 	}
