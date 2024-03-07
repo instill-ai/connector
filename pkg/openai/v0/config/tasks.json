@@ -504,11 +504,13 @@
             "description": "Generated result",
             "properties": {
               "image": {
+                "title": "Generated Image",
                 "description": "Generated image",
                 "instillFormat": "image/webp",
                 "type": "string"
               },
               "revised_prompt": {
+                "title": "Revised Prompt",
                 "description": "Revised prompt",
                 "instillFormat": "string",
                 "instillUIMultiline": true,
