@@ -87,7 +87,8 @@
         }
       },
       "required": [
-        "audio"
+        "audio",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -320,7 +321,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -401,7 +403,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -481,7 +484,8 @@
         }
       },
       "required": [
-        "image"
+        "image",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -549,7 +553,8 @@
         }
       },
       "required": [
-        "image"
+        "image",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -612,7 +617,7 @@
           "instillAcceptFormats": [
             "image/*"
           ],
-          "instillUIOrder": 0,
+          "instillUIOrder": 1,
           "instillUpstreamTypes": [
             "reference"
           ],
@@ -625,7 +630,8 @@
         }
       },
       "required": [
-        "image"
+        "image",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -672,7 +678,8 @@
         }
       },
       "required": [
-        "image"
+        "image",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -812,7 +819,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -916,7 +924,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -967,7 +976,8 @@
         }
       },
       "required": [
-        "audio"
+        "audio",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1122,7 +1132,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1200,7 +1211,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1277,7 +1289,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1474,7 +1487,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1594,7 +1608,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1659,7 +1674,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1741,7 +1757,8 @@
         }
       },
       "required": [
-        "inputs"
+        "inputs",
+        "model"
       ],
       "title": "Input",
       "type": "object"
@@ -1823,7 +1840,7 @@
       },
       "required": [
         "inputs",
-        "parameters"
+        "model"
       ],
       "title": "Input",
       "type": "object"
