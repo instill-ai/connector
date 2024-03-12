@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.14.0-beta](https://github.com/instill-ai/connector/compare/v0.13.0-beta...v0.14.0-beta) (2024-03-12)
+
+
+### Features
+
+* add description field to connectors ([#133](https://github.com/instill-ai/connector/issues/133)) ([00178f4](https://github.com/instill-ai/connector/commit/00178f471ffdd5c6b6ed0efa4aa8be6044cbeec7))
+* adopt the new GetConnectorDefinition function interface ([#135](https://github.com/instill-ai/connector/issues/135)) ([140fe8f](https://github.com/instill-ai/connector/commit/140fe8f50dedf4e78cbaa5d47e89982456843c77))
+* **huggingface:** mark "model" field as required ([#136](https://github.com/instill-ai/connector/issues/136)) ([f6c0087](https://github.com/instill-ai/connector/commit/f6c0087455ff58255963d5e89f0f5138a390a725))
+
 ## [0.13.0-beta](https://github.com/instill-ai/connector/compare/v0.12.0-beta...v0.13.0-beta) (2024-02-29)
 
 
