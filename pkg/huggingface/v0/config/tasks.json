@@ -119,6 +119,7 @@
               "label",
               "score"
             ],
+            "title": "Class",
             "type": "object"
           },
           "title": "Classes",
@@ -339,6 +340,7 @@
               "instillUIOrder": 0,
               "instillFormat": "array:string",
               "items": {
+                "title": "Generated Response",
                 "instillFormat": "string",
                 "instillUIMultiline": true,
                 "type": "string"
@@ -353,6 +355,7 @@
               "items": {
                 "instillFormat": "string",
                 "instillUIMultiline": true,
+                "title": "Past User Input",
                 "type": "string"
               },
               "title": "Past User Inputs",
@@ -446,6 +449,7 @@
                 "type": "string"
               }
             },
+            "title": "Result",
             "required": [],
             "type": "object"
           },
@@ -516,6 +520,7 @@
               "label",
               "score"
             ],
+            "title": "Class",
             "type": "object"
           },
           "title": "Classes",
@@ -593,6 +598,7 @@
               "mask",
               "score"
             ],
+            "title": "Segment",
             "type": "object"
           },
           "title": "Segments",
@@ -749,6 +755,7 @@
               "label",
               "score"
             ],
+            "title": "Object",
             "type": "object"
           },
           "title": "Objects",
@@ -939,6 +946,8 @@
           "instillFormat": "array:number",
           "items": {
             "instillFormat": "number",
+            "description": "The associated similarity score for of the given string",
+            "title": "Score",
             "type": "number"
           },
           "title": "Scores",
@@ -1240,8 +1249,10 @@
           "instillUIOrder": 2,
           "instillFormat": "array:string",
           "items": {
+            "description": "coordinate of the cell content",
             "instillFormat": "string",
             "instillUIMultiline": true,
+            "title": "Cell",
             "type": "string"
           },
           "title": "Cells",
@@ -1253,6 +1264,8 @@
           "items": {
             "items": {
               "instillFormat": "integer",
+              "description": "coordinate of the cell referenced in the answer",
+              "title": "Coordinate",
               "type": "integer"
             },
             "instillFormat": "array:integer",
@@ -1321,6 +1334,7 @@
               "label",
               "score"
             ],
+            "title": "Result",
             "type": "object"
           },
           "title": "Results",
@@ -1725,6 +1739,7 @@
               }
             },
             "required": [],
+            "title": "Result",
             "type": "object"
           },
           "title": "Results",
@@ -1811,6 +1826,7 @@
                 "reference"
               ],
               "items": {
+                "description": "a string that are potential class for inputs.",
                 "title": "candidate_label",
                 "type": "string"
               },
@@ -1854,6 +1870,8 @@
           "instillFormat": "array:string",
           "items": {
             "instillFormat": "string",
+            "description": "The string for label that you sent (in order)",
+            "title": "Label",
             "type": "string"
           },
           "title": "Labels",
@@ -1864,7 +1882,9 @@
           "instillUIOrder": 0,
           "instillFormat": "array:number",
           "items": {
+            "description": "float that correspond the the probability of label.",
             "instillFormat": "number",
+            "title": "Score",
             "type": "number"
           },
           "title": "Scores",

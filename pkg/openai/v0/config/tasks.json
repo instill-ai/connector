@@ -388,6 +388,7 @@
           "items": {
             "instillFormat": "string",
             "instillUIMultiline": true,
+            "title": "Text",
             "type": "string"
           },
           "title": "Texts",
@@ -521,6 +522,7 @@
               "image",
               "revised_prompt"
             ],
+            "title": "Image",
             "type": "object"
           },
           "title": "Images",

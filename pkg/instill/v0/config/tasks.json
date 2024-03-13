@@ -238,6 +238,7 @@
           "instillFormat": "array:image/jpeg",
           "items": {
             "instillFormat": "image/jpeg",
+            "title": "Image",
             "type": "string"
           },
           "title": "Images",
@@ -603,6 +604,7 @@
           "instillFormat": "array:image/jpeg",
           "items": {
             "instillFormat": "image/jpeg",
+            "title": "Image",
             "type": "string"
           },
           "title": "Images",

@@ -441,6 +441,7 @@
           "instillFormat": "array:image/png",
           "items": {
             "instillFormat": "image/png",
+            "title": "Image",
             "type": "string"
           },
           "title": "Images",
@@ -452,6 +453,7 @@
           "instillFormat": "array:number",
           "items": {
             "$ref": "stabilityai.json#/components/schemas/Image/properties/seed",
+            "title": "Seed",
             "instillFormat": "number"
           },
           "title": "Seeds",

@@ -136,7 +136,8 @@
           "description": "The scraped webpages",
           "instillUIOrder": 0,
           "items": {
-            "$ref": "#/$defs/page_info"
+            "$ref": "#/$defs/page_info",
+            "title": "Page"
           },
           "title": "Pages",
           "type": "array"

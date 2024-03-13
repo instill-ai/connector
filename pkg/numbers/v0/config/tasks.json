@@ -182,6 +182,7 @@
           "items": {
             "instillEnableCopyButton": true,
             "instillFormat": "string",
+            "title": "Asset Url",
             "type": "string"
           },
           "title": "Asset Urls",

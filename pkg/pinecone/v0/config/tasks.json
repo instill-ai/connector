@@ -166,6 +166,7 @@
                 "items": {
                   "description": "Each float value represents one dimension",
                   "type": "number",
+                  "title": "Value",
                   "instillFormat": "number"
                 },
                 "title": "Values",
