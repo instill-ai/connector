@@ -3,7 +3,7 @@
     "chat_message": {
       "properties": {
         "content": {
-          "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/multi_modal_content",
+          "$ref": "https://raw.githubusercontent.com/instill-ai/component/b530a7ac8558f38f45bd116c503b1e2a31a4f92b/schema.json#/$defs/instill_types/multi_modal_content",
           "description": "The message content",
           "instillUIOrder": 1,
           "title": "Content"
@@ -168,7 +168,7 @@
       "instillUIOrder": 0,
       "properties": {
         "embedding": {
-          "$ref": "https://raw.githubusercontent.com/instill-ai/component/88cf79188084a6f4afd87f715e13f334d3674013/schema.json#/$defs/instill_types/embedding",
+          "$ref": "https://raw.githubusercontent.com/instill-ai/component/b530a7ac8558f38f45bd116c503b1e2a31a4f92b/schema.json#/$defs/instill_types/embedding",
           "instillUIOrder": 0,
           "title": "Embedding"
         }
