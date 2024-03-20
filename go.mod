@@ -9,7 +9,7 @@ require (
 	github.com/JohannesKaufmann/html-to-markdown v1.4.2
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/allegro/bigcache v1.2.1
-	github.com/docker/docker v24.0.7+incompatible
+	github.com/docker/docker v24.0.9+incompatible
 	github.com/frankban/quicktest v1.14.6
 	github.com/gabriel-vasile/mimetype v1.4.3
 	github.com/go-resty/resty/v2 v2.11.0
